@@ -134,7 +134,7 @@ void TFloat::recortar()
 vector<TFloat> valores;
 int n, t;
 const double epsilon =  1.e-9;
-
+const int maximoIteraciones = 10;
 TFloat pot(TFloat base, TFloat exp)
 {
     double result = pow(base.dbl(),exp.dbl());
@@ -208,6 +208,39 @@ TFloat fprima(TFloat beta)
             - (beta * RPrima(beta) + R(beta) - R(0));
 }
 
+TFloat newton(TFloat beta, TFloat beta2, int& iteraciones)
+{
+    iteraciones=0;
+    while(abs(beta.dbl()-beta2.dbl())>epsilon)
+    {
+        iteraciones++;
+        beta2 = beta;
+        beta = beta - f(beta)/fprima(beta);
+    }
+    return beta;
+}
+
+TFloat secante(TFloat p1, TFloat p0, int& iteraciones)
+{
+    TFloat q1=f(p1);
+    TFloat q0=f(p0);
+    TFloat pnew=p0;
+    TFloat qnew=q0;
+    iteraciones=0;
+    
+    while(iteraciones<maximoIteraciones)//(abs(pnew.dbl()-p1.dbl())>epsilon)
+    {
+        iteraciones++;
+        pnew = p1 - (q1*(p1-p0)/(q1-q0));          
+
+        p0=p1; p1=pnew;
+        q0=q1; q1=f(pnew);
+
+    }
+    return pnew;
+ 
+}
+
 int main()
 {
     cin >> n;
@@ -222,11 +255,11 @@ int main()
     TFloat beta = TFloat(1.,52);
     TFloat beta2 = TFloat(0.,52);
     int iteraciones = 0;
-    while(abs(beta.dbl()-beta2.dbl())>epsilon)
-    {
-        iteraciones++;
-        beta2 = beta;
-        beta = beta - f(beta)/fprima(beta);
-    }
-    cout << beta.dbl() << " "<< iteraciones << endl;
+    TFloat out;
+
+    out = secante(beta, beta2, iteraciones);
+    cout << "Secante: " << out.dbl() << " "<< iteraciones << endl;
+    out = newton(beta, beta2, iteraciones);
+    cout << "Newton: " << out.dbl() << " "<< iteraciones << endl;
+
 }
