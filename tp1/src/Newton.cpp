@@ -225,8 +225,7 @@ TFloat secante(TFloat p0, TFloat p1, int& iteraciones)
 {
     TFloat q1=f(p1);
     TFloat q0=f(p0);
-    TFloat pnew=p0;
-    TFloat qnew=q0;
+    TFloat pnew=p1;
    
     iteraciones=0;
     
@@ -234,13 +233,13 @@ TFloat secante(TFloat p0, TFloat p1, int& iteraciones)
     {
         iteraciones++;
         cout << "p0: " << p0.dbl()<< " p1: " << p1.dbl() << " q0: " << q0.dbl() << " q1: " << q1.dbl() << endl;
-        pnew = p1 - ((q1*(p1-p0))/(q1-q0));          
+        pnew = p1 - ((q1*(p1-p0))*(TFloat(1.,52)/(q1-q0)));          
 
         p0=p1; p1=pnew;
-        q0=q1; q1=f(TFloat(pnew)).dbl();
+        q0=q1; q1=f(pnew);
 
     }
-    return TFloat(pnew);
+    return pnew;
  
 }
 
@@ -255,7 +254,7 @@ int main()
         cin >> db;
         valores[i] = TFloat(db,t);
     }
-    TFloat beta = TFloat(10.,52);
+    TFloat beta = TFloat(1.,52);
     TFloat beta2 = TFloat(0.,52);
     int iteraciones = 0;
     TFloat out;
