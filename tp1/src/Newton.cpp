@@ -120,6 +120,7 @@ TFloat TFloat::operator/(const double& f) const
 	return this->operator/(TFloat(f,_t));
 }
 
+
 void TFloat::recortar()
 {
 	bitset<64> * bits;
@@ -220,24 +221,26 @@ TFloat newton(TFloat beta, TFloat beta2, int& iteraciones)
     return beta;
 }
 
-TFloat secante(TFloat p1, TFloat p0, int& iteraciones)
+TFloat secante(TFloat p0, TFloat p1, int& iteraciones)
 {
     TFloat q1=f(p1);
     TFloat q0=f(p0);
     TFloat pnew=p0;
     TFloat qnew=q0;
+   
     iteraciones=0;
     
     while(iteraciones<maximoIteraciones)//(abs(pnew.dbl()-p1.dbl())>epsilon)
     {
         iteraciones++;
-        pnew = p1 - (q1*(p1-p0)/(q1-q0));          
+        cout << "p0: " << p0.dbl()<< " p1: " << p1.dbl() << " q0: " << q0.dbl() << " q1: " << q1.dbl() << endl;
+        pnew = p1 - ((q1*(p1-p0))/(q1-q0));          
 
         p0=p1; p1=pnew;
-        q0=q1; q1=f(pnew);
+        q0=q1; q1=f(TFloat(pnew)).dbl();
 
     }
-    return pnew;
+    return TFloat(pnew);
  
 }
 
@@ -252,7 +255,7 @@ int main()
         cin >> db;
         valores[i] = TFloat(db,t);
     }
-    TFloat beta = TFloat(1.,52);
+    TFloat beta = TFloat(10.,52);
     TFloat beta2 = TFloat(0.,52);
     int iteraciones = 0;
     TFloat out;
