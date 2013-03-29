@@ -1,0 +1,2 @@
+x_15_9_3.txt : sigma=1.5 / beta=9 / lambda=3
+x_2_62_35.txt: sigma=2 / beta=6.2 / lambda=3.5 
