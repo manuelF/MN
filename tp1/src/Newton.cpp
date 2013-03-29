@@ -242,7 +242,7 @@ TFloat secante(TFloat p0, TFloat p1, int& iteraciones)
     while(iteraciones<maximoIteraciones && (abs(pnew.dbl()-p1.dbl())>epsilon))
     {
         iteraciones++;
-        cout << "p0: " << p0.dbl()<< " p1: " << p1.dbl() << " q0: " << q0.dbl() << " q1: " << q1.dbl() << endl;
+        //cout << "p0: " << p0.dbl()<< " p1: " << p1.dbl() << " q0: " << q0.dbl() << " q1: " << q1.dbl() << endl;
         pnew = p1 - ((q1*(p1-p0))*(TFloat(1.,52)/(q1-q0)));          
 
         p0=p1; p1=pnew;
@@ -255,15 +255,13 @@ TFloat secante(TFloat p0, TFloat p1, int& iteraciones)
 
 void uso()
 {
-    cout << "\"./Newton\" precision = 52, iteraciones maximas = 10, Beta entre 0.0 y 1.0"<<endl;
-    cout << "\"./Newton <t>\" precision = t, iteraciones maximas = 10, Beta entre 0.0 y 1.0"<<endl;
+    cout << "\"./Newton\" precision = 52, iteraciones maximas = 10, Beta entre 0.0 y 2.0"<<endl;
+    cout << "\"./Newton <t>\" precision = t, iteraciones maximas = 10, Beta entre 0.0 y 2.0"<<endl;
     cout << "\"./Newton <t> <n> <b1> <b2>\" precision = t, iteraciones maximas= n, Beta entre b1 y b2"<<endl;
 }
 
 int main(int argc, char* argv[])
 {
-    {
-    }
     TFloat beta = TFloat(2.,52);
     TFloat beta2 = TFloat(0.,52);
     switch(argc)
@@ -273,10 +271,6 @@ int main(int argc, char* argv[])
             break;
         case 2:
             t=atoi(argv[1]);
-            break;
-        case 3:
-            uso();
-            return 1;
             break;
         case 5:
             t=atoi(argv[1]);
