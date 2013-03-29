@@ -135,7 +135,7 @@ void TFloat::recortar()
 vector<TFloat> valores;
 int n, t;
 const double epsilon =  1.e-9;
-const int maximoIteraciones = 10;
+int maximoIteraciones = 10;
 TFloat pot(TFloat base, TFloat exp)
 {
     double result = pow(base.dbl(),exp.dbl());
@@ -196,8 +196,10 @@ TFloat f(TFloat beta)
     return M(beta*2)/(M(beta)*M(beta)) - beta * (R(beta)-R(0))  - 1.;
 }
 
+
 TFloat fprima(TFloat beta)
 {
+
     /** Mprima(beta*2)*2 = Derivada de M(beta*2)
      *  M(beta)*Mprima(beta)*2 = Derivada de M(beta)*M(beta) o M(beta)^2
      *  Derivada de M(beta*2)/M(beta)^2 =
@@ -205,14 +207,22 @@ TFloat fprima(TFloat beta)
      *  Derivada de beta * (R(beta) - R(0)) =
      *      beta * (Rprima(beta)) + R(beta)-R(0) //// Rprima(0) = 0 porque es una constante?
      */
-    return  (MPrima(beta*2)*M(beta)*M(beta)*2 - M(beta*2)*M(beta)*MPrima(beta)*2)/(M(beta)*M(beta)*M(beta)*M(beta))
+  
+
+return  (MPrima(beta*2)*M(beta)*M(beta)*2 - M(beta*2)*M(beta)*MPrima(beta)*2)/(M(beta)*M(beta)*M(beta)*M(beta))
             - (beta * RPrima(beta) + R(beta) - R(0));
 }
+
+
+//TFloat f(TFloat x) {return x*x - 2.0;}
+//TFloat fprima(TFloat x){ return TFloat(2.)*x;}
+
 
 TFloat newton(TFloat beta, TFloat beta2, int& iteraciones)
 {
     iteraciones=0;
-    while(abs(beta.dbl()-beta2.dbl())>epsilon)
+    
+    while(iteraciones<maximoIteraciones && abs(beta.dbl()-beta2.dbl())>epsilon)
     {
         iteraciones++;
         beta2 = beta;
@@ -225,11 +235,11 @@ TFloat secante(TFloat p0, TFloat p1, int& iteraciones)
 {
     TFloat q1=f(p1);
     TFloat q0=f(p0);
-    TFloat pnew=p1;
+    TFloat pnew=p0;
    
     iteraciones=0;
     
-    while(iteraciones<maximoIteraciones)//(abs(pnew.dbl()-p1.dbl())>epsilon)
+    while(iteraciones<maximoIteraciones && (abs(pnew.dbl()-p1.dbl())>epsilon))
     {
         iteraciones++;
         cout << "p0: " << p0.dbl()<< " p1: " << p1.dbl() << " q0: " << q0.dbl() << " q1: " << q1.dbl() << endl;
@@ -243,19 +253,50 @@ TFloat secante(TFloat p0, TFloat p1, int& iteraciones)
  
 }
 
-int main()
+void uso()
 {
+    cout << "\"./Newton\" precision = 52, iteraciones maximas = 10, Beta entre 0.0 y 1.0"<<endl;
+    cout << "\"./Newton <t>\" precision = t, iteraciones maximas = 10, Beta entre 0.0 y 1.0"<<endl;
+    cout << "\"./Newton <t> <n> <b1> <b2>\" precision = t, iteraciones maximas= n, Beta entre b1 y b2"<<endl;
+}
+
+int main(int argc, char* argv[])
+{
+    {
+    }
+    TFloat beta = TFloat(2.,52);
+    TFloat beta2 = TFloat(0.,52);
+    switch(argc)
+    {
+        case 1:
+            t=52;
+            break;
+        case 2:
+            t=atoi(argv[1]);
+            break;
+        case 3:
+            uso();
+            return 1;
+            break;
+        case 5:
+            t=atoi(argv[1]);
+            maximoIteraciones=atoi(argv[2]);
+            beta=TFloat(atof(argv[3]),t);
+            beta2=TFloat(atof(argv[4]),t);
+            break;
+        default:
+            uso();
+            return 1;
+            break;
+    }
     cin >> n;
     valores.resize(n);
     double db;
-    t = 52;
     for(int i=0;i<n;i++)
     {
         cin >> db;
         valores[i] = TFloat(db,t);
     }
-    TFloat beta = TFloat(1.,52);
-    TFloat beta2 = TFloat(0.,52);
     int iteraciones = 0;
     TFloat out;
 
@@ -263,5 +304,5 @@ int main()
     cout << "Secante: " << out.dbl() << " "<< iteraciones << endl;
     out = newton(beta, beta2, iteraciones);
     cout << "Newton: " << out.dbl() << " "<< iteraciones << endl;
-
+    return 0;
 }
