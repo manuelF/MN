@@ -1,8 +1,7 @@
 EXECUTABLE=Newton
 FLAGS=-O2 -Wall
-all:
+all: clean
 	g++ -o $(EXECUTABLE) $(FLAGS) $(EXECUTABLE).cpp
 
 clean:
-	rm -f $(EXECUTABLE)
-	rm -f *.o
+	@rm -f $(EXECUTABLE)
