@@ -1,0 +1,3 @@
+Para trazar la curva de fitness:
+
+./histogramaYAjuste.md <file> <Beta> <Lambda> <Sigma>
