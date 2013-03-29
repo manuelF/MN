@@ -214,6 +214,18 @@ TFloat LambdaSombrero(TFloat beta)
 
 }
 
+TFloat SigmaSombrero(TFloat beta, TFloat lambda)
+{
+    TFloat sigma;
+    TFloat xbetasuma(0.0,t);
+    for(int i=0; i<n; i++)
+    {
+        xbetasuma=xbetasuma + pot(valores[i],beta);
+    }
+    sigma = pot((xbetasuma/(TFloat(n,t)*lambda)),(TFloat(1.0,t)/beta));
+
+    return sigma;
+}
 
 TFloat f(TFloat beta)
 {
@@ -321,13 +333,16 @@ int main(int argc, char* argv[])
     TFloat outSigma;
     outBeta = secante(beta, beta2, iteraciones);
     outLambda = LambdaSombrero(outBeta);
-    //outSigma = SigmaSombrero(outBeta, outLambda);
-    cout << "Secante: " << outBeta.dbl() << " "<< iteraciones << endl;
+    outSigma = SigmaSombrero(outBeta, outLambda);
+    cout << "Secante: " <<iteraciones <<" iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
     cout << "    - LambdaSombrero: " << outLambda.dbl() << endl;
+    cout << "    - SigmaSombrero: " << outSigma.dbl() << endl;
     outBeta = newton(beta, beta2, iteraciones);
     outLambda = LambdaSombrero(outBeta);
-    //outSigma = SigmaSombrero(outBeta, outLambda);
-    cout << "Newton: " << outBeta.dbl() << " "<< iteraciones << endl;
+    outSigma = SigmaSombrero(outBeta, outLambda);
+    cout << "Newton: " <<iteraciones << " iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
+    cout << "    - BetaSombrero: " << outBeta.dbl() << endl;
     cout << "    - LambdaSombrero: " << outLambda.dbl() << endl;
+    cout << "    - SigmaSombrero: " << outSigma.dbl() << endl;
     return 0;
 }
