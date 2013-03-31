@@ -191,7 +191,7 @@ TFloat RPrima(TFloat s)
     return (MSombreroPrima(s)*M(s)-MSombrero(s)*MPrima(s))/(M(s)*M(s));
 }
 
-TFloat LambdaSombrero(TFloat beta)
+TFloat Lambda(TFloat beta)
 {
     vector<TFloat> logvals(n);
     vector<TFloat> xbeta(n);
@@ -214,10 +214,11 @@ TFloat LambdaSombrero(TFloat beta)
 
 }
 
-TFloat SigmaSombrero(TFloat beta, TFloat lambda)
+TFloat Sigma(TFloat beta, TFloat lambda)
 {
     TFloat sigma;
     TFloat xbetasuma(0.0,t);
+
     for(int i=0; i<n; i++)
     {
         xbetasuma=xbetasuma + pot(valores[i],beta);
@@ -243,7 +244,7 @@ TFloat fprima(TFloat beta)
      *  Derivada de beta * (R(beta) - R(0)) =
      *      beta * (Rprima(beta)) + R(beta)-R(0) //// Rprima(0) = 0 porque es una constante?
      */
-  
+
 
 return  (MPrima(beta*2)*M(beta)*M(beta)*2 - M(beta*2)*M(beta)*MPrima(beta)*2)/(M(beta)*M(beta)*M(beta)*M(beta))
             - (beta * RPrima(beta) + R(beta) - R(0));
@@ -257,7 +258,7 @@ return  (MPrima(beta*2)*M(beta)*M(beta)*2 - M(beta*2)*M(beta)*MPrima(beta)*2)/(M
 TFloat newton(TFloat beta, TFloat beta2, int& iteraciones)
 {
     iteraciones=0;
-    
+
     while(iteraciones<maximoIteraciones && abs(beta.dbl()-beta2.dbl())>epsilon)
     {
         iteraciones++;
@@ -272,21 +273,21 @@ TFloat secante(TFloat p0, TFloat p1, int& iteraciones)
     TFloat q1=f(p1);
     TFloat q0=f(p0);
     TFloat pnew=p0;
-   
+
     iteraciones=0;
-    
+
     while(iteraciones<maximoIteraciones && (abs(pnew.dbl()-p1.dbl())>epsilon))
     {
         iteraciones++;
         //cout << "p0: " << p0.dbl()<< " p1: " << p1.dbl() << " q0: " << q0.dbl() << " q1: " << q1.dbl() << endl;
-        pnew = p1 - ((q1*(p1-p0))*(TFloat(1.,52)/(q1-q0)));          
+        pnew = p1 - ((q1*(p1-p0))*(TFloat(1.,52)/(q1-q0)));
 
         p0=p1; p1=pnew;
         q0=q1; q1=f(pnew);
 
     }
     return pnew;
- 
+
 }
 
 void uso()
@@ -332,17 +333,19 @@ int main(int argc, char* argv[])
     TFloat outLambda;
     TFloat outSigma;
     outBeta = secante(beta, beta2, iteraciones);
-    outLambda = LambdaSombrero(outBeta);
-    outSigma = SigmaSombrero(outBeta, outLambda);
+    outLambda = Lambda(outBeta);
+    outSigma = Sigma(outBeta, outLambda);
+    cout.precision(15);
     cout << "Secante: " <<iteraciones <<" iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
-    cout << "    - LambdaSombrero: " << outLambda.dbl() << endl;
-    cout << "    - SigmaSombrero: " << outSigma.dbl() << endl;
+    cout << "    - BetaMoño: " << outBeta.dbl() << endl;
+    cout << "    - LambdaMoño: " << outLambda.dbl() << endl;
+    cout << "    - SigmaMoño: " << outSigma.dbl() << endl;
     outBeta = newton(beta, beta2, iteraciones);
-    outLambda = LambdaSombrero(outBeta);
-    outSigma = SigmaSombrero(outBeta, outLambda);
+    outLambda = Lambda(outBeta);
+    outSigma = Sigma(outBeta, outLambda);
     cout << "Newton: " <<iteraciones << " iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
-    cout << "    - BetaSombrero: " << outBeta.dbl() << endl;
-    cout << "    - LambdaSombrero: " << outLambda.dbl() << endl;
-    cout << "    - SigmaSombrero: " << outSigma.dbl() << endl;
+    cout << "    - BetaMoño: " << outBeta.dbl() << endl;
+    cout << "    - LambdaMoño: " << outLambda.dbl() << endl;
+    cout << "    - SigmaMoño: " << outSigma.dbl() << endl;
     return 0;
 }
