@@ -1,3 +1,12 @@
 \section{Desarrollo}
+Para encarar el trabajo, primero implementamos el m\'etodo de Newton para poder obtener un despeje de $\beta$, utilizando el despeje otorgado en las slides de la clase:\\
 
-Ac\'a va el desarrollo
+$\frac{M(2\beta)}{M^2(\beta)}=1 + \beta(R(\beta)-R(0))$
+
+Esta es la funci\'on derivada de \\
+
+$0 = \frac{\beta}{n}\sum{i=1}{n}\log x_i - \log \sum{i=1}{n}x_i^{\beta} + \log(n\lambda)-\psi(\lambda)$
+
+Luego, el m\'etodo de Newton empleado va a ser: \\
+
+$\beta_{n+1} = \beta_{n} - \frac{f(\beta_{n})}{f'(\beta_{n})}$

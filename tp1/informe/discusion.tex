@@ -1,3 +1,13 @@
 \section{Discusi\'on}
 
-Ac\'a va la discusi\'on
+En un primer momento, nuestro enfasis consistio en hacer andar el m\'etodo de Newton.
+
+%ALGO MAS ACA
+
+Luego, investigamos por los otros m\'etodos de calculo de raices; el primero que se nos vino a la mente
+fue la aproximaci\'on num\'erica de Newton, el m\'etodo de la secante.
+Las complejidades encontradas para el desarrollo de esta funci\'on fueron la facilidad con la cual
+el denominador se hace cero, convirtiendo la cuenta en NaN rapidamente.
+
+
+Un detalle interesante que vimos es que entre mas decimales se emplean, m\'as rapido converge el m\'etodo de Newton. Esto tiene sentido porque las aproximaciones son cada vez mejores. Tambien notamos que para valores de precision muy bajos (menos de 16 decimales binarios en promedio), directamente no converge el m\'etodo. Esto es por la precisi\'on del epsilon elegido ($10^{-9}$) y que es mucho menor que $2^{-16}$.
