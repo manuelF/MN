@@ -1,0 +1,24 @@
+El plot ROJO es el original, el plot AZUL es el estimado
+
+
+Precisiones: 17 - 35 - 50
+Iteraciones maximas: 100
+Intervalo: 0.0 - 20.0
+
+Caso 1: x_15_9_3.txt
+
+	Beta=9
+	Lambda=3
+	Sigma=1.5
+
+	a=./Newton  $precision 100 20.0 0 < ../datos/x_15_9_3.txt)
+
+
+Caso 2: x_15_9_3.txt
+
+	Beta=9
+	Lambda=3
+	Sigma=1.5
+
+	a=./Newton  $precision 100 20.0 0 < ../datos/x_15_9_3.txt)
+
