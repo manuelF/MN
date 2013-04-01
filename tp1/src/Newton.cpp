@@ -336,16 +336,21 @@ int main(int argc, char* argv[])
     outLambda = Lambda(outBeta);
     outSigma = Sigma(outBeta, outLambda);
     cout.precision(15);
+    /*
     cout << "Secante: " <<iteraciones <<" iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
     cout << "    - BetaMoño: " << outBeta.dbl() << endl;
     cout << "    - LambdaMoño: " << outLambda.dbl() << endl;
     cout << "    - SigmaMoño: " << outSigma.dbl() << endl;
+    */
     outBeta = newton(beta, beta2, iteraciones);
     outLambda = Lambda(outBeta);
     outSigma = Sigma(outBeta, outLambda);
+    /*
     cout << "Newton: " <<iteraciones << " iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
     cout << "    - BetaMoño: " << outBeta.dbl() << endl;
     cout << "    - LambdaMoño: " << outLambda.dbl() << endl;
     cout << "    - SigmaMoño: " << outSigma.dbl() << endl;
+    */
+    cout << outBeta.dbl() << " " << outLambda.dbl() << " " << outSigma.dbl() << endl;
     return 0;
 }
