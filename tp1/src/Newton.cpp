@@ -297,6 +297,7 @@ int main(int argc, char* argv[])
 {
     TFloat beta = TFloat(2.,52);
     TFloat beta2 = TFloat(0.,52);
+    int metodo = 0; //0 - Newton ; 1 - PF
     switch(argc)
     {
         case 1:
@@ -305,6 +306,8 @@ int main(int argc, char* argv[])
         case 2:
             t=atoi(argv[1]);
             break;
+        case 6:
+            metodo = atoi(argv[5]);
         case 5:
             t=atoi(argv[1]);
             maximoIteraciones=atoi(argv[2]);
@@ -328,27 +331,33 @@ int main(int argc, char* argv[])
     TFloat outBeta;
     TFloat outLambda;
     TFloat outSigma;
-    /*
-    outBeta = puntofijo(beta, iteraciones);
-    outLambda = Lambda(outBeta);
-    outSigma = Sigma(outBeta, outLambda);
     cout.precision(15);
-    
-    cout << "PF: " <<iteraciones <<" iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
-    cout << "    - BetaMoño: " << outBeta.dbl() << endl;
-    cout << "    - LambdaMoño: " << outLambda.dbl() << endl;
-    cout << "    - SigmaMoño: " << outSigma.dbl() << endl;
-    */
-    outBeta = newton(beta, beta2, iteraciones);
-    outLambda = Lambda(outBeta);
-    outSigma = Sigma(outBeta, outLambda);
+    if(metodo == 1)
+    {
+        
+        outBeta = puntofijo(beta, iteraciones);
+        outLambda = Lambda(outBeta);
+        outSigma = Sigma(outBeta, outLambda);
+        /*
+        cout << "PF: " <<iteraciones <<" iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
+        cout << "    - BetaMoño: " << outBeta.dbl() << endl;
+        cout << "    - LambdaMoño: " << outLambda.dbl() << endl;
+        cout << "    - SigmaMoño: " << outSigma.dbl() << endl;
+        */
+    }
+    else
+    {
+        outBeta = newton(beta, beta2, iteraciones);
+        outLambda = Lambda(outBeta);
+        outSigma = Sigma(outBeta, outLambda);
 
-    /*
-    cout << "Newton: " <<iteraciones << " iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
-    cout << "    - BetaMoño: " << outBeta.dbl() << endl;
-    cout << "    - LambdaMoño: " << outLambda.dbl() << endl;
-    cout << "    - SigmaMoño: " << outSigma.dbl() << endl;
-    */
-    cout << outBeta.dbl() << " " << outLambda.dbl() << " " << outSigma.dbl() << endl;
+        /*
+        cout << "Newton: " <<iteraciones << " iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
+        cout << "    - BetaMoño: " << outBeta.dbl() << endl;
+        cout << "    - LambdaMoño: " << outLambda.dbl() << endl;
+        cout << "    - SigmaMoño: " << outSigma.dbl() << endl;
+        */
+    }
+    cout << outBeta.dbl() << " " << outLambda.dbl() << " " << outSigma.dbl() << " " << iteraciones << endl;
     return 0;
 }
