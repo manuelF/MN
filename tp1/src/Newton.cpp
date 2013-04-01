@@ -268,22 +268,18 @@ TFloat newton(TFloat beta, TFloat beta2, int& iteraciones)
     return beta;
 }
 
-TFloat secante(TFloat p0, TFloat p1, int& iteraciones)
+TFloat puntofijo(TFloat p0, int& iteraciones)
 {
-    TFloat q1=f(p1);
-    TFloat q0=f(p0);
     TFloat pnew=p0;
 
     iteraciones=0;
 
-    while(iteraciones<maximoIteraciones && (abs(pnew.dbl()-p1.dbl())>epsilon))
+    while(iteraciones<maximoIteraciones && (iteraciones==0 || abs(pnew.dbl()-p0.dbl())>epsilon))
     {
         iteraciones++;
-        //cout << "p0: " << p0.dbl()<< " p1: " << p1.dbl() << " q0: " << q0.dbl() << " q1: " << q1.dbl() << endl;
-        pnew = p1 - ((q1*(p1-p0))*(TFloat(1.,52)/(q1-q0)));
-
-        p0=p1; p1=pnew;
-        q0=q1; q1=f(pnew);
+        p0=pnew;
+        cout << "p0: " << p0.dbl()<< endl;
+        pnew = f(p0);
 
     }
     return pnew;
@@ -332,19 +328,21 @@ int main(int argc, char* argv[])
     TFloat outBeta;
     TFloat outLambda;
     TFloat outSigma;
-    outBeta = secante(beta, beta2, iteraciones);
+    /*
+    outBeta = puntofijo(beta, iteraciones);
     outLambda = Lambda(outBeta);
     outSigma = Sigma(outBeta, outLambda);
     cout.precision(15);
-    /*
-    cout << "Secante: " <<iteraciones <<" iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
+    
+    cout << "PF: " <<iteraciones <<" iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
     cout << "    - BetaMoño: " << outBeta.dbl() << endl;
     cout << "    - LambdaMoño: " << outLambda.dbl() << endl;
     cout << "    - SigmaMoño: " << outSigma.dbl() << endl;
-    */
+    
     outBeta = newton(beta, beta2, iteraciones);
     outLambda = Lambda(outBeta);
     outSigma = Sigma(outBeta, outLambda);
+    */
     /*
     cout << "Newton: " <<iteraciones << " iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
     cout << "    - BetaMoño: " << outBeta.dbl() << endl;
