@@ -1,5 +1,5 @@
 #! /bin/bash
-files=(../datos/x_15_9_3.txt ../datos/x_2_62_35.txt)
+files=(../datos/x_15_9_3.txt ../datos/x_2_62_35.txt ../datos/X1.txt ../datos/X2.txt ../datos/X3.txt ../datos/X4.txt ../datos/X5.txt ../datos/X6.txt )
 betas=(9 6.2)
 lambdas=(3 3.5)
 sigmas=(1.5 2)
@@ -7,11 +7,16 @@ sigmas=(1.5 2)
 precision=(17 35 50)
 index=0
 caso=1
+paramfile="../informe/plots/parameters.txt"
+rm $paramfile
+touch $paramfile
+
 for file in "${files[@]}"; do
 	truebeta=${betas[$index]}
 	truelambda=${lambdas[$index]}
 	truesigma=${sigmas[$index]}
-
+	echo "$file : " >> $paramfile
+	echo "" >> $paramfile
 	for prec in "${precision[@]}"; do
 		#correr con prec, 100 iteraciones, beta entre 20 y 0
 		a=$(../src/Newton  "${prec}" 100 20.0 0 < "${file}")
@@ -21,14 +26,13 @@ for file in "${files[@]}"; do
 		sigma=${vals[2]}
 		filename="Newton-${prec}-caso$[$caso].png"
 		echo "./histogramaYAjuste.m ${file} $sigma $beta $lambda $truesigma $truebeta $truelambda $filename"
+		echo "$filename : Beta = $beta" >> $paramfile
+		echo "$filename : Lambda = $lambda" >> $paramfile
+		echo "$filename : Sigma = $sigma" >> $paramfile
+		echo "" >> $paramfile
 		./histogramaYAjuste.m ${file} $sigma $beta $lambda $truesigma $truebeta $truelambda $filename
 		mv $filename ../informe/plots/
 	done
 	index=$[$index +1]
 	caso=$[$caso +1]
 done
-
-#for prec in "${precision[@]}"; do
-	#correr con prec, 100 iteraciones, beta entre 20 y 0
-#	../src/Newton  "${prec}" 100 20.0 0 < ../datos/x_2_62_35.txt
-#done
