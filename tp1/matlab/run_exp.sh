@@ -10,6 +10,7 @@ metodosval=(0 1)
 precision=(17 35 50)
 index=0
 caso=1
+
 paramfile="../informe/plots/parameters.txt"
 rm $paramfile
 touch $paramfile
@@ -20,7 +21,7 @@ for file in "${files[@]}"; do
 	truesigma=${sigmas[$index]}
 	echo "$file : " >> $paramfile
 	echo "" >> $paramfile
-	for met in "${metodos[@]}"; do
+	for met in "${metodosval[@]}"; do
 
 		for prec in "${precision[@]}"; do
 			#correr con prec, 100 iteraciones, beta entre 20 y 0
@@ -30,14 +31,14 @@ for file in "${files[@]}"; do
 			lambda=${vals[1]}
 			sigma=${vals[2]}
 			its=${vals[3]}
-			filename="${met}-${prec}-caso$[$caso].png"
+			filename="${metodos[$metodosval]}-${prec}-caso$[$caso].png"
 			echo "./histogramaYAjuste.m ${file} $sigma $beta $lambda $truesigma $truebeta $truelambda $filename"
 			echo "$filename : Beta = $beta" >> $paramfile
 			echo "$filename : Lambda = $lambda" >> $paramfile
 			echo "$filename : Sigma = $sigma" >> $paramfile
 			echo "$filename : Iteraciones = $its" >> $paramfile
 			echo "" >> $paramfile
-			./histogramaYAjuste.m ${file} $sigma $beta $lambda $truesigma $truebeta $truelambda $filename
+			./histogramaYAjuste.m ${file} $truesigma $truebeta $truelambda $sigma $beta $lambda $filename
 			mv $filename ../informe/plots/
 		done
 	done
