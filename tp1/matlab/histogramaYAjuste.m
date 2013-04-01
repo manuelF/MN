@@ -25,7 +25,12 @@ dibujarAjuste(d, str2double(args{5}),
 	fname =args{8};
 	print(fname, '-dpng');
 else
+	if(size(args,1)==5)
+		fname =args{5};
+		print(fname, '-dpng');
+	else
+		print("plot.png", '-dpng');
+	end
 
-	#print -dpng plot.png
 
 end
