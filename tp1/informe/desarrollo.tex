@@ -3,17 +3,8 @@ El primer m\'etodo elegido para obtener un despeje de $\beta$ fue el de Newton. 
 
 A priori, la dificultad al emplear este m\'etodo est\'a ligada al c\'alculo de la derivada primera de la funci\'on a la que se le busca el cero en cada iteraci\'on. Si bien se puede decir que la iteraci\'on de Newton es la m\'as compleja de implementar, la divisi\'on del problema en subproblemas m\'as pequen/~os utilizando funciones auxiliares fue clave para una resoluci\'on que se refleja en un c\'odigo limpio y elegante.
 
-Los par\'ametros de entrada elegidos para el programa que calcula la aproximaci\'on de $\beta$ son los siguientes:
 
-\begin{itemize}
-
-  \item \bf{Precisi\'on}: Cantidad de d\'igitos utilizados en el c\'alculo. La variaci\'on de este par\'ametro conlleva una variaci\'on en la precisi\'on del resultado del c\'alculo y en el tiempo de ejecuci\'on del programa. El m\'aximo valor es la que usamos como control y corresponde a 52 d\'igitos de precisi\'on.
-
-  \item \bf{Iteraciones m\'aximas}: M\'axima cantidad de iteraciones de Newton. Este criterio de parada previene ciclos infinitos ya sea por divergencia del m\'etodo como por problemas de precisi\'on en c\'alculos de punto flotante. Por defecto la m\'axima cantidad es de 10 iteraciones.
-
-  \item \bf{Rango de $\beta$}: Control de la tolerancia. Por defecto asumimos que $\beta$ se encuentra entre 0.0 y 0.2 pero estos valores se pueden ajustar para modificar la tolerancia del m\'etodo.
-
-\end{itemize}
+Previo a la implementaci\'on del m\'etodo se realizaron los c\'alculos matem\'aticos correspondientes a la funci\'on analizada. A continuaci\'on se encuentran los pasos que justifican la utilizaci\'on de la f\'ormula.
 
 Utilizando el despeje sugerido en clase:\\
 
@@ -26,3 +17,16 @@ $0 = \frac{\beta}{n}\sum{i=1}{n}\log x_i - \log \sum{i=1}{n}x_i^{\beta} + \log(n
 Luego, el m\'etodo general de Newton empleado se comporta del siguiente modo: \\
 
 $\beta_{n+1} = \beta_{n} - \frac{f(\beta_{n})}{f'(\beta_{n})}$
+
+Los par\'ametros de entrada elegidos para el programa que calcula la aproximaci\'on de $\beta$ son los siguientes:
+
+\begin{itemize}
+
+  \item \bf{Precisi\'on}: Cantidad de d\'igitos utilizados en el c\'alculo. La variaci\'on de este par\'ametro conlleva una variaci\'on en la precisi\'on del resultado del c\'alculo y en el tiempo de ejecuci\'on del programa. El m\'aximo valor es la que usamos como control y corresponde a 52 d\'igitos de precisi\'on.
+
+  \item \bf{Iteraciones m\'aximas}: M\'axima cantidad de iteraciones de Newton. Este criterio de parada previene ciclos infinitos ya sea por divergencia del m\'etodo como por problemas de precisi\'on en c\'alculos de punto flotante. Por defecto la m\'axima cantidad es de 10 iteraciones.
+
+  \item \bf{Rango de $\beta$}: Control de la tolerancia. Por defecto asumimos que $\beta$ se encuentra entre 0.0 y 0.2 pero estos valores se pueden ajustar para modificar la tolerancia del m\'etodo.
+
+\end{itemize}
+
