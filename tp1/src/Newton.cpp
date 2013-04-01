@@ -134,7 +134,7 @@ void TFloat::recortar()
 
 vector<TFloat> valores;
 int n, t;
-const double epsilon =  1.e-9;
+const double epsilon =  1.e-5;
 int maximoIteraciones = 10;
 TFloat pot(TFloat base, TFloat exp)
 {
@@ -334,7 +334,7 @@ int main(int argc, char* argv[])
     cout.precision(15);
     if(metodo == 1)
     {
-        
+
         outBeta = puntofijo(beta, iteraciones);
         outLambda = Lambda(outBeta);
         outSigma = Sigma(outBeta, outLambda);
