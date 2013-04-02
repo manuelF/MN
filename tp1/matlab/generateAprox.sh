@@ -28,9 +28,9 @@ for file in "${files[@]}"; do
 		done
 
 		echo "./plot_curve ${precision[0]} $params"
-		filename="Caso$caso-$var.png"
+		filename="Caso$caso-$var"
 		./plotCurve.m ${precision[0]} $params $filename
-		mv $filename ../informe/plots
+		mv "$filename.png" ../informe/plots
 
 	done
 	caso=$[$caso +1]

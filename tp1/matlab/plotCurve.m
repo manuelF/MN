@@ -21,4 +21,5 @@ figure("visible","off");
 hold on
 
 plot(x, y,'-*');
+title(filename)
 print(filename,"-dpng");
