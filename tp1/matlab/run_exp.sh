@@ -9,7 +9,7 @@ iteracionesmaximas=200
 metodos=(Newton)
 metodosval=(0)
 
-precision=(12 13 14 15 17 22)
+precision=(13 16 19 30)
 index=0
 caso=1
 
