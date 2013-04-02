@@ -8,9 +8,13 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include "timetools.h"
+
 #include "TFloat.h"
 #include <math.h>
+
+#ifdef __gnu_linux__
+    #include "timetools.h"
+#endif
 using namespace std;
 
 TFloat::TFloat()
@@ -334,10 +338,12 @@ int main(int argc, char* argv[])
     TFloat outSigma;
 
     cout.precision(15);
-    timespec startTime;
-    timespec endTime;
+    #ifdef __gnu_linux__
+        timespec startTime;
+        timespec endTime;
 
-    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &startTime);
+        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &startTime);
+    #endif
     if (metodo==0)
     {
         outBeta = newton(beta, beta2, iteraciones);
@@ -349,8 +355,10 @@ int main(int argc, char* argv[])
 
     outLambda = Lambda(outBeta);
     outSigma = Sigma(outBeta, outLambda);
-    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &endTime);
-    const timespec delta = diff(startTime, endTime);
+    #ifdef __gnu_linux__
+        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &endTime);
+        const timespec delta = diff(startTime, endTime);
+    #endif
     /*
     outBeta = puntofijo(beta, iteraciones);
     outLambda = Lambda(outBeta);
@@ -369,6 +377,9 @@ int main(int argc, char* argv[])
     cout << "    - SigmaMoño: " << outSigma.dbl() << endl;
     */
     cout << outBeta.dbl() << " " << outLambda.dbl() << " " << outSigma.dbl() << " " << iteraciones;
-    cout << " " << (delta.tv_sec * 1000*1000*1000 + delta.tv_nsec)/(1000*1000) << endl;
+    #ifdef __gnu_linux__
+        cout << " " << (delta.tv_sec * 1000*1000*1000 + delta.tv_nsec)/(1000*1000);
+    #endif
+    cout << endl;
     return 0;
 }
