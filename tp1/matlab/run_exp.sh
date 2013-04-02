@@ -4,12 +4,13 @@ betas=(9 6.2)
 lambdas=(3 3.5)
 sigmas=(1.5 2)
 
-iteracionesmaximas=200
+iteracionesmaximas=40
 
 metodos=(Newton)
 metodosval=(0)
 
-precision=(13 16 19 30)
+#precision=(13 16 19 30)
+precision=(12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27)
 index=0
 caso=1
 
@@ -61,3 +62,5 @@ for file in "${files[@]}"; do
 	index=$[$index +1]
 	caso=$[$caso +1]
 done
+
+source generateAprox.sh
