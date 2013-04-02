@@ -7,8 +7,8 @@ La primera aproximaci\'on a los resultados fue dada por el ploteo de las distrib
 %Caso 1: Caso 2
 \begin{figure} [H]
 \begin {center}
-\includegraphics[width=300pt]{plots/Caso1.png}
-\includegraphics[width=300pt]{plots/Caso2.png}
+\includegraphics[width=300pt]{plots/Caso1Hist.png}
+\includegraphics[width=300pt]{plots/Caso2Hist.png}
 \end {center}
 \caption{Traza exacta de la funci\'on digamma usando los par\'ametros conocidos}
 \label{fig:FitCaso3Newton}
@@ -17,7 +17,7 @@ La primera aproximaci\'on a los resultados fue dada por el ploteo de las distrib
 Una vez determinada la forma \"deseada\" de las curvas se procedi\'o a encontrar valores de cantidad de d\'igitos decimales relevantes para los experimentos. Notamos que el m\'etodo de Newton para valores muy bajos de cantidad de digitos no convergia ($t < 12$ en promedio); Por lo que nos concentramos en valores
 ligeramente mas grandes, cosa de poder contemplar cuan cerca esta la distribuci\'on estimada de la real.
 
-Los valores que usamos de precision son 13, 16, 19, 30. Estos fueron elegidos porque convergian, y porque consideramos que estan
+Los valores que usamos de precision son 13, 16, 19, 27. Estos fueron elegidos porque convergian, y porque consideramos que estan
 suficientemente separados entre s\'i como para ser significativos. Creamos un script para automatizar la generaci\'on de estos gr\'aficos,
 para poder hacer los experimentos repetibles y consistentes. Estos invocan al m\'etodo con algunos parametros, obtienen los
 valores estimados, la cantidad de iteraciones que realizo el algoritmo elegido y la cantidad de milisegundos que tard\'o este proceso.
@@ -28,9 +28,9 @@ $\begin{array}{cc}
 \includegraphics[width=200pt]{plots/Newton-13-caso3.png} &
 \includegraphics[width=200pt]{plots/Newton-16-caso3.png} \\
 \includegraphics[width=200pt]{plots/Newton-19-caso3.png} &
-\includegraphics[width=200pt]{plots/Newton-30-caso3.png}
+\includegraphics[width=200pt]{plots/Newton-27-caso3.png}
 \end{array}$
-\caption{Ajuste usando distintas precisiones (13, 16, 19, 30) con Newton al caso 3, X1}
+\caption{Ajuste usando distintas precisiones (13, 16, 19, 27) con Newton al caso 3, X1}
 \label{fig:FitCaso3Newton}
 \end{figure}
 
@@ -39,9 +39,9 @@ $\begin{array}{cc}
 \includegraphics[width=200pt]{plots/Newton-13-caso4.png} &
 \includegraphics[width=200pt]{plots/Newton-16-caso4.png} \\
 \includegraphics[width=200pt]{plots/Newton-19-caso4.png} &
-\includegraphics[width=200pt]{plots/Newton-30-caso4.png}
+\includegraphics[width=200pt]{plots/Newton-27-caso4.png}
 \end{array}$
-\caption{Ajuste usando distintas precisiones (13, 16, 19, 30) con Newton al caso 4, X2}
+\caption{Ajuste usando distintas precisiones (13, 16, 19, 27) con Newton al caso 4, X2}
 \label{fig:FitCaso4Newton}
 \end{figure}
 
@@ -57,6 +57,20 @@ $\begin{array}{c}
 \end{array}$
 
 \caption{Aproximacion a $\beta, \lambda, \sigma$ en los Casos 1 y 2 usando Newton}
+\end{figure}
+
+\begin{figure}
+$\begin{array}{cc}
+\includegraphics[width=220pt]{plots/Caso4.png} &
+\includegraphics[width=220pt]{plots/Caso5.png} \\
+\includegraphics[width=220pt]{plots/Caso6.png} &
+\includegraphics[width=220pt]{plots/Caso7.png} \\
+\includegraphics[width=220pt]{plots/Caso8.png} &
+\includegraphics[width=220pt]{plots/Caso9.png} \\
+
+\end{array}$
+
+\caption{Aproximacion a $\beta, \lambda, \sigma$ en los Casos 4 y al 9 usando Newton}
 \label{fig:AproxCaso1}
 \end{figure}
 
