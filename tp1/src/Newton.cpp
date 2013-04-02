@@ -268,35 +268,37 @@ TFloat newton(TFloat beta, TFloat beta2, int& iteraciones)
     return beta;
 }
 
-TFloat puntofijo(TFloat p0, int& iteraciones)
+TFloat regulaFalsi(TFloat beta, TFloat beta2, int& iteraciones)
 {
-    TFloat pnew=p0;
-
     iteraciones=0;
-
-    while(iteraciones<maximoIteraciones && (iteraciones==0 || abs(pnew.dbl()-p0.dbl())>epsilon))
+    TFloat beta3;
+    while(iteraciones<maximoIteraciones && abs(beta.dbl()-beta2.dbl())>epsilon)
     {
         iteraciones++;
-        p0=pnew;
-        cout << "p0: " << p0.dbl()<< endl;
-        pnew = f(p0);
-
+        beta3 = beta2 - f(beta2)*(beta2-beta)/(f(beta2)-f(beta));
+        if(f(beta).dbl()*f(beta3).dbl()<0)
+            beta2 = beta3;
+        else
+        {
+            beta = beta2;
+            beta2 = beta3;
+        }
     }
-    return pnew;
-
+    return beta;
 }
 
 void uso()
 {
     cout << "\"./Newton\" precision = 52, iteraciones maximas = 10, Beta entre 0.0 y 2.0"<<endl;
     cout << "\"./Newton <t>\" precision = t, iteraciones maximas = 10, Beta entre 0.0 y 2.0"<<endl;
-    cout << "\"./Newton <t> <n> <b1> <b2>\" precision = t, iteraciones maximas= n, Beta entre b1 y b2"<<endl;
+    cout << "\"./Newton <t> <n> <b1> <b2> <m> \" precision = t, iteraciones maximas= n, Beta entre b1 y b2, <m> metodo (0 Newton - 1 RegulaFalsi)"<<endl;
 }
 
 int main(int argc, char* argv[])
 {
     TFloat beta = TFloat(10.,52);
     TFloat beta2 = TFloat(0.,52);
+    int metodo=0; //0 Newton 1 RegulaFalsi
     switch(argc)
     {
         case 1:
@@ -305,6 +307,8 @@ int main(int argc, char* argv[])
         case 2:
             t=atoi(argv[1]);
             break;
+        case 6:
+            metodo = atoi(argv[5]);
         case 5:
             t=atoi(argv[1]);
             maximoIteraciones=atoi(argv[2]);
@@ -328,20 +332,31 @@ int main(int argc, char* argv[])
     TFloat outBeta;
     TFloat outLambda;
     TFloat outSigma;
+
+    cout.precision(15);
+
+    if (metodo==0)
+    {
+        outBeta = newton(beta, beta2, iteraciones);
+    }
+    else
+    {
+        outBeta = regulaFalsi(beta, beta2, iteraciones);
+    }
+
+    outLambda = Lambda(outBeta);
+    outSigma = Sigma(outBeta, outLambda);
+
     /*
     outBeta = puntofijo(beta, iteraciones);
     outLambda = Lambda(outBeta);
     outSigma = Sigma(outBeta, outLambda);
-    cout.precision(15);
 
     cout << "PF: " <<iteraciones <<" iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
     cout << "    - BetaMoño: " << outBeta.dbl() << endl;
     cout << "    - LambdaMoño: " << outLambda.dbl() << endl;
     cout << "    - SigmaMoño: " << outSigma.dbl() << endl;
     */
-    outBeta = newton(beta, beta2, iteraciones);
-    outLambda = Lambda(outBeta);
-    outSigma = Sigma(outBeta, outLambda);
 
     /*
     cout << "Newton: " <<iteraciones << " iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
@@ -349,6 +364,6 @@ int main(int argc, char* argv[])
     cout << "    - LambdaMoño: " << outLambda.dbl() << endl;
     cout << "    - SigmaMoño: " << outSigma.dbl() << endl;
     */
-    cout << outBeta.dbl() << " " << outLambda.dbl() << " " << outSigma.dbl() << endl;
+    cout << outBeta.dbl() << " " << outLambda.dbl() << " " << outSigma.dbl() << " " << iteraciones << endl;
     return 0;
 }
