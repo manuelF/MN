@@ -1,7 +1,8 @@
 #!/usr/local/bin/octave -qf
 args = argv();
 base = str2num(args{1});
-longitud = size(args,1)-2;
+longitud = size(args,1)-3;
+filename = args{end}
 lastnumber=base+longitud;
 
 x=base:1:lastnumber;
@@ -16,7 +17,8 @@ class(y);
 disp(y);
 
 
-figure();
+figure("visible","off");
 hold on
 
-plot(x, y);
+plot(x, y,'-*');
+print(filename,"-dpng");
