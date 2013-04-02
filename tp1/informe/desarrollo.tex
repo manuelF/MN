@@ -1,8 +1,8 @@
 \section{Desarrollo}
 
-\large{M\'etodo de Newton}
+\subsection{M\'etodo de Newton}
 
-El primer m\'etodo elegido para obtener un despeje de $\beta$ fue el de Newton. La motivaci\'on para implementar este m\'etodo como primera opci\'on est\'a relacionada con la importancia que se le da al m\'etodo tanto en los textos consultados como en clase. 
+El primer m\'etodo elegido para obtener un despeje de $\beta$ fue el de Newton. La motivaci\'on para implementar este m\'etodo como primera opci\'on est\'a relacionada con la importancia que se le da al m\'etodo tanto en los textos consultados como en clase.
 
 A priori, la dificultad al emplear este m\'etodo est\'a ligada al c\'alculo de la derivada primera de la funci\'on a la que se le busca el cero en cada iteraci\'on. Si bien se puede decir que la iteraci\'on de Newton es la m\'as compleja de implementar, la divisi\'on del problema en subproblemas m\'as pequen\~os utilizando funciones auxiliares fue clave para una resoluci\'on que se refleja en un c\'odigo limpio y elegante.
 
@@ -26,22 +26,22 @@ Habiendo obtenido la ecuaci\'on correspondiente al m\'etodo de Newton para esta 
 Los par\'ametros de entrada elegidos para el programa que calcula la aproximaci\'on de $\beta$ son los siguientes:
 
 \begin{itemize}
-  \item \bf{Precisi\'on}: Cantidad de d\'igitos utilizados en el c\'alculo. La variaci\'on de este par\'ametro conlleva una variaci\'on en la precisi\'on del resultado del c\'alculo y en el tiempo de ejecuci\'on del programa. El m\'aximo valor es la que usamos como control y corresponde a 52 d\'igitos de precisi\'on.
+  \item \textbf{Precisi\'on}: Cantidad de d\'igitos utilizados en el c\'alculo. La variaci\'on de este par\'ametro conlleva una variaci\'on en la precisi\'on del resultado del c\'alculo y en el tiempo de ejecuci\'on del programa. El m\'aximo valor es la que usamos como control y corresponde a 52 d\'igitos de precisi\'on.
 
-  \item \bf{Iteraciones m\'aximas}: M\'axima cantidad de iteraciones de Newton. Este criterio de parada previene ciclos infinitos ya sea por divergencia del m\'etodo como por problemas de precisi\'on en c\'alculos de punto flotante. Por defecto la m\'axima cantidad es de 10 iteraciones.
+  \item \textbf{Iteraciones m\'aximas}: M\'axima cantidad de iteraciones de Newton. Este criterio de parada previene ciclos infinitos ya sea por divergencia del m\'etodo como por problemas de precisi\'on en c\'alculos de punto flotante. Por defecto la m\'axima cantidad es de 10 iteraciones.
 
-  \item \bf{Rango de $\beta$}: Control de la tolerancia. Por defecto asumimos que $\beta$ se encuentra entre 0.0 y 0.2 pero estos valores se pueden ajustar para modificar la tolerancia del m\'etodo.
+  \item \textbf{Rango de $\beta$}: Control de la tolerancia. Por defecto asumimos que $\beta$ se encuentra entre 0.0 y 0.2 pero estos valores se pueden ajustar para modificar la tolerancia del m\'etodo.
 \end{itemize}
 
 Esta distribuci\'on de los par\'ametros de entrada es clave para el testeo sistem\'atico y la comparativa entre corridas del mismo sistema e interm\'etodo a la hora de comparar con el de Regula falsi.
 
-Experimentando la variaci\'on en la precisi\'on del algoritmo se destaca una diferencia significativa tomando valores entre los 15 y 25 d\'igitos de precisi\'on. Tomando valores mayores a 25 d\'igitos la precisi\'on del algoritmo no aumenta significativamente, alcanzando valores similares a los de la precisi\'on m\'axima impuesta de 52 d\'igitos. Esta observaci\'on se interpreta, a primera vista, como una aceleraci\'on significativa del error hacia valores cercanos al cero. 
+Experimentando la variaci\'on en la precisi\'on del algoritmo se destaca una diferencia significativa tomando valores entre los 15 y 25 d\'igitos de precisi\'on. Tomando valores mayores a 25 d\'igitos la precisi\'on del algoritmo no aumenta significativamente, alcanzando valores similares a los de la precisi\'on m\'axima impuesta de 52 d\'igitos. Esta observaci\'on se interpreta, a primera vista, como una aceleraci\'on significativa del error hacia valores cercanos al cero.
 
-\large{M\'etodo de la Secante}
+\subsection{M\'etodo de la Secante}
 
 El segundo m\'etodo elegido fue el m\'etodo de la Secante, ya que es muy parecido al m\'etodo de Newton y tiene orden de convergencia superlineal. R\'apidamente qued\'o descartado debido a problemas relacionados al c\'alculo de cocientes, en donde el denominador se acerca a cero a un nivel pr\'acticamente indistinguible al nivel de representaci\'on de la computadora.
 
-\large{M\'etodo de Regula falsi}
+\subsection{M\'etodo de Regula falsi}
 
 Habiendo implementado el m\'etodo de la Secante, y para subsanar el problema de la divisi\'on por cero, se procedi\'o a implementar el m\'etodo de Regula Falsi, tambi\'en conocido como Regla Falsa.
 
@@ -63,4 +63,4 @@ Los criterios de parada utilizados en ambos casos son equivalentes.
 
 Para el m\'etodo de Newton se fija $\epsilon$ en $10^{-9}$ y se corre el m\'etodo hasta que en dos iteraciones consecutivas el resultado difiera en menos de $\epsilon$ o bien hasta llegar a un n\'umero de iteraciones m\'aximas, que por defecto se fija en 10 iteraciones, valor elegido luego de la experimentaci\'on de diferentes valores del par\'ametro por su consistencia.
 
-Para el m\'etodo de Regula Falsi se utiliza el mismo m\'etodo para comparar el $\beta$ de una iteraci\'on y el $\beta$ anterior, el cu\'al se toma en cuenta para la siguiente iteraci\'on. 
+Para el m\'etodo de Regula Falsi se utiliza el mismo m\'etodo para comparar el $\beta$ de una iteraci\'on y el $\beta$ anterior, el cu\'al se toma en cuenta para la siguiente iteraci\'on.
