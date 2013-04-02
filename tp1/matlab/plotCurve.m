@@ -1,25 +1,37 @@
 #!/usr/local/bin/octave -qf
 args = argv();
-base = str2num(args{1});
-longitud = size(args,1)-3;
+baseOriginal = str2num(args{1});
+longitudTotal = size(args,1)-2;
+longitud=longitudTotal/3;
 filename = args{end}
-lastnumber=base+longitud;
+#figure("visible","off");
+figure();
+originalLastNumber=baseOriginal+longitud;
+x=baseOriginal:1:originalLastNumber-1;
+cc=lines(12);
+vars=["Beta";"Lambda";"Sigma" ];
+for q=0:2
+	offset=q*longitud;
+	disp(offset);
+	lastnumber=baseOriginal+longitud+(offset);
 
-x=base:1:lastnumber;
-y=[1:1:longitud+1]
 
-for i=1:longitud+1
-	y(i)=str2num(args{i+1});
+	y=[1:1:longitud]
+
+	for i=1:longitud
+		y(i)=str2num(args{offset+i+1});
+	end
+	disp(y);
+
+
+	hold on
+
+	plot(x, y,'-*','color',cc((q+1),:));
+
+
 end
-
-#disp(x);
-class(y);
-disp(y);
-
-
-figure("visible","off");
-hold on
-
-plot(x, y,'-*');
+ylabel("Valor de las variables");
+xlabel("Digitos de precision");
+legend(vars,'location','NorthEast');
 title(filename)
 print(filename,"-dpng");

@@ -16,23 +16,25 @@ caso=1
 precision=(12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27)
 
 for file in "${files[@]}"; do
+	params=""
 	for var in "${variables[@]}"; do
 
 		a=$(grep "caso$caso" "$paramfile" | grep "$var" | awk '{print $5}' | xargs)
 		val=. read -a serie <<< "$a"
-		params=""
 		index=0
 		for prec in "${precision[@]}"; do
 			params+=" ${serie[$index]} "
 			index=$[$index +1]
 		done
 
-		echo "./plot_curve ${precision[0]} $params"
-		filename="Caso$caso-$var"
-		./plotCurve.m ${precision[0]} $params $filename
-		mv "$filename.png" ../informe/plots
+		#filename="Caso$caso-$var"
+		filename="Caso$caso"
+
 
 	done
+	echo "./plotCurve.m ${precision[0]} $params $filename"
+	./plotCurve.m ${precision[0]} $params $filename
+	mv "$filename.png" ../informe/plots
 	caso=$[$caso +1]
 done
 
