@@ -4,8 +4,7 @@ baseOriginal = str2num(args{1});
 longitudTotal = size(args,1)-2;
 longitud=longitudTotal/3;
 filename = args{end}
-#figure("visible","off");
-figure();
+figure("visible","off");
 originalLastNumber=baseOriginal+longitud;
 x=baseOriginal:1:originalLastNumber-1;
 cc=lines(12);
