@@ -1,7 +1,7 @@
 \section{Desarrollo}
 El primer m\'etodo elegido para obtener un despeje de $\beta$ fue el de Newton. La motivaci\'on para implementar este m\'etodo como primera opci\'on est\'a relacionada con la importancia que se le da al m\'etodo tanto en los textos consultados como en clase. 
 
-A priori, la dificultad al emplear este m\'etodo est\'a ligada al c\'alculo de la derivada primera de la funci\'on a la que se le busca el cero en cada iteraci\'on. Si bien se puede decir que la iteraci\'on de Newton es la m\'as compleja de implementar, la divisi\'on del problema en subproblemas m\'as pequen/~os utilizando funciones auxiliares fue clave para una resoluci\'on que se refleja en un c\'odigo limpio y elegante.
+A priori, la dificultad al emplear este m\'etodo est\'a ligada al c\'alculo de la derivada primera de la funci\'on a la que se le busca el cero en cada iteraci\'on. Si bien se puede decir que la iteraci\'on de Newton es la m\'as compleja de implementar, la divisi\'on del problema en subproblemas m\'as pequen\~os utilizando funciones auxiliares fue clave para una resoluci\'on que se refleja en un c\'odigo limpio y elegante.
 
 
 Previo a la implementaci\'on del m\'etodo se realizaron los c\'alculos matem\'aticos correspondientes a la funci\'on analizada. A continuaci\'on se encuentran los pasos que justifican la utilizaci\'on de la f\'ormula.
@@ -32,3 +32,26 @@ Los par\'ametros de entrada elegidos para el programa que calcula la aproximaci\
 
 \end{itemize}
 
+El segundo m\'etodo que intentamos utilizar fue el m\'etodo de la secante, ya que es muy parecido al m\'etodo de Newton y tiene orden de convergencia superlineal, pero r\'apidamente qued\'o descartado ya que tuvimos muchos problemas con las divisiones, en donde el denominador se hac\'ia muy cercano a cero.
+
+Habiendo implementado el m\'etodo de la secante, y para subsanar el problema de la divisi\'on por cero, decidimos implementar el m\'etodo de Regula Falsi, tambi\'en conocido como Regla Falsa.
+
+De la misma forma que con el m\'etodo de Newton, decidimos utilizar la ecuaci\'on
+
+$\frac{M(2\beta)}{M^2(\beta)}=1 + \beta(R(\beta)-R(0))$
+
+para despejar $\beta$ y luego utilizamos las mismas f\'ormulas que en el caso anterior para despejar $\lambda$ y $\sigma$.
+
+La formula que utilizamos para el m\'etodo de Regula Falsi es
+
+$\beta_n = \beta_{n-1} - \frac{f(\beta_{n-1}) (\beta_{n-1}-\beta_{n-2})}{f(\beta_{n-1}) - f(\beta_{n-2})}$
+
+Luego, elegimos si nos quedamos con $f(\beta_{n-1})$ y $f(\beta_n)$ o $f(\beta_{n-2})$ y $f(\beta_n)$ seg\'un el signo de $f(\beta_n)$ de modo tal de que los dos n\'umeros que tomemos tengan distinto signo al aplicarle $f$.
+
+\subsection{Criterios de Parada}
+
+Los criterios de parada que utilizamos en ambos casos son equivalentes.
+
+Para el m\'etodo de Newton fijamos un $\epsilon$ en $10^{-9}$ y corremos el m\'etodo hasta que dos iteraciones consecutivas difieran en menos de $\epsilon$ o bien hasta llegar a un n\'umero de iteraciones m\'aximas, que por defecto lo fijamos en 10 aunque tambi\'en puede ser un par\'ametro.
+
+Para el m\'etodo de Regula Falsi hacemos lo mismo tomando para comparar el $\beta$ de una iteraci\'on y el $\beta$ anterior con el cu\'al nos quedamos para la siguiente iteraci\'on. 
