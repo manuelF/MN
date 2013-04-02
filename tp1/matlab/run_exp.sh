@@ -4,12 +4,12 @@ betas=(9 6.2)
 lambdas=(3 3.5)
 sigmas=(1.5 2)
 
-iteracionesmaximas=40
+iteracionesmaximas=200
 
 metodos=(Newton)
 metodosval=(0)
 
-precision=(15 20 25)
+precision=(12 13 14 15 17 22)
 index=0
 caso=1
 
@@ -26,19 +26,22 @@ for file in "${files[@]}"; do
 	for met in "${metodosval[@]}"; do
 
 		for prec in "${precision[@]}"; do
-			#correr con prec, 100 iteraciones, beta entre 20 y 0
+			#correr con prec, 40 iteraciones, beta entre 20 y 0
 			a=$(../src/Newton  "${prec}" $iteracionesmaximas 20.0 0 ${met} < "${file}")
 			val=. read -a vals <<< "$a"
 			beta=${vals[0]}
 			lambda=${vals[1]}
 			sigma=${vals[2]}
 			its=${vals[3]}
+			runtime=${vals[4]}
 			filename="${metodos[$met]}-${prec}-caso$[$caso].png"
 			echo "./histogramaYAjuste.m ${file} $sigma $beta $lambda $truesigma $truebeta $truelambda $filename"
 			echo "$filename : Beta = $beta" >> $paramfile
 			echo "$filename : Lambda = $lambda" >> $paramfile
 			echo "$filename : Sigma = $sigma" >> $paramfile
 			echo "$filename : Iteraciones = $its" >> $paramfile
+			echo "$filename : Runtime = $runtime" >> $paramfile
+
 			echo "" >> $paramfile
 			./histogramaYAjuste.m ${file} $truesigma $truebeta $truelambda $sigma $beta $lambda $filename
 			mv $filename ../informe/plots/

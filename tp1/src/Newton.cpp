@@ -134,7 +134,7 @@ void TFloat::recortar()
 
 vector<TFloat> valores;
 int n, t;
-const double epsilon =  1.e-9;
+const double epsilon =  1.e-4;
 int maximoIteraciones = 10;
 TFloat pot(TFloat base, TFloat exp)
 {
