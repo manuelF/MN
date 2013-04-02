@@ -3,17 +3,47 @@
 Para po
 
 Lo primero que hicimos fue plotear las distribuciones con datos conocidos y ver como se ajustaban a los
-histogramas, sin aproximarlas.
+histogramas, sin aproximarlas. Esto nos sirvio para entender que forma debieran dar, aproximadamente, las curvas
+ajustadas estimadas luego.
 
 %Caso 1: Caso 2
+\begin{figure} [H]
+\begin {center}
+\includegraphics[width=300pt]{plots/Caso1.png}
+\includegraphics[width=300pt]{plots/Caso2.png}
+\end {center}
+\caption{Traza exacta de la funcion digamma usando los parametros conocidos}
+\label{fig:FitCaso3Newton}
+\end{figure}
 
 Luego procuramos encontrar valores de cantidad de digitos decimales binarios interesantes. Notamos que el m\'etodo de Newton
 para valores muy bajos de cantidad de digitos no convergia ($t < 12$ en promedio); Por lo que nos concentramos en valores
 ligeramente mas grandes, cosa de poder contemplar cuan cerca esta la distribuci\'on estimada de la real.
 
-Los valores que usamos de precision son 15, 20, 25, 40. Estos fueron elegidos porque convergian, y porque consideramos que estan
+Los valores que usamos de precision son 13, 16, 19, 30. Estos fueron elegidos porque convergian, y porque consideramos que estan
 suficientemente separados entre s\'i como para ser significativos. Creamos un script para automatizar la generaci\'on de estos gr\'aficos,
-para poder hacer los experimentos repetibles y consistentes. Estos invocan al programa con algunos parametros, obtienen los
+para poder hacer los experimentos repetibles y consistentes. Estos invocan al m\'etodo con algunos parametros, obtienen los
 valores estimados, la cantidad de iteraciones que realizo el algoritmo elegido y la cantidad de milisegundos que tard\'o este proceso.
 
 
+\begin{figure} [H]
+
+\includegraphics[width=200pt]{plots/Newton-13-caso3.png}
+\includegraphics[width=200pt]{plots/Newton-16-caso3.png}
+\includegraphics[width=200pt]{plots/Newton-19-caso3.png}
+\includegraphics[width=200pt]{plots/Newton-30-caso3.png}
+
+\caption{Ajuste usando distintas precisiones (13, 16, 19, 30) con Newton al caso 3, X1}
+\label{fig:FitCaso3Newton}
+\end{figure}
+
+\begin{figure} [H]
+
+\includegraphics[width=200pt]{plots/Newton-13-caso4.png}
+\includegraphics[width=200pt]{plots/Newton-16-caso4.png}
+\includegraphics[width=200pt]{plots/Newton-19-caso4.png}
+\includegraphics[width=200pt]{plots/Newton-30-caso4.png}
+
+\caption{Ajuste usando distintas precisiones (13, 16, 19, 30) con Newton al caso 4, X2}
+\label{fig:FitCaso4Newton}
+\end{figure}
