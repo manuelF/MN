@@ -135,7 +135,7 @@ void TFloat::recortar()
 vector<TFloat> valores;
 int n, t;
 const double epsilon =  1.e-9;
-int maximoIteraciones = 10;
+int maximoIteraciones = 100;
 TFloat pot(TFloat base, TFloat exp)
 {
     double result = pow(base.dbl(),exp.dbl());
@@ -166,29 +166,9 @@ TFloat MSombrero(TFloat s)
     return res;
 }
 
-TFloat MPrima(TFloat s)
-{
-    /// Resulta ser que Mprima es igual a Msombrero
-    return MSombrero(s);
-}
-
-TFloat MSombreroPrima(TFloat s)
-{
-    TFloat res = TFloat(0.,t);
-    for(int i=0;i<n;i++)
-        res = res + pot(valores[i],s)*log(valores[i])*log(valores[i]);
-    res = res/TFloat(n,t);
-    return res;
-}
-
 TFloat R(TFloat s)
 {
     return MSombrero(s)/M(s);
-}
-
-TFloat RPrima(TFloat s)
-{
-    return (MSombreroPrima(s)*M(s)-MSombrero(s)*MPrima(s))/(M(s)*M(s));
 }
 
 TFloat Lambda(TFloat beta)
@@ -234,56 +214,23 @@ TFloat f(TFloat beta)
 }
 
 
-TFloat fprima(TFloat beta)
-{
-
-    /** Mprima(beta*2)*2 = Derivada de M(beta*2)
-     *  M(beta)*Mprima(beta)*2 = Derivada de M(beta)*M(beta) o M(beta)^2
-     *  Derivada de M(beta*2)/M(beta)^2 =
-     *      (Mprima(beta*2)*M(beta)*M(beta)*2 - M(beta*2)*M(beta)*Mprima(beta)*2)/(M(beta)*M(beta)*M(beta)*M(beta))
-     *  Derivada de beta * (R(beta) - R(0)) =
-     *      beta * (Rprima(beta)) + R(beta)-R(0) //// Rprima(0) = 0 porque es una constante?
-     */
-
-
-return  (MPrima(beta*2)*M(beta)*M(beta)*2 - M(beta*2)*M(beta)*MPrima(beta)*2)/(M(beta)*M(beta)*M(beta)*M(beta))
-            - (beta * RPrima(beta) + R(beta) - R(0));
-}
-
-
-//TFloat f(TFloat x) {return x*x - 2.0;}
-//TFloat fprima(TFloat x){ return TFloat(2.)*x;}
-
-
-TFloat newton(TFloat beta, TFloat beta2, int& iteraciones)
+TFloat regulaFalsi(TFloat beta, TFloat beta2, int& iteraciones)
 {
     iteraciones=0;
-
+    TFloat beta3;
     while(iteraciones<maximoIteraciones && abs(beta.dbl()-beta2.dbl())>epsilon)
     {
         iteraciones++;
-        beta2 = beta;
-        beta = beta - f(beta)/fprima(beta);
+        beta3 = beta2 - f(beta2)*(beta2-beta)/(f(beta2)-f(beta));
+        if(f(beta).dbl()*f(beta3).dbl()<0)
+            beta2 = beta3;
+        else
+        {
+            beta = beta2;
+            beta2 = beta3;
+        }
     }
     return beta;
-}
-
-TFloat puntofijo(TFloat p0, int& iteraciones)
-{
-    TFloat pnew=p0;
-
-    iteraciones=0;
-
-    while(iteraciones<maximoIteraciones && (iteraciones==0 || abs(pnew.dbl()-p0.dbl())>epsilon))
-    {
-        iteraciones++;
-        p0=pnew;
-        cout << "p0: " << p0.dbl()<< endl;
-        pnew = f(p0);
-
-    }
-    return pnew;
-
 }
 
 void uso()
@@ -295,8 +242,8 @@ void uso()
 
 int main(int argc, char* argv[])
 {
-    TFloat beta = TFloat(10.,52);
-    TFloat beta2 = TFloat(0.,52);
+    TFloat beta = TFloat(1.,52);
+    TFloat beta2 = TFloat(8.,52);
     switch(argc)
     {
         case 1:
@@ -328,27 +275,11 @@ int main(int argc, char* argv[])
     TFloat outBeta;
     TFloat outLambda;
     TFloat outSigma;
-    /*
-    outBeta = puntofijo(beta, iteraciones);
-    outLambda = Lambda(outBeta);
-    outSigma = Sigma(outBeta, outLambda);
-    cout.precision(15);
 
-    cout << "PF: " <<iteraciones <<" iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
-    cout << "    - BetaMoño: " << outBeta.dbl() << endl;
-    cout << "    - LambdaMoño: " << outLambda.dbl() << endl;
-    cout << "    - SigmaMoño: " << outSigma.dbl() << endl;
-    */
-    outBeta = newton(beta, beta2, iteraciones);
+    outBeta = regulaFalsi(beta, beta2, iteraciones);
     outLambda = Lambda(outBeta);
     outSigma = Sigma(outBeta, outLambda);
 
-    /*
-    cout << "Newton: " <<iteraciones << " iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
-    cout << "    - BetaMoño: " << outBeta.dbl() << endl;
-    cout << "    - LambdaMoño: " << outLambda.dbl() << endl;
-    cout << "    - SigmaMoño: " << outSigma.dbl() << endl;
-    */
     cout << outBeta.dbl() << " " << outLambda.dbl() << " " << outSigma.dbl() << endl;
     return 0;
 }
