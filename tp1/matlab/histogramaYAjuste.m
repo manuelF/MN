@@ -14,7 +14,8 @@ dibujarHist(d);
 dibujarAjuste(d, str2double(args{2}),
                       str2double(args{3}),
                       str2double(args{4}),
-                      0.0,0.0,1.0);
+                      0.0,0.0,0.0);
+
 if(size(args,1)==8)
 dibujarAjuste(d, str2double(args{5}),
                       str2double(args{6}),
@@ -26,10 +27,14 @@ dibujarAjuste(d, str2double(args{5}),
 	print(fname, '-dpng');
 else
 	if(size(args,1)==11)
+	dibujarAjuste(d, str2double(args{5}),
+	                  str2double(args{6}),
+	                  str2double(args{7}),
+	                  1.0,0.0,0.0);
 	dibujarAjuste(d, str2double(args{8}),
-	                      str2double(args{9}),
-	                      str2double(args{10}),
-	                      1.0,1.0,0.0);
+	                 str2double(args{9}),
+	                 str2double(args{10}),
+	                 0.0,0.0,1.0);
 
 
 		fname =args{11};

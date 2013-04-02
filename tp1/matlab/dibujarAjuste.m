@@ -1,4 +1,4 @@
-function dibujarAjuste(data, sigma,beta,lambda, color)
+function dibujarAjuste(data, sigma,beta,lambda, color_r, color_g, color_b)
 %
 % Dado un vector de datos data y los parametros sigma, beta y lambda de una
 % distribucion Gamma Generalizada, se grafica el histograma de los datos y
@@ -12,4 +12,4 @@ x_bins = min(data) : 0.02 : max(data);
 count = histc(data,x_bins);
 
 y = GGDpdf_c(x_bins,sigma,beta,lambda);
-plot(x_bins, y/sum(y),color,'LineWidth',3)
+plot(x_bins, y/sum(y),'Color', [color_r, color_g, color_b],'LineWidth',3)
