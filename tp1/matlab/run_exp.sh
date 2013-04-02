@@ -13,6 +13,17 @@ precision=(13 16 19 30)
 index=0
 caso=1
 
+# Primero los plots sin fitness, exactos
+./histogramaYAjuste.m ${files[0]} ${sigmas[0]} ${betas[0]} ${lambdas[0]} Caso1.png
+mv Caso1.png ../informe/plots/
+./histogramaYAjuste.m ${files[1]} ${sigmas[1]} ${betas[1]} ${lambdas[1]} Caso2.png
+mv Caso2.png ../informe/plots/
+
+# Luego los fitteados
+
+
+
+
 paramfile="../informe/plots/parameters.txt"
 rm $paramfile
 touch $paramfile
