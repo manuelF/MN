@@ -364,7 +364,7 @@ int main(int argc, char* argv[])
     outLambda = Lambda(outBeta);
     outSigma = Sigma(outBeta, outLambda);
 
-    cout << "PF: " <<iteraciones <<" iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
+    cout << "RF: " <<iteraciones <<" iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
     cout << "    - BetaMoño: " << outBeta.dbl() << endl;
     cout << "    - LambdaMoño: " << outLambda.dbl() << endl;
     cout << "    - SigmaMoño: " << outSigma.dbl() << endl;
