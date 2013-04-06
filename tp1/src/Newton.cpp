@@ -276,16 +276,22 @@ TFloat regulaFalsi(TFloat beta, TFloat beta2, int& iteraciones)
 {
     iteraciones=0;
     TFloat beta3;
+    if (!(beta.dbl()*beta2.dbl()>=0))
+    {
+        printf("fruta follows\n");
+    }
     while(iteraciones<maximoIteraciones && abs(beta.dbl()-beta2.dbl())>epsilon)
     {
         iteraciones++;
         beta3 = beta2 - f(beta2)*(beta2-beta)/(f(beta2)-f(beta));
-        if(f(beta).dbl()*f(beta3).dbl()<0)
-            beta2 = beta3;
-        else
+        printf("%2.8lf\t%2.8lf\t%2.8lf\n%2.8lf\t%2.8lf\t%2.8lf\t\n",beta.dbl(),beta2.dbl(),beta3.dbl(),f(beta).dbl(),f(beta2).dbl(),f(beta3).dbl());
+        if(f(beta2).dbl()*f(beta3).dbl()>0)
         {
-            beta = beta2;
             beta2 = beta3;
+        }
+        else if(f(beta).dbl()*f(beta3).dbl()>0)
+        {
+            beta=beta3;
         }
     }
     return beta;
@@ -301,7 +307,7 @@ void uso()
 int main(int argc, char* argv[])
 {
     TFloat beta = TFloat(10.,52);
-    TFloat beta2 = TFloat(0.,52);
+    TFloat beta2 = TFloat(1.,52);
     int metodo=0; //0 Newton 1 RegulaFalsi
     switch(argc)
     {
@@ -327,11 +333,16 @@ int main(int argc, char* argv[])
     cin >> n;
     valores.resize(n);
     double db;
+    vector<double> _v(n);
     for(int i=0;i<n;i++)
     {
         cin >> db;
-        valores[i] = TFloat(db,t);
+        _v[i]=db;
     }
+    sort(_v.begin(),_v.end());
+    for(int i=0;i <n;i++) 
+        valores[i] = TFloat(_v[i],t);
+
     int iteraciones = 0;
     TFloat outBeta;
     TFloat outLambda;
@@ -364,7 +375,7 @@ int main(int argc, char* argv[])
     outLambda = Lambda(outBeta);
     outSigma = Sigma(outBeta, outLambda);
 
-    cout << "PF: " <<iteraciones <<" iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
+    cout << "RF: " <<iteraciones <<" iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
     cout << "    - BetaMoño: " << outBeta.dbl() << endl;
     cout << "    - LambdaMoño: " << outLambda.dbl() << endl;
     cout << "    - SigmaMoño: " << outSigma.dbl() << endl;

@@ -1,11 +1,16 @@
 \section{Desarrollo}
 
+El desarrollo de los experimentos fue realizado en serie. El m\'etodo de Newton, que se cree fundamental tanto por lo visto en clase como por lo consultado en libros relativos al an\'alisis num\'erico, fue el primero en ser implementado. Este proceso fue r\'apido, no existieron grandes dificultades en la implementaci\'on y los resultados fueron satisfactorios desde el comienzo.
+
+La decisi\'on sobre la implementaci\'on del m\'etodo de Regula falsi llega a partir de las dificultades en la aproximaci\'on mediante el m\'etodo de la secante, dificultades mencionadas m\'as adelante en la seccio\'on.
+
+Como los m\'etodos fueron implementados de uno a la vez, la explicaci\'on del desarrollo de los experimentos est\'a organizada del mismo modo.
+
 \subsection{M\'etodo de Newton}
 
 El primer m\'etodo elegido para obtener un despeje de $\beta$ fue el de Newton. La motivaci\'on para implementar este m\'etodo como primera opci\'on est\'a relacionada con la importancia que se le da al m\'etodo tanto en los textos consultados como en clase.
 
 A priori, la dificultad al emplear este m\'etodo est\'a ligada al c\'alculo de la derivada primera de la funci\'on a la que se le busca el cero en cada iteraci\'on. Si bien se puede decir que la iteraci\'on de Newton es la m\'as compleja de implementar, la divisi\'on del problema en subproblemas m\'as pequen\~os utilizando funciones auxiliares fue clave para una resoluci\'on que se refleja en un c\'odigo limpio y elegante.
-
 
 Previo a la implementaci\'on del m\'etodo se realizaron los c\'alculos matem\'aticos correspondientes a la funci\'on analizada. A continuaci\'on se encuentran los pasos que justifican la utilizaci\'on de la f\'ormula.
 
