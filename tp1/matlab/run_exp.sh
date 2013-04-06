@@ -15,10 +15,10 @@ index=0
 caso=1
 
 # Primero los plots sin fitness, exactos
-./histogramaYAjuste.m ${files[0]} ${sigmas[0]} ${betas[0]} ${lambdas[0]} Caso1.png
-mv Caso1.png ../informe/plots/
-./histogramaYAjuste.m ${files[1]} ${sigmas[1]} ${betas[1]} ${lambdas[1]} Caso2.png
-mv Caso2.png ../informe/plots/
+./histogramaYAjuste.m ${files[0]} ${sigmas[0]} ${betas[0]} ${lambdas[0]} Caso1Hist.png
+mv Caso1Hist.png ../informe/plots/
+./histogramaYAjuste.m ${files[1]} ${sigmas[1]} ${betas[1]} ${lambdas[1]} Caso2Hist.png
+mv Caso2Hist.png ../informe/plots/
 
 # Luego los fitteados
 
@@ -63,4 +63,4 @@ for file in "${files[@]}"; do
 	caso=$[$caso +1]
 done
 
-source generateAprox.sh
+./generateAprox.sh

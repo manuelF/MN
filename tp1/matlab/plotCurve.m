@@ -7,7 +7,7 @@ filename = args{end}
 figure("visible","off");
 originalLastNumber=baseOriginal+longitud;
 x=baseOriginal:1:originalLastNumber-1;
-cc=lines(12);
+cc=('brg');
 vars=["Beta";"Lambda";"Sigma" ];
 for q=0:2
 	offset=q*longitud;
@@ -25,7 +25,7 @@ for q=0:2
 
 	hold on
 
-	plot(x, y,'-*','color',cc((q+1),:));
+	plot(x, y,'-*','color',cc(q+1));
 
 
 end
