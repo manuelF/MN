@@ -1,8 +1,9 @@
 EXECUTABLE=Newton
 FLAGS=-O3 -Wall
-POSTFLAGS=-lrt
+POSTFLAGS=-lrt -lm
+CC=g++
 all: clean
-	g++ -o $(EXECUTABLE) $(FLAGS) $(EXECUTABLE).cpp $(POSTFLAGS)
+	$(CC) -o $(EXECUTABLE) $(FLAGS) $(EXECUTABLE).cpp $(POSTFLAGS)
 
 clean:
 	@rm -f $(EXECUTABLE)

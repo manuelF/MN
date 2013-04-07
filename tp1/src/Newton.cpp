@@ -1,8 +1,8 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
+#include <iomanip>
 #include <iostream>
-#include <map>
 #include <queue>
 #include <set>
 #include <sstream>
@@ -137,6 +137,7 @@ void TFloat::recortar()
 }
 
 vector<TFloat> valores;
+
 int n, t;
 const double epsilon =  1.e-4;
 int maximoIteraciones = 10;
@@ -234,7 +235,9 @@ TFloat Sigma(TFloat beta, TFloat lambda)
 
 TFloat f(TFloat beta)
 {
-    return M(beta*2)/(M(beta)*M(beta)) - beta * (R(beta)-R(0))  - 1.;
+    TFloat Mbeta = M(beta);
+    TFloat res = M(beta*2)/(Mbeta*Mbeta) - beta * (R(beta)-R(0))  - 1.;    
+    return res;
 }
 
 
@@ -249,8 +252,10 @@ TFloat fprima(TFloat beta)
      *      beta * (Rprima(beta)) + R(beta)-R(0) //// Rprima(0) = 0 porque es una constante?
      */
 
-
-return  (MPrima(beta*2)*M(beta)*M(beta)*2 - M(beta*2)*M(beta)*MPrima(beta)*2)/(M(beta)*M(beta)*M(beta)*M(beta))
+    TFloat Mbeta=M(beta);
+    TFloat Mbeta2=Mbeta*Mbeta;
+        //Aca podemos simplificar varios terminos sacando factores comunes
+return  (TFloat(2,t))*(MPrima(beta*2)*Mbeta - M(beta*2)*MPrima(beta))/(Mbeta*Mbeta2)
             - (beta * RPrima(beta) + R(beta) - R(0));
 }
 
@@ -276,14 +281,16 @@ TFloat regulaFalsi(TFloat beta, TFloat beta2, int& iteraciones)
 {
     iteraciones=0;
     TFloat beta3;
-    if (!(beta.dbl()*beta2.dbl()>=0))
+    TFloat fbeta=f(beta);
+    TFloat fbeta2=f(beta2);
+    if (fbeta.dbl()*fbeta2.dbl()>0)
     {
-        printf("fruta follows\n");
+        cerr << setprecision(15);
+        cerr<< "==================fruta follows===================\n";
+        cerr<< beta.dbl() << ": " << fbeta.dbl() << "   "<<beta2.dbl() << ": " << fbeta2.dbl() << endl;
     }
     while(iteraciones<maximoIteraciones && fabs(beta.dbl()-beta2.dbl())>epsilon)
     {
-        TFloat fbeta=f(beta);
-        TFloat fbeta2=f(beta2);
         iteraciones++;
         beta3 = beta2 - fbeta2*(beta2-beta)/(fbeta2-fbeta);
         TFloat fbeta3=f(beta3);
@@ -291,10 +298,12 @@ TFloat regulaFalsi(TFloat beta, TFloat beta2, int& iteraciones)
         if(fbeta2.dbl()*fbeta3.dbl()>0)
         {
             beta2 = beta3;
+            fbeta2= fbeta3;
         }
         else if(fbeta.dbl()*fbeta3.dbl()>0)
         {
             beta = beta3;
+            fbeta=fbeta3;
         }
     }
     return beta;
@@ -348,7 +357,7 @@ int main(int argc, char* argv[])
     TFloat outLambda;
     TFloat outSigma;
 
-    cout.precision(15);
+    cout << setprecision(15);
     #ifdef __gnu_linux__
         timespec startTime;
         timespec endTime;
@@ -359,9 +368,18 @@ int main(int argc, char* argv[])
     {
         outBeta = newton(beta, beta2, iteraciones);
     }
-    else
+    else if (metodo==1)
     {
         outBeta = regulaFalsi(beta, beta2, iteraciones);
+    }
+    else if(metodo==2)
+    {
+    
+        for(int i =40;i<100;i++)
+        {
+            double val = 0.1 * i;
+            cout << val << " " << f(TFloat(val,t)).dbl() << endl;
+        }
     }
 
     outLambda = Lambda(outBeta);
