@@ -1,5 +1,5 @@
 EXECUTABLE=Newton
-FLAGS=-O2 -Wall
+FLAGS=-O3 -Wall
 POSTFLAGS=-lrt
 all: clean
 	g++ -o $(EXECUTABLE) $(FLAGS) $(EXECUTABLE).cpp $(POSTFLAGS)

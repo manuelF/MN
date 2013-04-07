@@ -280,18 +280,21 @@ TFloat regulaFalsi(TFloat beta, TFloat beta2, int& iteraciones)
     {
         printf("fruta follows\n");
     }
-    while(iteraciones<maximoIteraciones && abs(beta.dbl()-beta2.dbl())>epsilon)
+    while(iteraciones<maximoIteraciones && fabs(beta.dbl()-beta2.dbl())>epsilon)
     {
+        TFloat fbeta=f(beta);
+        TFloat fbeta2=f(beta2);
         iteraciones++;
-        beta3 = beta2 - f(beta2)*(beta2-beta)/(f(beta2)-f(beta));
-        printf("%2.8lf\t%2.8lf\t%2.8lf\n%2.8lf\t%2.8lf\t%2.8lf\t\n",beta.dbl(),beta2.dbl(),beta3.dbl(),f(beta).dbl(),f(beta2).dbl(),f(beta3).dbl());
-        if(f(beta2).dbl()*f(beta3).dbl()>0)
+        beta3 = beta2 - fbeta2*(beta2-beta)/(fbeta2-fbeta);
+        TFloat fbeta3=f(beta3);
+        //printf("%2.8lf\t%2.8lf\t%2.8lf\n%2.8lf\t%2.8lf\t%2.8lf\t\n",beta.dbl(),beta2.dbl(),beta3.dbl(),f(beta).dbl(),f(beta2).dbl(),f(beta3).dbl());
+        if(fbeta2.dbl()*fbeta3.dbl()>0)
         {
             beta2 = beta3;
         }
-        else if(f(beta).dbl()*f(beta3).dbl()>0)
+        else if(fbeta.dbl()*fbeta3.dbl()>0)
         {
-            beta=beta3;
+            beta = beta3;
         }
     }
     return beta;
@@ -299,8 +302,8 @@ TFloat regulaFalsi(TFloat beta, TFloat beta2, int& iteraciones)
 
 void uso()
 {
-    cout << "\"./Newton\" precision = 52, iteraciones maximas = 10, Beta entre 0.0 y 2.0"<<endl;
-    cout << "\"./Newton <t>\" precision = t, iteraciones maximas = 10, Beta entre 0.0 y 2.0"<<endl;
+    cout << "\"./Newton\" precision = 52, iteraciones maximas = 10, Beta entre 0.0 y 10.0"<<endl;
+    cout << "\"./Newton <t>\" precision = t, iteraciones maximas = 10, Beta entre 0.0 y 10.0"<<endl;
     cout << "\"./Newton <t> <n> <b1> <b2> <m> \" precision = t, iteraciones maximas= n, Beta entre b1 y b2, <m> metodo (0 Newton - 1 RegulaFalsi)"<<endl;
 }
 
@@ -333,15 +336,12 @@ int main(int argc, char* argv[])
     cin >> n;
     valores.resize(n);
     double db;
-    vector<double> _v(n);
     for(int i=0;i<n;i++)
     {
         cin >> db;
-        _v[i]=db;
+
+        valores[i] = TFloat(db,t);
     }
-    sort(_v.begin(),_v.end());
-    for(int i=0;i <n;i++) 
-        valores[i] = TFloat(_v[i],t);
 
     int iteraciones = 0;
     TFloat outBeta;
