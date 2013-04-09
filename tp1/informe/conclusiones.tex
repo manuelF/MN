@@ -31,7 +31,12 @@ agregar digitos no afectan los algoritmos.
 
 En el caso de la precisi\'on en Regula Falsi es mucho m\'as notorio. El algoritmo tiene menos restricciones en 
 la funci\'on que puede usar para estimar, y su velocidad de convergencia es menor. Es notablemente m\'as impreciso
-que Newton a mismo epsilon.
+que Newton a mismo epsilon. Las soluciones posibles a este problema consisten una combinacion de: 
+\begin{itemize}
+    \item Aumentar la precisi\'on de los operandos (no siempre es posible cuando superamos la precisi\'on del hardware)
+    \item Aumentar la cantidad de iteraciones para que converga (no garantiza mejor soluci\'on, y puede ser prohibitivamente caro en tiempo)
+    \item Proponer distintos valores iniciales para el m\'etodo (no es claro como hacerlo de manera general)
+\end{itemize}
 
 \subsection{Dificultad en la implementaci\'on de algoritmos}
 
