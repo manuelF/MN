@@ -7,7 +7,28 @@ En un primer momento, nuestro enfasis consistio en hacer andar el m\'etodo de Ne
 Luego, investigamos por los otros m\'etodos de calculo de raices; el primero que se nos vino a la mente
 fue la aproximaci\'on num\'erica de Newton, el m\'etodo de la secante.
 Las complejidades encontradas para el desarrollo de esta funci\'on fueron la facilidad con la cual
-el denominador se hace cero, convirtiendo la cuenta en NaN rapidamente.
+el denominador se hace cero, convirtiendo la cuenta en NaN rapidamente. Elegimos para reemplazarlo
+Regula Falsi.
 
 
-Un detalle interesante que vimos es que entre mas decimales se emplean, m\'as rapido converge el m\'etodo de Newton. Esto tiene sentido porque las aproximaciones son cada vez mejores. Tambien notamos que para valores de precision muy bajos (menos de 16 decimales binarios en promedio), directamente no converge el m\'etodo. Esto es por la precisi\'on del epsilon elegido ($10^{-9}$) y que es mucho menor que $2^{-16}$.
+Un detalle interesante que vimos es que entre mas decimales se emplean, m\'as rapido converge el m\'etodo de Newton. 
+Esto tiene sentido porque las aproximaciones num\'ericas son cada vez mejores. 
+Tambien notamos que para valores de precision muy bajos (menos de 14 decimales binarios en promedio), directamente no converge Newton. 
+Esto es por la precisi\'on del epsilon elegido ($\epsilon = 10^{-4}$) es poco mayor que $2^{-14}$. Esto hace que queden pocos bits para la que seria
+parte entera dentro de la mantissa. Como esos bits se tienen que compartir entre parte entera y parte decimal, no se tienen exactamente
+14 bits para los decimales, sino que a medida que se va a agrandando el n\'umero, la densidad de los reales representables disminuye dr\'asticamente.
+
+
+Fue de interes trazar las curvas de aproximaci\'on de las variables. Esto es de interes porque podemos ver 
+realmente el impacto que se tiene al utilizar mayor cantidad de digitos. Lo m\'as notable fue visuzalizar la 
+aproximaci\'on asintotica a los valores verdaderos de las variables, y como las ganancias marginales a partir de,
+en promedio, 22 decimales, se vuelven despreciables. Nuestra hipotesis es que con esa cantidad de digitos, la mantisa
+puede ser suficientemente bien representada tal que puede ser representada bien la parte entera y la parte decimal 
+minimice los errores de operaci\'on. Por ejemplo, en caso 1, como $\Beta = 9$, se necesitan al menos 5 bits para representar la parte entera.
+Luego, todos los restantes seran usados para decimales. Si hubiera 15 bits en total, quedarian 10 bits para la parte decimal. $2^{-10}<10{-4}<2^{-9}$, luego
+la parte decimal, va a tener una precision cercana a $\frac{1}{1000}$, en caso promedio. Pero sin embargo no alcanza
+a converger a los valores originales que generaron los datos por la acumulacion de errores en, por ejemplo, las funciones
+de sumatoria, logaritmos y elevar a potencias. Esta ultima es especialmente sensible a los errores en el exponente, y cuando 
+se la procesa de forma acumulada (como en una sumatoria), se puede llegar a arrastrar mucho error. Como la funci\'on que estima
+$\Beta$ utiliza sucesivas sumatorias y potencia, podemos ver que ese es un punto importante a la hora de intentar minimizar el error de 
+la estimaci\'on.
