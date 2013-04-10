@@ -310,8 +310,10 @@ TFloat illinois(TFloat beta, TFloat beta2, int& iteraciones)
     while(iteraciones<maximoIteraciones && fabs(beta.dbl()-beta2.dbl())>epsilon)
     {
         iteraciones++;
-        beta3 = beta2 - fbeta2*(beta2-beta)/(fbeta2-fbeta);
-        TFloat fbeta3=f(beta3);
+//r = (fs*t - ft*s) / (fs - ft);
+	beta3 = (fbeta*beta2 - fbeta2*beta)/(fbeta-fbeta2);
+        //beta3 = beta2 - fbeta2*(beta2-beta)/(fbeta2-fbeta);
+        TFloat fbeta3=f(beta3); 
         if(fbeta2.dbl()*fbeta3.dbl()>0)
         {
             beta2 = beta3;
@@ -392,7 +394,7 @@ int main(int argc, char* argv[])
     }
     else if (metodo==1)
     {
-        outBeta = regulaFalsi(beta, beta2, iteraciones);
+        outBeta = illinois(beta, beta2, iteraciones);
     }
     else if(metodo==2)
     {
