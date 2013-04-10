@@ -324,7 +324,7 @@ TFloat regulaFalsi(TFloat beta, TFloat beta2, int& iteraciones)
         {
             beta = beta3;
             fbeta=fbeta3;
-            if(side == 1) fbeta/=2;
+            if(side == 1) fbeta2/=2;
 	    side = 1;
         }
     }
