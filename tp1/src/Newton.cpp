@@ -124,6 +124,11 @@ TFloat TFloat::operator/(const double& f) const
 	return this->operator/(TFloat(f,_t));
 }
 
+bool TFloat::operator<(const TFloat &f) const
+{
+	return this.dbl()<f.dbl();
+}
+
 
 void TFloat::recortar()
 {

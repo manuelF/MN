@@ -64,6 +64,9 @@ class TFloat
 	TFloat operator*(const TFloat&) const;
 	TFloat operator/(const TFloat&) const;
 
+	// Operator<
+	bool operator<(const TFloat &f) const;
+
 	// Operadores aritméticos (que reciben un tipo primitivo)
 	TFloat operator+(const double&) const;
 	TFloat operator-(const double&) const;
