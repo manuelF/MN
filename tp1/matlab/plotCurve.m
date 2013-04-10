@@ -1,4 +1,4 @@
-#!/usr/local/bin/octave -qf
+#!/usr/bin/octave -qf
 args = argv();
 baseOriginal = str2num(args{1});
 longitudTotal = size(args,1)-2;

@@ -1,4 +1,4 @@
-#!/usr/local/bin/octave -qf
+#!/usr/bin/octave -qf
 source("leer_datos.m");
 source("dibujarHistyAjuste.m");
 source("dibujarHist.m");
