@@ -318,6 +318,7 @@ TFloat regulaFalsi(TFloat beta, TFloat beta2, int& iteraciones)
             fbeta=fbeta3;
         }
     }
+    cerr << abs(beta2.dbl()-beta.dbl()) << endl;
     return beta;
 }
 
