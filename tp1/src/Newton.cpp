@@ -282,7 +282,7 @@ TFloat newton(TFloat beta, TFloat beta2, int& iteraciones)
     return beta;
 }
 
-TFloat regulaFalsi(TFloat beta, TFloat beta2, int& iteraciones)
+TFloat illinois(TFloat beta, TFloat beta2, int& iteraciones)
 {
     iteraciones=0;
     TFloat beta3;
@@ -312,7 +312,6 @@ TFloat regulaFalsi(TFloat beta, TFloat beta2, int& iteraciones)
         iteraciones++;
         beta3 = beta2 - fbeta2*(beta2-beta)/(fbeta2-fbeta);
         TFloat fbeta3=f(beta3);
-        //printf("%2.8lf\t%2.8lf\t%2.8lf\n%2.8lf\t%2.8lf\t%2.8lf\t\n",beta.dbl(),beta2.dbl(),beta3.dbl(),f(beta).dbl(),f(beta2).dbl(),f(beta3).dbl());
         if(fbeta2.dbl()*fbeta3.dbl()>0)
         {
             beta2 = beta3;
