@@ -283,12 +283,14 @@ TFloat regulaFalsi(TFloat beta, TFloat beta2, int& iteraciones)
     TFloat beta3;
     TFloat fbeta=f(beta);
     TFloat fbeta2=f(beta2);
-    while(fbeta.dbl()>0)
+    for(int i=0;i<10;i++)
+    if(fbeta.dbl()>0)
     {
 	beta = beta/2.;
 	fbeta = f(beta);
     }
-    while(fbeta2.dbl()<0)
+    for(int i=0;i<10;i++)
+    if(fbeta2.dbl()<0)
     {
     	beta2 = beta2*2;
 	fbeta2 = f(beta2);
