@@ -126,7 +126,7 @@ TFloat TFloat::operator/(const double& f) const
 
 bool TFloat::operator<(const TFloat &f) const
 {
-	return this.dbl()<f.dbl();
+	return this->dbl()<f.dbl();
 }
 
 
