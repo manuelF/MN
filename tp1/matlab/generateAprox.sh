@@ -13,28 +13,34 @@ sigmas=(1.5 2)
 index=0
 caso=1
 
+metodos=(Newton RegulaFalsi)
+metval=(0 1)
+
 precision=(12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27)
 
 for file in "${files[@]}"; do
-	params=""
-	for var in "${variables[@]}"; do
+    for met in "${metodos[@]}"; do
 
-		a=$(grep "caso$caso" "$paramfile" | grep "$var" | awk '{print $5}' | xargs)
-		val=. read -a serie <<< "$a"
-		index=0
-		for prec in "${precision[@]}"; do
-			params+=" ${serie[$index]} "
-			index=$[$index +1]
-		done
+        params=""
+        for var in "${variables[@]}"; do
 
-		#filename="Caso$caso-$var"
-		filename="Caso$caso"
+            a=$(grep "caso$caso" "$paramfile"| grep $met | grep "$var" | awk '{print $5}' | xargs)
+            val=. read -a serie <<< "$a"
+            index=0
+            for prec in "${precision[@]}"; do
+                params+=" ${serie[$index]} "
+                index=$[$index +1]
+            done
+
+            #filename="Caso$caso-$var"
+            filename="Caso$caso-$met"
 
 
-	done
-	echo "./plotCurve.m ${precision[0]} $params $filename"
-	./plotCurve.m ${precision[0]} $params $filename
-	mv "$filename" ../informe/plots/$filename.png
+        done
+        echo "./plotCurve.m ${precision[0]} $params $filename"
+        ./plotCurve.m ${precision[0]} $params $filename
+        mv "$filename" ../informe/plots/$filename.png
+    done
 	caso=$[$caso +1]
 done
 
