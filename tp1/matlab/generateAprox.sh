@@ -16,7 +16,7 @@ caso=1
 metodos=(Newton RegulaFalsi)
 metval=(0 1)
 
-precision=(12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27)
+precision=(15 16 17 18 19 20 21 22 23 24 25 26 27)
 
 for file in "${files[@]}"; do
     for met in "${metodos[@]}"; do

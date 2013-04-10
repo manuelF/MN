@@ -4,13 +4,13 @@ betas=(9 6.2)
 lambdas=(3 3.5)
 sigmas=(1.5 2)
 
-iteracionesmaximas=40
+iteracionesmaximas=300
 
 metodos=(Newton RegulaFalsi)
 metodosval=(0 1)
 
 #precision=(13 16 19 30)
-precision=(12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27)
+precision=(15 16 17 18 19 20 21 22 23 24 25 26 27)
 index=0
 caso=1
 
@@ -39,7 +39,7 @@ for file in "${files[@]}"; do
 
 		for prec in "${precision[@]}"; do
 			#correr con prec, 40 iteraciones, beta entre 20 y 0
-			a=$(../src/Newton  "${prec}" $iteracionesmaximas 15.0 1.0 ${met} < "${file}")
+			a=$(../src/Newton  "${prec}" $iteracionesmaximas 9.0 1.0 ${met} < "${file}")
 			val=. read -a vals <<< "$a"
 			beta=${vals[0]}
 			lambda=${vals[1]}
