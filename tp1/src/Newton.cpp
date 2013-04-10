@@ -306,6 +306,7 @@ TFloat regulaFalsi(TFloat beta, TFloat beta2, int& iteraciones)
         cerr<< "==================fruta follows===================\n";
         cerr<< beta.dbl() << ": " << fbeta.dbl() << "   "<<beta2.dbl() << ": " << fbeta2.dbl() << endl;
     }
+    int side = -1;
     while(iteraciones<maximoIteraciones && fabs(beta.dbl()-beta2.dbl())>epsilon)
     {
         iteraciones++;
@@ -316,11 +317,15 @@ TFloat regulaFalsi(TFloat beta, TFloat beta2, int& iteraciones)
         {
             beta2 = beta3;
             fbeta2= fbeta3;
+            if(side == -1) fbeta/=2;
+	    side = -1;
         }
         else if(fbeta.dbl()*fbeta3.dbl()>0)
         {
             beta = beta3;
             fbeta=fbeta3;
+            if(side == 1) fbeta/=2;
+	    side = 1;
         }
     }
     cerr << abs(beta2.dbl()-beta.dbl()) <<" " << iteraciones << endl;
