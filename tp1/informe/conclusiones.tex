@@ -3,14 +3,14 @@
 \subsection{Intervalo de b\'usqueda}
 
 Uno de los grandes problemas que afrontamos durante la la preparaci\'on de los resultados,
-fue que era muy facil errarle al intervalo en el que buscar $\Beta$. Lo primero que nos pas\'o fue
-que no habiamos descubierto que la funci\'on estimadora de $\Beta$ tenia una raiz en 0. Esto nos trajo grandes
+fue que era muy facil errarle al intervalo en el que buscar $\beta$. Lo primero que nos pas\'o fue
+que no habiamos descubierto que la funci\'on estimadora de $\beta$ tenia una raiz en 0. Esto nos trajo grandes
 dolores de cabeza, ya que no eran los valores que debieramos haber estimado. Para solucionarlo decidimos calcular
 desde el intervalo 1.0 en adelante, y result\'o una buena decisi\'on, casi todos los experimentos convergian bien.
 
 Otro problema vinculado fue el tama\~no del intervalo con relaci\'on a los m\'etodos implementados. 
 En el caso de Regula Falsi, si buscabamos en un intervalo grande, como por ejemplo, [1,100], el algoritmo 
-convergia increiblmente lento. El valor de $\Beta$ que buscabamos estaba cerca del 6, entonces las 
+convergia increiblmente lento. El valor de $\beta$ que buscabamos estaba cerca del 6, entonces las 
 sucesivas rectas secantes que trazaba Regula Falsi tenian pendiente muy cerca del 0, por lo cual en cada 
 iteraci\'on, era dificil mejorar m\'as de $10^-6$. Pudimos comprobar esto al correr miles de pasos de Regula Falsi y ver que efectivamente convergia, pero
 que cada iteraci\'on era realmente lenta.
