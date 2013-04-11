@@ -4,7 +4,8 @@
 
 La primera aproximaci\'on a los resultados fue dada por el ploteo de las distribuciones con datos conocidos, permitiendo observar como se ajustan los histogramas sin llevar a cabo ninguna observaci\'on. Este experimento sirvi\'o para dar una idea de las formas que debieran seguir las curvas ajustadas en los subsiguientes experimentos.
 
-%Caso 1: Caso 2
+\subsection{M\'etodo de Newton}
+
 \begin{figure} [H]
 \begin {center}
 \includegraphics[width=300pt]{plots/Caso1Hist.png}
@@ -17,7 +18,7 @@ La primera aproximaci\'on a los resultados fue dada por el ploteo de las distrib
 Una vez determinada la forma \"deseada\" de las curvas se procedi\'o a encontrar valores de cantidad de d\'igitos decimales relevantes para los experimentos. Notamos que el m\'etodo de Newton para valores muy bajos de cantidad de digitos no convergia ($t < 12$ en promedio); Por lo que nos concentramos en valores
 ligeramente mas grandes, cosa de poder contemplar cuan cerca esta la distribuci\'on estimada de la real.
 
-Los valores que usamos de precision son 13, 16, 19, 27. Estos fueron elegidos porque convergian, y porque consideramos que estan
+Los valores que usamos de precision son 15, 17, 22, 27. Estos fueron elegidos porque convergian, y porque consideramos que estan
 suficientemente separados entre s\'i como para ser significativos. Creamos un script para automatizar la generaci\'on de estos gr\'aficos,
 para poder hacer los experimentos repetibles y consistentes. Estos invocan al m\'etodo con algunos parametros, obtienen los
 valores estimados, la cantidad de iteraciones que realizo el algoritmo elegido y la cantidad de milisegundos que tard\'o este proceso.
@@ -25,23 +26,23 @@ valores estimados, la cantidad de iteraciones que realizo el algoritmo elegido y
 
 \begin{figure} [H]
 $\begin{array}{cc}
-\includegraphics[width=200pt]{plots/Newton-13-caso3.png} &
-\includegraphics[width=200pt]{plots/Newton-16-caso3.png} \\
-\includegraphics[width=200pt]{plots/Newton-19-caso3.png} &
+\includegraphics[width=200pt]{plots/Newton-15-caso3.png} &
+\includegraphics[width=200pt]{plots/Newton-17-caso3.png} \\
+\includegraphics[width=200pt]{plots/Newton-22-caso3.png} &
 \includegraphics[width=200pt]{plots/Newton-27-caso3.png}
 \end{array}$
-\caption{Ajuste usando distintas precisiones (13, 16, 19, 27) con Newton al caso 3, X1}
+\caption{Ajuste usando distintas precisiones (15, 17, 22, 27) con Newton al caso 3, X1}
 \label{fig:FitCaso3Newton}
 \end{figure}
 
 \begin{figure} [H]
 $\begin{array}{cc}
-\includegraphics[width=200pt]{plots/Newton-13-caso4.png} &
-\includegraphics[width=200pt]{plots/Newton-16-caso4.png} \\
-\includegraphics[width=200pt]{plots/Newton-19-caso4.png} &
+\includegraphics[width=200pt]{plots/Newton-15-caso4.png} &
+\includegraphics[width=200pt]{plots/Newton-17-caso4.png} \\
+\includegraphics[width=200pt]{plots/Newton-22-caso4.png} &
 \includegraphics[width=200pt]{plots/Newton-27-caso4.png}
 \end{array}$
-\caption{Ajuste usando distintas precisiones (13, 16, 19, 27) con Newton al caso 4, X2}
+\caption{Ajuste usando distintas precisiones (15, 17, 22, 27) con Newton al caso 4, X2}
 \label{fig:FitCaso4Newton}
 \end{figure}
 
@@ -53,8 +54,8 @@ Como se puede observar en los casos 1 y 2, el valor de $\sigma$ se mantiene esta
 
 \begin{figure}
 $\begin{array}{c}
-\includegraphics[width=400pt]{plots/Caso1.png} \\
-\includegraphics[width=400pt]{plots/Caso2.png}
+\includegraphics[width=400pt]{plots/Caso1-Newton.png} \\
+\includegraphics[width=400pt]{plots/Caso2-Newton.png}
 \end{array}$
 
 \caption{Aproximacion a $\beta, \lambda, \sigma$ en los Casos 1 y 2 usando Newton}
@@ -67,17 +68,88 @@ En el Caso 3 vemos una anomal\'ia en los valores de $\beta$ y $\lambda$. En este
 
 \begin{figure}
 $\begin{array}{cc}
-\includegraphics[width=220pt]{plots/Curves-Newton-Caso3.png} &
-\includegraphics[width=220pt]{plots/Curves-Newton-Caso4.png} \\
-\includegraphics[width=220pt]{plots/Curves-Newton-Caso5.png} &
-\includegraphics[width=220pt]{plots/Curves-Newton-Caso6.png} \\
-\includegraphics[width=220pt]{plots/Curves-Newton-Caso7.png} &
-\includegraphics[width=220pt]{plots/Curves-Newton-Caso8.png} \\
+\includegraphics[width=220pt]{plots/Caso3-Newton.png} &
+\includegraphics[width=220pt]{plots/Caso4-Newton.png} \\
+\includegraphics[width=220pt]{plots/Caso5-Newton.png} &
+\includegraphics[width=220pt]{plots/Caso6-Newton.png} \\
+\includegraphics[width=220pt]{plots/Caso7-Newton.png} &
+\includegraphics[width=220pt]{plots/Caso8-Newton.png} \\
 
 \end{array}$
 
 \caption{Aproximacion a $\beta, \lambda, \sigma$ en los Casos 3 y al 8 usando Newton}
-\label{fig:AproxCaso1}
+\label{fig:AproxCasosNewton}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{M\'etodo Regula Falsi - Illinois}
+
+
+Trazamos los mismos plots para Regula Falsi, en su variante Illinois.
+
+\begin{figure} [H]
+$\begin{array}{cc}
+\includegraphics[width=200pt]{plots/RegulaFalsi-15-caso3.png} &
+\includegraphics[width=200pt]{plots/RegulaFalsi-17-caso3.png} \\
+\includegraphics[width=200pt]{plots/RegulaFalsi-22-caso3.png} &
+\includegraphics[width=200pt]{plots/RegulaFalsi-27-caso3.png}
+\end{array}$
+\caption{Ajuste usando distintas precisiones (15, 17, 22, 27) con RegulaFalsi al caso 3, X1}
+\label{fig:FitCaso3RegulaFalsi}
+\end{figure}
+
+\begin{figure} [H]
+$\begin{array}{cc}
+\includegraphics[width=200pt]{plots/RegulaFalsi-15-caso4.png} &
+\includegraphics[width=200pt]{plots/RegulaFalsi-17-caso4.png} \\
+\includegraphics[width=200pt]{plots/RegulaFalsi-22-caso4.png} &
+\includegraphics[width=200pt]{plots/RegulaFalsi-27-caso4.png}
+\end{array}$
+\caption{Ajuste usando distintas precisiones (15, 17, 22, 27) con RegulaFalsi al caso 4, X2}
+\label{fig:FitCaso4Newton}
+\end{figure}
+
+
+Tambien trazamos, para los valores conocidos, como es la aproximacion de las distintas variables, $\beta, \lambda, \sigma$ usando el m\'etodo RegulaFalsi.
+Aca ploteamos todas las precisiones entre 10 y 27 y fuimos analizando como iban variando $\beta$ (y $\lambda$ y $\sigma$ en consecuencia).
+
+Como se puede observar en los casos 1 y 2, el valor de $\sigma$ se mantiene estable no siendo la 
+precisi\'on de los c\'alculos un limitante y convergiendo muy velozmente. 
+Sin embargo las aproximaciones tanto de $\beta$ como de $\lambda$ comienzan a estabilizarse en la convergencia 
+a partir de la utilizaci\'on de 17 d\'igitos de precisi\'on. Es evidente que el rango de d\'igitos de precisi\'on en 
+estos casos debe mantenerse entre unos 15 y 20 d\'igitos para maximizar la eficiencia del algoritmo.  
+
+\begin{figure}
+$\begin{array}{c}
+\includegraphics[width=400pt]{plots/Caso1-RegulaFalsi.png} \\
+\includegraphics[width=400pt]{plots/Caso2-RegulaFalsi.png}
+\end{array}$
+
+\caption{Aproximacion a $\beta, \lambda, \sigma$ en los Casos 1 y 2 usando RegulaFalsi}
+\end{figure}
+
+En el Caso 3 vemos una anomal\'ia en los valores de $\beta$ y $\lambda$. En este caso tomar entre 15 y 20 d\'igitos de precisi\'on
+no es suficiente para obtener valores relevantes. Estos se estabilizan recien a partir de los 22 d\'igitos de precisi\'on.
+
+
+
+
+\begin{figure}
+$\begin{array}{cc}
+\includegraphics[width=220pt]{plots/Caso3-RegulaFalsi.png} &
+\includegraphics[width=220pt]{plots/Caso4-RegulaFalsi.png} \\
+\includegraphics[width=220pt]{plots/Caso5-RegulaFalsi.png} &
+\includegraphics[width=220pt]{plots/Caso6-RegulaFalsi.png} \\
+\includegraphics[width=220pt]{plots/Caso7-RegulaFalsi.png} &
+\includegraphics[width=220pt]{plots/Caso8-RegulaFalsi.png} \\
+
+\end{array}$
+
+\caption{Aproximacion a $\beta, \lambda, \sigma$ en los Casos 3 y al 8 usando RegulaFalsi}
+\label{fig:AproxCasosRegulaFalsi}
+
+
+
 \end{figure}
 
 

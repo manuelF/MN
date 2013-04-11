@@ -24,11 +24,11 @@ realmente el impacto que se tiene al utilizar mayor cantidad de digitos. Lo m\'a
 aproximaci\'on asintotica a los valores verdaderos de las variables, y como las ganancias marginales a partir de,
 en promedio, 22 decimales, se vuelven despreciables. Nuestra hipotesis es que con esa cantidad de digitos, la mantisa
 puede ser suficientemente bien representada tal que puede ser representada bien la parte entera y la parte decimal 
-minimice los errores de operaci\'on. Por ejemplo, en caso 1, como $\Beta = 9$, se necesitan al menos 5 bits para representar la parte entera.
+minimice los errores de operaci\'on. Por ejemplo, en caso 1, como $\beta = 9$, se necesitan al menos 5 bits para representar la parte entera.
 Luego, todos los restantes seran usados para decimales. Si hubiera 15 bits en total, quedarian 10 bits para la parte decimal. $2^{-10}<10{-4}<2^{-9}$, luego
 la parte decimal, va a tener una precision cercana a $\frac{1}{1000}$, en caso promedio. Pero sin embargo no alcanza
 a converger a los valores originales que generaron los datos por la acumulacion de errores en, por ejemplo, las funciones
 de sumatoria, logaritmos y elevar a potencias. Esta ultima es especialmente sensible a los errores en el exponente, y cuando 
 se la procesa de forma acumulada (como en una sumatoria), se puede llegar a arrastrar mucho error. Como la funci\'on que estima
-$\Beta$ utiliza sucesivas sumatorias y potencia, podemos ver que ese es un punto importante a la hora de intentar minimizar el error de 
+$\beta$ utiliza sucesivas sumatorias y potencia, podemos ver que ese es un punto importante a la hora de intentar minimizar el error de 
 la estimaci\'on.
