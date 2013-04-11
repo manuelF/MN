@@ -3,12 +3,8 @@
 #include <cstdio>
 #include <iomanip>
 #include <iostream>
-#include <queue>
-#include <set>
-#include <sstream>
-#include <string>
 #include <vector>
-
+#include <map>
 #include "TFloat.h"
 #include <math.h>
 
@@ -182,12 +178,17 @@ TFloat MPrima(TFloat s)
     return MSombrero(s);
 }
 
+map<TFloat,TFloat> mapaMSombreroPrima;
+
 TFloat MSombreroPrima(TFloat s)
 {
+    if(mapaMSombreroPrima.find(s)!=mapaMSombreroPrima.end())
+	return mapaMSombreroPrima[s];
     TFloat res = TFloat(0.,t);
     for(int i=0;i<n;i++)
         res = res + pot(valores[i],s)*log(valores[i])*log(valores[i]);
     res = res/TFloat(n,t);
+    mapaMSombreroPrima[s] = res;
     return res;
 }
 
@@ -366,6 +367,7 @@ int main(int argc, char* argv[])
             return 1;
             break;
     }
+    mapaMSombreroPrima.clear();
     cin >> n;
     valores.resize(n);
     double db;
