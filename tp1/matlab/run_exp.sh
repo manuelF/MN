@@ -1,5 +1,6 @@
 #! /bin/bash
 files=(../datos/x_15_9_3.txt ../datos/x_2_62_35.txt ../datos/X1.txt ../datos/X2.txt ../datos/X3.txt ../datos/X4.txt ../datos/X5.txt ../datos/X6.txt ../datos/X7.txt)
+
 betas=(9 6.2)
 lambdas=(3 3.5)
 sigmas=(1.5 2)
