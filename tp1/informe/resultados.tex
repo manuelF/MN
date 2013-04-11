@@ -15,7 +15,7 @@ La primera aproximaci\'on a los resultados fue dada por el ploteo de las distrib
 \label{fig:FitCaso3Newton}
 \end{figure}
 
-Una vez determinada la forma \"deseada\" de las curvas se procedi\'o a encontrar valores de cantidad de d\'igitos decimales relevantes para los experimentos. Notamos que el m\'etodo de Newton para valores muy bajos de cantidad de digitos no convergia ($t < 12$ en promedio); Por lo que nos concentramos en valores
+Una vez determinada la forma ''deseada'' de las curvas se procedi\'o a encontrar valores de cantidad de d\'igitos decimales relevantes para los experimentos. Notamos que el m\'etodo de Newton para valores muy bajos de cantidad de digitos no convergia ($t < 12$ en promedio); Por lo que nos concentramos en valores
 ligeramente mas grandes, cosa de poder contemplar cuan cerca esta la distribuci\'on estimada de la real.
 
 Los valores que usamos de precision son 15, 17, 22, 27. Estos fueron elegidos porque convergian, y porque consideramos que estan
@@ -64,7 +64,7 @@ $\begin{array}{c}
 En el Caso 3 vemos una anomal\'ia en los valores de $\beta$ y $\lambda$. En este caso tomar entre 15 y 20 d\'igitos de precisi\'on no es suficiente para obtener valores relevantes. Estos se estabilizan recien a partir de los 22 d\'igitos de precisi\'on.
 
 
-
+En los casos 4, 5, 6, 8 y 9 tambi\'en observamos que a partir de 20 d\'igitos de precisi\'on comienza a converger el valor de $\beta$. En el caso 7 $\beta$ comienza a converger a partir de 22 d\'igitos de precisi\'on.
 
 \begin{figure}
 $\begin{array}{cc}
@@ -74,10 +74,10 @@ $\begin{array}{cc}
 \includegraphics[width=220pt]{plots/Caso6-Newton.png} \\
 \includegraphics[width=220pt]{plots/Caso7-Newton.png} &
 \includegraphics[width=220pt]{plots/Caso8-Newton.png} \\
-
+\includegraphics[width=220pt]{plots/Caso9-Newton.png} &\\
 \end{array}$
 
-\caption{Aproximacion a $\beta, \lambda, \sigma$ en los Casos 3 y al 8 usando Newton}
+\caption{Aproximacion a $\beta, \lambda, \sigma$ en los Casos 3 al 9 usando Newton}
 \label{fig:AproxCasosNewton}
 \end{figure}
 
@@ -142,6 +142,7 @@ $\begin{array}{cc}
 \includegraphics[width=220pt]{plots/Caso6-RegulaFalsi.png} \\
 \includegraphics[width=220pt]{plots/Caso7-RegulaFalsi.png} &
 \includegraphics[width=220pt]{plots/Caso8-RegulaFalsi.png} \\
+\includegraphics[width=220pt]{plots/Caso9-RegulaFalsi.png} & \\
 
 \end{array}$
 
@@ -152,4 +153,16 @@ $\begin{array}{cc}
 
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\subsection{$\lambda$ y $\sigma$}
+
+\indent Para calcular $\lambda$ y $\sigma$ utilizamos las f\'ormulas (1) y (2) dadas en el enunciado. Pudimos observar que, al depender estas dos de $\beta$, empiezan a converger a medida que $\beta$ converge.
+
+$$\big[ \beta \big( \frac{\sum_{i=1}^{n}x_i^\beta \log x_i}{ \sum_{i=1}^{n} x_i^\beta} - \frac{\sum_{i=1}^{n} \log x_i}{n} \big)\big]^{-1}$$
+
+$$\sigma = \big( \frac{\sum_{i=1}^{n} x_i^\beta}{n\lambda}\big)^{\frac{1}{\beta}}$$
+
+Para $\lambda$ observamos que al tener el factor $\beta$ multiplicando a la $-1$, esto es como dividir por $\beta$, y este factor es el que m\'as pesa a la hora de la dependencia entre $\beta$ y $\lambda$ ya que al crecer $\beta$ siempre decrece $\lambda$ y al decrecer $\beta$ siempre crece $\lambda$. En algunos casos observamos que una peque\~na variaci\'on en $\beta$ implica una variaci\'on muy grande en $\lambda$.
+
+$\sigma$ en cambio se comporta de manera igual que beta, es decir, o ambos crecen o ambos decrecen. Esto se debe, probablemente, a que hay un factor $\lambda^{\frac{1}{\beta}}$ dividiendo, y dado que $\lambda$ crece mucho cuando $\beta$ decrece y viceversa, esto suma mucho para la variaci\'on de $\sigma$. Adem\'as de esto, la media que se calcula (por ejemplo, el promedio si $\beta = 1$ o la media cuadr\'atica si $\beta = 2$) es una funci\'on creciente en $\beta$ que es igual a la norma $\beta$ del vector de entrada (los $x_i$).

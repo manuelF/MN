@@ -66,18 +66,19 @@ Se tom\'o la decisi\'on de elegir $f(\beta_{n-1})$ y $f(\beta_n)$ o $f(\beta_{n-
 
 Luego de implementar el algoritmo de Regula Falsi, que tiene orden de convergencia lineal, nos dimos cuenta de que el mismo converge muy lentamente, en ese momento decidimos implementar el algoritmo de Illinois, que tiene orden de convergencia $3^{1/3}$. La ecuación de la iteración del algoritmo de Illinois es muy parecida a la de Regula falsi.
 
-En caso de que la \'ultima iteraci\'on del m\'etodo sea la que es reemplazada por la nueva iteraci\'on la f\'ormula es la misma que para Regula Falsi
+En caso de que la ante\'ultima iteraci\'on del m\'etodo sea la que es reemplazada por la nueva iteraci\'on anterior la f\'ormula es parecida a la de Regula Falsi
 
-$\beta_n = \beta_{n-1} - \frac{f(\beta_{n-1}) (\beta_{n-1}-\beta_{n-2})}{f(\beta_{n-1}) - f(\beta_{n-2})}$
+$\beta_n = \frac{f(\beta_{n-2})\cdot \beta_{n-1} - f(\beta_{n-1})\cdot\beta_{n-2}}
+{f(\beta_{n-2})-f(\beta_{n-1})}$
 
-En caso de que la ante\'ultima iteraci\'on del m\'etodo sea la que reemplazamos por la nueva iteraci\'on, la f\'ormula es
+En caso de que la \'ultima iteraci\'on del m\'etodo sea la que reemplazamos por la nueva iteraci\'on en el paso anterior, la f\'ormula es
 
-$\beta_n = \beta_{n-2} - \frac{1}{2}\frac{f(\beta_{n-2}) (\beta_{n-2}-\beta_{n-1})}{\frac{1}{2}f(\beta_{n-2}) - f(\beta_{n-1})}$
+$\beta_n = \frac{\frac{1}{2}f(\beta_{n-2})\cdot \beta_{n-1} - f(\beta_{n-1})\cdot\beta_{n-2}}
+{\frac{1}{2}f(\beta_{n-2})-f(\beta_{n-1})}$
 
 \subsection{Criterios de Parada}	
 
 Los criterios de parada utilizados en ambos casos son equivalentes.
 
-Para el m\'etodo de Newton se fija $\epsilon$ en $10^{-9}$ y se corre el m\'etodo hasta que en dos iteraciones consecutivas el resultado difiera en menos de $\epsilon$ o bien hasta llegar a un n\'umero de iteraciones m\'aximas, que por defecto se fija en 10 iteraciones, valor elegido luego de la experimentaci\'on de diferentes valores del par\'ametro por su consistencia.
-
-Para el m\'etodo de Regula Falsi se utiliza el mismo m\'etodo para comparar el $\beta$ de una iteraci\'on y el $\beta$ anterior, el cu\'al se toma en cuenta para la siguiente iteraci\'on.
+Para ambos m\'etodos se fija $\epsilon$ en $10^{-4}$ y se corre el m\'etodo hasta que en dos iteraciones consecutivas el resultado difiera en menos de $\epsilon$ o bien hasta llegar a un n\'umero de iteraciones m\'aximas, que por defecto se fija en 10 iteraciones, valor elegido luego de la experimentaci\'on de diferentes valores del par\'ametro por su consistencia.
+La elecci\'on del $\epsilon$ no es caprichosa, sino que se debe a que es la potencia de 10 m\'as chica que podemos elegir de modo tal que con la m\'inima presici\'on con la que iteramos (15 bits) pueda ser posible cortar por esta condici\'on y no corte siempre por cantidad de iteraciones, ya que $10^{-5}$ es menos que la diferencia entre dos n\'umeros representables consecutivos en el orden de los n\'umeros con los que trabajamos en el TP.
