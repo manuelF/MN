@@ -35,3 +35,9 @@ de sumatoria, logaritmos y elevar a potencias. Esta ultima es especialmente sens
 se la procesa de forma acumulada (como en una sumatoria), se puede llegar a arrastrar mucho error. Como la funci\'on que estima
 $\beta$ utiliza sucesivas sumatorias y potencia, podemos ver que ese es un punto importante a la hora de intentar minimizar el error de 
 la estimaci\'on.
+
+Debido a discrepancias de convergencia en los casos 1 y 2 utilizando el m\'etodo
+de Regla falsa, procedimos a buscar una mejora en este que nos permita una mejor
+tasa de convergencia y un ajuste en los valores. Esto lo conseguimos mediante la
+implementaci\'on del algoritmo de Illinois. Gracias a esta mejora llegamos a
+alcanzar mejores curvas de valores.
