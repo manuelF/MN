@@ -76,6 +76,12 @@ En caso de que la \'ultima iteraci\'on del m\'etodo sea la que reemplazamos por 
 $\beta_n = \frac{\frac{1}{2}f(\beta_{n-2})\cdot \beta_{n-1} - f(\beta_{n-1})\cdot\beta_{n-2}}
 {\frac{1}{2}f(\beta_{n-2})-f(\beta_{n-1})}$
 
+Lo interesante acerca de la implementaci\'on del algoritmo de de Illinois es
+que, con un peque\~no y trivial cambio en el c\'odigo se consigue una
+convergencia de \frac{1}{\sqrt[3]{n}}. Illinois ayuda a la convergencia en casos
+donde la recta secante es casi vertical, dificultando el acercamiento del
+algoritmo al cero buscado.
+
 \subsection{Criterios de Parada}	
 
 Los criterios de parada utilizados en ambos casos son equivalentes.
