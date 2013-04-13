@@ -73,7 +73,8 @@ $\frac{M(2\beta)}{M^2(\beta)}=1 + \beta(R(\beta)-R(0))$
 
 De esta funci\'on se deriva la siguiente ecuaci\'on: \\
 
-$0 = \frac{\beta}{n}\sum{i=1}{n}\log x_i - \log \sum{i=1}{n}x_i^{\beta} + \log(n\lambda)-\psi(\lambda)$
+$0 = \frac{\beta}{n}\sum{i=1}{n}\log x_i - \log \sum{i=1}{n}x_i^{\beta} 
++ \log(n\lambda)-\psi(\lambda)$
 
 Luego, el m\'etodo general de Newton empleado se comporta del siguiente modo: \\
 
@@ -125,19 +126,26 @@ pr\'acticamente indistinguible al nivel de representaci\'on de la computadora.
 
 \subsection{M\'etodo de Regula falsi}
 
-Habiendo implementado el m\'etodo de la Secante, y para subsanar el problema de la divisi\'on por cero, se procedi\'o a implementar el m\'etodo de Regula Falsi, tambi\'en conocido como Regla Falsa.
+Habiendo implementado el m\'etodo de la Secante, y para subsanar el problema 
+de la divisi\'on por cero, se procedi\'o a implementar el m\'etodo de 
+Regula Falsi, tambi\'en conocido como Regla Falsa.
 
 De la misma forma que con el m\'etodo de Newton, partiendo de la ecuaci\'on:
 
 $\frac{M(2\beta)}{M^2(\beta)}=1 + \beta(R(\beta)-R(0))$
 
-para despejar $\beta$ y luego utilizando las mismas f\'ormulas que en el caso anterior para despejar $\lambda$ y $\sigma$.
+para despejar $\beta$ y luego utilizando las mismas f\'ormulas que en el 
+caso anterior para despejar $\lambda$ y $\sigma$.
 
 La formula resultante para el m\'etodo de Regula Falsi es:
 
-$\beta_n = \beta_{n-1} - \frac{f(\beta_{n-1}) (\beta_{n-1}-\beta_{n-2})}{f(\beta_{n-1}) - f(\beta_{n-2})}$
+$\beta_n = \beta_{n-1} - \frac{f(\beta_{n-1}) (\beta_{n-1}-\beta_{n-2})}
+{f(\beta_{n-1}) - f(\beta_{n-2})}$
 
-Se tom\'o la decisi\'on de elegir $f(\beta_{n-1})$ y $f(\beta_n)$ o $f(\beta_{n-2})$ y $f(\beta_n)$ seg\'un el signo de $f(\beta_n)$ de modo tal de que los dos n\'umeros que sean tenidos en cuenta tengan distinto signo al aplicarle $f$.
+Se tom\'o la decisi\'on de elegir $f(\beta_{n-1})$ y $f(\beta_n)$ \'o 
+$f(\beta_{n-2})$ y $f(\beta_n)$ seg\'un el signo de $f(\beta_n)$ de modo 
+tal de que los dos n\'umeros que sean tenidos en cuenta tengan distinto signo 
+al aplicarle $f$.
 
 El principal problema asociado a este m\'etodo se vio en los casos 1 y 2 donde
 la convergencia se daba con un grado de precisi\'on de aproximadamente 20
@@ -149,31 +157,52 @@ Es por eso que investigamos y decidimos implementar una mejora conocida como el
 
 \subsection{Algoritmo de Illinois}
 
-Luego de implementar el algoritmo de Regula Falsi, que tiene orden de convergencia lineal, nos dimos cuenta de que el mismo converge muy lentamente, en ese momento decidimos implementar el algoritmo de Illinois, que tiene orden de convergencia $3^{1/3}$. La ecuaciÃ³n de la iteraciÃ³n del algoritmo de Illinois es muy parecida a la de Regula falsi.
+Luego de implementar el algoritmo de Regula Falsi, que tiene orden de 
+convergencia lineal, el an\'alisis tanto gr\'afico como anal\'itico demostr\'o
+que la convergencia era muy lenta. 
+Llegado este punto se decidi\'o implementar el algoritmo de Illinois, una mejora
+de Regula falsi que tiene orden de convergencia $3^{1/3}$. 
+La ecuaci\'on de la iteraci\'on del algoritmo de Illinois es muy 
+parecida a la de Regula falsi.
 
-En caso de que la ante\'ultima iteraci\'on del m\'etodo sea la que es reemplazada por la nueva iteraci\'on anterior la f\'ormula es parecida a la de Regula Falsi
+En caso de que la ante\'ultima iteraci\'on del m\'etodo sea la que es 
+reemplazada por la nueva iteraci\'on anterior la f\'ormula 
+es similar a la de Regula Falsi
 
 $\beta_n = \frac{f(\beta_{n-2})\cdot \beta_{n-1} - f(\beta_{n-1})\cdot\beta_{n-2}}
 {f(\beta_{n-2})-f(\beta_{n-1})}$
 
-En caso de que la \'ultima iteraci\'on del m\'etodo sea la que reemplazamos por la nueva iteraci\'on en el paso anterior, la f\'ormula es
+En caso de que la \'ultima iteraci\'on del m\'etodo sea la reemplazada 
+por la nueva iteraci\'on en el paso anterior, la f\'ormula es
 
-$\beta_n = \frac{\frac{1}{2}f(\beta_{n-2})\cdot \beta_{n-1} - f(\beta_{n-1})\cdot\beta_{n-2}}
+$\beta_n = \frac{\frac{1}{2}f(\beta_{n-2})\cdot \beta_{n-1} - 
+f(\beta_{n-1})\cdot\beta_{n-2}}
 {\frac{1}{2}f(\beta_{n-2})-f(\beta_{n-1})}$
 
-Lo interesante acerca de la implementaci\'on del algoritmo de de Illinois es
+Lo interesante acerca de la implementaci\'on del algoritmo de Illinois es
 que, con un peque\~no y trivial cambio en el c\'odigo se consigue una
 convergencia de \frac{1}{\sqrt[3]{n}}. Illinois ayuda a la convergencia en casos
 donde la recta secante es casi vertical, dificultando el acercamiento del
 algoritmo al cero buscado.
 
-Una explicación intuitiva de porqu\'e converge Illinois es la siguiente: Sean $s$ y $t$ dos iteraciones del m\'etodo. En el pr\'oximo paso nos movemos a 
+Una explicación intuitiva de por qu\'e converge Illinois es la siguiente: 
+
+Sean $s$ y $t$ dos iteraciones del m\'etodo. En el pr\'oximo paso nos movemos a 
 
 $$\frac{f(s)*t-f(t)*s}{f(s)-f(t)}$$
 
-que es un promedio ponderado de $s$ y $t$, ponderando a cada uno por $f$ evaluado en el otro punto (cambiando el signo de uno de ellos para que tengan el mismo signo). Esto hace que nos movamos a un punto intermedio entre $s$ y $t$.
+que es un promedio ponderado de $s$ y $t$, ponderando a cada uno por $f$ 
+evaluado en el otro punto (cambiando el signo de uno de ellos para que 
+tengan el mismo signo). Esto hace que nos movamos a un punto intermedio 
+entre $s$ y $t$.
 
-Ahora notemos que si siempre reemplazamos $s$ y $t$ se conserva a lo largo de las iteraciones, esto quiere decir que ese punto intermedio tiene siempre el mismo signo que $s$, y por lo tanto nos hace pensar que $t$ es muy cercano al cero de $f$. Es por esto que, en ese caso, $f(s)$ lo ponderamos por un medio, ya que probablemente, al estar $s$ m\'as lejos que $t$ del cero esto nos acerque m\'as r\'apido al cero. Esta idea s\'olo ayuda a hacer el m\'etodo m\'as r\'apido pero no modifica el hecho de que el m\'etodo converge.
+Ahora notemos que si siempre reemplazamos $s$ y $t$ se conserva a lo largo 
+de las iteraciones, esto quiere decir que ese punto intermedio tiene siempre el 
+mismo signo que $s$, y por lo tanto nos hace pensar que $t$ es muy cercano al 
+cero de $f$. Es por esto que, en ese caso, $f(s)$ lo ponderamos por un medio, 
+ya que probablemente, al estar $s$ m\'as lejos que $t$ del cero esto nos 
+acerque m\'as r\'apido al cero. Esta idea s\'olo ayuda a hacer el 
+m\'etodo m\'as r\'apido pero no modifica el hecho de que el m\'etodo converge.
 
 \subsection{Criterios de Parada}	
 
