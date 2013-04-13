@@ -1,18 +1,34 @@
 \section{Introducci\'on te\'orica}
 
-El siguiente trabajo es un estudio sobre la funci\'on Digamma Generalizada (D$\Gamma$G). Esta funci\'on es una
-distribuci\'on que aparece frencuentemente en la f\'isica, ya que modela la propagaci\'on de se\~nales mediante la
-serie harm\'onica.
+El siguiente trabajo se centra en el estudio comparativo de m\'etodos
+num\'ericos para la b\'usqueda de ceros de funciones. 
 
-Normalmente, como en cualquier estudio experimental, no suele haber conocimiento completo sobre todas las variables
-que modelan el sistema. Hay parametros que uno controla, pero muchos quedan libres. La motivacion de este trabajo,
-es poder estimar, dados ciertos datos, las variables que rigen esta distribuci\'on. Estas son $\sigma$, $\beta$ y $\lambda$
-y los metodos que ser\'an empleados para su estimaci\'on ser\'an detallados mas adelante.
+La funci\'on a estudiar es la Digamma Generalizada (D$\Gamma$G). 
+Esta funci\'on es una distribuci\'on que aparece frencuentemente en la f\'isica,
+ya que modela la propagaci\'on de se\~nales mediante la serie harm\'onica.
 
-El proposito de este trabajo es unir las t\'ecnicas de obtencion de raices de funci\'ones y calculo de errores
-que vimos en la materia, con una aplicaci\'on pr\'actica, concreta y sencilla de entender.
+Normalmente, previo a la realizaci\'on de estudios experimentals, no suele
+existir un conocimiento completo sobre el conjunto de variables que modelan
+el sistema. Ciertos par\'ametros est\'an controlados, pero muchos quedan libres. 
+La motivacion de este trabajo es poder estimar, dado un conjunto acotado de datos, 
+las variables que rigen la distribuci\'on D$\Gamma$G. 
+Estas variables son $\sigma$, $\beta$ y $\lambda$. Los m\'etodos empleados para 
+su estimaci\'on ser\'an detallados mas adelante.
 
-La base del trabajo consiste en la obtenci\'on de $\beta$ primeramente. Esta, como ya fue despejada en clase, es una funci\'on
-de una variable, ya que los datos $x_i$ son fijos (par\'ametros). Esto marca la pauta de que debemos despejar num\'ericamente el
-valor de $\beta$. M\'as adelante verificamos las hipotesis de Newton, asi vemos que estamos en las precondiciones,
-y podemos aplicar la estimaci\'on de $\beta$.
+El proposito de este trabajo es comparar las t\'ecnicas de obtenci\'on de ra\'ices 
+de funci\'ones y c\'alculo de errores vistas en la materia, 
+con una aplicaci\'on pr\'actica, concreta y sencilla de entender.
+
+La base de la experiencia consiste en la obtenci\'on de la variable $\beta$ en
+primer t\'ermino. Esta, como ya fue despejada en clase, es una funci\'on
+de una variable, ya que los datos $x_i$ son fijos (par\'ametros). 
+Esto marca la pauta de que el valor de $\beta$ debe ser despejado
+num\'ericamente. 
+
+M\'as adelante se verifican las hip\'otesis de Newton, para as\'i poder aplicar
+el m\'etodo correspondiente con certeza de que se cumplen las precondiciones.
+
+El m\'etodo de Newton es comparado con el de Regula Falsi (Regla falsa). Esto
+permite desarrollar un an\'alisis comparativo basadao en experiencias que,
+modificando una variable y dejando constantes las otras, permite deducir
+aspectos del comportamiento de ambos m\'etodos, sus fortalezas y debilidades.
