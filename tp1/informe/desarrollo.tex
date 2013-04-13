@@ -1,3 +1,4 @@
+
 \section{Desarrollo}
 
 El desarrollo de los experimentos fue realizado en serie. El m\'etodo de Newton, que se cree fundamental tanto por lo visto en clase como por lo consultado en libros relativos al an\'alisis num\'erico, fue el primero en ser implementado. Este proceso fue r\'apido, no existieron grandes dificultades en la implementaci\'on y los resultados fueron satisfactorios desde el comienzo.
@@ -89,6 +90,14 @@ que, con un peque\~no y trivial cambio en el c\'odigo se consigue una
 convergencia de \frac{1}{\sqrt[3]{n}}. Illinois ayuda a la convergencia en casos
 donde la recta secante es casi vertical, dificultando el acercamiento del
 algoritmo al cero buscado.
+
+Una explicación intuitiva de porqu\'e converge Illinois es la siguiente: Sean $s$ y $t$ dos iteraciones del m\'etodo. En el pr\'oximo paso nos movemos a 
+
+$$\frac{f(s)*t-f(t)*s}{f(s)-f(t)}$$
+
+que es un promedio ponderado de $s$ y $t$, ponderando a cada uno por $f$ evaluado en el otro punto (cambiando el signo de uno de ellos para que tengan el mismo signo). Esto hace que nos movamos a un punto intermedio entre $s$ y $t$.
+
+Ahora notemos que si siempre reemplazamos $s$ y $t$ se conserva a lo largo de las iteraciones, esto quiere decir que ese punto intermedio tiene siempre el mismo signo que $s$, y por lo tanto nos hace pensar que $t$ es muy cercano al cero de $f$. Es por esto que, en ese caso, $f(s)$ lo ponderamos por un medio, ya que probablemente, al estar $s$ m\'as lejos que $t$ del cero esto nos acerque m\'as r\'apido al cero. Esta idea s\'olo ayuda a hacer el m\'etodo m\'as r\'apido pero no modifica el hecho de que el m\'etodo converge.
 
 \subsection{Criterios de Parada}	
 
