@@ -208,5 +208,15 @@ m\'etodo m\'as r\'apido pero no modifica el hecho de que el m\'etodo converge.
 
 Los criterios de parada utilizados en ambos casos son equivalentes.
 
-Para ambos m\'etodos se fija $\epsilon$ en $10^{-4}$ y se corre el m\'etodo hasta que en dos iteraciones consecutivas el resultado difiera en menos de $\epsilon$ o bien hasta llegar a un n\'umero de iteraciones m\'aximas, que por defecto se fija en 10 iteraciones, valor elegido luego de la experimentaci\'on de diferentes valores del par\'ametro por su consistencia.
-La elecci\'on del $\epsilon$ no es caprichosa, sino que se debe a que es la potencia de 10 m\'as chica que podemos elegir de modo tal que con la m\'inima presici\'on con la que iteramos (15 bits) pueda ser posible cortar por esta condici\'on y no corte siempre por cantidad de iteraciones, ya que $10^{-5}$ es menos que la diferencia entre dos n\'umeros representables consecutivos en el orden de los n\'umeros con los que trabajamos en el TP.
+Para ambos m\'etodos se fija $\epsilon$ en $10^{-4}$ y se corre el m\'etodo 
+hasta que en dos iteraciones consecutivas el resultado difiera en menos de 
+$\epsilon$ o bien hasta llegar a un n\'umero de iteraciones m\'aximas, 
+que por defecto se fija en 10 iteraciones, valor elegido luego de la 
+experimentaci\'on de diferentes valores del par\'ametro por su consistencia.
+
+La elecci\'on del $\epsilon$ no es caprichosa, sino que se debe a que es la 
+potencia de 10 m\'as chica que podemos elegir de modo tal que con la m\'inima 
+presici\'on con la que iteramos (15 bits) pueda ser posible cortar por esta 
+condici\'on y no corte siempre por cantidad de iteraciones, ya que 
+$10^{-5}$ es menos que la diferencia entre dos n\'umeros representables 
+consecutivos en el orden de los n\'umeros con los que trabajamos en el TP.
