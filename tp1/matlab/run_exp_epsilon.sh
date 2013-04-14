@@ -15,7 +15,7 @@ epsilons=(0.01 0.001 0.0001 0.00001 0.000001 0.0000001 0.00000001 0.000000001)
 epsval=2
 #precision=(13 16 19 30)
 #precision=(15 16 17 18 19 20 21 22 23 24 25 26 27)
-precision=(21) #para el test de epsilon
+precision=(21 50) #para el test de epsilon
 index=0
 caso=1
 # Luego los fitteados
@@ -39,7 +39,7 @@ for file in "${files[@]}"; do
             epsval=2
             for ep in "${epsilons[@]}"; do
                 #correr con prec, 40 iteraciones, beta entre 20 y 0
-                a=$(../src/Newton  "${prec}" $iteracionesmaximas 9.0 1.0 ${met} "${ep}"< "${file}")
+                a=$(../src/MN  "${prec}" $iteracionesmaximas 9.0 1.0 ${met} "${ep}"< "${file}")
                 val=. read -a vals <<< "$a"
                 beta=${vals[0]}
                 lambda=${vals[1]}
