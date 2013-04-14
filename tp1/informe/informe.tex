@@ -1,7 +1,6 @@
 \documentclass[12pt, a4paper]{article}
 \usepackage[spanish]{babel}
 %\usepackage{a4wide}
-%\usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
@@ -12,6 +11,25 @@
 \usepackage[margin=1.0in]{geometry}
 
 \usepackage{caratula}
+
+\usepackage{listings}\usepackage{color}
+\usepackage{textcomp}\definecolor{listinggray}{gray}{0.9}
+
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\usepackage{a4wide}
+
+\lstset{
+      language=C++,
+      basicstyle=\small\sffamily,
+      columns=fullflexible,
+      upquote=true,
+      extendedchars=true,
+      texcl=true,
+      mathescape=true,
+      showspaces=false
+                }
+            
+
 
 \makeindex
 
@@ -66,6 +84,6 @@
 
 \input{referencias.tex}
 
-\printindex
+
 
 \end{document}
