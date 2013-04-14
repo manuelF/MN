@@ -11,9 +11,6 @@ aproximaciones para las variables a estimar cuando los c\'alculos se realizan
 con un n\'umero de d\'igitos razonables para los valores que calculamos m\'as
 adelante se detallan cuales son valores \"razonables\" en este problema en
 particular).
-
-\subsection{M\'etodo de Newton}
-
 \begin{figure} [H]
 \begin {center}
 \includegraphics[width=300pt]{plots/Caso1Hist.png}
@@ -22,6 +19,17 @@ particular).
 \caption{Traza exacta de la funci\'on digamma usando los par\'ametros conocidos}
 \label{fig:FitCaso3Newton}
 \end{figure}
+
+\subsection{Nota previa}
+Cuando nos referimos a los casos, los numeramos de la siguiente manera:\\
+\begin{itemize}
+    \item Caso 1 = \texttt{x\_15\_9\_3.txt}
+    \item Caso 1 = \texttt{x\_2\_62\_35.txt}
+    \item Caso 3 al 9 = \texttt{X1.txt} a \texttt{X7.txt}
+\end{itemize}
+
+
+\subsection{M\'etodo de Newton}
 
 Una vez determinada la forma \"deseada\" de las curvas se procedi\'o a encontrar
 valores de cantidad de d\'igitos decimales relevantes para los experimentos. 
@@ -76,7 +84,7 @@ d\'igitos de precisi\'on en estos casos debe mantenerse entre unos 15 y 20
 para maximizar la eficiencia (tanto temporal como al uso de memoria) del 
 algoritmo.  
 
-\begin{figure}
+\begin{figure} [H]
 $\begin{array}{c}
 \includegraphics[width=400pt]{plots/Caso4-Newton.png} \\
 \includegraphics[width=400pt]{plots/Caso7-Newton.png}
@@ -134,7 +142,7 @@ d\'igitos de precisi\'on. Es evidente que el rango de d\'igitos de precisi\'on e
 estos casos debe mantenerse entre unos 15 y 20 d\'igitos para maximizar la 
 eficiencia del algoritmo.  
 
-\begin{figure}
+\begin{figure} [H]
 $\begin{array}{c}
 \includegraphics[width=400pt]{plots/Caso4-RegulaFalsi.png} \\
 \includegraphics[width=400pt]{plots/Caso7-RegulaFalsi.png}
@@ -202,7 +210,7 @@ de decimales.
 
 
 
-\begin{figure}
+\begin{figure} [H]
 $\begin{array}{c}
 \includegraphics[width=400pt]{plots/Caso7-Newton-21-eps.png} \\
 \includegraphics[width=400pt]{plots/Caso7-Newton-50-eps.png}
@@ -213,7 +221,7 @@ decimales usando Newton, para el Caso 7}
 \end{figure}
 
 
-\begin{figure}
+\begin{figure} [H]
 $\begin{array}{c}
 \includegraphics[width=400pt]{plots/Caso8-RegulaFalsi-21-eps.png} \\
 \includegraphics[width=400pt]{plots/Caso8-RegulaFalsi-50-eps.png}
