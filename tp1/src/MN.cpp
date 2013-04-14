@@ -335,9 +335,10 @@ TFloat illinois(TFloat beta, TFloat beta2, int& iteraciones)
 
 void uso()
 {
-    cout << "\"./Newton\" precision = 52, iteraciones maximas = 10, Beta entre 0.0 y 10.0"<<endl;
-    cout << "\"./Newton <t>\" precision = t, iteraciones maximas = 10, Beta entre 0.0 y 10.0"<<endl;
-    cout << "\"./Newton <t> <n> <b1> <b2> <m> \" precision = t, iteraciones maximas= n, Beta entre b1 y b2, <m> metodo (0 Newton - 1 RegulaFalsi)"<<endl;
+    cout << "\"./MN\" precision = 52, iteraciones maximas = 10, Beta entre 0.0 y 10.0"<<endl;
+    cout << "\"./MN <t>\" precision = t, iteraciones maximas = 10, Beta entre 0.0 y 10.0"<<endl;
+    cout << "\"./MN <t> <n> <b1> <b2> <m> \" precision = t, iteraciones maximas= n, Beta entre b1 y b2, <m> metodo (0 Newton - 1 RegulaFalsi)"<<endl;
+    cout << "\"./MN <t> <n> <b1> <b2> <m> <e> \" precision = t, iteraciones maximas= n, Beta entre b1 y b2, <m> metodo (0 Newton - 1 RegulaFalsi), epsilon =<e>"<<endl;
 }
 
 int main(int argc, char* argv[])
@@ -398,39 +399,13 @@ int main(int argc, char* argv[])
     {
         outBeta = illinois(beta, beta2, iteraciones);
     }
-    else if(metodo==2)
-    {
     
-        for(int i =40;i<100;i++)
-        {
-            double val = 0.1 * i;
-            cout << val << " " << f(TFloat(val,t)).dbl() << endl;
-        }
-    }
-
     outLambda = Lambda(outBeta);
     outSigma = Sigma(outBeta, outLambda);
     #ifdef __gnu_linux__
         clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &endTime);
         const timespec delta = diff(startTime, endTime);
     #endif
-    /*
-    outBeta = puntofijo(beta, iteraciones);
-    outLambda = Lambda(outBeta);
-    outSigma = Sigma(outBeta, outLambda);
-
-    cout << "RF: " <<iteraciones <<" iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
-    cout << "    - BetaMoño: " << outBeta.dbl() << endl;
-    cout << "    - LambdaMoño: " << outLambda.dbl() << endl;
-    cout << "    - SigmaMoño: " << outSigma.dbl() << endl;
-    */
-
-    /*
-    cout << "Newton: " <<iteraciones << " iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
-    cout << "    - BetaMoño: " << outBeta.dbl() << endl;
-    cout << "    - LambdaMoño: " << outLambda.dbl() << endl;
-    cout << "    - SigmaMoño: " << outSigma.dbl() << endl;
-    */
     cout << outBeta.dbl() << " " << outLambda.dbl() << " " << outSigma.dbl() << " " << iteraciones;
     #ifdef __gnu_linux__
         cout << " " << (delta.tv_sec * 1000*1000*1000 + delta.tv_nsec)/(1000*1000);
