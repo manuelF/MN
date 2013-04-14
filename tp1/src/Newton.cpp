@@ -144,7 +144,7 @@ void TFloat::recortar()
 vector<TFloat> valores;
 
 int n, t;
-const double epsilon =  1.e-4;
+double epsilon =  1.e-4;
 int maximoIteraciones = 10;
 TFloat pot(TFloat base, TFloat exp)
 {
@@ -353,6 +353,8 @@ int main(int argc, char* argv[])
         case 2:
             t=atoi(argv[1]);
             break;
+        case 7:
+            epsilon = atof(argv[6]);
         case 6:
             metodo = atoi(argv[5]);
         case 5:
