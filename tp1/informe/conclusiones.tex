@@ -2,36 +2,31 @@
 
 \subsection{Intervalo de b\'usqueda}
 
-
-Uno de los grandes problemas que afrontamos durante la la preparaci\'on de los 
-resultados, fue que era muy facil errarle al intervalo en el que buscar
-$\beta$. Lo primero que nos pas\'o fue
-que no habiamos descubierto que la funci\'on estimadora de $\beta$ tenia una 
-raiz en 0. Esto nos trajo grandes
-dolores de cabeza, ya que no eran los valores que debieramos haber estimado. 
-Para solucionarlo decidimos calcular
+Uno de los grandes problemas afrontados durante la la preparaci\'on de los 
+resultados, est\'a relacionado con la dificultad en la b\'usqueda de un intervalo
+confiable en el cual buscar $\beta$. El primer problema fue el desconocimiento
+de que la funci\'on estimadora de $\beta$ tiene na raiz en 0. Esto trajo una
+gran confusi\'on, ya que los valores obtenidos difer\'ian ampliamente 
+de los que debieramos haber estimado. Para solucionarlo se decidi\'o calcular
 desde el intervalo 1.0 en adelante, y result\'o una buena decisi\'on, casi 
-todos los experimentos convergian bien.
+todos los experimentos resultaron en convergencias satisfactorias.
 
-Otro problema vinculado fue el tama\~no del intervalo con relaci\'on a los 
+Otro problema vinculado es el tama\~no del intervalo con relaci\'on a los 
 m\'etodos implementados. 
-En el caso de Regula Falsi, si buscabamos en un intervalo grande, como por 
+En el caso de Regula Falsi, buscando una ra\'iz en un intervalo grande, como por 
 ejemplo, [1,100], el algoritmo 
-convergia increiblmente lento. El valor de $\beta$ que buscabamos estaba cerca 
-del 6, entonces las 
-sucesivas rectas secantes que trazaba Regula Falsi tenian pendiente muy cerca 
-del 0, por lo cual en cada 
-iteraci\'on, era dificil mejorar m\'as de $10^-6$. Pudimos comprobar esto al 
-correr miles de pasos de Regula Falsi y ver que efectivamente convergia, pero
+converg\'ia visiblemente lento. El valor de $\beta$ buscado estaba cerca 
+del 6, entonces las sucesivas rectas secantes que trazaba Regula Falsi ten\'ian 
+pendiente muy cerca del 0, por lo cual en cada iteraci\'on, era dif\'icil 
+mejorar m\'as de $10^-6$ de tolerancia. Pudimos comprobar esto al 
+correr miles de pasos de Regula Falsi y ver que efectivamente converg\'iia, pero
 que cada iteraci\'on era realmente lenta.
 
-Fue en este punto que tambien notamos la fortaleza de los metodos de orden de 
-convergencia cuadratico,
-en este caso, el m\'etodo de Newton. Incluso con intervalos tan, o m\'as 
-grandes que los mismos de Regula Falsi, 
-Newton convergia en pocas iteraciones, menos de una decima parte de las del 
-otro m\'etodo.
-
+Fue en este punto que tambi\'en notamos la fortaleza de los m\'etodos de orden de 
+convergencia cuadr\'atico, en este caso, el m\'etodo de Newton. 
+Incluso con intervalos iguales, o m\'as 
+grandes que los mismos de Regula Falsi, Newton converg\'ia en pocas iteraciones, 
+menos de una decima parte de las del otro m\'etodo.
 
 \subsection{Precisi\'on en los c\'alculos}
 
@@ -39,17 +34,16 @@ Otro detalle que pudimos apreciar fue la importancia de la precision num\'erica
 a la hora de hacer las cuentas. 
 Fue de especial interes para el trabajo el poder realizar todos estos m\'etodos 
 con distintos valores 
-de precisi\'on. Para hacer enfasis en este punto, logramos trazar las curvas 
+de precisi\'on. Para hacer \'enfasis en este punto, logramos trazar las curvas 
 para todos los valores de decimales 
 entre 12 y 27, como vimos en la figura \ref{fig:AproxCaso1}.
 Es notable ver como hasta cierto momento, la precision es de critica 
 importancia, pero despues los valores convergen y 
-agregar digitos no afectan los algoritmos.s
+agregar d\'igitos no afectan los algoritmos.
 
 En el caso de la precisi\'on en Regula Falsi es mucho m\'as notorio. El 
-algoritmo tiene menos restricciones en 
-la funci\'on que puede usar para estimar, y su velocidad de convergencia es 
-menor. Es notablemente m\'as impreciso
+algoritmo tiene menos restricciones en la funci\'on que puede usar para estimar, 
+y su velocidad de convergencia es menor. Es notablemente m\'as impreciso
 que Newton a mismo epsilon. Las soluciones posibles a este problema consisten 
 una combinacion de: 
 \begin{itemize}
