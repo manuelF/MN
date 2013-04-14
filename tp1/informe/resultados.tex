@@ -17,7 +17,7 @@ particular).
 \includegraphics[width=300pt]{plots/Caso2Hist.png}
 \end {center}
 \caption{Traza exacta de la funci\'on digamma usando los par\'ametros conocidos}
-\label{fig:FitCaso3Newton}
+\label{fig:FitCaso1Y2Newton}
 \end{figure}
 
 \index{Resultados!Nota previa}
@@ -77,7 +77,7 @@ m\'etodo de Newton. En la siguiente figura se ven ploteadas todas las
 precisiones entre 10 y 27 y centrando el an\'alisis de la variaci\'on de 
 $\beta$ (y $\lambda$ y $\sigma$ en consecuencia).
 
-Como se puede observar en los casos 1 y 2, el valor de $\sigma$ se mantiene 
+Como se puede observar en los casos 1 y 2\ref{fig:FitCaso1Y2newton}, el valor de $\sigma$ se mantiene 
 estable, no siendo la precisi\'on de los c\'alculos un limitante y convergiendo 
 muy velozmente. Sin embargo, las aproximaciones tanto de $\beta$ como de 
 $\lambda$ comienzan a estabilizarse respecto a su convergencia a partir de la 
@@ -91,12 +91,12 @@ $\begin{array}{c}
 \includegraphics[width=400pt]{plots/Caso4-Newton.png} \\
 \includegraphics[width=400pt]{plots/Caso7-Newton.png}
 \end{array}$
-
-\caption{Aproximaci\'on a $\beta, \lambda, \sigma$ en los Casos 1 y 2 
+\caption{Aproximaci\'on a $\beta, \lambda, \sigma$ en los Casos 4 y 7 
 usando Newton}
+\label{fig:Fit4Y7Newton}
 \end{figure}
 
-En el Caso 3 se puede ver una anomal\'ia en los valores de $\beta$ y $\lambda$. 
+En el Caso 3\ref{fig:FitCaso3Newton} se puede ver una anomal\'ia en los valores de $\beta$ y $\lambda$. 
 En este caso tomar entre 15 y 20 d\'igitos de precisi\'on no es suficiente para 
 obtener valores relevantes. Estos se estabilizan recien a partir de los 22 
 d\'igitos de precisi\'on.
@@ -154,6 +154,7 @@ $\begin{array}{c}
 
 \caption{Aproximaci\'on a $\beta, \lambda, \sigma$ en los Casos 4 y 7 usando 
 Regula Falsi}
+\label{fig:FitCaso4Y7RegulaFalsi}
 \end{figure}
 
 En el Caso 3 se aprecia una anomal\'ia en los valores de $\beta$ y $\lambda$.
@@ -212,7 +213,6 @@ Tambien comparamos entre dos precisiones distintas, para ver el hecho de a parti
 cantidad de decimales menos signficativos se puede obtener convergencias razonablemente 
 r\'apidas o si incluso ahi sigue divirgiendo, implicando que seria necesaria aun m\'as cantidad
 de decimales.
-
 
 
 \begin{figure} [H]
