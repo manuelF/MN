@@ -67,7 +67,14 @@ m\'etodo de Newton. En la siguiente figura se ven ploteadas todas las
 precisiones entre 10 y 27 y centrando el an\'alisis de la variaci\'on de 
 $\beta$ (y $\lambda$ y $\sigma$ en consecuencia).
 
-Como se puede observar en los casos 1 y 2, el valor de $\sigma$ se mantiene estable no siendo la precisi\'on de los c\'alculos un limitante y convergiendo muy velozmente. Sin embargo las aproximaciones tanto de $\beta$ como de $\lambda$ comienzan a estabilizarse en la convergencia a partir de la utilizaci\'on de 17 d\'igitos de precisi\'on. Es evidente que el rango de d\'igitos de precisi\'on en estos casos debe mantenerse entre unos 15 y 20 d\'igitos para maximizar la eficiencia del algoritmo.  
+Como se puede observar en los casos 1 y 2, el valor de $\sigma$ se mantiene 
+estable, no siendo la precisi\'on de los c\'alculos un limitante y convergiendo 
+muy velozmente. Sin embargo, las aproximaciones tanto de $\beta$ como de 
+$\lambda$ comienzan a estabilizarse respecto a su convergencia a partir de la 
+utilizaci\'on de 17 d\'igitos de precisi\'on. Es evidente que el rango de 
+d\'igitos de precisi\'on en estos casos debe mantenerse entre unos 15 y 20 
+para maximizar la eficiencia (tanto temporal como al uso de memoria) del 
+algoritmo.  
 
 \begin{figure}
 $\begin{array}{c}
@@ -75,13 +82,19 @@ $\begin{array}{c}
 \includegraphics[width=400pt]{plots/Caso2-Newton.png}
 \end{array}$
 
-\caption{Aproximacion a $\beta, \lambda, \sigma$ en los Casos 1 y 2 usando Newton}
+\caption{Aproximaci\'on a $\beta, \lambda, \sigma$ en los Casos 1 y 2 
+usando Newton}
 \end{figure}
 
-En el Caso 3 vemos una anomal\'ia en los valores de $\beta$ y $\lambda$. En este caso tomar entre 15 y 20 d\'igitos de precisi\'on no es suficiente para obtener valores relevantes. Estos se estabilizan recien a partir de los 22 d\'igitos de precisi\'on.
+En el Caso 3 se puede ver una anomal\'ia en los valores de $\beta$ y $\lambda$. 
+En este caso tomar entre 15 y 20 d\'igitos de precisi\'on no es suficiente para 
+obtener valores relevantes. Estos se estabilizan recien a partir de los 22 
+d\'igitos de precisi\'on.
 
 
-En los casos 4, 5, 6, 8 y 9 tambi\'en observamos que a partir de 20 d\'igitos de precisi\'on comienza a converger el valor de $\beta$. En el caso 7 $\beta$ comienza a converger a partir de 22 d\'igitos de precisi\'on.
+En los casos 4, 5, 6, 8 y 9 tambi\'en se observa que a partir de 20 d\'igitos 
+de precisi\'on comienza a converger el valor de $\beta$. 
+En el caso 7 $\beta$ comienza a converger a partir de 22 d\'igitos de precisi\'on.
 
 \begin{figure}
 $\begin{array}{cc}
@@ -94,15 +107,15 @@ $\begin{array}{cc}
 \includegraphics[width=220pt]{plots/Caso9-Newton.png} &\\
 \end{array}$
 
-\caption{Aproximacion a $\beta, \lambda, \sigma$ en los Casos 3 al 9 usando Newton}
+\caption{Aproximaci\'on a $\beta, \lambda, \sigma$ en los Casos 3 al 9 
+usando Newton}
 \label{fig:AproxCasosNewton}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{M\'etodo Regula Falsi - Illinois}
 
-
-Trazamos los mismos plots para Regula Falsi, en su variante Illinois.
+Trazando los mismos gr\'aficos para Regula Falsi, en su variante Illinois:
 
 \begin{figure} [H]
 $\begin{array}{cc}
@@ -111,7 +124,8 @@ $\begin{array}{cc}
 \includegraphics[width=200pt]{plots/RegulaFalsi-22-caso3.png} &
 \includegraphics[width=200pt]{plots/RegulaFalsi-27-caso3.png}
 \end{array}$
-\caption{Ajuste usando distintas precisiones (15, 17, 22, 27) con RegulaFalsi al caso 3, X1}
+\caption{Ajuste usando distintas precisiones (15, 17, 22, 27) con 
+Regula Falsi al caso 3, X1}
 \label{fig:FitCaso3RegulaFalsi}
 \end{figure}
 
@@ -122,19 +136,24 @@ $\begin{array}{cc}
 \includegraphics[width=200pt]{plots/RegulaFalsi-22-caso4.png} &
 \includegraphics[width=200pt]{plots/RegulaFalsi-27-caso4.png}
 \end{array}$
-\caption{Ajuste usando distintas precisiones (15, 17, 22, 27) con RegulaFalsi al caso 4, X2}
+\caption{Ajuste usando distintas precisiones (15, 17, 22, 27) con Regula 
+Falsi al caso 4, X2}
 \label{fig:FitCaso4Newton}
 \end{figure}
 
 
-Tambien trazamos, para los valores conocidos, como es la aproximacion de las distintas variables, $\beta, \lambda, \sigma$ usando el m\'etodo RegulaFalsi.
-Aca ploteamos todas las precisiones entre 10 y 27 y fuimos analizando como iban variando $\beta$ (y $\lambda$ y $\sigma$ en consecuencia).
+Adem\'as, trazando para los valores conocidos como es la aproximaci\'on de las 
+distintas variables, $\beta, \lambda, \sigma$ usando el m\'etodo de Regula Falsi
+y graficando todas las precisiones entre 10 y 27 y se procedi\'o al an\'alisis de
+la variaci\'on de $\beta$ (y $\lambda$ y $\sigma$ en consecuencia).
 
-Como se puede observar en los casos 1 y 2, el valor de $\sigma$ se mantiene estable no siendo la 
-precisi\'on de los c\'alculos un limitante y convergiendo muy velozmente. 
-Sin embargo las aproximaciones tanto de $\beta$ como de $\lambda$ comienzan a estabilizarse en la convergencia 
-a partir de la utilizaci\'on de 17 d\'igitos de precisi\'on. Es evidente que el rango de d\'igitos de precisi\'on en 
-estos casos debe mantenerse entre unos 15 y 20 d\'igitos para maximizar la eficiencia del algoritmo.  
+Como se puede observar en los casos 1 y 2, el valor de $\sigma$ se mantiene 
+estable no siendo la precisi\'on de los c\'alculos un limitante y convergiendo 
+muy velozmente. Sin embargo las aproximaciones tanto de $\beta$ como de $\lambda$ 
+comienzan a estabilizarse en la convergencia a partir de la utilizaci\'on de 17 
+d\'igitos de precisi\'on. Es evidente que el rango de d\'igitos de precisi\'on en 
+estos casos debe mantenerse entre unos 15 y 20 d\'igitos para maximizar la 
+eficiencia del algoritmo.  
 
 \begin{figure}
 $\begin{array}{c}
@@ -142,14 +161,14 @@ $\begin{array}{c}
 \includegraphics[width=400pt]{plots/Caso2-RegulaFalsi.png}
 \end{array}$
 
-\caption{Aproximacion a $\beta, \lambda, \sigma$ en los Casos 1 y 2 usando RegulaFalsi}
+\caption{Aproximaci\'on a $\beta, \lambda, \sigma$ en los Casos 1 y 2 usando 
+Regula Falsi}
 \end{figure}
 
-En el Caso 3 vemos una anomal\'ia en los valores de $\beta$ y $\lambda$. En este caso tomar entre 15 y 20 d\'igitos de precisi\'on
-no es suficiente para obtener valores relevantes. Estos se estabilizan recien a partir de los 22 d\'igitos de precisi\'on.
-
-
-
+En el Caso 3 se aprecia una anomal\'ia en los valores de $\beta$ y $\lambda$.
+En este caso tomar entre 15 y 20 d\'igitos de precisi\'on no es suficiente para 
+obtener valores relevantes. Estos se estabilizan recien a partir de los 22 
+d\'igitos de precisi\'on.
 
 \begin{figure}
 $\begin{array}{cc}
@@ -163,9 +182,9 @@ $\begin{array}{cc}
 
 \end{array}$
 
-\caption{Aproximacion a $\beta, \lambda, \sigma$ en los Casos 3 y al 8 usando RegulaFalsi}
+\caption{Aproximaci\'on a $\beta, \lambda, \sigma$ en los Casos 3 y al 8 
+usando Regula Falsi}
 \label{fig:AproxCasosRegulaFalsi}
-
 
 
 \end{figure}
@@ -174,12 +193,26 @@ $\begin{array}{cc}
 
 \subsection{$\lambda$ y $\sigma$}
 
-\indent Para calcular $\lambda$ y $\sigma$ utilizamos las f\'ormulas (1) y (2) dadas en el enunciado. Pudimos observar que, al depender estas dos de $\beta$, empiezan a converger a medida que $\beta$ converge.
+\indent Para calcular $\lambda$ y $\sigma$ se utilizaron las f\'ormulas 
+(1) y (2) extra\'idas del enunciado. Se pudo observar que, al depender estas 
+dos de $\beta$, empiezan a converger a medida que $\beta$ converge.
 
-$$\big[ \beta \big( \frac{\sum_{i=1}^{n}x_i^\beta \log x_i}{ \sum_{i=1}^{n} x_i^\beta} - \frac{\sum_{i=1}^{n} \log x_i}{n} \big)\big]^{-1}$$
+$$\big[ \beta \big( \frac{\sum_{i=1}^{n}x_i^\beta \log x_i}{ \sum_{i=1}^{n} x_i^\beta} 
+- \frac{\sum_{i=1}^{n} \log x_i}{n} \big)\big]^{-1}$$
 
 $$\sigma = \big( \frac{\sum_{i=1}^{n} x_i^\beta}{n\lambda}\big)^{\frac{1}{\beta}}$$
 
-Para $\lambda$ observamos que al tener el factor $\beta$ multiplicando a la $-1$, esto es como dividir por $\beta$, y este factor es el que m\'as pesa a la hora de la dependencia entre $\beta$ y $\lambda$ ya que al crecer $\beta$ siempre decrece $\lambda$ y al decrecer $\beta$ siempre crece $\lambda$. En algunos casos observamos que una peque\~na variaci\'on en $\beta$ implica una variaci\'on muy grande en $\lambda$.
+Respecto a $\lambda$ observamos que al tener el factor $\beta$ multiplicando 
+\"a la $-1$\", esto es equivalente a dividir por $\beta$, y este factor es el 
+que m\'as pesa a la hora de establecer una dependencia entre $\beta$ y $\lambda$ 
+ya que al crecer $\beta$ siempre decrece $\lambda$ y al decrecer $\beta$ siempre
+crece $\lambda$. En algunos casos se observa que una peque\~na variaci\'on en 
+$\beta$ implica una variaci\'on muy grande en $\lambda$.
 
-$\sigma$ en cambio se comporta de manera igual que beta, es decir, o ambos crecen o ambos decrecen. Esto se debe, probablemente, a que hay un factor $\lambda^{\frac{1}{\beta}}$ dividiendo, y dado que $\lambda$ crece mucho cuando $\beta$ decrece y viceversa, esto suma mucho para la variaci\'on de $\sigma$. Adem\'as de esto, la media que se calcula (por ejemplo, el promedio si $\beta = 1$ o la media cuadr\'atica si $\beta = 2$) es una funci\'on creciente en $\beta$ que es igual a la norma $\beta$ del vector de entrada (los $x_i$).
+$\sigma$ en cambio se comporta de manera igual que beta, es decir, o ambos 
+crecen o ambos decrecen. Esto se debe, probablemente, a que hay un factor 
+$\lambda^{\frac{1}{\beta}}$ dividiendo, y dado que $\lambda$ crece mucho cuando 
+$\beta$ decrece y viceversa, esto suma mucho para la variaci\'on de $\sigma$. 
+Adem\'as de esto, la media que se calcula (por ejemplo, el promedio si $\beta = 
+1$ o la media cuadr\'atica si $\beta = 2$) es una funci\'on creciente en 
+$\beta$ que es igual a la norma $\beta$ del vector de entrada (los $x_i$).
