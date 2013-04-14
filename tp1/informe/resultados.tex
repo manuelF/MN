@@ -1,8 +1,16 @@
 \section{Resultados}
 
-%TODO: Primer p\'arrafo introductorio con la posta de lo que nos dio!
+La primera aproximaci\'on a los resultados fue dada por el ploteo de las 
+distribuciones con datos conocidos, permitiendo observar como se ajustan los 
+histogramas sin llevar a cabo ninguna observaci\'on. 
+Este experimento sirvi\'o para dar una idea de las formas que debieran seguir 
+las curvas ajustadas en los subsiguientes experimentos.
 
-La primera aproximaci\'on a los resultados fue dada por el ploteo de las distribuciones con datos conocidos, permitiendo observar como se ajustan los histogramas sin llevar a cabo ninguna observaci\'on. Este experimento sirvi\'o para dar una idea de las formas que debieran seguir las curvas ajustadas en los subsiguientes experimentos.
+En primer t\'ermino se puede mencionar que ambos m\'etodor brindan buenas
+aproximaciones para las variables a estimar cuando los c\'alculos se realizan
+con un n\'umero de d\'igitos razonables para los valores que calculamos m\'as
+adelante se detallan cuales son valores \"razonables\" en este problema en
+particular).
 
 \subsection{M\'etodo de Newton}
 
@@ -15,14 +23,20 @@ La primera aproximaci\'on a los resultados fue dada por el ploteo de las distrib
 \label{fig:FitCaso3Newton}
 \end{figure}
 
-Una vez determinada la forma ''deseada'' de las curvas se procedi\'o a encontrar valores de cantidad de d\'igitos decimales relevantes para los experimentos. Notamos que el m\'etodo de Newton para valores muy bajos de cantidad de digitos no convergia ($t < 12$ en promedio); Por lo que nos concentramos en valores
-ligeramente mas grandes, cosa de poder contemplar cuan cerca esta la distribuci\'on estimada de la real.
+Una vez determinada la forma \"deseada\" de las curvas se procedi\'o a encontrar
+valores de cantidad de d\'igitos decimales relevantes para los experimentos. 
+Bajo la observac\'ion de que el m\'etodo de Newton para valores muy bajos de 
+cantidad de d\'igitos no converge ($t < 12$ en promedio); Por lo que el foco
+estuvo puesto en valores ligeramente mas grandes, con el fin de poder contemplar
+la distancia entre la distribuci\'on estimada y la real.
 
-Los valores que usamos de precision son 15, 17, 22, 27. Estos fueron elegidos porque convergian, y porque consideramos que estan
-suficientemente separados entre s\'i como para ser significativos. Creamos un script para automatizar la generaci\'on de estos gr\'aficos,
-para poder hacer los experimentos repetibles y consistentes. Estos invocan al m\'etodo con algunos parametros, obtienen los
-valores estimados, la cantidad de iteraciones que realizo el algoritmo elegido y la cantidad de milisegundos que tard\'o este proceso.
-
+Los valores utilizados para la precision son 15, 17, 22, 27. 
+Estos fueron elegidos porque convergen, y porque estan suficientemente separados
+entre si como para ser significativos. Fue creado un script para automatizar la 
+generaci\'on de estos gr\'aficos, para poder hacer los experimentos repetibles 
+y consistentes. Estos invocan al m\'etodo con algunos parametros, 
+obtienen los valores estimados, la cantidad de iteraciones que realizo el 
+algoritmo elegido y la cantidad de milisegundos que tard\'o este proceso.
 
 \begin{figure} [H]
 $\begin{array}{cc}
@@ -47,8 +61,11 @@ $\begin{array}{cc}
 \end{figure}
 
 
-Tambien trazamos, para los valores conocidos, como es la aproximacion de las distintas variables, $\beta, \lambda, \sigma$ usando el m\'etodo de Newton.
-Aca ploteamos todas las precisiones entre 10 y 27 y fuimos analizando como iban variando $\beta$ (y $\lambda$ y $\sigma$ en consecuencia).
+Tambien fueron trazados, para los valores conocidos, como es la 
+aproximaci\'on de las distintas variables, $\beta, \lambda, \sigma$ usando el 
+m\'etodo de Newton. En la siguiente figura se ven ploteadas todas las 
+precisiones entre 10 y 27 y centrando el an\'alisis de la variaci\'on de 
+$\beta$ (y $\lambda$ y $\sigma$ en consecuencia).
 
 Como se puede observar en los casos 1 y 2, el valor de $\sigma$ se mantiene estable no siendo la precisi\'on de los c\'alculos un limitante y convergiendo muy velozmente. Sin embargo las aproximaciones tanto de $\beta$ como de $\lambda$ comienzan a estabilizarse en la convergencia a partir de la utilizaci\'on de 17 d\'igitos de precisi\'on. Es evidente que el rango de d\'igitos de precisi\'on en estos casos debe mantenerse entre unos 15 y 20 d\'igitos para maximizar la eficiencia del algoritmo.  
 
