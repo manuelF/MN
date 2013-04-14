@@ -23,6 +23,7 @@ desarrollo de la experiencia se procede a un repaso por las herramientas
 utilizadas y creadas para el an\'alisis, testeo y repetici\'on sistem\'atica de
 los experimentos.
 
+\index{Desarrollo!Herramientas}
 \subsection{Herramientas}
 
 El lenguaje de programaci\'on utilizado para la implementaci\'on de los
@@ -47,7 +48,7 @@ comparaciones sobre los resultados.
 La posibilidad de correr los experimentos con una variedad interesante de
 par\'ametros es clave para entender el comportamiento de los mismos.
 
-
+\index{Desarrollo!M\'etodo de Newton}
 \subsection{M\'etodo de Newton}
 
 El primer m\'etodo elegido para obtener un despeje de $\beta$ fue el de Newton. 
@@ -123,6 +124,7 @@ de la precisi\'on m\'axima impuesta de 52 d\'igitos.
 Esta observaci\'on se interpreta, a primera vista, como una aceleraci\'on 
 significativa del error hacia valores cercanos al cero.
 
+\index{Desarrollo!M\'etodo de la Secante}
 \subsection{M\'etodo de la Secante}
 
 El segundo m\'etodo elegido fue el m\'etodo de la Secante. Este se presenta
@@ -131,6 +133,7 @@ R\'apidamente qued\'o descartado debido a problemas relacionados al c\'alculo
 de cocientes, en donde el denominador se acerca a cero a un nivel 
 pr\'acticamente indistinguible al nivel de representaci\'on de la computadora.
 
+\index{Desarrollo!M\'etodo de Regula falsi}
 \subsection{M\'etodo de Regula falsi}
 
 Habiendo implementado el m\'etodo de la Secante, y para subsanar el problema 
@@ -166,6 +169,7 @@ perdiendo convergencia a medida que se agregan d\'igitos de precisi\'on.
 Es por eso que investigamos y decidimos implementar una mejora conocida como el
 ``M\'etodo de Illinois''.
 
+\index{Desarrollo!Algoritmo de Illinois}
 \subsection{Algoritmo de Illinois}
 
 Luego de implementar el algoritmo de Regula Falsi, que tiene orden de 
@@ -220,7 +224,8 @@ ya que probablemente, al estar $s$ m\'as lejos que $t$ del cero esto nos
 acerque m\'as r\'apido al cero. Esta idea s\'olo ayuda a hacer el 
 m\'etodo m\'as r\'apido pero no modifica el hecho de que el m\'etodo converge.
 
-\subsection{Criterios de Parada}	
+\index{Desarrollo!Criterios de parada}
+\subsection{Criterios de parada}	
 
 Los criterios de parada utilizados en ambos casos son equivalentes.
 
