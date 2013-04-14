@@ -71,3 +71,32 @@ En la elecci\'on de m\'etodos num\'ericos existe una compensaci\'on entre
 dificultad de implementaci\'on, recursos necesarios 
 y grado de error del resultado. Estos componentes deben ser tomados en cuenta a 
 la hora de dise\~nar una soluci\'on.
+
+
+\subsection{Elecci\'on de criterios para comparaci\'on de m\'etodos}
+
+Un tema importante que nos surgi\'o de toda esta experimentaci\'on intensiva
+con estos varios m\'etodos elegidos, fue intentar proponernos cual es el mejor
+de estos m\'etodos. Por todo lo que hemos visto, la respuesta esta lejos de
+ser sencilla. Influyen muchisimo m\'as algunas variables de lo que hubieramos
+pensando. Por ejemplo, uno por instinto elige siempre un epsilon muy chico
+para las comparaciones de tolerancia ($10^{-8}$ es bastante habitual en programas
+reales de m\'etodos num\'ericos). Sin embargo, debemos poder representar al 
+menos $2^{-30}$ para eso, con lo que se necesitaria un \texttt{double} como minimo,
+y hay arquitecturas que no estan preparadas para trabajar con eso (o al menos 
+no optimamente, como es el caso de CUDA de NVIDIA). 
+
+Otra variable importante fue la cantidad de iteraciones m\'aximas que pueden 
+usar los algoritmos, intimamente ligada al epsilon y la precisi\'on elegidas. 
+Lo que notamos es que si teniamos poca precisi\'on de los n\'umeros o 
+epsilon muy grande, la cantidad de iteraciones siempre estaban muy acotadas,
+pero en cuanto se llega al limite de precisi\'on porque no se pueden representar
+valores intermedios y todavia no se cumple la condicion de corte por el epsilon,
+entonces se dispara el numero de iteraciones al m\'aximo, y sin mejoras, algo 
+realmente malo. Como paliativo, se puede poner unas condiciones de corte como
+``Si llevas varias iteraciones sin mejorar, y no cambian tus variables de input,
+cort\'a porque no vas a volver a mejorar''. Sin embargo, esto no es m\'as que un
+parche al problema, y es una invitaci\'on a repensar las condiciones en el
+epsilon, en los tipos de dato que almacenamos y en la precisi\'on que pensamos
+que necesitamos, si es imprescindible el n-esimo digito.
+
