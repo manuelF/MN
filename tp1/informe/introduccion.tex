@@ -41,7 +41,6 @@ las formas de la funci\'on pero no la corren respecto a los ejes. \end{item}
 $\beta$ en la forma de la funci\'on.\end{item}
 \end{itemize}
 
-
 El proposito de este trabajo es comparar las t\'ecnicas de obtenci\'on de ra\'ices 
 de funci\'ones y c\'alculo de errores vistas en la materia, 
 con una aplicaci\'on pr\'actica, concreta y sencilla de entender.
@@ -60,6 +59,40 @@ permite desarrollar un an\'alisis comparativo basadao en experiencias que,
 modificando una variable y dejando constantes las otras, permite deducir
 aspectos del comportamiento de ambos m\'etodos, sus fortalezas y debilidades.
 
+El m\'etodo de Newton-Raphson para la b\'usqueda de ceros de funciones parte de
+una primera estimaci\'on $x_{0}$ de un cero de la funci\'on en cuestion. Luego
+las sucesivas iteraciones se obtienen a partir de la f\'ormula
+
+\begin{center}
+$x_{n+1} = x{n} - \frac{f(x_{n})}{f'(x_{n})}$
+\end{center}
+
+En cada iteraci\'on de Newton la aproximaci\'on del m\'etodo al cero deseado se
+da por la intersecci\'on de la recta tangente del punto elegido en el paso 
+anterior con el eje de abscisas. Es por eso que se requiere del c\'alculo de la
+derivada de la funci\'on la cual se est\'a analizando. El c\'alculo de la
+derivada es el procedimiento m\'as complejo dentro del desarrollo del m\'etodo y
+motivo suficiente para no utilizar el m\'etodo en muchos casos.
+
+Por otra parte, el m\'etodo de Regula falsi (Regla falsa) que combina otros 2
+como lo son el de Bisecci\'on y el de la Secante, se aprovecha del teorema de
+Bolzano para encontrar ceros de funciones.
+
+Este m\'etodo parte de un intervalo [a\_{0},b\_{0}] donde $f(a) y f(b)$ tienen
+distinto signo (siendo $f$ la funci\'on a analizar). En cada paso se calcula un
+nuevo punto que acorta el intervalo de b\'usqueda del siguiente modo
+
+\begin{center}
+$c\_{k} = \frac{f(b\_{k})a\_{k} - f(a\_{k})b\_{k}}{f(b\_{k}) - f(a\_{k})}$
+\end{center}
+
+En cada iteraci\'on $c\_{k}$ representa la interesecci\'on de la recta $(a,
+f(a\_{k})) (b, f(b\_{k}))$ con el eje horizontal.
+
+Este m\'etodo no resulta ser muy conveniente para funciones con curvas suaves,
+sin embargo implementando una mejor conocida como el algoritmo de Illinois, que
+ser\'a detallado m\'as adelante en el trabajo, el m\'etodo mejora
+considerablemente su convergencia.
 
 La r\'apida y satisfactoria implementaci\'on del m\'eotodo de Newton permite,
 durante la realizaci\'on de las experiencias, del ajuste del m\'etodo de Regula
