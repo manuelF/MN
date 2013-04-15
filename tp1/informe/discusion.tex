@@ -55,3 +55,28 @@ de Regla falsa, se procedi\'o a buscar una mejora en este que nos permita una me
 tasa de convergencia y un ajuste en los valores. Esto fue logrado mediante la
 implementaci\'on del algoritmo de Illinois. Gracias a esta mejora se alcanzaron 
 mejores curvas de valores.
+
+Como podemos ver en las figuras 2 y 3, la aproximaci\'on que obtenemos de $\beta$ se ajusta bastante
+a los datos a\'un con poca precisi\'on cuando utilizamos el m\'etodo de Newton. En la figura 4 podemos
+observar que a partir de 22 bits de precisi\'on el valor de $\beta$ se acerca lo suficiente al valor
+al cual converge.
+
+En las figuras 5 y 6 observamos que, utilizando el m\'etodo de Regula Falsi (en su versi\'on Illinois)
+con 15 bits de precisi\'on el valor de $\beta$ no es lo suficientemente adecuado como para que la curva
+se ajuste a los datos. A partir de 17 bits de precisi\'on, en cambio, ya empieza a acercarse m\'as curva
+a lo que vale realmente de acuerdo a lo que podemos observar comparandola con los datos de entrada.
+
+En la figura 7 observamos que a partir de 22 d\'igitos de precisi\'on binaria el valor de $\beta$ empieza
+a acercarse al valor al cual converge, al igual que con el m\'etodo de Newton.
+
+En la figura 8 graficamos la cantidad de iteraciones y el valor de $\beta$ en funci\'on del valor de $\epsilon$
+que utilizamos. Podemos observar que, con 21 bits de presici\'on, a partir de un $\epsilon$ de $10^{-5}$ el m\'etodo
+empieza a cortar por cantidad de iteraciones y $\beta$ empieza a converger correctamente.
+
+Con 50 bits de precisi\'on, en cambio, $\beta$ converge a partir de un $\epsilon$ de $10^{-3}$ y corta siempre por 
+el $\epsilon$ en lugar de por cantidad de iteraciones. Esto se debe a que al haber m\'as precisi\'on el m\'etodo converge m\'as
+r\'apido y a un valor m\'as exacto.
+
+Con Regula Falsi podemos observar un comportamiento similar en lo que respecta a cantidad de iteraciones, aunque para asegurar
+la convergencia debemos tener un valor de $\epsilon$ m\'as chico. Esto se debe a que el m\'etodo no es tan eficiente como el
+m\'etodo de Newton.
