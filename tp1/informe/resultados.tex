@@ -29,6 +29,20 @@ Cuando nos referimos a los casos, los numeramos de la siguiente manera:\\
     \item Caso 3 al 9 = \texttt{X1.txt} a \texttt{X7.txt}
 \end{itemize}
 
+Estos resultados fueron generados automaticamente. Para hacerlo, se ejecutaron
+dos scripts, \texttt{matlab/run\_exp.sh} y \texttt{matlab/run\_exp\_eps.sh}.
+Estos corren el ejecutable del codigo, y mandan su salida standard a un archivo
+con Beta, Lambda, Sigma, cuantas iteraciones realizo y el tiempo de corrida. Ahi se generan
+los histogramas de fitness. Luego, estos invocan a \texttt{matlab/generateAprox.sh} y 
+\texttt{matlab/generateAproxEpsilon.sh}, que hacen \texttt{grep} sobre estos archivos de
+salida y se generan las curvas de aproximacion en funcion de la precision, y tambien
+las iteraciones y aproximaciones en funcion del epsilon. \\
+
+Estos tests se realizaron usando \texttt{bash} y \texttt{octave}, y se parametrizaron
+de forma tal que fuera totalmente repetible y regenerable el informe con solamente
+ejecutar \texttt{run\_exp.sh y run\_exp\_eps.sh}. Consideramos que es tan importante
+la consistencia a la hora de realizar los experimentos, que nos parecio valioso
+invertir una gran cantidad de tiempo de modo tal que queden perfectos y reutilizables.
 
 \index{Resultados!M\'etodo de Newton}
 \subsection{M\'etodo de Newton}
