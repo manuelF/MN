@@ -7,6 +7,11 @@ La funci\'on a estudiar es la Digamma Generalizada (D$\Gamma$G).
 Esta funci\'on es una distribuci\'on que aparece frencuentemente en la f\'isica,
 ya que modela la propagaci\'on de se\~nales mediante la serie harm\'onica.
 
+Una distribuci\'on de probabilidad de una variable es una funci\'on que asigna
+a cada posible valor que puede tomar la variable, la probabilidad de que esta
+tome ese valor. Esta tiene como dominio a los numeros reales mayores a
+0 y los mapea a valores reales en el intervalo [0,1].
+
 La funci\'on Digamma Generalizada refiere a la siguiente expresi\'on:
 
 \begin{center}
@@ -21,8 +26,21 @@ existir un conocimiento completo sobre el conjunto de variables que modelan
 el sistema. Ciertos par\'ametros est\'an controlados, pero muchos quedan libres. 
 La motivacion de este trabajo es poder estimar, dado un conjunto acotado de datos, 
 las variables que rigen la distribuci\'on D$\Gamma$G. 
+
 Estas variables son $\sigma$, $\beta$ y $\lambda$. Los m\'etodos empleados para 
-su estimaci\'on ser\'an detallados mas adelante.
+su estimaci\'on ser\'an detallados mas adelante. Los 3 par\'ametros corresponden
+a n\'umeros reales mayores a 0.
+
+\begin{itemize}
+  \begin{item} $\sigma$ Es un par\'ametro de escala, es decir, a mayor valor del
+par\'ametro m\'as dispersa ser\'a la funci\'on.\end{item}
+  \begin{item} $\beta$ Es el par\'ametro que se quiere estimar. Este es un
+par\'ametro de forma. Esto significa que las modificaciones en $\beta$ modifican
+las formas de la funci\'on pero no la corren respecto a los ejes. \end{item}
+  \begin{item} $\lambda$ Es otro par\'ametro de forma que incide, junto con
+$\beta$ en la forma de la funci\'on.\end{item}
+\end{itemize}
+
 
 El proposito de este trabajo es comparar las t\'ecnicas de obtenci\'on de ra\'ices 
 de funci\'ones y c\'alculo de errores vistas en la materia, 
@@ -41,6 +59,7 @@ El m\'etodo de Newton es comparado con el de Regula Falsi (Regla falsa). Esto
 permite desarrollar un an\'alisis comparativo basadao en experiencias que,
 modificando una variable y dejando constantes las otras, permite deducir
 aspectos del comportamiento de ambos m\'etodos, sus fortalezas y debilidades.
+
 
 La r\'apida y satisfactoria implementaci\'on del m\'eotodo de Newton permite,
 durante la realizaci\'on de las experiencias, del ajuste del m\'etodo de Regula
