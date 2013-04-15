@@ -252,7 +252,8 @@ TFloat fprima(TFloat beta)
     /** Mprima(beta*2)*2 = Derivada de M(beta*2)
      *  M(beta)*Mprima(beta)*2 = Derivada de M(beta)*M(beta) o M(beta)^2
      *  Derivada de M(beta*2)/M(beta)^2 =
-     *      (Mprima(beta*2)*M(beta)*M(beta)*2 - M(beta*2)*M(beta)*Mprima(beta)*2)/(M(beta)*M(beta)*M(beta)*M(beta))
+     *      (Mprima(beta*2)*M(beta)*M(beta)*2 - 
+     *      M(beta*2)*M(beta)*Mprima(beta)*2)/(M(beta)*M(beta)*M(beta)*M(beta))
      *  Derivada de beta * (R(beta) - R(0)) =
      *      beta * (Rprima(beta)) + R(beta)-R(0) //// Rprima(0) = 0 porque es una constante?
      */
@@ -263,10 +264,6 @@ TFloat fprima(TFloat beta)
     return  (TFloat(2,t))*(MPrima(beta*2)*Mbeta - M(beta*2)*MPrima(beta))/(Mbeta*Mbeta2)
             - (beta * RPrima(beta) + R(beta) - R(0));
 }
-
-
-//TFloat f(TFloat x) {return x*x - 2.0;}
-//TFloat fprima(TFloat x){ return TFloat(2.)*x;}
 
 
 TFloat newton(TFloat beta, TFloat beta2, int& iteraciones)
@@ -310,9 +307,7 @@ TFloat illinois(TFloat beta, TFloat beta2, int& iteraciones)
     while(iteraciones<maximoIteraciones && fabs(beta.dbl()-beta2.dbl())>epsilon)
     {
         iteraciones++;
-//r = (fs*t - ft*s) / (fs - ft);
-	beta3 = (fbeta*beta2 - fbeta2*beta)/(fbeta-fbeta2);
-        //beta3 = beta2 - fbeta2*(beta2-beta)/(fbeta2-fbeta);
+	    beta3 = (fbeta*beta2 - fbeta2*beta)/(fbeta-fbeta2);
         TFloat fbeta3=f(beta3); 
         if(fbeta2.dbl()*fbeta3.dbl()>0)
         {
