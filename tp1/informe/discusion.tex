@@ -56,20 +56,20 @@ tasa de convergencia y un ajuste en los valores. Esto fue logrado mediante la
 implementaci\'on del algoritmo de Illinois. Gracias a esta mejora se alcanzaron 
 mejores curvas de valores.
 
-Como podemos ver en las figuras 2 y 3, la aproximaci\'on que obtenemos de $\beta$ se ajusta bastante
+Como podemos ver en las figuras \ref{fig:FitCaso4Newton} y \ref{fig:Fit4Y7Newton}, la aproximaci\'on que obtenemos de $\beta$ se ajusta bastante
 a los datos a\'un con poca precisi\'on cuando utilizamos el m\'etodo de Newton. En la figura 4 podemos
 observar que a partir de 22 bits de precisi\'on el valor de $\beta$ se acerca lo suficiente al valor
 al cual converge.
 
-En las figuras 5 y 6 observamos que, utilizando el m\'etodo de Regula Falsi (en su versi\'on Illinois)
+En las figuras \ref{fig:FitCaso3RegulaFalsi} y \ref{fig:FitCaso4RegulaFalsi} observamos que, utilizando el m\'etodo de Regula Falsi (en su versi\'on Illinois)
 con 15 bits de precisi\'on el valor de $\beta$ no es lo suficientemente adecuado como para que la curva
 se ajuste a los datos. A partir de 17 bits de precisi\'on, en cambio, ya empieza a acercarse m\'as curva
 a lo que vale realmente de acuerdo a lo que podemos observar comparandola con los datos de entrada.
 
-En la figura 7 observamos que a partir de 22 d\'igitos de precisi\'on binaria el valor de $\beta$ empieza
+En la figura \ref{fig:FitCaso4Y7RegulaFalsi} observamos que a partir de 22 d\'igitos de precisi\'on binaria el valor de $\beta$ empieza
 a acercarse al valor al cual converge, al igual que con el m\'etodo de Newton.
 
-En la figura 8 graficamos la cantidad de iteraciones y el valor de $\beta$ en funci\'on del valor de $\epsilon$
+En la figura \ref{fig:Newton-Eps-Caso4} graficamos la cantidad de iteraciones y el valor de $\beta$ en funci\'on del valor de $\epsilon$
 que utilizamos. Podemos observar que, con 21 bits de presici\'on, a partir de un $\epsilon$ de $10^{-5}$ el m\'etodo
 empieza a cortar por cantidad de iteraciones y $\beta$ empieza a converger correctamente.
 
