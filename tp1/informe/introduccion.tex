@@ -1,18 +1,99 @@
 \section{Introducci\'on te\'orica}
 
-El siguiente trabajo es un estudio sobre la funci\'on Digamma Generalizada (D$\Gamma$G). Esta funci\'on es una
-distribuci\'on que aparece frencuentemente en la f\'isica, ya que modela la propagaci\'on de se\~nales mediante la
-serie harm\'onica.
+El siguiente trabajo se centra en el estudio comparativo de m\'etodos
+num\'ericos para la b\'usqueda de ceros de funciones. 
 
-Normalmente, como en cualquier estudio experimental, no suele haber conocimiento completo sobre todas las variables
-que modelan el sistema. Hay parametros que uno controla, pero muchos quedan libres. La motivacion de este trabajo,
-es poder estimar, dados ciertos datos, las variables que rigen esta distribuci\'on. Estas son $\sigma$, $\beta$ y $\lambda$
-y los metodos que ser\'an empleados para su estimaci\'on ser\'an detallados mas adelante.
+La funci\'on a estudiar es la Digamma Generalizada (D$\Gamma$G). 
+Esta funci\'on es una distribuci\'on que aparece frencuentemente en la f\'isica,
+ya que modela la propagaci\'on de se\~nales mediante la serie harm\'onica.
 
-El proposito de este trabajo es unir las t\'ecnicas de obtencion de raices de funci\'ones y calculo de errores
-que vimos en la materia, con una aplicaci\'on pr\'actica, concreta y sencilla de entender.
+Una distribuci\'on de probabilidad de una variable es una funci\'on que asigna
+a cada posible valor que puede tomar la variable, la probabilidad de que esta
+tome ese valor. Esta tiene como dominio a los numeros reales mayores a
+0 y los mapea a valores reales en el intervalo [0,1].
 
-La base del trabajo consiste en la obtenci\'on de $\beta$ primeramente. Esta, como ya fue despejada en clase, es una funci\'on
-de una variable, ya que los datos $x_i$ son fijos (par\'ametros). Esto marca la pauta de que debemos despejar num\'ericamente el
-valor de $\beta$. M\'as adelante verificamos las hipotesis de Newton, asi vemos que estamos en las precondiciones,
-y podemos aplicar la estimaci\'on de $\beta$.
+La funci\'on Digamma Generalizada refiere a la siguiente expresi\'on:
+
+\begin{center}
+\begin{math}
+f_{\ominus}(x) = \frac{\beta x^{\beta \lambda -1}}{\sigma ^{\beta \lambda}
+\Gamma(\lambda)}\exp {-(\frac{x}{\sigma})^{\beta}} \hspace{10 mm} con x \in \mathbb{R}_{>0}
+\end{math}
+\end{center}
+
+Normalmente, previo a la realizaci\'on de estudios experimentals, no suele
+existir un conocimiento completo sobre el conjunto de variables que modelan
+el sistema. Ciertos par\'ametros est\'an controlados, pero muchos quedan libres. 
+La motivacion de este trabajo es poder estimar, dado un conjunto acotado de datos, 
+las variables que rigen la distribuci\'on D$\Gamma$G. 
+
+Estas variables son $\sigma$, $\beta$ y $\lambda$. Los m\'etodos empleados para 
+su estimaci\'on ser\'an detallados mas adelante. Los 3 par\'ametros corresponden
+a n\'umeros reales mayores a 0.
+
+\begin{itemize}
+  \begin{item} $\sigma$ Es un par\'ametro de escala, es decir, a mayor valor del
+par\'ametro m\'as dispersa ser\'a la funci\'on.\end{item}
+  \begin{item} $\beta$ Es el par\'ametro que se quiere estimar. Este es un
+par\'ametro de forma. Esto significa que las modificaciones en $\beta$ modifican
+las formas de la funci\'on pero no la corren respecto a los ejes. \end{item}
+  \begin{item} $\lambda$ Es otro par\'ametro de forma que incide, junto con
+$\beta$ en la forma de la funci\'on.\end{item}
+\end{itemize}
+
+El proposito de este trabajo es comparar las t\'ecnicas de obtenci\'on de ra\'ices 
+de funci\'ones y c\'alculo de errores vistas en la materia, 
+con una aplicaci\'on pr\'actica, concreta y sencilla de entender.
+
+La base de la experiencia consiste en la obtenci\'on de la variable $\beta$ en
+primer t\'ermino. Esta, como ya fue despejada en clase, es una funci\'on
+de una variable, ya que los datos $x_i$ son fijos (par\'ametros). 
+Esto marca la pauta de que el valor de $\beta$ debe ser despejado
+num\'ericamente. 
+
+M\'as adelante se verifican las hip\'otesis de Newton, para as\'i poder aplicar
+el m\'etodo correspondiente con certeza de que se cumplen las precondiciones.
+
+El m\'etodo de Newton es comparado con el de Regula Falsi (Regla falsa). Esto
+permite desarrollar un an\'alisis comparativo basadao en experiencias que,
+modificando una variable y dejando constantes las otras, permite deducir
+aspectos del comportamiento de ambos m\'etodos, sus fortalezas y debilidades.
+
+El m\'etodo de Newton-Raphson para la b\'usqueda de ceros de funciones parte de
+una primera estimaci\'on $x_{0}$ de un cero de la funci\'on en cuestion. Luego
+las sucesivas iteraciones se obtienen a partir de la f\'ormula
+
+\begin{center}
+$x_{n+1} = x{n} - \frac{f(x_{n})}{f'(x_{n})}$
+\end{center}
+
+En cada iteraci\'on de Newton la aproximaci\'on del m\'etodo al cero deseado se
+da por la intersecci\'on de la recta tangente del punto elegido en el paso 
+anterior con el eje de abscisas. Es por eso que se requiere del c\'alculo de la
+derivada de la funci\'on la cual se est\'a analizando. El c\'alculo de la
+derivada es el procedimiento m\'as complejo dentro del desarrollo del m\'etodo y
+motivo suficiente para no utilizar el m\'etodo en muchos casos.
+
+Por otra parte, el m\'etodo de Regula falsi (Regla falsa) que combina otros 2
+como lo son el de Bisecci\'on y el de la Secante, se aprovecha del teorema de
+Bolzano para encontrar ceros de funciones.
+
+Este m\'etodo parte de un intervalo [a\_{0},b\_{0}] donde $f(a) y f(b)$ tienen
+distinto signo (siendo $f$ la funci\'on a analizar). En cada paso se calcula un
+nuevo punto que acorta el intervalo de b\'usqueda del siguiente modo
+
+\begin{center}
+$c\_{k} = \frac{f(b\_{k})a\_{k} - f(a\_{k})b\_{k}}{f(b\_{k}) - f(a\_{k})}$
+\end{center}
+
+En cada iteraci\'on $c\_{k}$ representa la interesecci\'on de la recta $(a,
+f(a\_{k})) (b, f(b\_{k}))$ con el eje horizontal.
+
+Este m\'etodo no resulta ser muy conveniente para funciones con curvas suaves,
+sin embargo implementando una mejor conocida como el algoritmo de Illinois, que
+ser\'a detallado m\'as adelante en el trabajo, el m\'etodo mejora
+considerablemente su convergencia.
+
+La r\'apida y satisfactoria implementaci\'on del m\'eotodo de Newton permite,
+durante la realizaci\'on de las experiencias, del ajuste del m\'etodo de Regula
+falsi, basado en los resultados obtenidos en experimentos previos.

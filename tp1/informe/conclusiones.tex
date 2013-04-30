@@ -1,55 +1,51 @@
 \section{Conclusiones}
 
+\index{Conclusiones!Intervalo de b\'usqueda}
 \subsection{Intervalo de b\'usqueda}
 
-
-Uno de los grandes problemas que afrontamos durante la la preparaci\'on de los 
-resultados, fue que era muy facil errarle al intervalo en el que buscar
-$\beta$. Lo primero que nos pas\'o fue
-que no habiamos descubierto que la funci\'on estimadora de $\beta$ tenia una 
-raiz en 0. Esto nos trajo grandes
-dolores de cabeza, ya que no eran los valores que debieramos haber estimado. 
-Para solucionarlo decidimos calcular
+Uno de los grandes problemas afrontados durante la la preparaci\'on de los 
+resultados, est\'a relacionado con la dificultad en la b\'usqueda de un intervalo
+confiable en el cual buscar $\beta$. El primer problema fue el desconocimiento
+de que la funci\'on estimadora de $\beta$ tiene na raiz en 0. Esto trajo una
+gran confusi\'on, ya que los valores obtenidos difer\'ian ampliamente 
+de los que debieramos haber estimado. Para solucionarlo se decidi\'o calcular
 desde el intervalo 1.0 en adelante, y result\'o una buena decisi\'on, casi 
-todos los experimentos convergian bien.
+todos los experimentos resultaron en convergencias satisfactorias.
 
-Otro problema vinculado fue el tama\~no del intervalo con relaci\'on a los 
+Otro problema vinculado es el tama\~no del intervalo con relaci\'on a los 
 m\'etodos implementados. 
-En el caso de Regula Falsi, si buscabamos en un intervalo grande, como por 
+En el caso de Regula Falsi, buscando una ra\'iz en un intervalo grande, como por 
 ejemplo, [1,100], el algoritmo 
-convergia increiblmente lento. El valor de $\beta$ que buscabamos estaba cerca 
-del 6, entonces las 
-sucesivas rectas secantes que trazaba Regula Falsi tenian pendiente muy cerca 
-del 0, por lo cual en cada 
-iteraci\'on, era dificil mejorar m\'as de $10^-6$. Pudimos comprobar esto al 
-correr miles de pasos de Regula Falsi y ver que efectivamente convergia, pero
+converg\'ia visiblemente lento. El valor de $\beta$ buscado estaba cerca 
+del 6, entonces las sucesivas rectas secantes que trazaba Regula Falsi ten\'ian 
+pendiente muy cerca del 0, por lo cual en cada iteraci\'on, era dif\'icil 
+mejorar m\'as de $10^-6$ de tolerancia. Pudimos comprobar esto al 
+correr miles de pasos de Regula Falsi y ver que efectivamente converg\'iia, pero
 que cada iteraci\'on era realmente lenta.
 
-Fue en este punto que tambien notamos la fortaleza de los metodos de orden de 
-convergencia cuadratico,
-en este caso, el m\'etodo de Newton. Incluso con intervalos tan, o m\'as 
-grandes que los mismos de Regula Falsi, 
-Newton convergia en pocas iteraciones, menos de una decima parte de las del 
-otro m\'etodo.
+Fue en este punto que tambi\'en notamos la fortaleza de los m\'etodos de orden de 
+convergencia cuadr\'atico, en este caso, el m\'etodo de Newton. 
+Incluso con intervalos iguales, o m\'as 
+grandes que los mismos de Regula Falsi, Newton converg\'ia en pocas iteraciones, 
+menos de una decima parte de las del otro m\'etodo.
 
-
+\index{Conclusiones!Precisi\'on en los c\'alculos}
 \subsection{Precisi\'on en los c\'alculos}
 
 Otro detalle que pudimos apreciar fue la importancia de la precision num\'erica 
 a la hora de hacer las cuentas. 
 Fue de especial interes para el trabajo el poder realizar todos estos m\'etodos 
 con distintos valores 
-de precisi\'on. Para hacer enfasis en este punto, logramos trazar las curvas 
+de precisi\'on. Para hacer \'enfasis en este punto, logramos trazar las curvas 
 para todos los valores de decimales 
-entre 12 y 27, como vimos en la figura \ref{fig:AproxCaso1}.
+entre 12 y 27, como vimos en las figuras \ref{fig:Fit4Y7Newton} y \ref{fig:FitCaso4Y7RegulaFalsi}.
 Es notable ver como hasta cierto momento, la precision es de critica 
 importancia, pero despues los valores convergen y 
-agregar digitos no afectan los algoritmos.s
+agregar d\'igitos no afectan los algoritmos.
 
 En el caso de la precisi\'on en Regula Falsi es mucho m\'as notorio. El 
-algoritmo tiene menos restricciones en 
-la funci\'on que puede usar para estimar, y su velocidad de convergencia es 
-menor. Es notablemente m\'as impreciso
+algoritmo tiene menos restricciones en la funci\'on que puede usar para estimar, 
+y su velocidad de convergencia es menor. Es notablemente m\'as impreciso
 que Newton a mismo epsilon. Las soluciones posibles a este problema consisten 
 una combinacion de: 
 \begin{itemize}
@@ -61,6 +57,7 @@ mejor soluci\'on, y puede ser prohibitivamente caro en tiempo)
 como hacerlo de manera general)
 \end{itemize}
 
+\index{Conclusiones!Dificultad en la implementaci\'on de algoritmos}
 \subsection{Dificultad en la implementaci\'on de algoritmos}
 
 El experimento que qued\'o trunco fue la implementaci\'on del m\'etodo de la 
@@ -77,3 +74,32 @@ En la elecci\'on de m\'etodos num\'ericos existe una compensaci\'on entre
 dificultad de implementaci\'on, recursos necesarios 
 y grado de error del resultado. Estos componentes deben ser tomados en cuenta a 
 la hora de dise\~nar una soluci\'on.
+
+\index{Conclusiones!Elecci\'on de criterios para comparaci\'on de m\'etodos}
+\subsection{Elecci\'on de criterios para comparaci\'on de m\'etodos}
+
+Un tema importante que nos surgi\'o de toda esta experimentaci\'on intensiva
+con estos varios m\'etodos elegidos, fue intentar proponernos cual es el mejor
+de estos m\'etodos. Por todo lo que hemos visto, la respuesta esta lejos de
+ser sencilla. Influyen muchisimo m\'as algunas variables de lo que hubieramos
+pensando. Por ejemplo, uno por instinto elige siempre un epsilon muy chico
+para las comparaciones de tolerancia ($10^{-8}$ es bastante habitual en programas
+reales de m\'etodos num\'ericos). Sin embargo, debemos poder representar al 
+menos $2^{-30}$ para eso, con lo que se necesitaria un \texttt{double} como minimo,
+y hay arquitecturas que no estan preparadas para trabajar con eso (o al menos 
+no optimamente, como es el caso de CUDA de NVIDIA). 
+
+Otra variable importante fue la cantidad de iteraciones m\'aximas que pueden 
+usar los algoritmos, intimamente ligada al epsilon y la precisi\'on elegidas. 
+Lo que notamos es que si teniamos poca precisi\'on de los n\'umeros o 
+epsilon muy grande, la cantidad de iteraciones siempre estaban muy acotadas,
+pero en cuanto se llega al limite de precisi\'on porque no se pueden representar
+valores intermedios y todavia no se cumple la condicion de corte por el epsilon,
+entonces se dispara el numero de iteraciones al m\'aximo, y sin mejoras, algo 
+realmente malo. Como paliativo, se puede poner unas condiciones de corte como
+``Si llevas varias iteraciones sin mejorar, y no cambian tus variables de input,
+cort\'a porque no vas a volver a mejorar''. Sin embargo, esto no es m\'as que un
+parche al problema, y es una invitaci\'on a repensar las condiciones en el
+epsilon, en los tipos de dato que almacenamos y en la precisi\'on que pensamos
+que necesitamos, si es imprescindible el n-esimo digito.
+

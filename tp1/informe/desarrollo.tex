@@ -1,84 +1,243 @@
+
 \section{Desarrollo}
 
-El desarrollo de los experimentos fue realizado en serie. El m\'etodo de Newton, que se cree fundamental tanto por lo visto en clase como por lo consultado en libros relativos al an\'alisis num\'erico, fue el primero en ser implementado. Este proceso fue r\'apido, no existieron grandes dificultades en la implementaci\'on y los resultados fueron satisfactorios desde el comienzo.
+El desarrollo de los experimentos fue realizado en serie. 
+El m\'etodo de Newton, que se cree fundamental tanto por lo visto en clase como 
+por lo consultado en libros relativos al an\'alisis num\'erico, fue el primero 
+en ser implementado. Este proceso fue r\'apido, no existieron grandes 
+dificultades en la implementaci\'on y los resultados fueron satisfactorios 
+desde el comienzo.
 
-La decisi\'on sobre la implementaci\'on del m\'etodo de Regula falsi llega a partir de las dificultades en la aproximaci\'on mediante el m\'etodo de la secante, dificultades mencionadas m\'as adelante en la seccio\'on.
+La decisi\'on sobre la implementaci\'on del m\'etodo de Regula falsi llega a
+partir de las dificultades en la aproximaci\'on mediante el m\'etodo de la
+Secante, dificultades mencionadas m\'as adelante en esta seccio\'on.
 
-Como los m\'etodos fueron implementados de uno a la vez, la explicaci\'on del desarrollo de los experimentos est\'a organizada del mismo modo.
+El desarrollo de los experimentos es explicado en el orden en que estos fueron
+realizados. Si bien se realizaron ajustes a los m\'etodos luego de la primera
+iteraci\'on, lo explicado a continuaci\'on da una noci\'on realista de los pasos
+seguidos y las dificultades encontradas a la hora de la implementaci\'on de los
+algoritmos de los m\'etodos mencionados. 
 
+Antes de la explicaci\'on del
+desarrollo de la experiencia se procede a un repaso por las herramientas
+utilizadas y creadas para el an\'alisis, testeo y repetici\'on sistem\'atica de
+los experimentos.
+
+\index{Desarrollo!Herramientas}
+\subsection{Herramientas}
+
+El lenguaje de programaci\'on utilizado para la implementaci\'on de los
+experimentos es C++. La combinaci\'on de expresividad y manejo de estructuras de
+bajo nivel es de gran interes a la hora de desarrollar un algoritmo que
+implementa un m\'etodo num\'erico. Las estructuras de datos que provee la
+librer\'ia est\'andar son suficientes para la manipulaci\'on de los datos e
+incluso para t\'ecnicas de mejora experimentales probadas durante la
+realizaci\'on del trabajo.
+
+Para las rutinas y ploteo de gr\'aficos se utiliz\'o 
+\href{http://www.gnu.org/software/octave/}{GNU Octave}, un entorno conformado
+por software libre, multiplataforma y compatible con MATLAB. A trav\'es del
+disen/~o de scripts de Octave, fue posible el ploteo en serie de un n\'umero
+considerable de gr\'aficos en cada corrida de los tests.
+
+El ``pegamento'' entre estas herramientas est\'a conformado por una conjunto de
+scripts de bash. Gracias a estos procedimientos es posible, corriendo un solo
+comando, realizar tests con argumentos variables, realizar ploteos y
+comparaciones sobre los resultados.
+
+La posibilidad de correr los experimentos con una variedad interesante de
+par\'ametros es clave para entender el comportamiento de los mismos.
+
+\index{Desarrollo!M\'etodo de Newton}
 \subsection{M\'etodo de Newton}
 
-El primer m\'etodo elegido para obtener un despeje de $\beta$ fue el de Newton. La motivaci\'on para implementar este m\'etodo como primera opci\'on est\'a relacionada con la importancia que se le da al m\'etodo tanto en los textos consultados como en clase.
+El primer m\'etodo elegido para obtener un despeje de $\beta$ fue el de Newton. 
+La motivaci\'on para implementar este m\'etodo como primera opci\'on est\'a 
+relacionada con la importancia que se le da al m\'etodo tanto en los textos 
+consultados como en clase.
 
-A priori, la dificultad al emplear este m\'etodo est\'a ligada al c\'alculo de la derivada primera de la funci\'on a la que se le busca el cero en cada iteraci\'on. Si bien se puede decir que la iteraci\'on de Newton es la m\'as compleja de implementar, la divisi\'on del problema en subproblemas m\'as pequen\~os utilizando funciones auxiliares fue clave para una resoluci\'on que se refleja en un c\'odigo limpio y elegante.
+A priori, la dificultad al emplear este m\'etodo est\'a ligada al c\'alculo de 
+la derivada primera de la funci\'on a la que se le busca el cero en cada 
+iteraci\'on. Si bien se puede decir que la iteraci\'on de Newton es la m\'as 
+compleja de implementar, la divisi\'on del problema en subproblemas 
+m\'as pequen\~os, utilizando funciones auxiliares, fue clave para una 
+resoluci\'on que se refleja en un c\'odigo limpio y elegante.
 
-Previo a la implementaci\'on del m\'etodo se realizaron los c\'alculos matem\'aticos correspondientes a la funci\'on analizada. A continuaci\'on se encuentran los pasos que justifican la utilizaci\'on de la f\'ormula.
+Previo a la implementaci\'on del m\'etodo se realizaron los c\'alculos 
+matem\'aticos correspondientes a la funci\'on analizada. 
+A continuaci\'on se encuentran los pasos que justifican la utilizaci\'on 
+de la f\'ormula.
 
-Utilizando el despeje sugerido en clase:\\
+Utilizando el despeje sugerido en clase:
 
-$\frac{M(2\beta)}{M^2(\beta)}=1 + \beta(R(\beta)-R(0))$
+\begin{center}
+$\frac{M(2\beta)}{M^2(\beta)}=1 + \beta(R(\beta)-R(0))$\\
+\end{center}
 
-De esta funci\'on se deriva la siguiente ecuaci\'on: \\
+De esta funci\'on se deriva la siguiente ecuaci\'on: 
 
-$0 = \frac{\beta}{n}\sum{i=1}{n}\log x_i - \log \sum{i=1}{n}x_i^{\beta} + \log(n\lambda)-\psi(\lambda)$
+\begin{center}
+$0 = \frac{\beta}{n}\sum{i=1}{n}\log x_i - \log \sum{i=1}{n}x_i^{\beta} 
++ \log(n\lambda)-\psi(\lambda)$\\
+\end{center}
 
-Luego, el m\'etodo general de Newton empleado se comporta del siguiente modo: \\
+Luego, el m\'etodo general de Newton empleado se comporta del siguiente modo: 
+\begin{center}
 
-$\beta_{n+1} = \beta_{n} - \frac{f(\beta_{n})}{f'(\beta_{n})}$
+$\beta_{n+1} = \beta_{n} - \frac{f(\beta_{n})}{f'(\beta_{n})}$\\
 
-Habiendo obtenido la ecuaci\'on correspondiente al m\'etodo de Newton para esta funcio\'on se procedi\'o a la implementaci\'on del problema en el lenguaje de programaci\'on C++.
+\end{center}
 
-Los par\'ametros de entrada elegidos para el programa que calcula la aproximaci\'on de $\beta$ son los siguientes:
+Habiendo obtenido la ecuaci\'on correspondiente al m\'etodo de Newton para esta 
+funcio\'on se procedi\'o a la implementaci\'on del problema en el lenguaje 
+de programaci\'on C++.
+
+Los par\'ametros de entrada elegidos para el programa que calcula la 
+aproximaci\'on de $\beta$ son los siguientes:
 
 \begin{itemize}
-  \item \textbf{Precisi\'on}: Cantidad de d\'igitos utilizados en el c\'alculo. La variaci\'on de este par\'ametro conlleva una variaci\'on en la precisi\'on del resultado del c\'alculo y en el tiempo de ejecuci\'on del programa. El m\'aximo valor es la que usamos como control y corresponde a 52 d\'igitos de precisi\'on.
+  \item \textbf{Precisi\'on}: Cantidad de d\'igitos utilizados en el c\'alculo. 
+La variaci\'on de este par\'ametro conlleva una variaci\'on en la precisi\'on 
+del resultado del c\'alculo y en el tiempo de ejecuci\'on del programa. 
+El m\'aximo valor es el elegido como control y corresponde a 52 d\'igitos de 
+precisi\'on.
 
-  \item \textbf{Iteraciones m\'aximas}: M\'axima cantidad de iteraciones de Newton. Este criterio de parada previene ciclos infinitos ya sea por divergencia del m\'etodo como por problemas de precisi\'on en c\'alculos de punto flotante. Por defecto la m\'axima cantidad es de 10 iteraciones.
+  \item \textbf{Iteraciones m\'aximas}: M\'axima cantidad de iteraciones de 
+Newton. Este criterio de parada previene ciclos infinitos ya sea por divergencia
+del m\'etodo como por problemas de precisi\'on en c\'alculos de punto flotante. 
+Por defecto la m\'axima cantidad es de 10 iteraciones.
 
-  \item \textbf{Rango de $\beta$}: Control de la tolerancia. Por defecto asumimos que $\beta$ se encuentra entre 0.0 y 0.2 pero estos valores se pueden ajustar para modificar la tolerancia del m\'etodo.
+  \item \textbf{Rango de $\beta$}: Control de la tolerancia. Por defecto 
+se asume que $\beta$ se encuentra entre 0.0 y 0.2. Sin embargo, estos 
+valores se pueden ajustar con el fin de modificar la tolerancia del m\'etodo.
 \end{itemize}
 
-Esta distribuci\'on de los par\'ametros de entrada es clave para el testeo sistem\'atico y la comparativa entre corridas del mismo sistema e interm\'etodo a la hora de comparar con el de Regula falsi.
+Esta distribuci\'on de los par\'ametros de entrada es clave para el testeo 
+sistem\'atico y la comparativa entre corridas del mismo sistema e 
+interm\'etodo a la hora de comparar con el de Regula falsi.
 
-Experimentando la variaci\'on en la precisi\'on del algoritmo se destaca una diferencia significativa tomando valores entre los 15 y 25 d\'igitos de precisi\'on. Tomando valores mayores a 25 d\'igitos la precisi\'on del algoritmo no aumenta significativamente, alcanzando valores similares a los de la precisi\'on m\'axima impuesta de 52 d\'igitos. Esta observaci\'on se interpreta, a primera vista, como una aceleraci\'on significativa del error hacia valores cercanos al cero.
+Experimentando la variaci\'on en la precisi\'on del algoritmo se destaca una 
+diferencia significativa tomando valores entre los 15 y 25 d\'igitos de 
+precisi\'on. Tomando valores mayores a 25 d\'igitos la precisi\'on del 
+algoritmo no aumenta significativamente, alcanzando valores similares a los 
+de la precisi\'on m\'axima impuesta de 52 d\'igitos. 
+Esta observaci\'on se interpreta, a primera vista, como una aceleraci\'on 
+significativa del error hacia valores cercanos al cero.
 
+\index{Desarrollo!M\'etodo de la Secante}
 \subsection{M\'etodo de la Secante}
 
-El segundo m\'etodo elegido fue el m\'etodo de la Secante, ya que es muy parecido al m\'etodo de Newton y tiene orden de convergencia superlineal. R\'apidamente qued\'o descartado debido a problemas relacionados al c\'alculo de cocientes, en donde el denominador se acerca a cero a un nivel pr\'acticamente indistinguible al nivel de representaci\'on de la computadora.
+El segundo m\'etodo elegido fue el m\'etodo de la Secante. Este se presenta
+similar al m\'etodo de Newton y posee un orden de convergencia superlineal. 
+R\'apidamente qued\'o descartado debido a problemas relacionados al c\'alculo 
+de cocientes, en donde el denominador se acerca a cero a un nivel 
+pr\'acticamente indistinguible al nivel de representaci\'on de la computadora.
 
+\index{Desarrollo!M\'etodo de Regula falsi}
 \subsection{M\'etodo de Regula falsi}
 
-Habiendo implementado el m\'etodo de la Secante, y para subsanar el problema de la divisi\'on por cero, se procedi\'o a implementar el m\'etodo de Regula Falsi, tambi\'en conocido como Regla Falsa.
+Habiendo implementado el m\'etodo de la Secante, y para subsanar el problema 
+de la divisi\'on por cero, se procedi\'o a implementar el m\'etodo de 
+Regula Falsi, tambi\'en conocido como Regla Falsa.
 
 De la misma forma que con el m\'etodo de Newton, partiendo de la ecuaci\'on:
+\begin{center}
 
-$\frac{M(2\beta)}{M^2(\beta)}=1 + \beta(R(\beta)-R(0))$
+$\frac{M(2\beta)}{M^2(\beta)}=1 + \beta(R(\beta)-R(0))$\\
+\end{center}
 
-para despejar $\beta$ y luego utilizando las mismas f\'ormulas que en el caso anterior para despejar $\lambda$ y $\sigma$.
+para despejar $\beta$ y luego utilizando las mismas f\'ormulas que en el 
+caso anterior para despejar $\lambda$ y $\sigma$.
 
 La formula resultante para el m\'etodo de Regula Falsi es:
+\begin{center}
 
-$\beta_n = \beta_{n-1} - \frac{f(\beta_{n-1}) (\beta_{n-1}-\beta_{n-2})}{f(\beta_{n-1}) - f(\beta_{n-2})}$
+$\beta_n = \beta_{n-1} - \frac{f(\beta_{n-1}) (\beta_{n-1}-\beta_{n-2})}
+{f(\beta_{n-1}) - f(\beta_{n-2})}$\\
+\end{center}
 
-Se tom\'o la decisi\'on de elegir $f(\beta_{n-1})$ y $f(\beta_n)$ o $f(\beta_{n-2})$ y $f(\beta_n)$ seg\'un el signo de $f(\beta_n)$ de modo tal de que los dos n\'umeros que sean tenidos en cuenta tengan distinto signo al aplicarle $f$.
+Se tom\'o la decisi\'on de elegir $f(\beta_{n-1})$ y $f(\beta_n)$ \'o 
+$f(\beta_{n-2})$ y $f(\beta_n)$ seg\'un el signo de $f(\beta_n)$ de modo 
+tal de que los dos n\'umeros que sean tenidos en cuenta tengan distinto signo 
+al aplicarle $f$.
 
+El principal problema asociado a este m\'etodo se vio en los casos 1 y 2 donde
+la convergencia se daba con un grado de precisi\'on de aproximadamente 20
+d\'igitos, pero al utilizar menos el m\'etodo se comportaba de manera peculiar,
+perdiendo convergencia a medida que se agregan d\'igitos de precisi\'on.
+
+Es por eso que investigamos y decidimos implementar una mejora conocida como el
+``M\'etodo de Illinois''.
+
+\index{Desarrollo!Algoritmo de Illinois}
 \subsection{Algoritmo de Illinois}
 
-Luego de implementar el algoritmo de Regula Falsi, que tiene orden de convergencia lineal, nos dimos cuenta de que el mismo converge muy lentamente, en ese momento decidimos implementar el algoritmo de Illinois, que tiene orden de convergencia $3^{1/3}$. La ecuación de la iteración del algoritmo de Illinois es muy parecida a la de Regula falsi.
+Luego de implementar el algoritmo de Regula Falsi, que tiene orden de 
+convergencia lineal, el an\'alisis tanto gr\'afico como anal\'itico demostr\'o
+que la convergencia era muy lenta. 
+Llegado este punto se decidi\'o implementar el \textit{algoritmo de Illinois}, una mejora
+de Regula falsi que tiene orden de convergencia $3^{1/3}$. 
+La ecuaci\'on de la iteraci\'on del algoritmo de Illinois es muy 
+parecida a la de Regula falsi.
 
-En caso de que la ante\'ultima iteraci\'on del m\'etodo sea la que es reemplazada por la nueva iteraci\'on anterior la f\'ormula es parecida a la de Regula Falsi
+En caso de que la ante\'ultima iteraci\'on del m\'etodo sea la que es 
+reemplazada por la nueva iteraci\'on anterior la f\'ormula 
+es similar a la de Regula Falsi
 
+\begin{center}
 $\beta_n = \frac{f(\beta_{n-2})\cdot \beta_{n-1} - f(\beta_{n-1})\cdot\beta_{n-2}}
-{f(\beta_{n-2})-f(\beta_{n-1})}$
+{f(\beta_{n-2})-f(\beta_{n-1})}$\\
+\end{center}
 
-En caso de que la \'ultima iteraci\'on del m\'etodo sea la que reemplazamos por la nueva iteraci\'on en el paso anterior, la f\'ormula es
+En caso de que la \'ultima iteraci\'on del m\'etodo sea la reemplazada 
+por la nueva iteraci\'on en el paso anterior, la f\'ormula es:
+\begin{center}
+$\beta_n = \frac{\frac{1}{2}f(\beta_{n-2})\cdot \beta_{n-1} - 
+f(\beta_{n-1})\cdot\beta_{n-2}}
+{\frac{1}{2}f(\beta_{n-2})-f(\beta_{n-1})}$ \\
+\end{center}
 
-$\beta_n = \frac{\frac{1}{2}f(\beta_{n-2})\cdot \beta_{n-1} - f(\beta_{n-1})\cdot\beta_{n-2}}
-{\frac{1}{2}f(\beta_{n-2})-f(\beta_{n-1})}$
+Lo interesante acerca de la implementaci\'on del algoritmo de Illinois es
+que, con un peque\~no y aparentemente trivial cambio en el c\'odigo se consigue una
+convergencia de $\frac{1}{\sqrt[3]{n}}$. Illinois ayuda a la convergencia en casos
+donde la recta secante es casi vertical, dificultando el acercamiento del
+algoritmo al cero buscado.\\
 
-\subsection{Criterios de Parada}	
+Una explicaci\'on intuitiva de por qu\'e converge Illinois es la siguiente: 
+
+Sean $s$ y $t$ dos iteraciones del m\'etodo. En el pr\'oximo paso nos movemos a 
+
+\begin{center}
+$\frac{f(s)*t-f(t)*s}{f(s)-f(t)}$\\
+\end{center}
+
+que es un promedio ponderado de $s$ y $t$, ponderando a cada uno por $f$ 
+evaluado en el otro punto (cambiando el signo de uno de ellos para que 
+tengan el mismo signo). Esto hace que nos movamos a un punto intermedio 
+entre $s$ y $t$.
+
+Ahora notemos que si siempre reemplazamos $s$ y $t$ se conserva a lo largo 
+de las iteraciones, esto quiere decir que ese punto intermedio tiene siempre el 
+mismo signo que $s$, y por lo tanto nos hace pensar que $t$ es muy cercano al 
+cero de $f$. Es por esto que, en ese caso, $f(s)$ lo ponderamos por un medio, 
+ya que probablemente, al estar $s$ m\'as lejos que $t$ del cero esto nos 
+acerque m\'as r\'apido al cero. Esta idea s\'olo ayuda a hacer el 
+m\'etodo m\'as r\'apido pero no modifica el hecho de que el m\'etodo converge.
+
+\index{Desarrollo!Criterios de parada}
+\subsection{Criterios de parada}	
 
 Los criterios de parada utilizados en ambos casos son equivalentes.
 
-Para ambos m\'etodos se fija $\epsilon$ en $10^{-4}$ y se corre el m\'etodo hasta que en dos iteraciones consecutivas el resultado difiera en menos de $\epsilon$ o bien hasta llegar a un n\'umero de iteraciones m\'aximas, que por defecto se fija en 10 iteraciones, valor elegido luego de la experimentaci\'on de diferentes valores del par\'ametro por su consistencia.
-La elecci\'on del $\epsilon$ no es caprichosa, sino que se debe a que es la potencia de 10 m\'as chica que podemos elegir de modo tal que con la m\'inima presici\'on con la que iteramos (15 bits) pueda ser posible cortar por esta condici\'on y no corte siempre por cantidad de iteraciones, ya que $10^{-5}$ es menos que la diferencia entre dos n\'umeros representables consecutivos en el orden de los n\'umeros con los que trabajamos en el TP.
+Para ambos m\'etodos se fija $\epsilon$ en $10^{-4}$ y se corre el m\'etodo 
+hasta que en dos iteraciones consecutivas el resultado difiera en menos de 
+$\epsilon$ o bien hasta llegar a un n\'umero de iteraciones m\'aximas, 
+que por defecto se fija en 10 iteraciones, valor elegido luego de la 
+experimentaci\'on de diferentes valores del par\'ametro por su consistencia.
+
+La elecci\'on del $\epsilon$ no es caprichosa, sino que se debe a que es la 
+potencia de 10 m\'as chica que podemos elegir de modo tal que con la m\'inima 
+presici\'on con la que iteramos (15 bits) pueda ser posible cortar por esta 
+condici\'on y no corte siempre por cantidad de iteraciones, ya que 
+$10^{-5}$ es menos que la diferencia entre dos n\'umeros representables 
+consecutivos en el orden de los n\'umeros con los que trabajamos en el TP.

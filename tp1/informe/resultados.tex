@@ -1,28 +1,66 @@
 \section{Resultados}
 
-%TODO: Primer p\'arrafo introductorio con la posta de lo que nos dio!
+La primera aproximaci\'on a los resultados fue dada por el ploteo de las 
+distribuciones con datos conocidos, permitiendo observar como se ajustan los 
+histogramas sin llevar a cabo ninguna experimentaci\'on (Ver figura \ref{fig:Exacto1y2}). 
+Este experimento sirvi\'o para dar una idea de las formas que debieran seguir 
+las curvas ajustadas en los subsiguientes experimentos.
 
-La primera aproximaci\'on a los resultados fue dada por el ploteo de las distribuciones con datos conocidos, permitiendo observar como se ajustan los histogramas sin llevar a cabo ninguna observaci\'on. Este experimento sirvi\'o para dar una idea de las formas que debieran seguir las curvas ajustadas en los subsiguientes experimentos.
-
-\subsection{M\'etodo de Newton}
-
+En primer t\'ermino se puede mencionar que ambos m\'etodor brindan buenas
+aproximaciones para las variables a estimar cuando los c\'alculos se realizan
+con un n\'umero de d\'igitos razonables para los valores que calculamos m\'as
+adelante se detallan cuales son valores ``razonables'' en este problema en
+particular).
 \begin{figure} [H]
 \begin {center}
-\includegraphics[width=300pt]{plots/Caso1Hist.png}
-\includegraphics[width=300pt]{plots/Caso2Hist.png}
+\includegraphics[width=220pt]{plots/Caso1Hist.png}
+\includegraphics[width=220pt]{plots/Caso2Hist.png}
 \end {center}
 \caption{Traza exacta de la funci\'on digamma usando los par\'ametros conocidos}
-\label{fig:FitCaso3Newton}
+\label{fig:Exacto1y2}
 \end{figure}
 
-Una vez determinada la forma ''deseada'' de las curvas se procedi\'o a encontrar valores de cantidad de d\'igitos decimales relevantes para los experimentos. Notamos que el m\'etodo de Newton para valores muy bajos de cantidad de digitos no convergia ($t < 12$ en promedio); Por lo que nos concentramos en valores
-ligeramente mas grandes, cosa de poder contemplar cuan cerca esta la distribuci\'on estimada de la real.
+\index{Resultados!Nota previa}
+\subsection{Nota previa}
+Cuando nos referimos a los casos, los numeramos de la siguiente manera:\\
+\begin{itemize}
+    \item Caso 1 = \texttt{x\_15\_9\_3.txt}
+    \item Caso 1 = \texttt{x\_2\_62\_35.txt}
+    \item Caso 3 al 9 = \texttt{X1.txt} a \texttt{X7.txt}
+\end{itemize}
 
-Los valores que usamos de precision son 15, 17, 22, 27. Estos fueron elegidos porque convergian, y porque consideramos que estan
-suficientemente separados entre s\'i como para ser significativos. Creamos un script para automatizar la generaci\'on de estos gr\'aficos,
-para poder hacer los experimentos repetibles y consistentes. Estos invocan al m\'etodo con algunos parametros, obtienen los
-valores estimados, la cantidad de iteraciones que realizo el algoritmo elegido y la cantidad de milisegundos que tard\'o este proceso.
+Estos resultados fueron generados automaticamente. Para hacerlo, se ejecutaron
+dos scripts, \texttt{matlab/run\_exp.sh} y \texttt{matlab/run\_exp\_eps.sh}.
+Estos corren el ejecutable del codigo, y mandan su salida standard a un archivo
+con Beta, Lambda, Sigma, cuantas iteraciones realizo y el tiempo de corrida. Ahi se generan
+los histogramas de fitness. Luego, estos invocan a \texttt{matlab/generateAprox.sh} y 
+\texttt{matlab/generateAproxEpsilon.sh}, que hacen \texttt{grep} sobre estos archivos de
+salida y se generan las curvas de aproximacion en funcion de la precision, y tambien
+las iteraciones y aproximaciones en funcion del epsilon. \\
 
+Estos tests se realizaron usando \texttt{bash} y \texttt{octave}, y se parametrizaron
+de forma tal que fuera totalmente repetible y regenerable el informe con solamente
+ejecutar \texttt{run\_exp.sh y run\_exp\_eps.sh}. Consideramos que es tan importante
+la consistencia a la hora de realizar los experimentos, que nos parecio valioso
+invertir una gran cantidad de tiempo de modo tal que queden perfectos y reutilizables.
+
+\index{Resultados!M\'etodo de Newton}
+\subsection{M\'etodo de Newton}
+
+Una vez determinada la forma ``deseada'' de las curvas se procedi\'o a encontrar
+valores de cantidad de d\'igitos decimales relevantes para los experimentos. 
+Bajo la observac\'ion de que el m\'etodo de Newton para valores muy bajos de 
+cantidad de d\'igitos no converge ($t < 12$ en promedio); Por lo que el foco
+estuvo puesto en valores ligeramente mas grandes, con el fin de poder contemplar
+la distancia entre la distribuci\'on estimada y la real.
+
+Los valores utilizados para la precision son 15, 17, 22, 27. 
+Estos fueron elegidos porque convergen, y porque estan suficientemente separados
+entre si como para ser significativos. Fue creado un script para automatizar la 
+generaci\'on de estos gr\'aficos, para poder hacer los experimentos repetibles 
+y consistentes. Estos invocan al m\'etodo con algunos parametros, 
+obtienen los valores estimados, la cantidad de iteraciones que realizo el 
+algoritmo elegido y la cantidad de milisegundos que tard\'o este proceso.
 
 \begin{figure} [H]
 $\begin{array}{cc}
@@ -47,45 +85,42 @@ $\begin{array}{cc}
 \end{figure}
 
 
-Tambien trazamos, para los valores conocidos, como es la aproximacion de las distintas variables, $\beta, \lambda, \sigma$ usando el m\'etodo de Newton.
-Aca ploteamos todas las precisiones entre 10 y 27 y fuimos analizando como iban variando $\beta$ (y $\lambda$ y $\sigma$ en consecuencia).
+Tambien fueron trazados, para los valores conocidos, como es la 
+aproximaci\'on de las distintas variables, $\beta, \lambda, \sigma$ usando el 
+m\'etodo de Newton. En la siguiente figura se ven ploteadas todas las 
+precisiones entre 10 y 27 y centrando el an\'alisis de la variaci\'on de 
+$\beta$ (y $\lambda$ y $\sigma$ en consecuencia).
 
-Como se puede observar en los casos 1 y 2, el valor de $\sigma$ se mantiene estable no siendo la precisi\'on de los c\'alculos un limitante y convergiendo muy velozmente. Sin embargo las aproximaciones tanto de $\beta$ como de $\lambda$ comienzan a estabilizarse en la convergencia a partir de la utilizaci\'on de 17 d\'igitos de precisi\'on. Es evidente que el rango de d\'igitos de precisi\'on en estos casos debe mantenerse entre unos 15 y 20 d\'igitos para maximizar la eficiencia del algoritmo.  
+Como se puede observar en los casos 1 y 2\ref{fig:FitCaso1Y2newton}, el valor de $\sigma$ se mantiene 
+estable, no siendo la precisi\'on de los c\'alculos un limitante y convergiendo 
+muy velozmente. Sin embargo, las aproximaciones tanto de $\beta$ como de 
+$\lambda$ comienzan a estabilizarse respecto a su convergencia a partir de la 
+utilizaci\'on de 17 d\'igitos de precisi\'on. Es evidente que el rango de 
+d\'igitos de precisi\'on en estos casos debe mantenerse entre unos 15 y 20 
+para maximizar la eficiencia (tanto temporal como al uso de memoria) del 
+algoritmo.  
 
-\begin{figure}
+\begin{figure} [H]
 $\begin{array}{c}
-\includegraphics[width=400pt]{plots/Caso1-Newton.png} \\
-\includegraphics[width=400pt]{plots/Caso2-Newton.png}
+\includegraphics[width=400pt]{plots/Caso4-Newton.png} \\
+\includegraphics[width=400pt]{plots/Caso7-Newton.png}
 \end{array}$
-
-\caption{Aproximacion a $\beta, \lambda, \sigma$ en los Casos 1 y 2 usando Newton}
+\caption{Aproximaci\'on a $\beta, \lambda, \sigma$ en los Casos 4 y 7 
+usando Newton}
+\label{fig:Fit4Y7Newton}
 \end{figure}
 
-En el Caso 3 vemos una anomal\'ia en los valores de $\beta$ y $\lambda$. En este caso tomar entre 15 y 20 d\'igitos de precisi\'on no es suficiente para obtener valores relevantes. Estos se estabilizan recien a partir de los 22 d\'igitos de precisi\'on.
-
-
-En los casos 4, 5, 6, 8 y 9 tambi\'en observamos que a partir de 20 d\'igitos de precisi\'on comienza a converger el valor de $\beta$. En el caso 7 $\beta$ comienza a converger a partir de 22 d\'igitos de precisi\'on.
-
-\begin{figure}
-$\begin{array}{cc}
-\includegraphics[width=220pt]{plots/Caso3-Newton.png} &
-\includegraphics[width=220pt]{plots/Caso4-Newton.png} \\
-\includegraphics[width=220pt]{plots/Caso5-Newton.png} &
-\includegraphics[width=220pt]{plots/Caso6-Newton.png} \\
-\includegraphics[width=220pt]{plots/Caso7-Newton.png} &
-\includegraphics[width=220pt]{plots/Caso8-Newton.png} \\
-\includegraphics[width=220pt]{plots/Caso9-Newton.png} &\\
-\end{array}$
-
-\caption{Aproximacion a $\beta, \lambda, \sigma$ en los Casos 3 al 9 usando Newton}
-\label{fig:AproxCasosNewton}
-\end{figure}
+En el Caso 3, de la figura \ref{fig:FitCaso3Newton}, se puede ver una anomal\'ia en los valores de $\beta$ y $\lambda$. 
+En este caso tomar entre 15 y 20 d\'igitos de precisi\'on no es suficiente para 
+obtener valores relevantes. Estos se estabilizan recien a partir de los 22 
+d\'igitos de precisi\'on.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\index{Resultados!M\'etodo Regula Falsi - Illinois}
 \subsection{M\'etodo Regula Falsi - Illinois}
 
-
-Trazamos los mismos plots para Regula Falsi, en su variante Illinois.
+Trazando los mismos gr\'aficos para Regula Falsi, en su variante Illinois:
 
 \begin{figure} [H]
 $\begin{array}{cc}
@@ -94,7 +129,8 @@ $\begin{array}{cc}
 \includegraphics[width=200pt]{plots/RegulaFalsi-22-caso3.png} &
 \includegraphics[width=200pt]{plots/RegulaFalsi-27-caso3.png}
 \end{array}$
-\caption{Ajuste usando distintas precisiones (15, 17, 22, 27) con RegulaFalsi al caso 3, X1}
+\caption{Ajuste usando distintas precisiones (15, 17, 22, 27) con 
+Regula Falsi - Illinois al caso 3, X1}
 \label{fig:FitCaso3RegulaFalsi}
 \end{figure}
 
@@ -105,64 +141,114 @@ $\begin{array}{cc}
 \includegraphics[width=200pt]{plots/RegulaFalsi-22-caso4.png} &
 \includegraphics[width=200pt]{plots/RegulaFalsi-27-caso4.png}
 \end{array}$
-\caption{Ajuste usando distintas precisiones (15, 17, 22, 27) con RegulaFalsi al caso 4, X2}
-\label{fig:FitCaso4Newton}
+\caption{Ajuste usando distintas precisiones (15, 17, 22, 27) con Regula 
+Falsi - Illinois al caso 4, X2}
+\label{fig:FitCaso4RegulaFalsi}
 \end{figure}
 
 
-Tambien trazamos, para los valores conocidos, como es la aproximacion de las distintas variables, $\beta, \lambda, \sigma$ usando el m\'etodo RegulaFalsi.
-Aca ploteamos todas las precisiones entre 10 y 27 y fuimos analizando como iban variando $\beta$ (y $\lambda$ y $\sigma$ en consecuencia).
+Adem\'as, trazando para los valores conocidos como es la aproximaci\'on de las 
+distintas variables, $\beta, \lambda, \sigma$ usando el m\'etodo de Regula Falsi
+y graficando todas las precisiones entre 10 y 27 y se procedi\'o al an\'alisis de
+la variaci\'on de $\beta$ (y $\lambda$ y $\sigma$ en consecuencia).
 
-Como se puede observar en los casos 1 y 2, el valor de $\sigma$ se mantiene estable no siendo la 
-precisi\'on de los c\'alculos un limitante y convergiendo muy velozmente. 
-Sin embargo las aproximaciones tanto de $\beta$ como de $\lambda$ comienzan a estabilizarse en la convergencia 
-a partir de la utilizaci\'on de 17 d\'igitos de precisi\'on. Es evidente que el rango de d\'igitos de precisi\'on en 
-estos casos debe mantenerse entre unos 15 y 20 d\'igitos para maximizar la eficiencia del algoritmo.  
+Como se puede observar en los casos 3 y 4, de la figura \ref{fig:FitCaso4RegulaFalsi}, 
+el valor de $\sigma$ se mantiene 
+estable no siendo la precisi\'on de los c\'alculos un limitante y convergiendo 
+muy velozmente. Sin embargo las aproximaciones tanto de $\beta$ como de $\lambda$ 
+comienzan a estabilizarse en la convergencia a partir de la utilizaci\'on de 17 
+d\'igitos de precisi\'on. Es evidente que el rango de d\'igitos de precisi\'on en 
+estos casos debe mantenerse entre unos 15 y 20 d\'igitos para maximizar la 
+eficiencia del algoritmo.  
 
-\begin{figure}
+\begin{figure} [H]
 $\begin{array}{c}
-\includegraphics[width=400pt]{plots/Caso1-RegulaFalsi.png} \\
-\includegraphics[width=400pt]{plots/Caso2-RegulaFalsi.png}
+\includegraphics[width=400pt]{plots/Caso4-RegulaFalsi.png} \\
+\includegraphics[width=400pt]{plots/Caso7-RegulaFalsi.png}
 \end{array}$
 
-\caption{Aproximacion a $\beta, \lambda, \sigma$ en los Casos 1 y 2 usando RegulaFalsi}
+\caption{Aproximaci\'on a $\beta, \lambda, \sigma$ en los Casos 4 y 7 usando 
+Regula Falsi - Illinois}
+\label{fig:FitCaso4Y7RegulaFalsi}
 \end{figure}
 
-En el Caso 3 vemos una anomal\'ia en los valores de $\beta$ y $\lambda$. En este caso tomar entre 15 y 20 d\'igitos de precisi\'on
-no es suficiente para obtener valores relevantes. Estos se estabilizan recien a partir de los 22 d\'igitos de precisi\'on.
-
-
-
-
-\begin{figure}
-$\begin{array}{cc}
-\includegraphics[width=220pt]{plots/Caso3-RegulaFalsi.png} &
-\includegraphics[width=220pt]{plots/Caso4-RegulaFalsi.png} \\
-\includegraphics[width=220pt]{plots/Caso5-RegulaFalsi.png} &
-\includegraphics[width=220pt]{plots/Caso6-RegulaFalsi.png} \\
-\includegraphics[width=220pt]{plots/Caso7-RegulaFalsi.png} &
-\includegraphics[width=220pt]{plots/Caso8-RegulaFalsi.png} \\
-\includegraphics[width=220pt]{plots/Caso9-RegulaFalsi.png} & \\
-
-\end{array}$
-
-\caption{Aproximacion a $\beta, \lambda, \sigma$ en los Casos 3 y al 8 usando RegulaFalsi}
-\label{fig:AproxCasosRegulaFalsi}
-
-
-
-\end{figure}
-
+En el Caso 7 (Parte de abajo de la figura \ref{fig:FitCaso4Y7RegulaFalsi})
+se aprecia una anomal\'ia en los valores de $\beta$ y $\lambda$.
+En este caso tomar entre 15 y 20 d\'igitos de precisi\'on no es suficiente para 
+obtener valores demasiados proximos a la soluci\'on. Estos se estabilizan recien a partir de los 20
+d\'igitos de precisi\'on.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{$\lambda$ y $\sigma$}
+\index{Desarrollo!Lambda y Sigma}
+\subsection{Lambda y Sigma}
 
-\indent Para calcular $\lambda$ y $\sigma$ utilizamos las f\'ormulas (1) y (2) dadas en el enunciado. Pudimos observar que, al depender estas dos de $\beta$, empiezan a converger a medida que $\beta$ converge.
+\indent Para calcular $\lambda$ y $\sigma$ se utilizaron las f\'ormulas 
+(1) y (2) extra\'idas del enunciado. Se pudo observar que, al depender estas 
+dos de $\beta$, empiezan a converger a medida que $\beta$ converge.
+\begin{center}
+$\lambda = \big[ \beta \big( \frac{\sum_{i=1}^{n}x_i^\beta \log x_i}{ \sum_{i=1}^{n} x_i^\beta} 
+- \frac{\sum_{i=1}^{n} \log x_i}{n} \big)\big]^{-1}$
 
-$$\big[ \beta \big( \frac{\sum_{i=1}^{n}x_i^\beta \log x_i}{ \sum_{i=1}^{n} x_i^\beta} - \frac{\sum_{i=1}^{n} \log x_i}{n} \big)\big]^{-1}$$
+$\sigma = \big( \frac{\sum_{i=1}^{n} x_i^\beta}{n\lambda}\big)^{\frac{1}{\beta}}$
+\end{center}
 
-$$\sigma = \big( \frac{\sum_{i=1}^{n} x_i^\beta}{n\lambda}\big)^{\frac{1}{\beta}}$$
+Respecto a $\lambda$ observamos que al tener el factor $\beta$ multiplicando 
+elevado a la $-1$, esto es equivalente a dividir por $\beta$, y este factor es el 
+que m\'as pesa a la hora de establecer una dependencia entre $\beta$ y $\lambda$ 
+ya que al crecer $\beta$ siempre decrece $\lambda$ y al decrecer $\beta$ siempre
+crece $\lambda$. En algunos casos se observa que una peque\~na variaci\'on en 
+$\beta$ implica una variaci\'on muy grande en $\lambda$.
 
-Para $\lambda$ observamos que al tener el factor $\beta$ multiplicando a la $-1$, esto es como dividir por $\beta$, y este factor es el que m\'as pesa a la hora de la dependencia entre $\beta$ y $\lambda$ ya que al crecer $\beta$ siempre decrece $\lambda$ y al decrecer $\beta$ siempre crece $\lambda$. En algunos casos observamos que una peque\~na variaci\'on en $\beta$ implica una variaci\'on muy grande en $\lambda$.
+$\sigma$ en cambio se comporta de manera igual que beta, es decir, o ambos 
+crecen o ambos decrecen. Esto se debe, probablemente, a que hay un factor 
+$\lambda^{\frac{1}{\beta}}$ dividiendo, y dado que $\lambda$ crece mucho cuando 
+$\beta$ decrece y viceversa, esto suma mucho para la variaci\'on de $\sigma$. 
+Adem\'as de esto, la media que se calcula (por ejemplo, el promedio si $\beta = 
+1$ o la media cuadr\'atica si $\beta = 2$) es una funci\'on creciente en 
+$\beta$ que es igual a la norma $\beta$ del vector de entrada (los $x_i$).
 
-$\sigma$ en cambio se comporta de manera igual que beta, es decir, o ambos crecen o ambos decrecen. Esto se debe, probablemente, a que hay un factor $\lambda^{\frac{1}{\beta}}$ dividiendo, y dado que $\lambda$ crece mucho cuando $\beta$ decrece y viceversa, esto suma mucho para la variaci\'on de $\sigma$. Adem\'as de esto, la media que se calcula (por ejemplo, el promedio si $\beta = 1$ o la media cuadr\'atica si $\beta = 2$) es una funci\'on creciente en $\beta$ que es igual a la norma $\beta$ del vector de entrada (los $x_i$).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\index{Desarrollo!Epsilon y cantidad de iteraciones}
+\subsection{Epsilon y cantidad de iteraciones}
+
+\indent Nos pareci\'o de importancia tambien intentar entender como afecta
+el $\epsilon$ elegido a la hora de aplicar estos m\'etodos. Es decir,
+queremos estudiar si vale la pena ejecutar un m\'etodo de aproximaci\'on numerica
+con un criterio de converngencia con mucho mas estricto.
+
+Propusimos el siguiente expermiento. Dada una corrida con una cantidad fija $t=20, t=50$ decimales,
+y una cantidad m\'axima de iteraciones, $m=400$, queremos ver como afecta al valor
+de la variable estimada $\beta$, para $\epsilon$ entre $10^{-2}$ y $10^{-9}$ .
+
+Es de interes esto para poder probar si la precisi\'on agregada justifica el incremento
+de iteraciones en los m\'etodos. Ademas podemos con esto ver cuando convergen los valores, y
+cuando llegan al m\'aximo de las iteraciones (y no llegan a converger en ese tiempo).
+
+Tambien comparamos entre dos precisiones distintas, para ver el hecho de a partir de que 
+cantidad de decimales menos signficativos se puede obtener convergencias razonablemente 
+r\'apidas o si incluso ahi sigue divirgiendo, implicando que seria necesaria aun m\'as cantidad
+de decimales.
+
+
+\begin{figure} [H]
+$\begin{array}{c}
+\includegraphics[width=400pt]{plots/Caso7-Newton-21-eps.png} \\
+\includegraphics[width=400pt]{plots/Caso7-Newton-50-eps.png}
+\end{array}$
+\label{fig:Newton-Eps-Caso4}
+\caption{Valor de $\beta$ y cantidad de iteraci\'ones, variando el epsilon, para 21 y 50 
+decimales usando Newton, para el Caso 7}
+\end{figure}
+
+
+\begin{figure} [H]
+$\begin{array}{c}
+\includegraphics[width=400pt]{plots/Caso8-RegulaFalsi-21-eps.png} \\
+\includegraphics[width=400pt]{plots/Caso8-RegulaFalsi-50-eps.png}
+\end{array}$
+\label{fig:RegulaFalsi-Eps-Caso4}
+\caption{Valor de $\beta$ y cantidad de iteraci\'ones, variando el epsilon, para 21 y 50 
+decimales usando Regula Falsi-Illinois, para el Caso 8}
+\end{figure}
+

@@ -144,7 +144,7 @@ void TFloat::recortar()
 vector<TFloat> valores;
 
 int n, t;
-const double epsilon =  1.e-4;
+double epsilon =  1.e-4;
 int maximoIteraciones = 10;
 TFloat pot(TFloat base, TFloat exp)
 {
@@ -252,7 +252,8 @@ TFloat fprima(TFloat beta)
     /** Mprima(beta*2)*2 = Derivada de M(beta*2)
      *  M(beta)*Mprima(beta)*2 = Derivada de M(beta)*M(beta) o M(beta)^2
      *  Derivada de M(beta*2)/M(beta)^2 =
-     *      (Mprima(beta*2)*M(beta)*M(beta)*2 - M(beta*2)*M(beta)*Mprima(beta)*2)/(M(beta)*M(beta)*M(beta)*M(beta))
+     *      (Mprima(beta*2)*M(beta)*M(beta)*2 - 
+     *      M(beta*2)*M(beta)*Mprima(beta)*2)/(M(beta)*M(beta)*M(beta)*M(beta))
      *  Derivada de beta * (R(beta) - R(0)) =
      *      beta * (Rprima(beta)) + R(beta)-R(0) //// Rprima(0) = 0 porque es una constante?
      */
@@ -263,10 +264,6 @@ TFloat fprima(TFloat beta)
     return  (TFloat(2,t))*(MPrima(beta*2)*Mbeta - M(beta*2)*MPrima(beta))/(Mbeta*Mbeta2)
             - (beta * RPrima(beta) + R(beta) - R(0));
 }
-
-
-//TFloat f(TFloat x) {return x*x - 2.0;}
-//TFloat fprima(TFloat x){ return TFloat(2.)*x;}
 
 
 TFloat newton(TFloat beta, TFloat beta2, int& iteraciones)
@@ -310,9 +307,7 @@ TFloat illinois(TFloat beta, TFloat beta2, int& iteraciones)
     while(iteraciones<maximoIteraciones && fabs(beta.dbl()-beta2.dbl())>epsilon)
     {
         iteraciones++;
-//r = (fs*t - ft*s) / (fs - ft);
-	beta3 = (fbeta*beta2 - fbeta2*beta)/(fbeta-fbeta2);
-        //beta3 = beta2 - fbeta2*(beta2-beta)/(fbeta2-fbeta);
+	    beta3 = (fbeta*beta2 - fbeta2*beta)/(fbeta-fbeta2);
         TFloat fbeta3=f(beta3); 
         if(fbeta2.dbl()*fbeta3.dbl()>0)
         {
@@ -335,9 +330,10 @@ TFloat illinois(TFloat beta, TFloat beta2, int& iteraciones)
 
 void uso()
 {
-    cout << "\"./Newton\" precision = 52, iteraciones maximas = 10, Beta entre 0.0 y 10.0"<<endl;
-    cout << "\"./Newton <t>\" precision = t, iteraciones maximas = 10, Beta entre 0.0 y 10.0"<<endl;
-    cout << "\"./Newton <t> <n> <b1> <b2> <m> \" precision = t, iteraciones maximas= n, Beta entre b1 y b2, <m> metodo (0 Newton - 1 RegulaFalsi)"<<endl;
+    cout << "\"./MN\" precision = 52, iteraciones maximas = 10, Beta entre 0.0 y 10.0"<<endl;
+    cout << "\"./MN <t>\" precision = t, iteraciones maximas = 10, Beta entre 0.0 y 10.0"<<endl;
+    cout << "\"./MN <t> <n> <b1> <b2> <m> \" precision = t, iteraciones maximas= n, Beta entre b1 y b2, <m> metodo (0 Newton - 1 RegulaFalsi)"<<endl;
+    cout << "\"./MN <t> <n> <b1> <b2> <m> <e> \" precision = t, iteraciones maximas= n, Beta entre b1 y b2, <m> metodo (0 Newton - 1 RegulaFalsi), epsilon =<e>"<<endl;
 }
 
 int main(int argc, char* argv[])
@@ -353,6 +349,8 @@ int main(int argc, char* argv[])
         case 2:
             t=atoi(argv[1]);
             break;
+        case 7:
+            epsilon = atof(argv[6]);
         case 6:
             metodo = atoi(argv[5]);
         case 5:
@@ -396,39 +394,13 @@ int main(int argc, char* argv[])
     {
         outBeta = illinois(beta, beta2, iteraciones);
     }
-    else if(metodo==2)
-    {
     
-        for(int i =40;i<100;i++)
-        {
-            double val = 0.1 * i;
-            cout << val << " " << f(TFloat(val,t)).dbl() << endl;
-        }
-    }
-
     outLambda = Lambda(outBeta);
     outSigma = Sigma(outBeta, outLambda);
     #ifdef __gnu_linux__
         clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &endTime);
         const timespec delta = diff(startTime, endTime);
     #endif
-    /*
-    outBeta = puntofijo(beta, iteraciones);
-    outLambda = Lambda(outBeta);
-    outSigma = Sigma(outBeta, outLambda);
-
-    cout << "RF: " <<iteraciones <<" iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
-    cout << "    - BetaMoño: " << outBeta.dbl() << endl;
-    cout << "    - LambdaMoño: " << outLambda.dbl() << endl;
-    cout << "    - SigmaMoño: " << outSigma.dbl() << endl;
-    */
-
-    /*
-    cout << "Newton: " <<iteraciones << " iteraciones (de un maximo de "<< maximoIteraciones << ") "<< endl;
-    cout << "    - BetaMoño: " << outBeta.dbl() << endl;
-    cout << "    - LambdaMoño: " << outLambda.dbl() << endl;
-    cout << "    - SigmaMoño: " << outSigma.dbl() << endl;
-    */
     cout << outBeta.dbl() << " " << outLambda.dbl() << " " << outSigma.dbl() << " " << iteraciones;
     #ifdef __gnu_linux__
         cout << " " << (delta.tv_sec * 1000*1000*1000 + delta.tv_nsec)/(1000*1000);

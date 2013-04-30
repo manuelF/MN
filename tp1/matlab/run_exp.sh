@@ -40,7 +40,7 @@ for file in "${files[@]}"; do
 
 		for prec in "${precision[@]}"; do
 			#correr con prec, 40 iteraciones, beta entre 20 y 0
-			a=$(../src/Newton  "${prec}" $iteracionesmaximas 9.0 1.0 ${met} < "${file}")
+			a=$(../src/MN  "${prec}" $iteracionesmaximas 9.0 1.0 ${met} < "${file}")
 			val=. read -a vals <<< "$a"
 			beta=${vals[0]}
 			lambda=${vals[1]}
