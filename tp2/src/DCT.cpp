@@ -54,21 +54,20 @@ vector<double> muestreo;
 
 vector<double> lecturas;
 
-vector<vector<double> > M;
+vector<vector<double> > MSombrero;
 
 void generarMatrizDCT(int n)
 {
     frecuencias = vector<double> (n);
     muestreo = vector<double> (n);
-    M=vector<vector<double> >(n);
+    MSombrero=vector<vector<double> >(n);
     
     for(int i = 0; i< n; i++)
-        M[i]=vector<double>(n);
+        MSombrero[i]=vector<double>(n);
 
     double k = (M_PI/(double)n);
     for(int i = 0; i < n; i++)
     {
-        cin >> lecturas[i];        
         frecuencias[i]=i;
         muestreo[i]=k*(1.0+((i/2)));
     }
@@ -84,14 +83,14 @@ void generarMatrizDCT(int n)
             v=cos(frecuencias[i]*muestreo[j]);
             if(i==0) v = v*sq1n;
             else     v = v*sq2n;
-            M[i][j]=v;
+            MSombrero[i][j]=v;
         }
     }
 
     double calc=0.0;
     for(int i=0;i<n;i++) 
         for(int j=0; j<n;j++)
-            calc+=M[i][j];
+            calc+=MSombrero[i][j];
     double constante=6.6274170;
     if(abs(calc-constante)>EPS)
     {
@@ -99,6 +98,23 @@ void generarMatrizDCT(int n)
         fprintf(stderr, "%.7lf vs %.7lf\n", calc,constante);
     }
 
+}
+
+vector<double> obtenerY(int n)
+{
+    vector<double> y(n);
+#pragma omp parallel for
+    for(int i = 0; i<n; i++)
+    {
+        double q=0.0;
+        for(int j =0 ; j<n;j++)
+        {
+            q+=MSombrero[i][j]*lecturas[j];
+        }
+        y[i]=q;
+        
+    }
+    return y;
 }
 
 
@@ -114,6 +130,7 @@ int main(int argc, char* argv[])
         cin >> lecturas[i];        
     }
     generarMatrizDCT(n);
+    vector<double> y = obtenerY(n);
 
     return 0;
 }
