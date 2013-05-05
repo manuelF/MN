@@ -117,6 +117,21 @@ vector<double> obtenerY(int n)
     return y;
 }
 
+double ruido1(double x)
+{
+    return x*sin(x)*M_PI*0.3;
+}
+
+void modificar(vector<double> &y, int n)
+{
+    #pragma omp parallel for
+    for(int i = 0 ; i < n ; i++)
+    {
+        y[i]=ruido1(y[i]);
+    }
+    return;
+}
+
 
 int main(int argc, char* argv[])
 {
@@ -131,6 +146,7 @@ int main(int argc, char* argv[])
     }
     generarMatrizDCT(n);
     vector<double> y = obtenerY(n);
-
+    modificar(y,n);
+    
     return 0;
 }
