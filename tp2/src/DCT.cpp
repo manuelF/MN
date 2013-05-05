@@ -72,13 +72,19 @@ void generarMatrizDCT(int n)
         frecuencias[i]=i;
         muestreo[i]=k*(1.0+((i/2)));
     }
+    double sq1n=sqrt(1.0/n);
+    double sq2n=sqrt(2.0/n);
 #pragma omp parallel for
     for(int i = 0; i< n ; i++)
     {
         #pragma omp parallel for
         for(int j = 0; j< n ; j++)
         {
-            M[i][j]=cos(frecuencias[i]*muestreo[j]);
+            double v;
+            v=cos(frecuencias[i]*muestreo[j]);
+            if(i==0) v = v*sq1n;
+            else     v = v*sq2n;
+            M[i][j]=v;
         }
     }
 
@@ -86,10 +92,12 @@ void generarMatrizDCT(int n)
     for(int i=0;i<n;i++) 
         for(int j=0; j<n;j++)
             calc+=M[i][j];
-    double constante=256.0;
-    cerr << calc<<endl;
+    double constante=6.6274170;
     if(abs(calc-constante)>EPS)
+    {
         cerr << "DIFIEREN!" << endl;
+        fprintf(stderr, "%.7lf vs %.7lf\n", calc,constante);
+    }
 
 }
 
