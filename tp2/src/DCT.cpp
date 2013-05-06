@@ -18,7 +18,7 @@ using namespace std;
 typedef vector<double> vd;
 typedef vector<vd> vdd;
 
-double max_m()
+const double max_m() 
 {
     return 255; //tp
 }
@@ -56,14 +56,20 @@ vector<double> lecturas;
 
 vector<vector<double> > MSombrero;
 
-void generarMatrizDCT(int n)
+vector<vector<double> > M;
+
+void generarMatrizDCT(int n, double _max)
 {
     frecuencias = vector<double> (n);
     muestreo = vector<double> (n);
     MSombrero=vector<vector<double> >(n);
+    M=vector<vector<double> >(n);
     
     for(int i = 0; i< n; i++)
+    {
         MSombrero[i]=vector<double>(n);
+        M[i]=vector<double>(n);
+    }
 
     double k = (M_PI/(double)n);
     for(int i = 0; i < n; i++)
@@ -84,6 +90,7 @@ void generarMatrizDCT(int n)
             if(i==0) v = v*sq1n;
             else     v = v*sq2n;
             MSombrero[i][j]=v;
+            M[i][j]=floor((max_m()*v + 1)/2);
         }
     }
 
@@ -140,11 +147,13 @@ int main(int argc, char* argv[])
 
     cin >> n;
     lecturas = vector<double> (n);
+    double _max = 0.0;
     for(int i = 0; i < n; i++)
     {
         cin >> lecturas[i];        
+        _max=(_max>abs(lecturas[i])?_max:abs(lecturas[i]));
     }
-    generarMatrizDCT(n);
+    generarMatrizDCT(n, _max);
     vector<double> y = obtenerY(n);
     modificar(y,n);
     
