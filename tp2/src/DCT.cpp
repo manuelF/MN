@@ -8,6 +8,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <cassert>
 
 #include <math.h>
 
@@ -57,6 +58,51 @@ vector<double> lecturas;
 vector<vector<double> > MSombrero;
 
 vector<vector<double> > M;
+
+vector<double> gauss(vector<vector<double> > &mat, vector<double> y)
+{
+	int n = mat.size();
+	assert(mat.size()==n&&mat[0].size()==n&&y.size()==n);
+	vector<vector<double> > sistema = mat;
+	forn(i,n)
+		sistema[i].push_back(y[i]);
+	vector<int> perm(n);
+	forn(i,n)
+		perm[i] = i;
+	for(int i = 0;i < n-1; i++)
+	{
+		if(abs(sistema[i][i]-0)<EPS)
+		{
+			for(int j=i+1;j<n;j++)
+			{
+				if(abs(sistema[j][i]-0)>EPS)
+				{
+					swap(sistema[i],sistema[j]);
+					swap(perm[i],perm[j]);
+				}
+			}
+		}
+		for(int j = i+1;j<n;j++)
+		{
+			double db = sistema[j][i]/sistema[i][i];
+			for(int t=0;t<n+1;t++)
+				sistema[j][t] -= db*sistema[i][t];
+		}
+	}
+	vector<double> aux(n,0);
+	for(int i=n-1;i>=0;i--)
+	{
+		int a = sistema[i][n];
+		int b = 0;
+		for(int j=i+1;j<n;j++)
+			b += sistema[i][j]*aux[j];
+		aux[i] = (a-b)/sistema[i][i];
+	}
+	vector<double> sol(n,0);
+	for(int i=0;i<n;i++)
+		sol[perm[i]] = aux[i];
+	return sol;
+}
 
 void generarMatrizDCT(int n, double _max)
 {
