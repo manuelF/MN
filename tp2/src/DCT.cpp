@@ -19,15 +19,15 @@ using namespace std;
 typedef vector<double> vd;
 typedef vector<vd> vdd;
 
-const double max_m() 
+const double max_m()
 {
     return 255; //tp
 }
 
-double ecm(const vd orig, const vd recup) 
+double ecm(const vd orig, const vd recup)
 {
     double e=0.0;
-    
+
     if(orig.size()!=recup.size())
     {
         cerr << "Error-ECM: distintas longitudes de vectores" << endl;
@@ -59,15 +59,36 @@ vector<vector<double> > MSombrero;
 
 vector<vector<double> > M;
 
+vector<vector<double> > mbmt(vector<vector<double> > &b) //Dado B calculo MBM^t como pide en el apendice A1
+{
+    int n = M.size();
+    assert(M[0].size() == n && b.size() == n && b[0].size() == n);
+    vector<vector<double> > aux(n,vector<double>(n,0)); // la creo con todos ceros la matriz
+    for(int i=0;i<n;i++)
+    for(int j=0;j<n;j++)
+    {
+        for(int t=0;t<n;t++)
+            aux[i][j] += M[i][t]*b[t][j];
+    }
+    vector<vector<double> > sol(n,vector<double>(n,0));
+    for(int i=0;i<n;i++)
+    for(int j=0;j<n;j++)
+    {
+        for(int t=0;t<n;t++)
+            sol[i][j] = aux[i][t]*M[j][t]; // (j,t) y no (t,j) porque es la transpuesta
+    }
+    return sol;
+}
+
 vector<double> gauss(vector<vector<double> > &mat, vector<double> y)
 {
 	int n = mat.size();
 	assert(mat.size()==n&&mat[0].size()==n&&y.size()==n);
 	vector<vector<double> > sistema = mat;
-	forn(i,n)
+	for(int i=0;i<n;i++)
 		sistema[i].push_back(y[i]);
 	vector<int> perm(n);
-	forn(i,n)
+	for(int i=0;i<n;i++)
 		perm[i] = i;
 	for(int i = 0;i < n-1; i++)
 	{
@@ -110,7 +131,7 @@ void generarMatrizDCT(int n, double _max)
     muestreo = vector<double> (n);
     MSombrero=vector<vector<double> >(n);
     M=vector<vector<double> >(n);
-    
+
     for(int i = 0; i< n; i++)
     {
         MSombrero[i]=vector<double>(n);
@@ -141,7 +162,7 @@ void generarMatrizDCT(int n, double _max)
     }
 
     double calc=0.0;
-    for(int i=0;i<n;i++) 
+    for(int i=0;i<n;i++)
         for(int j=0; j<n;j++)
             calc+=MSombrero[i][j];
     double constante=6.6274170;
@@ -165,7 +186,7 @@ vector<double> obtenerY(int n)
             q+=MSombrero[i][j]*lecturas[j];
         }
         y[i]=q;
-        
+
     }
     return y;
 }
@@ -196,12 +217,12 @@ int main(int argc, char* argv[])
     double _max = 0.0;
     for(int i = 0; i < n; i++)
     {
-        cin >> lecturas[i];        
+        cin >> lecturas[i];
         _max=(_max>abs(lecturas[i])?_max:abs(lecturas[i]));
     }
     generarMatrizDCT(n, _max);
     vector<double> y = obtenerY(n);
     modificar(y,n);
-    
+
     return 0;
 }
