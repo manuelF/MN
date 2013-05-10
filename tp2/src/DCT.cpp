@@ -12,7 +12,9 @@
 
 #include <math.h>
 
-#define EPS 1e-4
+#define EPS 1e-8
+
+#define double long double
 
 using namespace std;
 
@@ -80,49 +82,46 @@ vector<vector<double> > mbmt(vector<vector<double> > &b) //Dado B calculo MBM^t 
     return sol;
 }
 
-vector<double> gauss(vector<vector<double> > &mat, vector<double> y)
+vector<double> gauss(vector<vector<double> > &mat, vector<double> y) // mat * ret = y
 {
 	int n = mat.size();
 	assert((int)mat.size()==n&&(int)mat[0].size()==n&&(int)y.size()==n);
 	vector<vector<double> > sistema = mat;
 	for(int i=0;i<n;i++)
-		sistema[i].push_back(y[i]);
-	vector<int> perm(n);
-	for(int i=0;i<n;i++)
-		perm[i] = i;
-	for(int i = 0;i < n-1; i++)
+		sistema[i].push_back(y[i]); // sistema es [mat|y]
+	vector<int> perm(n); // el vector de permutacion
+	//for(int i=0;i<n;i++)
+		//perm[i] = i; // comienzo con la permutacion identidad
+	for(int j = 0;j < n-1; j++)
 	{
-		if(abs(sistema[i][i]-0)<EPS)
+		int mx = j;
+		for(int t = j+1; t<n ;t++)
+		if(abs(sistema[mx][j])< abs(sistema[t][j]))
+			mx = t;
+		swap(sistema[mx],sistema[j]);
+		for(int i = j+1;i<n;i++)
 		{
-			for(int j=i+1;j<n;j++)
-			{
-				if(abs(sistema[j][i]-0)>EPS)
-				{
-					swap(sistema[i],sistema[j]);
-					swap(perm[i],perm[j]);
-				}
-			}
-		}
-		for(int j = i+1;j<n;j++)
-		{
-			double db = sistema[j][i]/sistema[i][i];
-			for(int t=0;t<n+1;t++)
-				sistema[j][t] -= db*sistema[i][t];
+			double db = sistema[i][j]/sistema[j][j];
+			for(int t=j;t<n+1;t++)
+				sistema[i][t] -= db*sistema[j][t];
 		}
 	}
-	vector<double> aux(n,0);
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<n;j++)
+			cout << sistema[i][j] << " ";
+			cout<< endl;
+	}
+	vector<double> x(n,0);// los valores de x antes de aplicar la permutacion
 	for(int i=n-1;i>=0;i--)
 	{
-		int a = sistema[i][n];
-		int b = 0;
+		int y_i = sistema[i][n]; // el que seria el numero en y en [mat|y]
+		int a = 0;
 		for(int j=i+1;j<n;j++)
-			b += sistema[i][j]*aux[j];
-		aux[i] = (a-b)/sistema[i][i];
+			a += sistema[i][j]*x[j];// 
+		x[i] = (y_i-a)/sistema[i][i];
 	}
-	vector<double> sol(n,0);
-	for(int i=0;i<n;i++)
-		sol[perm[i]] = aux[i];
-	return sol;
+	return x;
 }
 
 void generarMatrizDCT(int n, double _max)
@@ -254,8 +253,26 @@ int main(int argc, char* argv[])
     generarMatrizDCT(n, _max);
     vector<double> y = obtenerY(n);
     y = f(y,0);
+//  for(int i=0;i<(int)y.size();i++)
+    	//cout << y[i] << endl;
     vector<double> x = gauss(M,y);
-	for(int i=0;i<(int)x.size();i++)
-		cout << x[i] << endl;
+	//for(int i=0;i<(int)x.size();i++)
+		//cout << x[i] << endl;
+	/*vector<vector<double> > vec(3,vector<double>(3,0));
+	vec[0][0] = 1.;
+	vec[1][2] = 2.;
+	vec[2][1] = 2.;
+	vec[2][2] = 2.;
+	vector<double> aux(3);
+	aux[0] = 1;
+	aux[1] = 4;
+	aux[2] = 12;
+	aux = gauss(vec,aux);
+	//cout << aux[0] <<" "<<aux[1]<<" " <<aux[2]<<endl;
+	/*
+	 * 1 0 0  1   1
+	 * 0 0 2  2   8
+	 * 0 2 2  4   12
+	 */ 
     return 0;
 }
