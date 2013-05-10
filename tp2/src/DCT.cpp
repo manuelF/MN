@@ -253,7 +253,9 @@ int main(int argc, char* argv[])
     }
     generarMatrizDCT(n, _max);
     vector<double> y = obtenerY(n);
-    modificar(y,n);
-
+    y = f(y,0);
+    vector<double> x = gauss(M,y);
+	for(int i=0;i<(int)x.size();i++)
+		cout << x[i] << endl;
     return 0;
 }
