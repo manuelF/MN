@@ -62,7 +62,7 @@ vector<vector<double> > M;
 vector<vector<double> > mbmt(vector<vector<double> > &b) //Dado B calculo MBM^t como pide en el apendice A1
 {
     int n = M.size();
-    assert(M[0].size() == n && b.size() == n && b[0].size() == n);
+    assert((int)M[0].size() == n && (int)b.size() == n &&(int) b[0].size() == n);
     vector<vector<double> > aux(n,vector<double>(n,0)); // la creo con todos ceros la matriz
     for(int i=0;i<n;i++)
     for(int j=0;j<n;j++)
@@ -83,7 +83,7 @@ vector<vector<double> > mbmt(vector<vector<double> > &b) //Dado B calculo MBM^t 
 vector<double> gauss(vector<vector<double> > &mat, vector<double> y)
 {
 	int n = mat.size();
-	assert(mat.size()==n&&mat[0].size()==n&&y.size()==n);
+	assert((int)mat.size()==n&&(int)mat[0].size()==n&&(int)y.size()==n);
 	vector<vector<double> > sistema = mat;
 	for(int i=0;i<n;i++)
 		sistema[i].push_back(y[i]);
@@ -206,6 +206,37 @@ void modificar(vector<double> &y, int n)
     return;
 }
 
+vector<double> f(vector<double> y, int imp) // imp es la implementacion
+{
+	if(imp == 0)
+	{
+		// Me quedo con los que son mayores al 20% del mayor
+		int max = 0;
+		for(int i=0;i<(int)y.size();i++)
+		if(y[i]>y[max])
+			max = y[i];
+		for(int i=0;i<(int)y.size();i++)
+		if(5*y[i]<max)
+			y[i] = 0;
+		return y;
+	}
+	if(imp == 1)
+	{
+		// Me quedo con el 10% mas grande y los otros los descarto
+		vector<pair<double,int> > aux(y.size());
+		for(int i=0;i<(int)y.size();i++)
+			aux[i] = make_pair(y[i],i);
+		sort(aux.begin(),aux.end());
+		reverse(aux.begin(),aux.end()); // ordeno de mayor a menor
+		for(int i=(int)y.size()/10;i<(int)y.size();i++)
+			aux[i].first = 0; // los que se pasan del 10% los convierto en cero
+		for(int i=0;i<(int)y.size();i++)
+			y[aux[i].second] = aux[i].first;
+		return y;
+	}
+	// podemos hacer mas implementaciones de ser necesario
+	return y;
+}
 
 int main(int argc, char* argv[])
 {
