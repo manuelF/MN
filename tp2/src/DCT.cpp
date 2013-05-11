@@ -89,9 +89,6 @@ vector<double> gauss(vector<vector<double> > &mat, vector<double> y) // mat * re
 	vector<vector<double> > sistema = mat;
 	for(int i=0;i<n;i++)
 		sistema[i].push_back(y[i]); // sistema es [mat|y]
-	vector<int> perm(n); // el vector de permutacion
-	//for(int i=0;i<n;i++)
-		//perm[i] = i; // comienzo con la permutacion identidad
 	for(int j = 0;j < n-1; j++)
 	{
 		int mx = j;
@@ -106,19 +103,13 @@ vector<double> gauss(vector<vector<double> > &mat, vector<double> y) // mat * re
 				sistema[i][t] -= db*sistema[j][t];
 		}
 	}
-	for(int i=0;i<n;i++)
-	{
-		for(int j=0;j<n;j++)
-			cout << sistema[i][j] << " ";
-			cout<< endl;
-	}
 	vector<double> x(n,0);// los valores de x antes de aplicar la permutacion
 	for(int i=n-1;i>=0;i--)
 	{
 		int y_i = sistema[i][n]; // el que seria el numero en y en [mat|y]
 		int a = 0;
 		for(int j=i+1;j<n;j++)
-			a += sistema[i][j]*x[j];// 
+			a += sistema[i][j]*x[j];//
 		x[i] = (y_i-a)/sistema[i][i];
 	}
 	return x;
@@ -141,7 +132,7 @@ void generarMatrizDCT(int n, double _max)
     for(int i = 0; i < n; i++)
     {
         frecuencias[i]=i;
-        muestreo[i]=k*(1.0+((i/2)));
+        muestreo[i]=k*(i+((1./2.)));
     }
     double sq1n=sqrt(1.0/n);
     double sq2n=sqrt(2.0/n);
@@ -182,7 +173,7 @@ vector<double> obtenerY(int n)
         double q=0.0;
         for(int j =0 ; j<n;j++)
         {
-            q+=MSombrero[i][j]*lecturas[j];
+            q+=M[i][j]*lecturas[j];
         }
         y[i]=q;
 
@@ -239,9 +230,7 @@ vector<double> f(vector<double> y, int imp) // imp es la implementacion
 
 int main(int argc, char* argv[])
 {
-
     int n;
-
     cin >> n;
     lecturas = vector<double> (n);
     double _max = 0.0;
@@ -253,26 +242,8 @@ int main(int argc, char* argv[])
     generarMatrizDCT(n, _max);
     vector<double> y = obtenerY(n);
     y = f(y,0);
-//  for(int i=0;i<(int)y.size();i++)
-    	//cout << y[i] << endl;
     vector<double> x = gauss(M,y);
-	//for(int i=0;i<(int)x.size();i++)
-		//cout << x[i] << endl;
-	/*vector<vector<double> > vec(3,vector<double>(3,0));
-	vec[0][0] = 1.;
-	vec[1][2] = 2.;
-	vec[2][1] = 2.;
-	vec[2][2] = 2.;
-	vector<double> aux(3);
-	aux[0] = 1;
-	aux[1] = 4;
-	aux[2] = 12;
-	aux = gauss(vec,aux);
-	//cout << aux[0] <<" "<<aux[1]<<" " <<aux[2]<<endl;
-	/*
-	 * 1 0 0  1   1
-	 * 0 0 2  2   8
-	 * 0 2 2  4   12
-	 */ 
+	for(int i=0;i<(int)x.size();i++)
+		cout << x[i] << endl;
     return 0;
 }
