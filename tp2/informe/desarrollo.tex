@@ -18,4 +18,27 @@ corrida con matrices de tama\~o considerable.
 \index{Desarrollo!Herramientas}
 \subsection{Herramientas}
 
+Para la realizaci\'on de los experimentos se utiliz\'o C++ como lenguaje de
+programaci\'on para los algoritmos principales. Esta elecci\'on se apoya en
+nuestro conocimiento del lenguaje, la eficiencia que aporta y las estructuras de
+datos que proporciona, haciendo simple y clara la implementaci\'on de la
+resoluci\'on del problema. Como fue comentado anteriormente, fue utilizada la
+directiva \"#pragma omp parallel\" en ciertas porciones de c\'odigo
+paralelizables, con el fin de reducir el tiempo de ejecuci\'on donde es posible.
 
+El an\'alisis de los resultados y el ploteo de los gr\'aficos se realiz\'o
+mediante el uso del entorno \href{http://www.gnu.org/software/octave/}{GNU
+Octave}, libre y compatible con MATLAB.
+
+El control de los experimentos y las \"recetas\" de las experiencias se ven
+reflejadas en scripts de shell que levantan archivos de datos con tests
+preprogramdos, ejecutan los algoritmos y luego analizan los resultados,
+resumiendolos en output en forma de informaci\'on tabular y gr\'aficos.
+La existencia de un Makefile fue clave a la hora de automatizar tareas de
+compilaci\'on y corrida de tests.
+
+El informe fue realizado mediante la utilizaci\'on de \href{http://www.latex-project.org/}{LaTeX},
+ manteniendo la estructura de informe del Trabajo Pr\'actico N\'umero 1 y
+permitiendo expresar estructuras y f\'ormulas matem\'aticas de una forma simple.
+
+\subsection{Desarrollo del experimento de reducci\'on de ruido}
