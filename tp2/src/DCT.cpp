@@ -10,7 +10,10 @@
 #include <vector>
 #include <cassert>
 
+#include <omp.h>
 #include <math.h>
+
+#include <random>
 
 #define EPS 1e-8
 
@@ -50,15 +53,10 @@ double psnr(const vector<double>&  orig, const vector<double> &recup)
     return 10 * log10((max_m()*max_m())/ecm(orig, recup));
 }
 vector<double> frecuencias;
-
 vector<double> muestreo;
-
 vector<double> lecturas;
-
 vector<vector<double> > MSombrero;
-
 vector<vector<double> > M;
-
 vector<vector<double> > mbmt(vector<vector<double> > &b) //Dado B calculo MBM^t como pide en el apendice A1
 {
     int n = M.size();
@@ -158,16 +156,17 @@ void generarMatrizDCT(int n, double _max)
             calc+=MSombrero[i][j];
 }
 
-vector<double> obtenerY(int n)
+vector<double> obtenerY(const vector<double>& l, int n)
 {
     vector<double> y(n);
-#pragma omp parallel for
+    
+//#pragma omp parallel for
     for(int i = 0; i<n; i++)
     {
         double q=0.0;
         for(int j =0 ; j<n;j++)
         {
-            q+=M[i][j]*lecturas[j];
+            q+=M[i][j]*l[j];
         }
         y[i]=q;
 
@@ -204,13 +203,33 @@ void f(vector<double> &y, int imp) // imp es la implementacion
 	}
     if(imp == 2)
 	{
+        std::default_random_engine generator;
+        std::normal_distribution<double> distribution(0.0,10.0);
 		for(int i=0;i<(int)y.size();i++)
-            y[i]=y[i]*M_PI*0.3;
+        {
+            double randval= distribution(generator);
+            y[i]=y[i]+randval;
+        }
+	}
+    if(imp == 3)
+	{
+        for(int i =0; i<(int)y.size();i++)
+        {
+            y[i]=(double)y[i]+sin(i);
+        }
 	}
 	// podemos hacer mas implementaciones de ser necesario
 	return;
 }
 
+void dump(char* name, const vector<double>& src)
+{
+    int n = src.size();
+    FILE* fileptr = fopen(name,"w");
+    for(int i=0; i< n; i++)
+        fprintf(fileptr,"%.6Lf\n",src[i]);
+    fclose(fileptr);
+}
 int main(int argc, char* argv[])
 {
     int n;
@@ -222,12 +241,20 @@ int main(int argc, char* argv[])
         cin >> lecturas[i];
         _max=(_max>abs(lecturas[i])?_max:abs(lecturas[i]));
     }
-    generarMatrizDCT(n, _max);   
-    vector<double> y = obtenerY(n);    
-    //f(y,0);    
+    
+    dump("orig",lecturas);
+
+    generarMatrizDCT(n, _max);
+    vector<double> l (lecturas);
+    f(l,3);
+    dump("mod",l);
+    vector<double> y = obtenerY(l,n);
+    dump("recovered",y);
+    f(y,0);
+    //dump("mod",y);
     vector<double> x = gauss(M,y);
-	for(int i=0;i<(int)x.size();i++)
-		cout << x[i] << endl;
+    //dump("recovered",x);
+    
     cerr<< "PNSR: " << psnr(lecturas,x) << endl;
     return 0;
 }
