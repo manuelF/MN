@@ -186,7 +186,7 @@ void f(vector<double> &y, int imp) // imp es la implementacion
                 max = y[i];
 		for(int i=0;i<(int)y.size();i++)
             if(5*abs(y[i])<abs(max))
-                y[i] = 0;		
+                y[i] = 0;
 	}
 	if(imp == 1)
 	{
@@ -215,7 +215,14 @@ void f(vector<double> &y, int imp) // imp es la implementacion
 	{
         for(int i =0; i<(int)y.size();i++)
         {
-            y[i]=(double)y[i]+sin(i);
+            y[i]=(double)y[i]+50*sin(i);
+        }
+	}
+    if(imp == 4)
+	{
+        for(int i =0; i<(int)y.size();i++)
+        {
+            y[i]=(double)y[i]+50*sin(i);
         }
 	}
 	// podemos hacer mas implementaciones de ser necesario
@@ -242,19 +249,24 @@ int main(int argc, char* argv[])
         _max=(_max>abs(lecturas[i])?_max:abs(lecturas[i]));
     }
     
-    dump("orig",lecturas);
-
+    
+    
+    //dump("recovered",y);
+    
     generarMatrizDCT(n, _max);
     vector<double> l (lecturas);
+    dump("orig",lecturas);
     f(l,3);
-    dump("mod",l);
-    vector<double> y = obtenerY(l,n);
-    dump("recovered",y);
+    
+    vector<double> q = obtenerY(lecturas,n); //original
+    
+    vector<double> y = obtenerY(l,n); //transformada
+    
+    
     f(y,0);
     //dump("mod",y);
     vector<double> x = gauss(M,y);
     //dump("recovered",x);
-    
     cerr<< "PNSR: " << psnr(lecturas,x) << endl;
     return 0;
 }
