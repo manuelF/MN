@@ -18,15 +18,13 @@
 
 using namespace std;
 
-typedef vector<double> vd;
-typedef vector<vd> vdd;
 
 const double max_m()
 {
     return 255; //tp
 }
 
-double ecm(const vd orig, const vd recup)
+double ecm(const vector<double>& orig, const vector<double>& recup)
 {
     double e=0.0;
 
@@ -42,12 +40,12 @@ double ecm(const vd orig, const vd recup)
         double t = orig[i]-recup[i];
         e+=(t*t);
     }
-    e=e/n;
+    e=e/(double)n;
     return e;
 }
 
 
-double psnr(const vd orig, const vd recup)
+double psnr(const vector<double>&  orig, const vector<double> &recup)
 {
     return 10 * log10((max_m()*max_m())/ecm(orig, recup));
 }
@@ -82,11 +80,11 @@ vector<vector<double> > mbmt(vector<vector<double> > &b) //Dado B calculo MBM^t 
     return sol;
 }
 
-vector<double> gauss(vector<vector<double> > &mat, vector<double> y) // mat * ret = y
-{
+vector<double> gauss(const vector<vector<double> > &mat, const vector<double> &y) // mat * ret = y
+{    
 	int n = mat.size();
 	assert((int)mat.size()==n&&(int)mat[0].size()==n&&(int)y.size()==n);
-	vector<vector<double> > sistema = mat;
+	vector<vector<double> > sistema(mat);
 	for(int i=0;i<n;i++)
 		sistema[i].push_back(y[i]); // sistema es [mat|y]
 	for(int j = 0;j < n-1; j++)
@@ -96,9 +94,11 @@ vector<double> gauss(vector<vector<double> > &mat, vector<double> y) // mat * re
 		if(abs(sistema[mx][j])< abs(sistema[t][j]))
 			mx = t;
 		swap(sistema[mx],sistema[j]);
+        double m = sistema[j][j];
+        
 		for(int i = j+1;i<n;i++)
 		{
-			double db = sistema[i][j]/sistema[j][j];
+			double db = sistema[i][j]/m;
 			for(int t=j;t<n+1;t++)
 				sistema[i][t] -= db*sistema[j][t];
 		}
@@ -106,12 +106,13 @@ vector<double> gauss(vector<vector<double> > &mat, vector<double> y) // mat * re
 	vector<double> x(n,0);// los valores de x antes de aplicar la permutacion
 	for(int i=n-1;i>=0;i--)
 	{
-		int y_i = sistema[i][n]; // el que seria el numero en y en [mat|y]
-		int a = 0;
+		double y_i = sistema[i][n]; // el que seria el numero en y en [mat|y]
+		double a = 0;
 		for(int j=i+1;j<n;j++)
 			a += sistema[i][j]*x[j];//
 		x[i] = (y_i-a)/sistema[i][i];
 	}
+    
 	return x;
 }
 
@@ -155,13 +156,6 @@ void generarMatrizDCT(int n, double _max)
     for(int i=0;i<n;i++)
         for(int j=0; j<n;j++)
             calc+=MSombrero[i][j];
-    double constante=6.6274170;
-    if(abs(calc-constante)>EPS)
-    {
-        cerr << "DIFIEREN!" << endl;
-        fprintf(stderr, "%.7lf vs %.7lf\n", calc,constante);
-    }
-
 }
 
 vector<double> obtenerY(int n)
@@ -181,34 +175,19 @@ vector<double> obtenerY(int n)
     return y;
 }
 
-double ruido1(double x)
-{
-    return x*sin(x)*M_PI*0.3;
-}
 
-void modificar(vector<double> &y, int n)
-{
-    #pragma omp parallel for
-    for(int i = 0 ; i < n ; i++)
-    {
-        y[i]=ruido1(y[i]);
-    }
-    return;
-}
-
-vector<double> f(vector<double> y, int imp) // imp es la implementacion
+void f(vector<double> &y, int imp) // imp es la implementacion
 {
 	if(imp == 0)
 	{
 		// Me quedo con los que son mayores al 20% del mayor
-		int max = 0;
+		int max = y[0];
 		for(int i=0;i<(int)y.size();i++)
-		if(y[i]>y[max])
-			max = y[i];
+            if(abs(y[i])>abs(max))
+                max = y[i];
 		for(int i=0;i<(int)y.size();i++)
-		if(5*y[i]<max)
-			y[i] = 0;
-		return y;
+            if(5*abs(y[i])<abs(max))
+                y[i] = 0;		
 	}
 	if(imp == 1)
 	{
@@ -221,11 +200,15 @@ vector<double> f(vector<double> y, int imp) // imp es la implementacion
 		for(int i=(int)y.size()/10;i<(int)y.size();i++)
 			aux[i].first = 0; // los que se pasan del 10% los convierto en cero
 		for(int i=0;i<(int)y.size();i++)
-			y[aux[i].second] = aux[i].first;
-		return y;
+			y[aux[i].second] = aux[i].first;    
+	}
+    if(imp == 2)
+	{
+		for(int i=0;i<(int)y.size();i++)
+            y[i]=y[i]*M_PI*0.3;
 	}
 	// podemos hacer mas implementaciones de ser necesario
-	return y;
+	return;
 }
 
 int main(int argc, char* argv[])
@@ -239,11 +222,12 @@ int main(int argc, char* argv[])
         cin >> lecturas[i];
         _max=(_max>abs(lecturas[i])?_max:abs(lecturas[i]));
     }
-    generarMatrizDCT(n, _max);
-    vector<double> y = obtenerY(n);
-    y = f(y,0);
+    generarMatrizDCT(n, _max);   
+    vector<double> y = obtenerY(n);    
+    //f(y,0);    
     vector<double> x = gauss(M,y);
 	for(int i=0;i<(int)x.size();i++)
 		cout << x[i] << endl;
+    cerr<< "PNSR: " << psnr(lecturas,x) << endl;
     return 0;
 }
