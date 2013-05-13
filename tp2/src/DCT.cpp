@@ -102,7 +102,8 @@ vector<double> gauss(const vector<vector<double> > &mat, const vector<double> &y
 		}
 	}
 	vector<double> x(n,0);// los valores de x antes de aplicar la permutacion
-	for(int i=n-1;i>=0;i--)
+//#pragma omp parallel for
+    for(int i=n-1;i>=0;i--)
 	{
 		double y_i = sistema[i][n]; // el que seria el numero en y en [mat|y]
 		double a = 0;
@@ -177,18 +178,22 @@ vector<double> obtenerY(const vector<double>& l, int n)
 
 void f(vector<double> &y, int imp) // imp es la implementacion
 {
+    const int contorno = 20;
+    const double diffmax = 1;
+    const int onepercent = y.size()/100;
+    const int startfilter = 5*onepercent;
 	if(imp == 0)
 	{
-	    int mx = abs(y[0]);
-	    for(int i=0;i<(int)y.size();i++)
-        if(abs(y[i])>mx)
-            mx = abs(y[i]);
-        for(int i=0;i<y.size();i++)
-        if(abs(y[i])*3>mx)
-        {
-            for(int j=max(0,i-5);j<min((int)y.size(),i+5);j++)
-                y[j] = 0;
-        }
+	    int mx = abs(y[startfilter]);
+	    for(int i=startfilter;i<(int)y.size();i++)
+            if(abs(y[i])>mx)
+                mx = abs(y[i]);
+        for(int i=startfilter;i<y.size();i++)
+            if(abs(y[i])*diffmax>mx)
+            {
+                for(int j=max(startfilter,i-contorno);j<min((int)y.size(),i+contorno);j++)
+                    y[j] = 0;
+            }
 		/** // Me quedo con los que son mayores al 20% del mayor
 		int max = y[0];
 		for(int i=0;i<(int)y.size();i++)
@@ -205,9 +210,9 @@ void f(vector<double> &y, int imp) // imp es la implementacion
         if(abs(y[i])>mx)
             mx = abs(y[i]);
         for(int i=0;i<y.size();i++)
-        if(abs(y[i])*3>mx)
+        if(abs(y[i])*diffmax>mx)
         {
-            for(int j=max(0,i-5);j<min((int)y.size(),i+5);j++)
+            for(int j=max(0,i-contorno);j<min((int)y.size(),i+contorno);j++)
                 y[j] -= y[i]*0.2*(5.-abs(i-j));
         }
 		/** // Me quedo con el 10% mas grande y los otros los descarto
@@ -233,13 +238,7 @@ void f(vector<double> &y, int imp) // imp es la implementacion
 	}
     if(imp == 3)
 	{
-        for(int i =0; i<(int)y.size();i++)
-        {
-            y[i]=(double)y[i]+50*sin(i);
-        }
-	}
-    if(imp == 4)
-	{
+#pragma omp parallel for
         for(int i =0; i<(int)y.size();i++)
         {
             y[i]=(double)y[i]+50*sin(i);
@@ -249,14 +248,14 @@ void f(vector<double> &y, int imp) // imp es la implementacion
 	return;
 }
 
-/*void dump(char* name, const vector<double>& src)
+void dump(char* name, const vector<double>& src)
 {
     int n = src.size();
     FILE* fileptr = fopen(name,"w");
     for(int i=0; i< n; i++)
         fprintf(fileptr,"%.6Lf\n",src[i]);
     fclose(fileptr);
-}*/
+}
 int main(int argc, char* argv[])
 {
     int n;
@@ -271,22 +270,22 @@ int main(int argc, char* argv[])
 
 
 
-    //dump("recovered",y);
 
     generarMatrizDCT(n, _max);
     vector<double> l (lecturas);
-    //dump("orig",lecturas);
     f(l,3);
 
     vector<double> q = obtenerY(lecturas,n); //original
 
     vector<double> y = obtenerY(l,n); //transformada
 
+    dump("orig",lecturas);
+    
+    dump("mod",l);
 
     f(y,0);
-    //dump("mod",y);
     vector<double> x = gauss(M,y);
-    //dump("recovered",x);
+    dump("recovered",x);
     cerr<< "PNSR: " << psnr(lecturas,x) << endl;
     return 0;
 }
