@@ -55,6 +55,7 @@ double psnr(const vector<double>&  orig, const vector<double> &recup)
 vector<double> frecuencias;
 vector<double> muestreo;
 vector<double> lecturas;
+vector<double> ruido;
 vector<vector<double> > MSombrero;
 vector<vector<double> > M;
 vector<vector<double> > mbmt(vector<vector<double> > &b) //Dado B calculo MBM^t como pide en el apendice A1
@@ -228,20 +229,24 @@ void f(vector<double> &y, int imp) // imp es la implementacion
 	}
     if(imp == 2)
     {
+        ruido = vector<double>(y.size());
         std::default_random_engine generator;
         std::normal_distribution<double> distribution(0.0,10.0);
 		for(int i=0;i<(int)y.size();i++)
         {
             double randval= distribution(generator);
-            y[i]=y[i]+randval;
+            ruido[i]=randval;
+            y[i]=y[i]+ruido[i];
         }
 	}
     if(imp == 3)
 	{
+        ruido = vector<double>(y.size());
 #pragma omp parallel for
         for(int i =0; i<(int)y.size();i++)
         {
-            y[i]=(double)y[i]+50*sin(i);
+            ruido[i]=50*sin(i);
+            y[i]=(double)y[i]+ruido[i];
         }
 	}
 	// podemos hacer mas implementaciones de ser necesario
@@ -270,22 +275,22 @@ int main(int argc, char* argv[])
 
 
 
-
     generarMatrizDCT(n, _max);
     vector<double> l (lecturas);
-    f(l,3);
+    f(l,2);
 
     vector<double> q = obtenerY(lecturas,n); //original
 
     vector<double> y = obtenerY(l,n); //transformada
 
-    dump("orig",lecturas);
+//    dump("orig",lecturas);
     
-    dump("mod",l);
-
+//    dump("mod",y);
+    dump("orig",ruido);
+    
     f(y,0);
     vector<double> x = gauss(M,y);
-    dump("recovered",x);
+//    dump("recovered",x);
     cerr<< "PNSR: " << psnr(lecturas,x) << endl;
     return 0;
 }
