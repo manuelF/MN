@@ -79,7 +79,7 @@ vector<vector<double> > mbmt(vector<vector<double> > &b) //Dado B calculo MBM^t 
 }
 
 vector<double> gauss(const vector<vector<double> > &mat, const vector<double> &y) // mat * ret = y
-{    
+{
 	int n = mat.size();
 	assert((int)mat.size()==n&&(int)mat[0].size()==n&&(int)y.size()==n);
 	vector<vector<double> > sistema(mat);
@@ -93,7 +93,7 @@ vector<double> gauss(const vector<vector<double> > &mat, const vector<double> &y
 			mx = t;
 		swap(sistema[mx],sistema[j]);
         double m = sistema[j][j];
-        
+
 		for(int i = j+1;i<n;i++)
 		{
 			double db = sistema[i][j]/m;
@@ -110,7 +110,7 @@ vector<double> gauss(const vector<vector<double> > &mat, const vector<double> &y
 			a += sistema[i][j]*x[j];//
 		x[i] = (y_i-a)/sistema[i][i];
 	}
-    
+
 	return x;
 }
 
@@ -159,7 +159,7 @@ void generarMatrizDCT(int n, double _max)
 vector<double> obtenerY(const vector<double>& l, int n)
 {
     vector<double> y(n);
-    
+
 //#pragma omp parallel for
     for(int i = 0; i<n; i++)
     {
@@ -179,18 +179,38 @@ void f(vector<double> &y, int imp) // imp es la implementacion
 {
 	if(imp == 0)
 	{
-		// Me quedo con los que son mayores al 20% del mayor
+	    int mx = abs(y[0]);
+	    for(int i=0;i<(int)y.size();i++)
+        if(abs(y[i])>mx)
+            mx = abs(y[i]);
+        for(int i=0;i<y.size();i++)
+        if(abs(y[i])*3>mx)
+        {
+            for(int j=max(0,i-5);j<min((int)y.size(),i+5);j++)
+                y[j] = 0;
+        }
+		/** // Me quedo con los que son mayores al 20% del mayor
 		int max = y[0];
 		for(int i=0;i<(int)y.size();i++)
             if(abs(y[i])>abs(max))
                 max = y[i];
 		for(int i=0;i<(int)y.size();i++)
-            if(5*abs(y[i])<abs(max))
-                y[i] = 0;
+            if(5*abs(y[i])>abs(max))
+                y[i] = 0;*/
 	}
 	if(imp == 1)
 	{
-		// Me quedo con el 10% mas grande y los otros los descarto
+	    int mx = abs(y[0]);
+	    for(int i=0;i<(int)y.size();i++)
+        if(abs(y[i])>mx)
+            mx = abs(y[i]);
+        for(int i=0;i<y.size();i++)
+        if(abs(y[i])*3>mx)
+        {
+            for(int j=max(0,i-5);j<min((int)y.size(),i+5);j++)
+                y[j] -= y[i]*0.2*(5.-abs(i-j));
+        }
+		/** // Me quedo con el 10% mas grande y los otros los descarto
 		vector<pair<double,int> > aux(y.size());
 		for(int i=0;i<(int)y.size();i++)
 			aux[i] = make_pair(y[i],i);
@@ -199,10 +219,10 @@ void f(vector<double> &y, int imp) // imp es la implementacion
 		for(int i=(int)y.size()/10;i<(int)y.size();i++)
 			aux[i].first = 0; // los que se pasan del 10% los convierto en cero
 		for(int i=0;i<(int)y.size();i++)
-			y[aux[i].second] = aux[i].first;    
+			y[aux[i].second] = aux[i].first;*/
 	}
     if(imp == 2)
-	{
+    {
         std::default_random_engine generator;
         std::normal_distribution<double> distribution(0.0,10.0);
 		for(int i=0;i<(int)y.size();i++)
@@ -229,14 +249,14 @@ void f(vector<double> &y, int imp) // imp es la implementacion
 	return;
 }
 
-void dump(char* name, const vector<double>& src)
+/*void dump(char* name, const vector<double>& src)
 {
     int n = src.size();
     FILE* fileptr = fopen(name,"w");
     for(int i=0; i< n; i++)
         fprintf(fileptr,"%.6Lf\n",src[i]);
     fclose(fileptr);
-}
+}*/
 int main(int argc, char* argv[])
 {
     int n;
@@ -248,21 +268,21 @@ int main(int argc, char* argv[])
         cin >> lecturas[i];
         _max=(_max>abs(lecturas[i])?_max:abs(lecturas[i]));
     }
-    
-    
-    
+
+
+
     //dump("recovered",y);
-    
+
     generarMatrizDCT(n, _max);
     vector<double> l (lecturas);
-    dump("orig",lecturas);
+    //dump("orig",lecturas);
     f(l,3);
-    
+
     vector<double> q = obtenerY(lecturas,n); //original
-    
+
     vector<double> y = obtenerY(l,n); //transformada
-    
-    
+
+
     f(y,0);
     //dump("mod",y);
     vector<double> x = gauss(M,y);
