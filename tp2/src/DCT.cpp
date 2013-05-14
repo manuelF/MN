@@ -79,8 +79,9 @@ vector<vector<double> > mbmt(vector<vector<double> > &b) //Dado B calculo MBM^t 
     return sol;
 }
 
-vector<double> gauss(const vector<vector<double> > &mat, const vector<double> &y) // mat * ret = y
-{
+vector<double> antitransformar(const vector<double> &y) // mat * ret = y
+{   
+    const vector<vector<double> > &mat = M;
 	int n = mat.size();
 	assert((int)mat.size()==n&&(int)mat[0].size()==n&&(int)y.size()==n);
 	vector<vector<double> > sistema(mat);
@@ -103,7 +104,6 @@ vector<double> gauss(const vector<vector<double> > &mat, const vector<double> &y
 		}
 	}
 	vector<double> x(n,0);// los valores de x antes de aplicar la permutacion
-//#pragma omp parallel for
     for(int i=n-1;i>=0;i--)
 	{
 		double y_i = sistema[i][n]; // el que seria el numero en y en [mat|y]
@@ -158,11 +158,12 @@ void generarMatrizDCT(int n, double _max)
             calc+=MSombrero[i][j];
 }
 
-vector<double> obtenerY(const vector<double>& l, int n)
+vector<double> transformar(const vector<double>& l)
 {
+    int n = (int) l.size();
     vector<double> y(n);
 
-//#pragma omp parallel for
+#pragma omp parallel for
     for(int i = 0; i<n; i++)
     {
         double q=0.0;
@@ -177,7 +178,36 @@ vector<double> obtenerY(const vector<double>& l, int n)
 }
 
 
-void f(vector<double> &y, int imp) // imp es la implementacion
+void generarRuido(vector<double> &y, int imp)
+{
+    if(imp == 2)
+    {
+        ruido = vector<double>(y.size());
+        std::default_random_engine generator;
+        std::normal_distribution<double> distribution(0.0,10.0);
+		for(int i=0;i<(int)y.size();i++)
+        {
+            double randval= distribution(generator);
+            ruido[i]=randval;
+            y[i]=y[i]+ruido[i];
+        }
+	}
+    if(imp == 3)
+	{
+        ruido = vector<double>(y.size());
+        #pragma omp parallel for
+        for(int i =0; i<(int)y.size();i++)
+        {
+            ruido[i]=50*sin(i);
+            y[i]=(double)y[i]+ruido[i];
+        }
+	}
+	// podemos hacer mas implementaciones de ser necesario
+	return;
+
+}
+
+void filtrarRuido(vector <double> &y, int imp)
 {
     const int contorno = 20;
     const double diffmax = 1;
@@ -195,64 +225,30 @@ void f(vector<double> &y, int imp) // imp es la implementacion
                 for(int j=max(startfilter,i-contorno);j<min((int)y.size(),i+contorno);j++)
                     y[j] = 0;
             }
-		/** // Me quedo con los que son mayores al 20% del mayor
-		int max = y[0];
-		for(int i=0;i<(int)y.size();i++)
-            if(abs(y[i])>abs(max))
-                max = y[i];
-		for(int i=0;i<(int)y.size();i++)
-            if(5*abs(y[i])>abs(max))
-                y[i] = 0;*/
 	}
 	if(imp == 1)
 	{
-	    int mx = abs(y[0]);
-	    for(int i=0;i<(int)y.size();i++)
-        if(abs(y[i])>mx)
-            mx = abs(y[i]);
-        for(int i=0;i<y.size();i++)
-        if(abs(y[i])*diffmax>mx)
+		int mx = abs(y[startfilter]);
+	    for(int i=startfilter;i<(int)y.size();i++)
+            if(abs(y[i])>mx)
+                mx = abs(y[i]);
+        for(int i=startfilter;i<y.size();i++)
         {
-            for(int j=max(0,i-contorno);j<min((int)y.size(),i+contorno);j++)
-                y[j] -= y[i]*0.2*(5.-abs(i-j));
-        }
-		/** // Me quedo con el 10% mas grande y los otros los descarto
-		vector<pair<double,int> > aux(y.size());
-		for(int i=0;i<(int)y.size();i++)
-			aux[i] = make_pair(y[i],i);
-		sort(aux.begin(),aux.end());
-		reverse(aux.begin(),aux.end()); // ordeno de mayor a menor
-		for(int i=(int)y.size()/10;i<(int)y.size();i++)
-			aux[i].first = 0; // los que se pasan del 10% los convierto en cero
-		for(int i=0;i<(int)y.size();i++)
-			y[aux[i].second] = aux[i].first;*/
-	}
-    if(imp == 2)
-    {
-        ruido = vector<double>(y.size());
-        std::default_random_engine generator;
-        std::normal_distribution<double> distribution(0.0,10.0);
-		for(int i=0;i<(int)y.size();i++)
-        {
-            double randval= distribution(generator);
-            ruido[i]=randval;
-            y[i]=y[i]+ruido[i];
-        }
-	}
-    if(imp == 3)
-	{
-        ruido = vector<double>(y.size());
-#pragma omp parallel for
-        for(int i =0; i<(int)y.size();i++)
-        {
-            ruido[i]=50*sin(i);
-            y[i]=(double)y[i]+ruido[i];
-        }
-	}
-	// podemos hacer mas implementaciones de ser necesario
-	return;
-}
+            if(abs(y[i])*diffmax>mx)
+            {
+                 for(int j=max(0,i-contorno);j<min((int)y.size(),i+contorno);j++)
+                 {
+                        double decay = (1.0/pow(1.2,contorno-abs(j-i)+1));
+                        y[j] = y[j]*decay;
+                 }
+        
+            }
+        }       
+ 
 
+	}
+
+}
 void dump(char* name, const vector<double>& src)
 {
     int n = src.size();
@@ -277,20 +273,19 @@ int main(int argc, char* argv[])
 
     generarMatrizDCT(n, _max);
     vector<double> l (lecturas);
-    f(l,2);
+    generarRuido(l,3);
 
-    vector<double> q = obtenerY(lecturas,n); //original
+    vector<double> q = transformar(lecturas); //original
 
-    vector<double> y = obtenerY(l,n); //transformada
+    vector<double> y = transformar(l); //transformada
 
-//    dump("orig",lecturas);
     
+    dump("orig",lecturas);
+    
+    filtrarRuido(y,1);
 //    dump("mod",y);
-    dump("orig",ruido);
-    
-    f(y,0);
-    vector<double> x = gauss(M,y);
-//    dump("recovered",x);
+    vector<double> x = antitransformar(y);
+    dump("recovered",x);
     cerr<< "PNSR: " << psnr(lecturas,x) << endl;
     return 0;
 }
