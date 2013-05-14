@@ -17,14 +17,22 @@
 
 #define EPS 1e-8
 
-#define double long double
+
+#define GAUSSIAN_NOISE 0
+#define SIN_NOISE 1
+#define ADDITIVE_NOISE 2
+
+#define ZERO_FILTER 0
+#define EXPONENTIAL_FILTER 1
+
+//typedef long double double;
 
 using namespace std;
 
 
 const double max_m()
 {
-    return 255; //tp
+    return 255.0; //tp
 }
 
 double ecm(const vector<double>& orig, const vector<double>& recup)
@@ -180,7 +188,7 @@ vector<double> transformar(const vector<double>& l)
 
 void generarRuido(vector<double> &y, int imp)
 {
-    if(imp == 2)
+    if(imp == GAUSSIAN_NOISE)
     {
         ruido = vector<double>(y.size());
         std::default_random_engine generator;
@@ -192,7 +200,7 @@ void generarRuido(vector<double> &y, int imp)
             y[i]=y[i]+ruido[i];
         }
 	}
-    if(imp == 3)
+    if(imp ==  SIN_NOISE)
 	{
         ruido = vector<double>(y.size());
         #pragma omp parallel for
@@ -213,7 +221,7 @@ void filtrarRuido(vector <double> &y, int imp)
     const double diffmax = 1;
     const int onepercent = y.size()/100;
     const int startfilter = 5*onepercent;
-	if(imp == 0)
+	if(imp == ZERO_FILTER)
 	{
 	    int mx = abs(y[startfilter]);
 	    for(int i=startfilter;i<(int)y.size();i++)
@@ -226,7 +234,7 @@ void filtrarRuido(vector <double> &y, int imp)
                     y[j] = 0;
             }
 	}
-	if(imp == 1)
+	if(imp == EXPONENTIAL_FILTER)
 	{
 		int mx = abs(y[startfilter]);
 	    for(int i=startfilter;i<(int)y.size();i++)
@@ -254,7 +262,7 @@ void dump(char* name, const vector<double>& src)
     int n = src.size();
     FILE* fileptr = fopen(name,"w");
     for(int i=0; i< n; i++)
-        fprintf(fileptr,"%.6Lf\n",src[i]);
+        fprintf(fileptr,"%.6lf\n",src[i]);
     fclose(fileptr);
 }
 int main(int argc, char* argv[])
@@ -270,10 +278,9 @@ int main(int argc, char* argv[])
     }
 
 
-
     generarMatrizDCT(n, _max);
     vector<double> l (lecturas);
-    generarRuido(l,3);
+    generarRuido(l,SIN_NOISE);
 
     vector<double> q = transformar(lecturas); //original
 
@@ -282,7 +289,8 @@ int main(int argc, char* argv[])
     
     dump("orig",lecturas);
     
-    filtrarRuido(y,1);
+    filtrarRuido(y,EXPONENTIAL_FILTER );
+
 //    dump("mod",y);
     vector<double> x = antitransformar(y);
     dump("recovered",x);
