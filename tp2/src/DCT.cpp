@@ -24,6 +24,7 @@
 
 #define ZERO_FILTER 0
 #define EXPONENTIAL_FILTER 1
+#define AVERAGER_FILTER 2
 
 //typedef long double double;
 
@@ -217,44 +218,58 @@ void generarRuido(vector<double> &y, int imp)
 
 void filtrarRuido(vector <double> &y, int imp)
 {
+    const int n = (int) y.size();
     const int contorno = 20;
-    const double diffmax = 1;
-    const int onepercent = y.size()/100;
+    const double diffmax = 2.0;
+    const int onepercent = n/100;
     const int startfilter = 5*onepercent;
+    vector<double> replace(y);
 	if(imp == ZERO_FILTER)
 	{
-	    int mx = abs(y[startfilter]);
-	    for(int i=startfilter;i<(int)y.size();i++)
-            if(abs(y[i])>mx)
-                mx = abs(y[i]);
-        for(int i=startfilter;i<y.size();i++)
-            if(abs(y[i])*diffmax>mx)
-            {
-                for(int j=max(startfilter,i-contorno);j<min((int)y.size(),i+contorno);j++)
-                    y[j] = 0;
-            }
-	}
-	if(imp == EXPONENTIAL_FILTER)
-	{
-		int mx = abs(y[startfilter]);
-	    for(int i=startfilter;i<(int)y.size();i++)
-            if(abs(y[i])>mx)
-                mx = abs(y[i]);
-        for(int i=startfilter;i<y.size();i++)
+	    double mx = abs(y[startfilter]);
+	    for(int i=startfilter;i<n;i++) mx = max(mx, abs(y[i]));
+        for(int i=startfilter;i<n;i++)
         {
             if(abs(y[i])*diffmax>mx)
             {
-                 for(int j=max(0,i-contorno);j<min((int)y.size(),i+contorno);j++)
+                for(int j=max(startfilter,i-contorno);j<min(n,i+contorno);j++)
+                    replace[j] = 0;
+            }        
+        }
+	}
+	if(imp == EXPONENTIAL_FILTER)
+	{
+		double mx = abs(y[startfilter]);
+	    for(int i=startfilter;i<n;i++) mx = max(mx, abs(y[i]));
+        cerr << mx << endl;
+        for(int i=startfilter;i<n;i++)
+        {
+            if(abs(y[i])*diffmax>mx)
+            {
+                 for(int j=max(0,i-contorno);j<min(n,i+contorno);j++)
                  {
                         double decay = (1.0/pow(1.2,contorno-abs(j-i)+1));
-                        y[j] = y[j]*decay;
+                        replace[j] = y[j]*decay;
                  }
         
             }
         }       
- 
-
 	}
+    if(imp == AVERAGER_FILTER)
+    {
+       for(int i=startfilter+2;i<n-2;i++)
+        {
+ //           replace[i]= .25*y[i-1]+.5*y[i]+.25*y[i+1];
+           
+            replace[i]= .125*y[i-2]+
+                        .20 *y[i-1]+
+                        .35 *y[i]  +
+                        .20 *y[i+1]+
+                        .125*y[i+2];
+        }
+    }
+    for (int i = 0; i< (int) y.size(); i++)
+        y[i]=replace[i];
 
 }
 void dump(char* name, const vector<double>& src)
@@ -287,13 +302,14 @@ int main(int argc, char* argv[])
     vector<double> y = transformar(l); //transformada
 
     
-    dump("orig",lecturas);
+    dump("orig",q);
     
-    filtrarRuido(y,EXPONENTIAL_FILTER );
+    filtrarRuido(y,EXPONENTIAL_FILTER);
+    filtrarRuido(y,AVERAGER_FILTER );
 
-//    dump("mod",y);
+    dump("mod",y);
     vector<double> x = antitransformar(y);
-    dump("recovered",x);
+//    dump("recovered",x);
     cerr<< "PNSR: " << psnr(lecturas,x) << endl;
     return 0;
 }
