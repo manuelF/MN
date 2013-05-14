@@ -272,15 +272,16 @@ void filtrarRuido(vector <double> &y, int imp)
         y[i]=replace[i];
 
 }
-void dump(char* name, const vector<double>& src)
+void dump(string name, const vector<double>& src)
 {
     int n = src.size();
-    FILE* fileptr = fopen(name,"w");
+    FILE* fileptr = fopen(name.c_str(),"w");
     for(int i=0; i< n; i++)
         fprintf(fileptr,"%.6lf\n",src[i]);
     fclose(fileptr);
 }
-int main(int argc, char* argv[])
+
+void procesar1D()
 {
     int n;
     cin >> n;
@@ -311,5 +312,56 @@ int main(int argc, char* argv[])
     vector<double> x = antitransformar(y);
 //    dump("recovered",x);
     cerr<< "PNSR: " << psnr(lecturas,x) << endl;
-    return 0;
+}
+
+
+
+void procesar2D()
+{
+    string magic;
+    cin >> magic;
+    if(magic!="P5")
+    {
+        cerr << "ERROR: PGM tipo " << magic << " no implementado, solo P5"<< endl;
+        exit(1);
+    }
+    int x, y;
+    cin >> x >> y;
+    vector<vector<int>> _img(y);
+    for(int i =0; i<y; i++)
+        _img[i]=vector<int>(x);
+
+
+    return;
+
+}
+
+int main(int argc, char* argv[])
+{
+    switch(argc)
+    {
+        case 1:
+            procesar1D();
+            break;
+        case 2:
+            if(atoi(argv[1])==1)
+            {
+            
+                procesar2D();
+            }
+            else 
+            {   
+                if(atoi(argv[1])==0)
+                {
+                    procesar1D();
+                }
+            }
+
+            break;
+        default:
+            break;
+
+    }
+   return 0;
+
 }
