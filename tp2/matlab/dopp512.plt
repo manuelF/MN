@@ -1,4 +1,4 @@
-set terminal pngcairo enhanced font 'Verdana,10'
+set terminal pngcairo enhanced font 'Verdana,10' size 1024,768
 set output 'dopp512.png'
 set autoscale
 set title 'Dopp 512'
