@@ -47,3 +47,16 @@ Para reducir el ruido utilizamos tres tipos de filtros: Filtro cero, filtro expo
 En los tres casos empezamos a filtrar las se\~nales desde el 5\% (es decir, no procesamos el 5\% de se\~nales
 de menor frecuencia) ya que experimentando encontramos que en ese 5\% se encuentra generalmente gran parte de
 la informaci\'on, y en proporci\'on muy poco ruido.
+
+En el filtro cero tomamos la se\~nal con el mayor coeficiente (en m\'odulo) y eliminamos todas las se\~nales que sean
+al menos el 50\% de la se\~nal de mayor coeficiente en m\'odulo. Esto lo hicimos porque cre\'iamos que las se\~nales
+con coeficientes m\'as altos eran las m\'as ruidosas.
+El primer filtro que aplicamos fue el filtro cero sin descartar el primer 5\% y los resultados no fueron muy buenos.
+Cuando se nos ocurrio agregarle a la implementaci\'on la omisi\'on del primer 5\% a la hora de filtrar vimos que los 
+resultados fueron mucho mejores.
+
+El filtro exponencial reemlaza los coeficientes de las se\~nales que son m\'as grandes y dividimos los coeficientes de su entorno por 1.2 elevado a 20 menos la distancia a la se\~nal, esto es, si el coeficiente es de la se\~nal n\'umero 35, entonces dividimos al coeficiente de 35 por 1.2 a la 20, al de 34 y el de 36 por 1.2 a la 19, y as\'i sucesivamente hasta dividir por 1.2 a la 1.
+
+El filtro promediador lo que hace es distribuir los coeficientes m\'as grandes entre las se\~nales vecinas, es decir, si el coeficiente n\'umero 20 es muy grande, le ''pasa'' parte del coeficiente a los coeficientes 18, 19, 21 y 22. Para ser exactos, el coeficiente se multiplica por 0.3 y le sumamos a sus vecinos inmediatos 0.2 por el coeficiente y a los coeficientes a distancia 2, 0.15 por el coeficiente.
+
+Experimentalmente pudimos observar que el filtro cero es bueno, pero el filtro exponencial y el promediador son bastante mejores. Para poder obtener un mejor filtrado del ruido, decidimos aplicar primero el filtro exponencial y luego el promediador, lo que result\'o en un filtrado muy bueno dando resultados muy parecidos a la se\~nal original.
