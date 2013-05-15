@@ -324,9 +324,12 @@ void procesar2D()
         exit(1);
     }
     int x, y;
-    cin >> x >> y;
+    int grayscale;
+    scanf("%d %d\n%d\n",&x,&y,&grayscale);
+  //  x++; y++;
     vector<vector<double>> _img(y,vector<double>(x));
     
+    vector<double> todo(x*y);
     for(int j = 0; j < y; j++)
     {
         for(int i = 0; i < x; i++)
@@ -337,9 +340,26 @@ void procesar2D()
     //              cerr << "ERROR: PGM no se puede leer correctamente" << endl;
             }
             _img[j][i]=(double) read;
+            todo[j*x+i]=(double)read;
         }
     }
+    generarMatrizDCT(x);
 
+    FILE* f = fopen("imgMod.pgm","w");
+    fprintf(f,"P5\n%d %d\n%d\n",x,y,grayscale);
+    for(int j=0; j<y; j++)
+    {
+        vector<double> row(_img[j]); 
+        generarRuido(row,SIN_NOISE);
+        row=transformar(row);
+        filtrarRuido(row,EXPONENTIAL_FILTER);
+        row=antitransformar(row);
+        for(int i=0; i<x;i++)
+        {
+            fprintf(f,"%c",(unsigned char)row[i]);
+        }
+    }
+    fclose(f);
 
     return;
 
