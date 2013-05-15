@@ -36,6 +36,31 @@ const double max_m()
     return 255.0; //tp
 }
 
+double ecm(const vector<double>& orig, const vector<double>& recup);
+double ecm(const vector<vector<double>>& orig, const vector<vector<double>>& recup);
+
+
+
+double ecm(const vector<vector<double>>& orig, const vector<vector<double>>& recup)
+{
+    double e=0.0;
+
+    if(orig.size()!=recup.size())
+    {
+        cerr << "Error-ECM: distintas longitudes de matrices" << endl;
+        exit(1);
+    }
+    unsigned int n = orig.size();
+
+    for(unsigned int i=0; i<n; i++)
+    {
+        double q=ecm(orig[i],recup[i]);
+        e+=(q*q);
+    }
+    e=e/(double)n;
+    return e;
+ 
+}
 double ecm(const vector<double>& orig, const vector<double>& recup)
 {
     double e=0.0;
@@ -54,6 +79,12 @@ double ecm(const vector<double>& orig, const vector<double>& recup)
     }
     e=e/(double)n;
     return e;
+}
+double psnr(const vector<vector<double>>&  orig, const vector<vector<double>> &recup)
+{
+    double _max = 255.0;
+    
+    return 10 * log10((_max*_max)/ecm(orig, recup));
 }
 
 
@@ -369,7 +400,9 @@ void procesar2D()
         out[j]=antitransformar(out[j]);
     }
     
-    
+    double e = psnr(_img,out);
+    cerr << "PSNR: " << e << endl;
+
     for(int j=0; j<y; j++)
     {
         for(int i=0; i<x;i++)
