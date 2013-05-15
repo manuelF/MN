@@ -59,7 +59,9 @@ double ecm(const vector<double>& orig, const vector<double>& recup)
 
 double psnr(const vector<double>&  orig, const vector<double> &recup)
 {
-    return 10 * log10((max_m()*max_m())/ecm(orig, recup));
+    double _max = *max_element(orig.begin(), orig.end());
+    
+    return 10 * log10((_max*_max)/ecm(orig, recup));
 }
 vector<double> frecuencias;
 vector<double> muestreo;
@@ -67,23 +69,30 @@ vector<double> lecturas;
 vector<double> ruido;
 vector<vector<double> > MSombrero;
 vector<vector<double> > M;
+
 vector<vector<double> > mbmt(vector<vector<double> > &b) //Dado B calculo MBM^t como pide en el apendice A1
 {
     int n = M.size();
     assert((int)M[0].size() == n && (int)b.size() == n &&(int) b[0].size() == n);
     vector<vector<double> > aux(n,vector<double>(n,0)); // la creo con todos ceros la matriz
     for(int i=0;i<n;i++)
-    for(int j=0;j<n;j++)
     {
-        for(int t=0;t<n;t++)
-            aux[i][j] += M[i][t]*b[t][j];
+        for(int j=0;j<n;j++)
+        {
+            for(int t=0;t<n;t++)
+                aux[i][j] += M[i][t]*b[t][j];
+        }
     }
     vector<vector<double> > sol(n,vector<double>(n,0));
     for(int i=0;i<n;i++)
-    for(int j=0;j<n;j++)
     {
-        for(int t=0;t<n;t++)
-            sol[i][j] = aux[i][t]*M[j][t]; // (j,t) y no (t,j) porque es la transpuesta
+        for(int j=0;j<n;j++)
+        {
+            for(int t=0;t<n;t++)
+            {
+                sol[i][j] = aux[i][t]*M[j][t]; // (j,t) y no (t,j) porque es la transpuesta
+            }
+        }
     }
     return sol;
 }
@@ -125,18 +134,13 @@ vector<double> antitransformar(const vector<double> &y) // mat * ret = y
 	return x;
 }
 
-void generarMatrizDCT(int n, double _max)
+void generarMatrizDCT(int n)
 {
     frecuencias = vector<double> (n);
     muestreo = vector<double> (n);
-    MSombrero=vector<vector<double> >(n);
-    M=vector<vector<double> >(n);
+    MSombrero=vector<vector<double> >(n, vector<double>(n));
+    M=vector<vector<double> >(n, vector<double>(n));
 
-    for(int i = 0; i< n; i++)
-    {
-        MSombrero[i]=vector<double>(n);
-        M[i]=vector<double>(n);
-    }
 
     double k = (M_PI/(double)n);
     for(int i = 0; i < n; i++)
@@ -146,25 +150,21 @@ void generarMatrizDCT(int n, double _max)
     }
     double sq1n=sqrt(1.0/n);
     double sq2n=sqrt(2.0/n);
+    double _max = max_m();
+    double v = sq1n;
 #pragma omp parallel for
     for(int i = 0; i< n ; i++)
     {
+        double freq = frecuencias[i];
         #pragma omp parallel for
         for(int j = 0; j< n ; j++)
         {
-            double v;
-            v=cos(frecuencias[i]*muestreo[j]);
-            if(i==0) v = v*sq1n;
-            else     v = v*sq2n;
-            MSombrero[i][j]=v;
-            M[i][j]=floor((max_m()*v + 1)/2);
+            if(i>0) v=sq2n;
+            double theta=v*cos(freq*muestreo[j]);
+            MSombrero[i][j]=theta;
+            M[i][j]=floor((_max*theta + 1)/2);
         }
     }
-
-    double calc=0.0;
-    for(int i=0;i<n;i++)
-        for(int j=0; j<n;j++)
-            calc+=MSombrero[i][j];
 }
 
 vector<double> transformar(const vector<double>& l)
@@ -241,7 +241,6 @@ void filtrarRuido(vector <double> &y, int imp)
 	{
 		double mx = abs(y[startfilter]);
 	    for(int i=startfilter;i<n;i++) mx = max(mx, abs(y[i]));
-        cerr << mx << endl;
         for(int i=startfilter;i<n;i++)
         {
             if(abs(y[i])*diffmax>mx)
@@ -259,13 +258,11 @@ void filtrarRuido(vector <double> &y, int imp)
     {
        for(int i=startfilter+2;i<n-2;i++)
         {
- //           replace[i]= .25*y[i-1]+.5*y[i]+.25*y[i+1];
-           
-            replace[i]= .125*y[i-2]+
+            replace[i]= .15*y[i-2]+
                         .20 *y[i-1]+
-                        .35 *y[i]  +
+                        .30 *y[i]  +
                         .20 *y[i+1]+
-                        .125*y[i+2];
+                        .15*y[i+2];
         }
     }
     for (int i = 0; i< (int) y.size(); i++)
@@ -286,7 +283,7 @@ void procesar1D()
     int n;
     cin >> n;
     lecturas = vector<double> (n);
-    double _max = 0.0;
+    double _max=0.0;
     for(int i = 0; i < n; i++)
     {
         cin >> lecturas[i];
@@ -294,8 +291,9 @@ void procesar1D()
     }
 
 
-    generarMatrizDCT(n, _max);
+    generarMatrizDCT(n);
     vector<double> l (lecturas);
+    //generarRuido(l,GAUSSIAN_NOISE);
     generarRuido(l,SIN_NOISE);
 
     vector<double> q = transformar(lecturas); //original
@@ -308,7 +306,7 @@ void procesar1D()
     filtrarRuido(y,EXPONENTIAL_FILTER);
     filtrarRuido(y,AVERAGER_FILTER );
 
-    dump("mod",y);
+//    dump("mod",y);
     vector<double> x = antitransformar(y);
 //    dump("recovered",x);
     cerr<< "PNSR: " << psnr(lecturas,x) << endl;
@@ -327,9 +325,20 @@ void procesar2D()
     }
     int x, y;
     cin >> x >> y;
-    vector<vector<int>> _img(y);
-    for(int i =0; i<y; i++)
-        _img[i]=vector<int>(x);
+    vector<vector<double>> _img(y,vector<double>(x));
+    
+    for(int j = 0; j < y; j++)
+    {
+        for(int i = 0; i < x; i++)
+        {
+            unsigned char read;
+            if(scanf("%c",&read)!=1)
+            {
+    //              cerr << "ERROR: PGM no se puede leer correctamente" << endl;
+            }
+            _img[j][i]=(double) read;
+        }
+    }
 
 
     return;
