@@ -174,26 +174,12 @@ Este ruido es controlado y es as\'i como tambi\'en los filtros pueden volver a
 una imagen muy similar a la original.
 
 \begin{figure}[H]
-\begin {center}
-\includegraphics[width=360pt]{imagenes/kern-sin50-noisy.png}
-\end {center}
-\caption{Imagen con ruido senoidal con multiplicador de 50}
-\label{fig:SinProm}
-\end{figure}
-
-\begin{figure}[H]
-\begin {center}
-\includegraphics[width=360pt]{imagenes/kern-sin50-recovered-avg.png}
-\end {center}
-\caption{Recuperada con filtro promedio}
-\label{fig:SinProm}
-\end{figure}
-
-\begin{figure}[H]
-\begin {center}
-\includegraphics[width=360pt]{imagenes/kern-sin50-recovered.png}
-\end {center}
-\caption{Recuperada aplicando los 2 filtros}
+    $\begin{array}{ccc}
+\includegraphics[width=150pt]{imagenes/kern-sin50-noisy.png}
+\includegraphics[width=150pt]{imagenes/kern-sin50-recovered-avg.png}
+\includegraphics[width=150pt]{imagenes/kern-sin50-recovered.png}
+\end{array}$
+\caption{\textbf{Izquierda}: Im\'agen con ruido Senoidal con multiplicador de 50, \textbf{Centro}: Recuperada con filtro promedio, \textbf{Derecha}: Recuperada aplicando filtro exponencial y promedio}
 \label{fig:SinProm}
 \end{figure}
 
@@ -203,26 +189,12 @@ Este ruido es controlado pero el multiplicador es muy alto, haciendo muy dificil
 la recuperaci\'on de la imagen
 
 \begin{figure}[H]
-\begin {center}
-\includegraphics[width=360pt]{imagenes/kern-sin1000-noisy.png}
-\end {center}
-\caption{Imagen con ruido senoidal con multiplicador de 1000}
-\label{fig:SinProm}
-\end{figure}
-
-\begin{figure}[H]
-\begin {center}
-\includegraphics[width=360pt]{imagenes/kern-sin1000-recovered-avg.png}
-\end {center}
-\caption{Recuperada con filtro promedio}
-\label{fig:SinProm}
-\end{figure}
-
-\begin{figure}[H]
-\begin {center}
-\includegraphics[width=360pt]{imagenes/kern-sin1000-recovered.png}
-\end {center}
-\caption{Recuperada aplicando los 2 filtros}
+    $\begin{array}{c c c}
+\includegraphics[width=150pt]{imagenes/kern-sin1000-noisy.png}
+\includegraphics[width=150pt]{imagenes/kern-sin1000-recovered-avg.png}
+\includegraphics[width=150pt]{imagenes/kern-sin1000-recovered.png}
+\end{array}$
+\caption{\textbf{Izquierda}: Im\'agen con ruido Senoidal con multiplicador de 1000, \textbf{Centro}: Recuperada con filtro promedio, \textbf{Derecha}: Recuperada aplicando filtro exponencial y promedio}
 \label{fig:SinProm}
 \end{figure}
 
@@ -233,25 +205,12 @@ Este filtro fue el m\'as desafiante ya que el ruido blanco es muy d\'ificil de
 capturar por su condici\'on de ``antipatron''
 
 \begin{figure}[H]
-\begin {center}
-\includegraphics[width=360pt]{imagenes/kern-gauss100-noisy.png}
-\end {center}
-\caption{Imagen con ruido gaussiano con factor 1000}
+    $\begin{array}{c c c}
+\includegraphics[width=150pt]{imagenes/kern-gauss100-noisy.png}
+\includegraphics[width=150pt]{imagenes/kern-gauss100-recovered-avg.png}
+\includegraphics[width=150pt]{imagenes/kern-gauss100-recovered-both.png}
+\end{array}$
+\caption{\textbf{Izquierda}: Im\'agen con ruido blanco con varianza 10000, \textbf{Centro}: Recuperada con filtro promedio, \textbf{Derecha}: Recuperada aplicando filtro exponencial y promedio}
 \label{fig:SinProm}
 \end{figure}
 
-\begin{figure}[H]
-\begin {center}
-\includegraphics[width=360pt]{imagenes/kern-gauss100-recovered-avg.png}
-\end {center}
-\caption{Recuperada con filtro promedio}
-\label{fig:SinProm}
-\end{figure}
-
-\begin{figure}[H]
-\begin {center}
-\includegraphics[width=360pt]{imagenes/kern-gauss100-recovered-both.png}
-\end {center}
-\caption{Recuperada aplicando los 2 filtros}
-\label{fig:SinProm}
-\end{figure}
