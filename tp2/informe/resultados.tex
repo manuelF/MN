@@ -28,9 +28,54 @@ im\'agenes y gr\'aficos) como en la medida deL PSNR.
 
 \subsection{Se\~nales en una dimensi\'on}
 
-\subsubsection{Ruido senoidal}
+\subsubsection{Filtro Cero}
 
-El primer tipo de ruido analizado, y tambi\'en el m\'as sencillo 
+El primer filtro analizado fue el m\'as sencillo de implementar, el filtro cero.
+Como mencionamos anteriormente, este filtro utiliza un umbral y env\'ia los
+puntos que lo sobrepasan (tanto por arriba como por debajo) a cero.
+
+\begin{figure}
+\begin {center}
+\includegraphics[width=220pt]{../matlab/dopp1024-sin100-zero-spec.png}
+\end {center}
+\caption{Se\~nal doppler provista por la c\'atedra, transformada, gr\'aficada
+luego de aplicar ruido senoidal utilizando el multiplicador 100 (Rojo) y 
+habiendo aplicado el filtro cero (azul)}
+\label{fig:SinProm}
+\end{figure}
+
+Pudimos observar entonces que la se\~nal detecta frecuencias fuera del umbral y
+las manda a cero. Este filtro carece de dos caracter\'isticas fundamentales
+seg\'un demuestran los experimentos:
+
+\begin{itemize}
+	\item {\bf detecci\'on de ``zonas afectadas'':} Como el algoritmo no tiene en
+cuenta el contexto a la hora de modificar un punto, la decisi\'on es mandar los
+puntos duera del umbral al cero. Esto lleva a ``saltos'' pronunciados en la se\
+~nal recuperada.
+
+	\item {\bf elecci\'on de la correspondencia de los puntos fuera del umbral:}
+El filtro decide enviar todos los elementos fuera del umbral al cero, con un
+manejo de los m\'aximos y minimos globales (en el punto anterior se habla de
+locales) se podr\'ia mejorar el resultado del filtro.
+\end{itemize}
+
+Sin embargo, como se aprecia en la im\'agen, los resultados son suficientemente
+buenos teniendo en cuenta la simplicidad de la implementaci\'on del algoritmo.
+
+\subsubsection{Filtro Exponencial}
+
+\begin{figure}
+\begin {center}
+\includegraphics[width=220pt]{../matlab/dopp512-sin100-avg-spec.png}
+\end {center}
+\caption{Se\~nal doppler provista por la c\'atedra, transformada, gr\'aficada
+luego de aplicar ruido senoidal utilizando el multiplicador 100 (Rojo) y 
+habiendo aplicado el filtro promedio (azul)}
+\label{fig:SinProm}
+\end{figure}
+
+
 
 \subsection{Se\~nales en dos dimensiones}
 
