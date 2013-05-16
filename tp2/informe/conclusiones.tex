@@ -3,7 +3,7 @@
 La primer conclusi\'on que pudimos sacar de este TP fue que el filtro que apliquemos para detecci\'on de ruido
 siempre va a depender del tipo de ruido que se haya aplicado a la se\~nal.
 
-Los ruidos que aplicamos fueron ruidos gaussianos y ruidos sinoidales. En ambos casos vimos que los filtros
+Los ruidos que aplicamos fueron ruidos gaussianos y ruidos senoidales. En ambos casos vimos que los filtros
 exponencial y promediador fueron los que resultaron m\'as eficientes para los ruidos que aplicamos.
 
 En se\~nales 1D los filtros que aplicamos reconstruyeron se\~nales que se parecieron mucho m\'as a la se\~nal
@@ -12,3 +12,13 @@ original que la se\~nal con ruido aunque en muchos casos la diferencia era notab
 En se\~nales 2D, en cambio, ya que trabajabamos con im\'agenes, pudimos observar que la imagen con ruido en muchos
 casos no se distingu\'ia (es decir, no se pod\'ia reconocer la imagen comparandola con la original), aunque despu\'es
 de aplicar los filtros se reconoce una imagen bastante fiel a la original en comparaci\'on con la imagen ruidosa.
+
+\subsection{Tipos de ruido}
+
+Durante los experimentos trabajamos con 2 tipos de ruido. El Senoidal sigue un
+patr\'on muy marcado. En cambio, el Gaussiano representa (del modo m\'as fiel
+que encontramos) valores aleatorios provenientes de una distribuci\'on normal.
+
+Correr los mismos filtros sobre se\~nales con esos tipos de ruido sirvi\'o como
+refuerzo a la intuici\'on de que es m\'as simple lidiar con ruidos que siguen
+cierto patr\'on a hacerlo con el denominado ``ruido blanco''.
