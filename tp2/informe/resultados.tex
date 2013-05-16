@@ -36,10 +36,10 @@ puntos que lo sobrepasan (tanto por arriba como por debajo) a cero.
 
 \begin{figure}
 \begin {center}
-\includegraphics[width=360pt]{imagenes/dopp1024-sin100-zero-spec.png}
+\includegraphics[width=299pt]{imagenes/dopp1024-sin100-zero-spec.png}
 \end {center}
 \caption{Se\~nal doppler provista por la c\'atedra, transformada, gr\'aficada
-luego de aplicar ruido senoidal utilizando el multiplicador 100 (Rojo) y 
+luego de aplicar ruido senoidal utilizando el multiplicador 1000 (rojo) y 
 habiendo aplicado el filtro cero (azul)}
 \label{fig:SinProm}
 \end{figure}
@@ -75,20 +75,20 @@ decimos recuperados as\'i como de una mayor suavidad a la se\~nal recuperada.
 
 \begin{figure}
 \begin {center}
-\includegraphics[width=360pt]{imagenes/g450-sin100-exp-spec.png}
+\includegraphics[width=299pt]{imagenes/g450-sin100-exp-spec.png}
 \end {center}
-\caption{Se\~nal g450 provista por la c\'atedra, transformada, gr\'aficada
-luego de aplicar ruido senoidal utilizando el multiplicador 100 (Rojo) y 
+\caption{Se\~nal \texttt{g450} provista por la c\'atedra, transformada, gr\'aficada
+luego de aplicar ruido senoidal utilizando el multiplicador 1000 (rojo) y 
 habiendo aplicado el filtro exponencial (azul)}
 \label{fig:SinProm}
 \end{figure}
 
 \begin{figure}
 \begin {center}
-\includegraphics[width=360pt]{imagenes/s64-sin100-exp.png}
+\includegraphics[width=299pt]{imagenes/s64-sin100-exp.png}
 \end {center}
-\caption{Se\~nal s64 provista por la c\'atedra, no transformada, gr\'aficada
-luego de aplicar ruido senoidal utilizando el multiplicador 100 (Rojo) y 
+\caption{Se\~nal \texttt{s64} provista por la c\'atedra, no transformada, gr\'aficada
+luego de aplicar ruido senoidal utilizando el multiplicador 1000 (rojo) y 
 habiendo aplicado el filtro promedio (azul)}
 \label{fig:SinProm}
 \end{figure}
@@ -102,10 +102,10 @@ filtro poderoso que devuelve a la se\~nal un estado similar al original.
 
 \begin{figure}
 \begin {center}
-\includegraphics[width=360pt]{imagenes/dopp512-sin100-avg-spec.png}
+\includegraphics[width=299pt]{imagenes/dopp512-sin100-avg-spec.png}
 \end {center}
-\caption{Se\~nal doppler provista por la c\'atedra, transformada, gr\'aficada
-luego de aplicar ruido senoidal utilizando el multiplicador 100 (Rojo) y 
+\caption{Se\~nal \texttt{doppler512} provista por la c\'atedra, transformada, gr\'aficada
+luego de aplicar ruido senoidal utilizando el multiplicador 1000 (rojo) y 
 habiendo aplicado el filtro promedio (azul)}
 \label{fig:SinProm}
 \end{figure}
@@ -118,30 +118,30 @@ resultados.
 
 \begin{figure}
 \begin {center}
-\includegraphics[width=360pt]{imagenes/dopp1024-gauss100-both.png}
+\includegraphics[width=299pt]{imagenes/dopp1024-gauss100-both.png}
 \end {center}
-\caption{Se\~nal doppler provista por la c\'atedra, no transformada, gr\'aficada
-luego de aplicar ruido gaussiano utilizando una amplitud de 100 (Rojo) y 
+\caption{Se\~nal \texttt{doppler1024} provista por la c\'atedra, no transformada, gr\'aficada
+luego de aplicar ruido gaussiano utilizando una amplitud de 100 (rojo) y 
 habiendo aplicado los filtros promedio y exponencial (verde)}
 \label{fig:SinProm}
 \end{figure}
 
 \begin{figure}
 \begin {center}
-\includegraphics[width=360pt]{imagenes/g450-sin100-both.png}
+\includegraphics[width=299pt]{imagenes/g450-sin100-both.png}
 \end {center}
-\caption{Se\~nal g450 provista por la c\'atedra, no transformada, gr\'aficada
-luego de aplicar ruido senoidal utilizando el multiplicador 100 (Rojo) y 
+\caption{Se\~nal \texttt{g450} provista por la c\'atedra, no transformada, gr\'aficada
+luego de aplicar ruido senoidal utilizando el multiplicador 1000 (rojo) y 
 habiendo aplicado los filtros promedio y exponencial (verde)}
 \label{fig:SinProm}
 \end{figure}
 
 \begin{figure}
 \begin {center}
-\includegraphics[width=360pt]{imagenes/s64-gauss100-both-spec.png}
+\includegraphics[width=299pt]{imagenes/s64-gauss100-both-spec.png}
 \end {center}
-\caption{Se\~nal s64 provista por la c\'atedra, transformada, gr\'aficada
-luego de aplicar ruido gaussiano utilizando una amplitud de 100 (Rojo) y 
+\caption{Se\~nal \texttt{s64} provista por la c\'atedra, transformada, gr\'aficada
+luego de aplicar ruido gaussiano utilizando una amplitud de 100 (rojo) y 
 habiendo aplicado los filtros promedio y exponencial (verde)}
 \label{fig:SinProm}
 \end{figure}
@@ -155,7 +155,7 @@ la de Brian Kernighan.
 
 \begin{figure}[H]
 \begin {center}
-\includegraphics[width=360pt]{imagenes/brian_kernighan.png}
+\includegraphics[width=299pt]{imagenes/brian_kernighan.png}
 \end {center}
 \caption{Imagen original en escala de grises de Brian Kernighan}
 \label{fig:SinProm}
@@ -191,8 +191,8 @@ una imagen muy similar a la original.
 
 \subsubsection{Ruido senoidal con multiplicador de 1000}
 
-Este ruido es controlado pero el multiplicador es muy alto, haciendo muy dificil
-la recuperaci\'on de la imagen
+Este ruido es controlado pero el multiplicador es muy alto, haciendo muy dificil la interpretaci\'on de la imagen. A simple vista, no se puede distinguir ningun rasgo,
+salvo el outline de la persona. Esta im\'agen seria totalmente in\'util en la gran mayoria de los casos.
 
 \begin{figure}[H]
 
@@ -210,8 +210,11 @@ la recuperaci\'on de la imagen
 \label{fig:Sin1000All}
 \end{figure}
 
+La recuperaci\'on de la Figura \ref{fig:Sin1000All} es asombrosa. El filtro exponencial logra captar los fuertes picos en el espectro de frecuencias y con su atenuaci\'on,
+permite recuperar los rasgos principales de la figura humana. Hay datos que parecen perdidos, o que al menos con esta tecnica y parametros de configuraci\'on no logramos captar,
+como el fondo de libros oscuros. 
 
-\subsubsection{Ruido gaussiano con factor 100}
+\subsubsection{Ruido gaussiano de varianza 100}
 
 Este filtro fue el m\'as desafiante ya que el ruido blanco es muy d\'ificil de
 capturar por su condici\'on de ``antipatron''
@@ -227,7 +230,11 @@ capturar por su condici\'on de ``antipatron''
 \includegraphics[width=150pt]{imagenes/kern-gauss100-recovered.png}
 \end{array}$
 \end{center}
-\caption{\textbf{Izquierda}: Im\'agen con ruido blanco con varianza 100, \textbf{Centro}: Recuperada con filtro promedio, \textbf{Derecha}: Recuperada aplicando filtro exponencial y promedio}
-\label{fig:SinProm}
+ \caption{\textbf{Arriba Izquierda}: Im\'agen con ruido blanco de varianza 100, \textbf{Arriba Derecha}: Recuperada con filtro promedio, \textbf{Abajo Izquierda}: Recuperada con filtro exponencial, \textbf{Abajo Derecha}: Recuperada aplicando filtro exponencial y promedio}
+\label{fig:gauss2d}
 \end{figure}
 
+Podemos observar bien en la Figura \ref{fig:gauss2d}, que en este caso, aplicar el filtro promediador, luego de haber aplicado el exponencial, es un error. 
+Se reintroducen muchos de los \textit{artifacts} que se habian podido eliminar antes, sin ninguna mejoria de sharpness en la imagen. 
+
+Sin embargo, aplicando solo, se consigue una buena mejoria en la calidad de la imagen, aunque se difuminen muchos rasgos, la recuperaci\'on puede ser aceptable.
