@@ -109,35 +109,38 @@ Se experiment\'o con 2 clases de ruido en las se\~nales:
 \begin{itemize}
 	\begin{item} {\bf Ruido senoidal:} Aplica un ruido formado por la suma de la se\~nal
 original con la funci\'on seno aplicada en la posici\'on de la muestra
-correspondiente, multiplicado por 50, para darle mayor amplitud al resultado de
+correspondiente, multiplicado por una constante $k$, para darle mayor amplitud al resultado de
 la funci\'on seno.
 
 	Es decir, para cada muestra de nuestra se\~nal aplicamos ruido del siguiente
 modo:
 
-	$$senal_ruidosa[i] = senal_original[i] + 50 * sin(i)$$
+$$senal_{ruidosa}[i] = senal_{original}[i] + k * \sin(i)$$
 
-  En algunos casos, donde decidimos utilizar valores muy altos en vez de 50
-para testear el comportamiento en casos con excesivo ruido, llevandolo a valores
+  
+Tomamos como valores de $k$, $k=50$ y $k=1000$ para testear el comportamiento en casos con excesivo ruido, llevandolo a valores
 como 1000.
+
+El interes te\'orico de este ruido surge de la industria de la telecomunicaci\'on. Es un ruido que aparece en las imagenes por 
+la proximidad de los cables portadores de se\~nales a los cables de corriente alterna. La corriente alterna
+es una se\~nal sinusoidal de frecuencia entre  50 y 60Hz. Es un problema fundamental de solucionar, ya que es muy com\'un en
+las instalaciones de camaras de seguridad por ejemplo, la existencia de ambos conductores pasando por el mismo ducto, sin separaci\'on
+alguna entre si. Esto genera una se\~nal ghost o lavada, perdiendo definici\'on y, en algunos casos, haciendola irreconocible incluso.
 	\end{item}
 
 	\begin{item}
 		{\bf Ruido Gaussiano:} Este tipo de ruido, tambi\'en denominado ruido
 blanco, consiste en sumar a cada punto de la se\~nal un n\'umero aleatorio
 proveniente de una distribuci\'on normal de media $\mu = 0$ y varianza $\sigma=100$. 
-Este tipo de ruido es muy frecuente e importante en disciplinas como la radio o television
-Modela apropiadamente la interferencia estatica, y es producto de eventos no deterministicos como 
-la radiaci\'on de fondo del Big Bang. Consiste en un ruido totalmente aleatorio, 
-comprendido en todas las frecuencias.
+Este tipo de ruido es muy frecuente e importante en industrias como la radio o television.
+Modela apropiadamente la interferencia est\'atica, y es producto de eventos no deterministicos como 
+puede ser la radiaci\'on de fondo del Big Bang. Consiste en un ruido totalmente aleatorio, pero con 
+una distribuci\'on muy similar a la normal comprendido en todas las frecuencias.
 
  	Para cada punto se aplica el ruido de la siguiente manera:
 
-    $$senal_{ruidosa}[i] = senal_{original}[i] + random_{gaussiana}(0, 100)$$
+    $$senal_{ruidosa}[i] = senal_{original}[i] + random_{gaussiana}(\mu=0, \sigma=100)$$
 
-	Si bien la amplitud de los valores de la distribuci\'on aleatoria fueron
-cambiados para diferentes experimentos, por defecto tomamos una franja de
-valores entre 0 y 10.
 
 	\end{item}
 \end{itemize}
