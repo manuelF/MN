@@ -146,8 +146,39 @@ habiendo aplicado los filtros promedio y exponencial (verde)}
 \label{fig:SinProm}
 \end{figure}
 
+\subsection{PNSR de 1D}
+\subsubsection{Tabla de rendimiento para ruido de senoidal de multiplicador de 50}
 
-\subsection{Se\~nales en dos dimensiones}
+\begin{table}[H]
+        \begin{tabular}{|l|llll|}
+                \hline
+                \textbf{PSNR [dB]} & Se\~nal + 50*Sin & F(Exp) & F(Prom.) & F(Ambos) \\ \hline
+                    Dopp512 & 2.8847 & 19.8146 & 9.46651 & 20.9871 \\
+                    Dopp1024 & 2.88818 & 19.3163 & 9.45959 & 21.2796 \\
+                    s64 & 14.8158 & 7.69053 & 13.1417 & 8.11751 \\
+                    Ramp1234 & 11.7625 & 29.7482 & 18.2714 & 28.9325 \\
+                    g450 & 13.8037 & 29.786 & 19.7515 & 27.1512 \\ \hline
+                    \end{tabular}
+                \end{table}
+
+\subsubsection{Tabla de rendimiento para ruido blanco de varianza 100}
+
+\begin{table}[H]
+        \begin{tabular}{|l|llll|}
+                \hline
+                \textbf{PSNR [dB]} & Se\~nal + Gaussian (0,100) & F(Exp) & F(Prom.) & F(Ambos) \\ \hline
+                    Dopp512 & 13.7462 & 12.8369 & 19.1109 & 14.0987 \\
+                    Dopp1024 & 13.9075 & 14.0229 & 19.5712 & 17.4598 \\
+                    s64 & 26.1171 & 8.39132 & 13.7514 & 26.0954 \\
+                    Ramp1234 & 22.7055 & 27.593 & 27.1689 & 28.8198 \\
+                    g450 & 24.7124 & 24.764 & 26.6028 & 8.2662 \\ \hline
+                    \end{tabular}
+                \end{table}
+
+
+
+
+        \subsection{Se\~nales en dos dimensiones}
 
 Como fue comentado, durante el desarrollo del experimento se utilizaron
 im\'agenes en escala de grises. La imagen tomada como est\'andar y homenaje es 
@@ -167,7 +198,6 @@ fila de la im\'agen como una se\~nal de una dimensi\'on, procedemos a mostrar
 los resultados obtenidos en funci\'on de los ruidos aplicados, a diferencia de
 lo realizado con una dimensi\'on, donde el foco est\'a puesto en discriminar los
 resultados por tipo de filtro.
-
 \subsubsection{Ruido senoidal con multiplicador de 50}
 
 Este ruido es controlado y es as\'i como tambi\'en los filtros pueden volver a
