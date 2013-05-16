@@ -61,4 +61,10 @@ El filtro exponencial reemlaza los coeficientes de las se\~nales que son m\'as g
 
 El filtro promediador lo que hace es distribuir los coeficientes m\'as grandes entre las se\~nales vecinas, es decir, si el coeficiente n\'umero 20 es muy grande, le ''pasa'' parte del coeficiente a los coeficientes 18, 19, 21 y 22. Para ser exactos, el coeficiente se multiplica por 0.3 y le sumamos a sus vecinos inmediatos 0.2 por el coeficiente y a los coeficientes a distancia 2, 0.15 por el coeficiente.
 
+La idea del filtro promediador surge de la observaci\'on de la aplicaci\'on de
+los otros en el caso del ruido blanco. Para poder afrontar casos con ruido en
+distintas frecuencias muy distintas al mismo tiempo necesitamos obtener un
+contexto mayor en cada punto para saber como manejarlos en relaci\'on con sus
+vecinos.
+
 Experimentalmente pudimos observar que el filtro cero es bueno, pero el filtro exponencial y el promediador son bastante mejores. Para poder obtener un mejor filtrado del ruido, decidimos aplicar primero el filtro exponencial y luego el promediador, lo que result\'o en un filtrado muy bueno dando resultados muy parecidos a la se\~nal original.
