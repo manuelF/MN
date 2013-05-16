@@ -7,6 +7,18 @@ Los ruidos que estudiamos fueron ruidos gaussianos y ruidos senodales. En ambos 
 exponenciales y promediadores que desarrollamos contra las sen\~nales originales, y alguno de estos o la combinaci\'on de los dos,
 resultaron razonablemente efectivos a la hora de restaurar la mayor integridad posible.
 
+\subsection{Tipos de ruido}
+
+Durante los experimentos trabajamos con 2 tipos de ruido. El Senoidal sigue un
+patr\'on muy marcado. En cambio, el Gaussiano representa (del modo m\'as fiel
+que encontramos) valores aleatorios provenientes de una distribuci\'on normal.
+
+Correr los mismos filtros sobre se\~nales con esos tipos de ruido sirvi\'o como
+refuerzo a la intuici\'on de que es m\'as simple lidiar con ruidos que siguen
+cierto patr\'on a hacerlo con el denominado ``ruido blanco''.
+
+\subsection{Extensi\'on a 2D}
+
 En se\~nales 1D los filtros que aplicamos reconstruyeron se\~nales que se parecieron mucho m\'as a la se\~nal
 original que la se\~nal con ruido aunque en muchos casos la diferencia era notable. Se puede percibir esto en las zonas
 de alta frecuencia de la imagen. Se pudo notar ahi que el filtro promediador, incluso con coeficientes que preservaran
@@ -17,10 +29,15 @@ en la base de los cosenos, no es para intuito el resultado que produce una pertu
 En se\~nales 2D, en cambio, ya que trabajabamos con im\'agenes, pudimos observar que la imagen con ruido en muchos
 casos no se distingu\'ia (es decir, no se pod\'ia reconocer la imagen comparandola con la original), aunque despu\'es
 de aplicar los filtros se reconoce una imagen bastante fiel a la original en comparaci\'on con la imagen ruidosa.
+
+\subsection{Elecci\'on de filtros}
+
 Es importante saber los casos de uso de las funciones para definir el rango de calidad \textit{aceptable}. No es lo mismo
 la precision necesaria para identificar si hay, o no, una cara en la imagen que para un sistema de reconocimiento \'optico
 de caracteres. Esto es clave para poder ver si se justifica aplicar filtros como promediador, donde se pierden un poco de detalles como suavizado
 pero se gana en velocidad de identificaci\'on humana.
+
+\subsection{Pendientes}
 
 Lamentablemente, nos hubiera gustado contar con un tiempo adicional para intentar los filtros por bloques, como sugeria el ejercicio
 opcional. \textit{A priori}, nos damos cuenta que son excelentes herramientas para mejorar el tiempo de ejecuci\'on
@@ -34,3 +51,4 @@ En resumen, con este trabajo pudimos comprender un m\'inimo de la importancia de
 un \'area que ha sido crucial para el desarrollo de las telecomunicaciones alrededor del mundo. Nos ha servido para plantear
 el problema desde otro aspecto, como un ``simple'' cambio de base puede revelarnos mucha mas informaci\'on de la que 
 consideramos existente en una se\~nal. 
+
