@@ -36,6 +36,31 @@ const double max_m()
     return 255.0; //tp
 }
 
+double ecm(const vector<double>& orig, const vector<double>& recup);
+double ecm(const vector<vector<double>>& orig, const vector<vector<double>>& recup);
+
+
+
+double ecm(const vector<vector<double>>& orig, const vector<vector<double>>& recup)
+{
+    double e=0.0;
+
+    if(orig.size()!=recup.size())
+    {
+        cerr << "Error-ECM: distintas longitudes de matrices" << endl;
+        exit(1);
+    }
+    unsigned int n = orig.size();
+
+    for(unsigned int i=0; i<n; i++)
+    {
+        double q=ecm(orig[i],recup[i]);
+        e+=(q*q);
+    }
+    e=e/(double)n;
+    return e;
+ 
+}
 double ecm(const vector<double>& orig, const vector<double>& recup)
 {
     double e=0.0;
@@ -54,6 +79,12 @@ double ecm(const vector<double>& orig, const vector<double>& recup)
     }
     e=e/(double)n;
     return e;
+}
+double psnr(const vector<vector<double>>&  orig, const vector<vector<double>> &recup)
+{
+    double _max = 255.0;
+    
+    return 10 * log10((_max*_max)/ecm(orig, recup));
 }
 
 
@@ -312,7 +343,16 @@ void procesar1D()
     cerr<< "PNSR: " << psnr(lecturas,x) << endl;
 }
 
-
+void transpose(vector<vector<double>> &mat)
+{
+    for(int i=0;i<mat.size();i++)
+    {
+        for(int j=i;j<mat[i].size();j++)
+        {
+            swap(mat[i][j],mat[j][i]);
+        }
+    }
+}
 
 void procesar2D()
 {
@@ -347,16 +387,27 @@ void procesar2D()
 
     FILE* f = fopen("imgMod.pgm","w");
     fprintf(f,"P5\n%d %d\n%d\n",x,y,grayscale);
+    //transpose(_img);
+    vector<vector<double>> out (y);
+    
     for(int j=0; j<y; j++)
     {
-        vector<double> row(_img[j]); 
-        generarRuido(row,SIN_NOISE);
-        row=transformar(row);
-        filtrarRuido(row,EXPONENTIAL_FILTER);
-        row=antitransformar(row);
+        out[j]=vector<double>(_img[j]); 
+        generarRuido(out[j],SIN_NOISE);
+        out[j]=transformar(out[j]);
+        filtrarRuido(out[j],EXPONENTIAL_FILTER);
+        //filtrarRuido(out[j],AVERAGER_FILTER);
+        out[j]=antitransformar(out[j]);
+    }
+    
+    double e = psnr(_img,out);
+    cerr << "PSNR: " << e << endl;
+
+    for(int j=0; j<y; j++)
+    {
         for(int i=0; i<x;i++)
         {
-            fprintf(f,"%c",(unsigned char)row[i]);
+            fprintf(f,"%c",(unsigned char)out[j][i]);
         }
     }
     fclose(f);
