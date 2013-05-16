@@ -97,12 +97,6 @@ donde $contorno$ es el rango de valores alrededor del pico que estamos tomando, 
 $j$ es el iterador que va desde $i-contorno$ hasta $i+contorno$, para poder aplicar
 el decaimiento exponencial a todos los valores perif\'ericos al punto.
 
-El filtro exponencial reemplaza los coeficientes de las se\~nales que son m\'as 
-grandes y divide los coeficientes de su entorno por 1.2 elevado a 20 menos 
-la distancia a la se\~nal, esto es, si el coeficiente es de la se\~nal n\'umero 
-35, entonces dividimos al coeficiente de 35 por 1.2 a la 20, al de 34 y el de 
-36 por 1.2 a la 19, y as\'i sucesivamente hasta dividir por 1.2 a la 1.
-
 \subsection{Filtro Promedidador}
 
 El filtro promediador distribuye los coeficientes m\'as grandes 
