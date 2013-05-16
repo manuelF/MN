@@ -42,10 +42,18 @@
 
 \newtoks\intlist\intlist={}
 
+% ----- Token list para las keywords     ------------------------------------
+
+\newtoks\kwlist\kwlist={}
+
 % ----- Comando para que el usuario agregue integrantes --------------------
 
 \def\integrante#1#2#3{\intlist=\expandafter{\the\intlist
     \rule{0pt}{1.2em}#1&#2&\tt #3\\[0.2em]}}
+
+% ----- Comando para que el usuario agregue keywords -----------------------
+
+\def\kwagregar#1{\kwlist=\expandafter{\the\kwlist #1}}
 
 % ----- Macro para generar la tabla de integrantes -------------------------
 
@@ -116,6 +124,10 @@
         \ifx\Grupo\relax\else\textbf{\Grupo}\par\bigskip\fi
         \tablaints
     \end{center}%
+    \smallskip
+    \begin{center}
+        \textbf{Keywords: }\textit{\the\kwlist}
+    \end{center}
     \vfill%
 %
     \begin{minipage}[t]{\textwidth}
