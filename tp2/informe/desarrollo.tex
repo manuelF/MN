@@ -51,6 +51,14 @@ se\~nales desde el 5\% (es decir, no procesamos el 5\% de se\~nales de menor
 frecuencia) ya que experimentando encontramos que en ese 5\% se encuentra 
 generalmente gran parte de la informaci\'on, y en proporci\'on muy poco ruido.
 
+Esto es sobre todo notorio en se\~nales de audio. La t\'eoria atras de esto es la amplitud
+de frecuencias de la acustica humana. Se el rango de audicion humana esta entre los 20Hz
+y los 20kHz. Este rango enorme concentra la mayor cantidad de informacion en la parte mas baja,
+normalmente inferior a los 4kHz (el rango vocal humano). Por eso consideramos que
+si hubiera ruido en este sector y lo intentaramos sacar, es mucho m\'as probable que eliminaramos
+informaci\'on crucial del audio. Por eso preferimos tocar lo menos posible ese area,
+a riesgo de no extraer los m\'aximos niveles de ruido.
+
 \subsection{Filtro Cero}
 
 En el filtro cero tomamos la se\~nal con el mayor coeficiente (en m\'odulo) y 
@@ -117,13 +125,15 @@ como 1000.
 	\begin{item}
 		{\bf Ruido Gaussiano:} Este tipo de ruido, tambi\'en denominado ruido
 blanco, consiste en sumar a cada punto de la se\~nal un n\'umero aleatorio
-proveniente de una distribuci\'on normal. Este tipo de ruido es muy frecuente e
-importante en disciplinas como la fotograf\'ia. Consiste en un ruido totalmente
-aleatorio, comprendido en todas las frecuencias.
+proveniente de una distribuci\'on normal de media $\mu = 0$ y varianza $\sigma=100$. 
+Este tipo de ruido es muy frecuente e importante en disciplinas como la radio o television
+Modela apropiadamente la interferencia estatica, y es producto de eventos no deterministicos como 
+la radiaci\'on de fondo del Big Bang. Consiste en un ruido totalmente aleatorio, 
+comprendido en todas las frecuencias.
 
  	Para cada punto se aplica el ruido de la siguiente manera:
 
-	$$senal_ruidosa[i] = senal_original[i] + random(0, 10)$$
+    $$senal_{ruidosa}[i] = senal_{original}[i] + random_{gaussiana}(0, 100)$$
 
 	Si bien la amplitud de los valores de la distribuci\'on aleatoria fueron
 cambiados para diferentes experimentos, por defecto tomamos una franja de
