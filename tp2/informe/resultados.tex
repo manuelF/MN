@@ -36,7 +36,7 @@ puntos que lo sobrepasan (tanto por arriba como por debajo) a cero.
 
 \begin{figure}
 \begin {center}
-\includegraphics[width=220pt]{../matlab/dopp1024-sin100-zero-spec.png}
+\includegraphics[width=360pt]{../matlab/dopp1024-sin100-zero-spec.png}
 \end {center}
 \caption{Se\~nal doppler provista por la c\'atedra, transformada, gr\'aficada
 luego de aplicar ruido senoidal utilizando el multiplicador 100 (Rojo) y 
@@ -75,7 +75,7 @@ decimos recuperados as\'i como de una mayor suavidad a la se\~nal recuperada.
 
 \begin{figure}
 \begin {center}
-\includegraphics[width=220pt]{../matlab/g450-sin100-exp-spec.png}
+\includegraphics[width=360pt]{../matlab/g450-sin100-exp-spec.png}
 \end {center}
 \caption{Se\~nal g450 provista por la c\'atedra, transformada, gr\'aficada
 luego de aplicar ruido senoidal utilizando el multiplicador 100 (Rojo) y 
@@ -85,7 +85,7 @@ habiendo aplicado el filtro exponencial (azul)}
 
 \begin{figure}
 \begin {center}
-\includegraphics[width=220pt]{../matlab/s64-sin100-exp.png}
+\includegraphics[width=360pt]{../matlab/s64-sin100-exp.png}
 \end {center}
 \caption{Se\~nal s64 provista por la c\'atedra, no transformada, gr\'aficada
 luego de aplicar ruido senoidal utilizando el multiplicador 100 (Rojo) y 
@@ -102,7 +102,7 @@ filtro poderoso que devuelve a la se\~nal un estado similar al original.
 
 \begin{figure}
 \begin {center}
-\includegraphics[width=220pt]{../matlab/dopp512-sin100-avg-spec.png}
+\includegraphics[width=360pt]{../matlab/dopp512-sin100-avg-spec.png}
 \end {center}
 \caption{Se\~nal doppler provista por la c\'atedra, transformada, gr\'aficada
 luego de aplicar ruido senoidal utilizando el multiplicador 100 (Rojo) y 
@@ -118,7 +118,7 @@ resultados.
 
 \begin{figure}
 \begin {center}
-\includegraphics[width=220pt]{../matlab/dopp1024-gauss100-both.png}
+\includegraphics[width=360pt]{../matlab/dopp1024-gauss100-both.png}
 \end {center}
 \caption{Se\~nal doppler provista por la c\'atedra, no transformada, gr\'aficada
 luego de aplicar ruido gaussiano utilizando una amplitud de 100 (Rojo) y 
@@ -128,7 +128,7 @@ habiendo aplicado los filtros promedio y exponencial (verde)}
 
 \begin{figure}
 \begin {center}
-\includegraphics[width=220pt]{../matlab/g450-sin100-both.png}
+\includegraphics[width=360pt]{../matlab/g450-sin100-both.png}
 \end {center}
 \caption{Se\~nal g450 provista por la c\'atedra, no transformada, gr\'aficada
 luego de aplicar ruido senoidal utilizando el multiplicador 100 (Rojo) y 
@@ -138,7 +138,7 @@ habiendo aplicado los filtros promedio y exponencial (verde)}
 
 \begin{figure}
 \begin {center}
-\includegraphics[width=220pt]{../matlab/s64-gauss100-both-spec.png}
+\includegraphics[width=360pt]{../matlab/s64-gauss100-both-spec.png}
 \end {center}
 \caption{Se\~nal s64 provista por la c\'atedra, transformada, gr\'aficada
 luego de aplicar ruido gaussiano utilizando una amplitud de 100 (Rojo) y 
@@ -153,9 +153,9 @@ Como fue comentado, durante el desarrollo del experimento se utilizaron
 im\'agenes en escala de grises. La imagen tomada como est\'andar y homenaje es 
 la de Brian Kernighan.
 
-\begin{figure}
+\begin{figure}[H]
 \begin {center}
-\includegraphics[width=220pt]{../datos/brian_kernighan.pgm}
+\includegraphics[width=360pt]{../datos/brian_kernighan.pgm}
 \end {center}
 \caption{Imagen original en escala de grises de Brian Kernighan}
 \label{fig:SinProm}
@@ -173,25 +173,25 @@ resultados por tipo de filtro.
 Este ruido es controlado y es as\'i como tambi\'en los filtros pueden volver a
 una imagen muy similar a la original.
 
-\begin{figure}
+\begin{figure}[H]
 \begin {center}
-\includegraphics[width=220pt]{../matlab/kern-sin50-noisy.pgm}
+\includegraphics[width=360pt]{../matlab/kern-sin50-noisy.pgm}
 \end {center}
 \caption{Imagen con ruido senoidal con multiplicador de 50}
 \label{fig:SinProm}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 \begin {center}
-\includegraphics[width=220pt]{../matlab/kern-sin50-recovered-avg.pgm}
+\includegraphics[width=360pt]{../matlab/kern-sin50-recovered-avg.pgm}
 \end {center}
 \caption{Recuperada con filtro promedio}
 \label{fig:SinProm}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 \begin {center}
-\includegraphics[width=220pt]{../matlab/kern-sin50-recovered.pgm}
+\includegraphics[width=360pt]{../matlab/kern-sin50-recovered.pgm}
 \end {center}
 \caption{Recuperada aplicando los 2 filtros}
 \label{fig:SinProm}
@@ -202,25 +202,25 @@ una imagen muy similar a la original.
 Este ruido es controlado pero el multiplicador es muy alto, haciendo muy dificil
 la recuperaci\'on de la imagen
 
-\begin{figure}
+\begin{figure}[H]
 \begin {center}
-\includegraphics[width=220pt]{../matlab/kern-sin1000-noisy.pgm}
+\includegraphics[width=360pt]{../matlab/kern-sin1000-noisy.pgm}
 \end {center}
 \caption{Imagen con ruido senoidal con multiplicador de 1000}
 \label{fig:SinProm}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 \begin {center}
-\includegraphics[width=220pt]{../matlab/kern-sin1000-recovered-avg.pgm}
+\includegraphics[width=360pt]{../matlab/kern-sin1000-recovered-avg.pgm}
 \end {center}
 \caption{Recuperada con filtro promedio}
 \label{fig:SinProm}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 \begin {center}
-\includegraphics[width=220pt]{../matlab/kern-sin1000-recovered.pgm}
+\includegraphics[width=360pt]{../matlab/kern-sin1000-recovered.pgm}
 \end {center}
 \caption{Recuperada aplicando los 2 filtros}
 \label{fig:SinProm}
@@ -232,25 +232,25 @@ la recuperaci\'on de la imagen
 Este filtro fue el m\'as desafiante ya que el ruido blanco es muy d\'ificil de
 capturar por su condici\'on de ``antipatron''
 
-\begin{figure}
+\begin{figure}[H]
 \begin {center}
-\includegraphics[width=220pt]{../matlab/kern-gauss100-noisy.pgm}
+\includegraphics[width=360pt]{../matlab/kern-gauss100-noisy.pgm}
 \end {center}
 \caption{Imagen con ruido gaussiano con factor 1000}
 \label{fig:SinProm}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 \begin {center}
-\includegraphics[width=220pt]{../matlab/kern-gauss100-recovered-avg.pgm}
+\includegraphics[width=360pt]{../matlab/kern-gauss100-recovered-avg.pgm}
 \end {center}
 \caption{Recuperada con filtro promedio}
 \label{fig:SinProm}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 \begin {center}
-\includegraphics[width=220pt]{../matlab/kern-gauss100-recovered-both.pgm}
+\includegraphics[width=360pt]{../matlab/kern-gauss100-recovered-both.pgm}
 \end {center}
 \caption{Recuperada aplicando los 2 filtros}
 \label{fig:SinProm}
