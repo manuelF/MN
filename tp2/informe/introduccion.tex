@@ -55,9 +55,16 @@ amplios, se suele representar en una escala logar\'itimica. La utilizaci\'on del
 valores a calcular, con lo cual un valor determinado (como por ejemplo el 1) nos
 da una noci\'on del error cometido sin importar de que se\~nal estamos hablando.
 
+
+Para una se\~nal de 2D (o m\'as) dimensiones, nosotros extendimos el concepto de PNSR como
+el promedio de los cuadrados de PNSR de una dimensi\'on menos. No encontramos una clara
+referencia en la bibliogr\'afia sobre como hacerlo de otra manera, y nos parece sensata.
+
 Una se\~nal limpia, es decir sin ruido, se puede decir que tiene (o tiende a) un PSNR
-+infinito. Mientras m\'as ruido se aplica a esta se\~nal, el error cuadr\'atico
-medio aumenta y esto produce un valor PSNR de menor. Los valores aceptables de
-PSNR var\'ian para cada aplicaci\'on. Por ejemplo valores t\'ipicos en
-im\'agenes y video comprimido est\'an entre 30 y 50 dB. Para transmici\'on
-wireless, valores entre 20 y 26 dB son aceptables. 
++$\infty$. Mientras m\'as ruido se aplica a esta se\~nal, el error cuadr\'atico
+medio aumenta y diminuyendo PSNR menor, incluso siendo negativo (sale del logaritmo
+de numeros cercanos a cero).
+
+Los valores aceptables de PSNR var\'ian para cada aplicaci\'on. Por ejemplo valores t\'ipicos en
+im\'agenes y video comprimido est\'an entre 30 y 50 dB. Para transmisi\'on
+Wireless, valores entre 20 y 26 dB son aceptables. 

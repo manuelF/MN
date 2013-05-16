@@ -6,7 +6,7 @@ sencilla una primera aproximaci\'on a los resultados. La idea del experimento es
 intentar que la se\~nal recuperada se parezca lo m\'as posible a la original
 (sin ruido).
 
-Fue muy simple, entonces, observar la diferencia entre la se\~nal recuperada y
+Fue simple, entonces, observar la diferencia entre la se\~nal recuperada y
 la original de manera gr\'afica, ya sea a trav\'es de ploteos de se\~nales de 1
 \'o 2 dimensiones como de la fuente misma como son las im\'agenes en 2
 dimensiones.
@@ -34,73 +34,46 @@ El primer filtro analizado fue el m\'as sencillo de implementar, el filtro cero.
 Como mencionamos anteriormente, este filtro utiliza un umbral y env\'ia los
 puntos que lo sobrepasan (tanto por arriba como por debajo) a cero.
 
-\begin{figure}
+\begin{figure}[H]
 \begin {center}
 \includegraphics[width=299pt]{imagenes/dopp1024-sin100-zero-spec.png}
 \end {center}
 \caption{Se\~nal doppler provista por la c\'atedra, transformada, gr\'aficada
 luego de aplicar ruido senoidal utilizando el multiplicador 1000 (rojo) y 
 habiendo aplicado el filtro cero (azul)}
-\label{fig:SinProm}
+\label{fig:Dopp1024zero}
 \end{figure}
 
-Pudimos observar entonces que la se\~nal detecta frecuencias fuera del umbral y
-las manda a cero. Este filtro carece de dos caracter\'isticas fundamentales
-seg\'un demuestran los experimentos:
-
-\begin{itemize}
-	\item {\bf detecci\'on de ``zonas afectadas'':} Como el algoritmo no tiene en
-cuenta el contexto a la hora de modificar un punto, la decisi\'on es mandar los
-puntos duera del umbral al cero. Esto lleva a ``saltos'' pronunciados en la se\
-~nal recuperada.
-
-	\item {\bf elecci\'on de la correspondencia de los puntos fuera del umbral:}
-El filtro decide enviar todos los elementos fuera del umbral al cero, con un
-manejo de los m\'aximos y minimos globales (en el punto anterior se habla de
-locales) se podr\'ia mejorar el resultado del filtro.
-\end{itemize}
-
-Sin embargo, como se aprecia en la im\'agen, los resultados son suficientemente
-buenos teniendo en cuenta la simplicidad de la implementaci\'on del algoritmo.
 
 \subsubsection{Filtro Exponencial}
 
-Este filtro surge como una mejora del Filtro Cero. La idea que proviene de
-observar los resultados provistos por el Filtro Cero est\'a relacionada con la
-noci\'on de agregado de ``zona afectada'' ante la detecci\'on de un punto fuera
-del umbral determinado. Como se ve a continuaci\'on, esta modificaci\'on trae
-acarreada el mantenimiento de cierto grado de informaci\'on en los puntos que
-decimos recuperados as\'i como de una mayor suavidad a la se\~nal recuperada.
 
 
-\begin{figure}
+\begin{figure}[H]
 \begin {center}
 \includegraphics[width=299pt]{imagenes/g450-sin100-exp-spec.png}
 \end {center}
 \caption{Se\~nal \texttt{g450} provista por la c\'atedra, transformada, gr\'aficada
 luego de aplicar ruido senoidal utilizando el multiplicador 1000 (rojo) y 
 habiendo aplicado el filtro exponencial (azul)}
-\label{fig:SinProm}
+\label{fig:GexpSpec}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 \begin {center}
 \includegraphics[width=299pt]{imagenes/s64-sin100-exp.png}
 \end {center}
 \caption{Se\~nal \texttt{s64} provista por la c\'atedra, no transformada, gr\'aficada
 luego de aplicar ruido senoidal utilizando el multiplicador 1000 (rojo) y 
 habiendo aplicado el filtro promedio (azul)}
-\label{fig:SinProm}
+\label{fig:SexpSig}
 \end{figure}
 
 
 \subsubsection{Filtro Promedio}
 
-El filtro promedio, en contraposici\'on con el exponencial, toma un promedio
-local a la hora de modificar elementos de la se\~nal. Esto se traduce en un
-filtro poderoso que devuelve a la se\~nal un estado similar al original.
 
-\begin{figure}
+\begin{figure}[H]
 \begin {center}
 \includegraphics[width=299pt]{imagenes/dopp512-sin100-avg-spec.png}
 \end {center}
@@ -112,42 +85,38 @@ habiendo aplicado el filtro promedio (azul)}
 
 \subsubsection{M\'ultiples filtros}
 
-Otra variante utilizada fue la combinaci\'on de los filtros exponencial y
-promedio. Al filtrar la se\~nal ruidosa con ambos filtros obtuvimos excelentes
-resultados.
-
-\begin{figure}
+\begin{figure}[H]
 \begin {center}
 \includegraphics[width=299pt]{imagenes/dopp1024-gauss100-both.png}
 \end {center}
 \caption{Se\~nal \texttt{doppler1024} provista por la c\'atedra, no transformada, gr\'aficada
 luego de aplicar ruido gaussiano utilizando una amplitud de 100 (rojo) y 
 habiendo aplicado los filtros promedio y exponencial (verde)}
-\label{fig:SinProm}
+\label{fig:dopcomb}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 \begin {center}
 \includegraphics[width=299pt]{imagenes/g450-sin100-both.png}
 \end {center}
 \caption{Se\~nal \texttt{g450} provista por la c\'atedra, no transformada, gr\'aficada
 luego de aplicar ruido senoidal utilizando el multiplicador 1000 (rojo) y 
 habiendo aplicado los filtros promedio y exponencial (verde)}
-\label{fig:SinProm}
+\label{fig:gcomb}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 \begin {center}
 \includegraphics[width=299pt]{imagenes/s64-gauss100-both-spec.png}
 \end {center}
 \caption{Se\~nal \texttt{s64} provista por la c\'atedra, transformada, gr\'aficada
 luego de aplicar ruido gaussiano utilizando una amplitud de 100 (rojo) y 
 habiendo aplicado los filtros promedio y exponencial (verde)}
-\label{fig:SinProm}
+\label{fig:scomb}
 \end{figure}
 
 \subsection{PNSR de 1D}
-\subsubsection{Tabla de rendimiento para ruido de senoidal de multiplicador de 50}
+\subsubsection{Tabla de resultados para ruido de senoidal de multiplicador de 50}
 
 \begin{table}[H]
         \begin{tabular}{|l|llll|}
@@ -161,7 +130,7 @@ habiendo aplicado los filtros promedio y exponencial (verde)}
                     \end{tabular}
                 \end{table}
 
-\subsubsection{Tabla de rendimiento para ruido blanco de varianza 100}
+\subsubsection{Tabla de resultados para ruido blanco de varianza 100}
 
 \begin{table}[H]
         \begin{tabular}{|l|llll|}
@@ -176,7 +145,7 @@ habiendo aplicado los filtros promedio y exponencial (verde)}
                 \end{table}
 
 
-
+\newpage
 
         \subsection{Se\~nales en dos dimensiones}
 
@@ -221,9 +190,6 @@ una imagen muy similar a la original.
 
 \subsubsection{Ruido senoidal con multiplicador de 1000}
 
-Este ruido es controlado pero el multiplicador es muy alto, haciendo muy dificil la interpretaci\'on de la imagen. A simple vista, no se puede distinguir ningun rasgo,
-salvo el outline de la persona. Esta im\'agen seria totalmente in\'util en la gran mayoria de los casos.
-
 \begin{figure}[H]
 
     \begin{center}
@@ -240,14 +206,9 @@ salvo el outline de la persona. Esta im\'agen seria totalmente in\'util en la gr
 \label{fig:Sin1000All}
 \end{figure}
 
-La recuperaci\'on de la Figura \ref{fig:Sin1000All} es asombrosa. El filtro exponencial logra captar los fuertes picos en el espectro de frecuencias y con su atenuaci\'on,
-permite recuperar los rasgos principales de la figura humana. Hay datos que parecen perdidos, o que al menos con esta tecnica y parametros de configuraci\'on no logramos captar,
-como el fondo de libros oscuros. 
 
 \subsubsection{Ruido gaussiano de varianza 100}
 
-Este filtro fue el m\'as desafiante ya que el ruido blanco es muy d\'ificil de
-capturar por su condici\'on de ``antipatron''
 
 \begin{figure}[H]
      \begin{center}
@@ -264,7 +225,3 @@ capturar por su condici\'on de ``antipatron''
 \label{fig:gauss2d}
 \end{figure}
 
-Podemos observar bien en la Figura \ref{fig:gauss2d}, que en este caso, aplicar el filtro promediador, luego de haber aplicado el exponencial, es un error. 
-Se reintroducen muchos de los \textit{artifacts} que se habian podido eliminar antes, sin ninguna mejoria de sharpness en la imagen. 
-
-Sin embargo, aplicando solo, se consigue una buena mejoria en la calidad de la imagen, aunque se difuminen muchos rasgos, la recuperaci\'on puede ser aceptable.
