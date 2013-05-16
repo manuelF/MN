@@ -25,19 +25,18 @@ programaci\'on para los algoritmos principales. Esta elecci\'on se apoya en
 nuestro conocimiento del lenguaje, la eficiencia que aporta y las estructuras de
 datos que proporciona, haciendo simple y clara la implementaci\'on de la
 resoluci\'on del problema. Como fue comentado anteriormente, fue utilizada la
-directiva ``\#pragma omp parallel'' en ciertas porciones de c\'odigo
-paralelizables, con el fin de reducir el tiempo de ejecuci\'on donde es posible.
+libreria OpenMP en ciertas porciones cr\'iticas de c\'odigo, con el fin de 
+reducir el tiempo de ejecuci\'on donde sea posible.
 
 El an\'alisis de los resultados y el ploteo de los gr\'aficos se realiz\'o
-mediante el uso del entorno \href{http://www.gnu.org/software/octave/}{GNU
-Octave}, libre y compatible con MATLAB.
+mediante el uso del entorno \href{http://www.gnuplot.info/}{GNUPLOT}
 
 El control de los experimentos y las ``recetas'' de las experiencias se ven
 reflejadas en scripts de shell que levantan archivos de datos con tests
 preprogramdos, ejecutan los algoritmos y luego analizan los resultados,
 resumiendolos en output en forma de informaci\'on tabular y gr\'aficos.
 La existencia de un Makefile fue clave a la hora de automatizar tareas de
-compilaci\'on y corrida de tests.
+compilaci\'on y corrida de tests, para poder ser lo mas sistematicos posible.
 
 El informe fue realizado mediante la utilizaci\'on de \href{http://www.latex-project.org/}{LaTeX},
  manteniendo la estructura de informe del Trabajo Pr\'actico N\'umero 1 y
@@ -69,10 +68,19 @@ fue el filtro cero sin descartar el primer 5\% y los resultados no fueron muy
 buenos. Cuando se nos ocurrio agregarle a la implementaci\'on la omisi\'on del 
 primer 5\% a la hora de filtrar vimos que los resultados fueron mucho mejores.
 
+La formula empleada si el pico estuviera en $i$ es:
+\begin{center}
+    $y'[j] = 0 \iff j \in [i-contorno; i+contorno]$\\
+    $y'[j] = y[j] \iff j \not \in [i-contorno; i+contorno]$\\
+\end{center}
+donde $contorno$ es el rango de valores alrededor del pico que estamos tomando, y
+$j$ es el iterador que va desde $i-contorno$ hasta $i+contorno$, para poder aplicar
+el decaimiento exponencial a todos los valores perif\'ericos al punto.
+
 \subsection{Filtro Exponencial}
 
 
-El filtro exponencial mejora al filtro cero evitando la p\'erdida de
+El filtro exponencial mejora al filtro cero evitando la p\'erdida total
 informaci\'on proporcionada por la se\~nal.
 
 El m\'etodo aplicado sobre los picos en este caso es el de Exponential Decay
@@ -80,6 +88,14 @@ El m\'etodo aplicado sobre los picos en este caso es el de Exponential Decay
 la hora de ajustarla la idea es, en este caso, reducir los picos en vez de
 llevarlos a cero pero tambi\'en actuar sobre su entorno, reduciendo los puntos
 cercanos en menor medida.
+
+La formula empleada si el pico estuviera en $i$ es:
+\begin{center}
+$y'[j] = y[j]* {1.2^{(contorno-abs(j-i)+1)}}^{-1}$\\
+\end{center}
+donde $contorno$ es el rango de valores alrededor del pico que estamos tomando, y
+$j$ es el iterador que va desde $i-contorno$ hasta $i+contorno$, para poder aplicar
+el decaimiento exponencial a todos los valores perif\'ericos al punto.
 
 El filtro exponencial reemplaza los coeficientes de las se\~nales que son m\'as 
 grandes y divide los coeficientes de su entorno por 1.2 elevado a 20 menos 
@@ -90,17 +106,25 @@ la distancia a la se\~nal, esto es, si el coeficiente es de la se\~nal n\'umero
 \subsection{Filtro Promedidador}
 
 El filtro promediador distribuye los coeficientes m\'as grandes 
-entre las se\~nales vecinas, es decir, si el coeficiente n\'umero k es muy 
-grande, le \"pasa\" parte del coeficiente a los coeficientes $k-2$, $k-1$, $k+1$ y
-$k+2$. Para ser exactos, el coeficiente se multiplica por 0.3 y le sumamos a sus 
-vecinos inmediatos 0.2 por el coeficiente y a los coeficientes a distancia 2, 0.15 
-por el coeficiente.
+entre las se\~nales vecinas, es decir, si el coeficiente $k$-esimo es muy 
+grande, le transfiere parte del valor a sus vecinos localizados en $k-2$, $k-1$, $k+1$ y
+$k+2$. La inspiraci\'on de este m\'etodo surge de la discretizaci\'on m\'as sencilla
+de las ecuaciones diferenciales de segundo orden de difusi\'on de Poisson, donde
+se modela el comportamiento de un punto en un momento posterior en base a sus vecinos.\\
+
+\begin{center}
+$y'[i]=0.15*y[i-2] + 0.2*y[i-1] + 0.3*y[i]+0.2*y[i+1]+0.15*y[i+2]$\\
+\end{center}
+
+Es de notar que la suma de los coeficientes ademas da 1, de modo que no se 
+eliminen o agreguen valores, sino que se distribuya de forma pareja a sus vecinos.
 
 La idea del filtro promediador surge de la observaci\'on de la aplicaci\'on de
 los otros en el caso del ruido blanco. Para poder afrontar casos con ruido en
 distintas frecuencias muy distintas al mismo tiempo necesitamos obtener un
 contexto mayor en cada punto para saber como manejarlos en relaci\'on con sus
 vecinos.
+
 
 \subsection{Aplicaci\'on de ruido}
 
