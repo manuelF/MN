@@ -45,21 +45,48 @@ permitiendo expresar estructuras y f\'ormulas matem\'aticas de una forma simple.
 
 \subsection{Desarrollo del experimento de reducci\'on de ruido}
 
-Para reducir el ruido utilizamos tres tipos de filtros: Filtro cero, filtro exponencial y filtro promediador.
-En los tres casos empezamos a filtrar las se\~nales desde el 5\% (es decir, no procesamos el 5\% de se\~nales
-de menor frecuencia) ya que experimentando encontramos que en ese 5\% se encuentra generalmente gran parte de
-la informaci\'on, y en proporci\'on muy poco ruido.
+Para reducir el ruido utilizamos tres tipos de filtros: Filtro cero, filtro 
+exponencial y filtro promediador. En los tres casos empezamos a filtrar las 
+se\~nales desde el 5\% (es decir, no procesamos el 5\% de se\~nales de menor
+frecuencia) ya que experimentando encontramos que en ese 5\% se encuentra 
+generalmente gran parte de la informaci\'on, y en proporci\'on muy poco ruido.
 
-En el filtro cero tomamos la se\~nal con el mayor coeficiente (en m\'odulo) y eliminamos todas las se\~nales que sean
-al menos el 50\% de la se\~nal de mayor coeficiente en m\'odulo. Esto lo hicimos porque cre\'iamos que las se\~nales
-con coeficientes m\'as altos eran las m\'as ruidosas.
-El primer filtro que aplicamos fue el filtro cero sin descartar el primer 5\% y los resultados no fueron muy buenos.
-Cuando se nos ocurrio agregarle a la implementaci\'on la omisi\'on del primer 5\% a la hora de filtrar vimos que los 
-resultados fueron mucho mejores.
+\subsection{Filtro Cero}
 
-El filtro exponencial reemlaza los coeficientes de las se\~nales que son m\'as grandes y dividimos los coeficientes de su entorno por 1.2 elevado a 20 menos la distancia a la se\~nal, esto es, si el coeficiente es de la se\~nal n\'umero 35, entonces dividimos al coeficiente de 35 por 1.2 a la 20, al de 34 y el de 36 por 1.2 a la 19, y as\'i sucesivamente hasta dividir por 1.2 a la 1.
+En el filtro cero tomamos la se\~nal con el mayor coeficiente (en m\'odulo) y 
+eliminamos todas las se\~nales que sean al menos el 50\% de la se\~nal de mayor 
+coeficiente en m\'odulo. Esto lo hicimos porque cre\'iamos que las se\~nales con 
+coeficientes m\'as altos eran las m\'as ruidosas. El primer filtro que aplicamos 
+fue el filtro cero sin descartar el primer 5\% y los resultados no fueron muy 
+buenos. Cuando se nos ocurrio agregarle a la implementaci\'on la omisi\'on del 
+primer 5\% a la hora de filtrar vimos que los resultados fueron mucho mejores.
 
-El filtro promediador lo que hace es distribuir los coeficientes m\'as grandes entre las se\~nales vecinas, es decir, si el coeficiente n\'umero 20 es muy grande, le ''pasa'' parte del coeficiente a los coeficientes 18, 19, 21 y 22. Para ser exactos, el coeficiente se multiplica por 0.3 y le sumamos a sus vecinos inmediatos 0.2 por el coeficiente y a los coeficientes a distancia 2, 0.15 por el coeficiente.
+\subsection{Filtro Exponencial}
+
+
+El filtro exponencial mejora al filtro cero evitando la p\'erdida de
+informaci\'on proporcionada por la se\~nal.
+
+El m\'etodo aplicado sobre los picos en este caso es el de Exponential Decay
+(decaimiento exponencial). En pos de mantener informaci\'on sobre la se\~nal a
+la hora de ajustarla la idea es, en este caso, reducir los picos en vez de
+llevarlos a cero pero tambi\'en actuar sobre su entorno, reduciendo los puntos
+cercanos en menor medida.
+
+El filtro exponencial reemplaza los coeficientes de las se\~nales que son m\'as 
+grandes y divide los coeficientes de su entorno por 1.2 elevado a 20 menos 
+la distancia a la se\~nal, esto es, si el coeficiente es de la se\~nal n\'umero 
+35, entonces dividimos al coeficiente de 35 por 1.2 a la 20, al de 34 y el de 
+36 por 1.2 a la 19, y as\'i sucesivamente hasta dividir por 1.2 a la 1.
+
+\subsection{Filtro Promedidador}
+
+El filtro promediador distribuye los coeficientes m\'as grandes 
+entre las se\~nales vecinas, es decir, si el coeficiente n\'umero k es muy 
+grande, le \"pasa\" parte del coeficiente a los coeficientes $k-2$, $k-1$, $k+1$ y
+$k+2$. Para ser exactos, el coeficiente se multiplica por 0.3 y le sumamos a sus 
+vecinos inmediatos 0.2 por el coeficiente y a los coeficientes a distancia 2, 0.15 
+por el coeficiente.
 
 La idea del filtro promediador surge de la observaci\'on de la aplicaci\'on de
 los otros en el caso del ruido blanco. Para poder afrontar casos con ruido en
@@ -67,4 +94,65 @@ distintas frecuencias muy distintas al mismo tiempo necesitamos obtener un
 contexto mayor en cada punto para saber como manejarlos en relaci\'on con sus
 vecinos.
 
-Experimentalmente pudimos observar que el filtro cero es bueno, pero el filtro exponencial y el promediador son bastante mejores. Para poder obtener un mejor filtrado del ruido, decidimos aplicar primero el filtro exponencial y luego el promediador, lo que result\'o en un filtrado muy bueno dando resultados muy parecidos a la se\~nal original.
+\subsection{Aplicaci\'on de ruido}
+
+Se experiment\'o con 2 clases de ruido en las se\~nales:
+
+\begin{itemize}
+	\begin{item} {\bf Ruido senoidal:} Aplica un ruido formado por la suma de la se\~nal
+original con la funci\'on seno aplicada en la posici\'on de la muestra
+correspondiente, multiplicado por 50, para darle mayor amplitud al resultado de
+la funci\'on seno.
+
+	Es decir, para cada muestra de nuestra se\~nal aplicamos ruido del siguiente
+modo:
+
+	$$senal_ruidosa[i] = senal_original[i] + 50 * sin(i)$$
+
+  En algunos casos, donde decidimos utilizar valores muy altos en vez de 50
+para testear el comportamiento en casos con excesivo ruido, llevandolo a valores
+como 1000.
+	\end{item}
+
+	\begin{item}
+		{\bf Ruido Gaussiano:} Este tipo de ruido, tambi\'en denominado ruido
+blanco, consiste en sumar a cada punto de la se\~nal un n\'umero aleatorio
+proveniente de una distribuci\'on normal. Este tipo de ruido es muy frecuente e
+importante en disciplinas como la fotograf\'ia. Consiste en un ruido totalmente
+aleatorio, comprendido en todas las frecuencias.
+
+ 	Para cada punto se aplica el ruido de la siguiente manera:
+
+	$$senal_ruidosa[i] = senal_original[i] + random(0, 10)$$
+
+	Si bien la amplitud de los valores de la distribuci\'on aleatoria fueron
+cambiados para diferentes experimentos, por defecto tomamos una franja de
+valores entre 0 y 10.
+
+	\end{item}
+\end{itemize}
+
+\subsection{Pasaje a dos dimensiones}
+
+A la hora de pasar el experimento a 2 dimensiones, utilizando im\'agenes en
+escala de grises (para mayor simplicidad), tomamos un approach que result\'o
+natural y poco costoso viniendo de un mundo de una sola dimensi\'on y que a
+posteriori demostr\'o ser confiable como se mostrar\'a m\'as adelante en los
+resultados.
+
+La idea en el paso a dos dimensiones es simple. La idea es aplicar los mismos
+filtros implementados en una dimension y volver a aplicarlos para cada fila de
+la matriz de la imagen ingresada.
+
+De este modo los algoritmos utilizados durante la primera parte del experimento
+fueron utilizados sin necesidad de cambios en esta segunda etapa.
+
+A medida que diferentes experimentos fueron agregados, la observaci\'on de
+im\'agenes resultantes fue de gran ayuda para detectar errores de c\'alculo como
+as\'i tambi\'en patrones de comportamiento de los filtros.
+
+Detectamos tambi\'en que utilizando esta aproximaci\'on a la extensi\'on a dos
+dimensiones por fila, encontramos que los errores m\'as groseros, es decir las
+diferencias m\'as notables entre la im\'agen original y la recuperada, se
+encuentran en determinadas columnas que var\'ian en cada im\'agen pero se
+revelan como franjas verticales.
