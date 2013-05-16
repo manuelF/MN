@@ -94,6 +94,44 @@ distintas frecuencias muy distintas al mismo tiempo necesitamos obtener un
 contexto mayor en cada punto para saber como manejarlos en relaci\'on con sus
 vecinos.
 
+\subsection{Aplicaci\'on de ruido}
+
+Se experiment\'o con 2 clases de ruido en las se\~nales:
+
+\begin{itemize}
+	\begin{item} {\bf Ruido senoidal:} Aplica un ruido formado por la suma de la se\~nal
+original con la funci\'on seno aplicada en la posici\'on de la muestra
+correspondiente, multiplicado por 50, para darle mayor amplitud al resultado de
+la funci\'on seno.
+
+	Es decir, para cada muestra de nuestra se\~nal aplicamos ruido del siguiente
+modo:
+
+	$$senal_ruidosa[i] = senal_original[i] + 50 * sin(i)$$
+
+  En algunos casos, donde decidimos utilizar valores muy altos en vez de 50
+para testear el comportamiento en casos con excesivo ruido, llevandolo a valores
+como 1000.
+	\end{item}
+
+	\begin{item}
+		{\bf Ruido Gaussiano:} Este tipo de ruido, tambi\'en denominado ruido
+blanco, consiste en sumar a cada punto de la se\~nal un n\'umero aleatorio
+proveniente de una distribuci\'on normal. Este tipo de ruido es muy frecuente e
+importante en disciplinas como la fotograf\'ia. Consiste en un ruido totalmente
+aleatorio, comprendido en todas las frecuencias.
+
+ 	Para cada punto se aplica el ruido de la siguiente manera:
+
+	$$senal_ruidosa[i] = senal_original[i] + random(0, 10)$$
+
+	Si bien la amplitud de los valores de la distribuci\'on aleatoria fueron
+cambiados para diferentes experimentos, por defecto tomamos una franja de
+valores entre 0 y 10.
+
+	\end{item}
+\end{itemize}
+
 \subsection{Pasaje a dos dimensiones}
 
 A la hora de pasar el experimento a 2 dimensiones, utilizando im\'agenes en
