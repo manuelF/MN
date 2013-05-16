@@ -2,6 +2,7 @@ BIN=../src/DCT
 
 all: runfiles
 	gnuplot *.plt >&2 2> /dev/null
+	rm mod* rec* orig*
 
 runfiles: latest
 	touch mod recovered orig
