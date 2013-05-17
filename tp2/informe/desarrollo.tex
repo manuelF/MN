@@ -4,14 +4,15 @@
 La preparaci\'on del experimento no tuvo grandes dificultades, permitiendo
 focalizar los esfuerzos en la b\'usqueda, an\'alisis y mejora de filtros. 
 La gran cantidad de variantes de implementaciones encontradas del algoritmo a 
-utilizar debido al amplio uso de la DCT para la reducci\'on de ruido en se\~nales, 
+utilizar, debido al amplio uso de la DCT para la reducci\'on de ruido en se\~nales, 
 sumado a lo aprendido sobre el trabajo con matrices en el Trabajo Pr\'actico 
-N\'umero 1 posibilitaron el desarrollo de un experimento limpio y de simple 
+N\'umero 1, posibilitaron el desarrollo de un experimento limpio y de simple 
 ejecuci\'on.
 
 Para un mejor entendimiento del fen\'omeno del ruido en las se\~nales, dividimos
-el an\'alisis en distintos casos de ruido. Por ejemplo decidimos tomar al ruido
-blanco como un caso de testeo importante debido a la \"falta de patrones\". 
+el an\'alisis en distintos casos seg\'un el tipo de ruido a tratar. 
+Por ejemplo decidimos tomar al ruido blanco como un caso de testeo importante 
+debido a la \"falta de patrones\" que lo caracteriza. 
 
 En este trabajo decidimos experimentar con instrucciones del compilador que
 permiten ejecutar c\'odigo en paralelo. Esta variante ayuda a bajar tiempos de
@@ -26,7 +27,7 @@ nuestro conocimiento del lenguaje, la eficiencia que aporta y las estructuras de
 datos que proporciona, haciendo simple y clara la implementaci\'on de la
 resoluci\'on del problema. Como fue comentado anteriormente, fue utilizada la
 libreria OpenMP en ciertas porciones cr\'iticas de c\'odigo, con el fin de 
-reducir el tiempo de ejecuci\'on donde sea posible.
+reducir el tiempo de ejecuci\'on donde es posible.
 
 El an\'alisis de los resultados y el ploteo de los gr\'aficos se realiz\'o
 mediante el uso del entorno \href{http://www.gnuplot.info/}{GNUPLOT}
@@ -36,11 +37,13 @@ reflejadas en scripts de shell que levantan archivos de datos con tests
 preprogramdos, ejecutan los algoritmos y luego analizan los resultados,
 resumiendolos en output en forma de informaci\'on tabular y gr\'aficos.
 La existencia de un Makefile fue clave a la hora de automatizar tareas de
-compilaci\'on y corrida de tests, para poder ser lo mas sistematicos posible.
+compilaci\'on y corrida de tests, para poder ser lo mas automatizados dentro de
+lo posible.
 
 El informe fue realizado mediante la utilizaci\'on de \href{http://www.latex-project.org/}{LaTeX},
  manteniendo la estructura de informe del Trabajo Pr\'actico N\'umero 1 y
-permitiendo expresar estructuras y f\'ormulas matem\'aticas de una forma simple.
+permitiendo expresar estructuras y f\'ormulas matem\'aticas de una manera simple
+y clara.
 
 \subsection{Desarrollo del experimento de reducci\'on de ruido}
 
@@ -51,8 +54,8 @@ frecuencia) ya que experimentando encontramos que en ese 5\% se encuentra
 generalmente gran parte de la informaci\'on, y en proporci\'on muy poco ruido.
 
 Esto es sobre todo notorio en se\~nales de audio. La t\'eoria atras de esto es la amplitud
-de frecuencias de la acustica humana. Se el rango de audicion humana esta entre los 20Hz
-y los 20kHz. Este rango enorme concentra la mayor cantidad de informacion en la parte mas baja,
+de frecuencias de la acustica humana. El rango de audicion humana se encuentra entre los 20Hz
+y los 20kHz. Este amplio rango concentra la mayor cantidad de informacion en la parte mas baja,
 normalmente inferior a los 4kHz (el rango vocal humano). Por eso consideramos que
 si hubiera ruido en este sector y lo intentaramos sacar, es mucho m\'as probable que eliminaramos
 informaci\'on crucial del audio. Por eso preferimos tocar lo menos posible ese area,
@@ -110,8 +113,8 @@ se modela el comportamiento de un punto en un momento posterior en base a sus ve
 $y'[i]=0.15*y[i-2] + 0.2*y[i-1] + 0.3*y[i]+0.2*y[i+1]+0.15*y[i+2]$\\
 \end{center}
 
-Es de notar que la suma de los coeficientes ademas da 1, de modo que no se 
-eliminen o agreguen valores, sino que se distribuya de forma pareja a sus vecinos.
+Es de notar que la suma de los coeficientes adem\'as da 1, de modo que no se 
+eliminan o agregan valores, sino que se distribuye de forma pareja a sus vecinos.
 
 La idea del filtro promediador surge de la observaci\'on de la aplicaci\'on de
 los otros en el caso del ruido blanco. Para poder afrontar casos con ruido en
@@ -139,8 +142,8 @@ $$senal_{ruidosa}[i] = senal_{original}[i] + k * \sin(i)$$
 Tomamos como valores de $k$, $k=50$ y $k=1000$ para testear el comportamiento en casos con excesivo ruido, llevandolo a valores
 como 1000.
 
-El interes te\'orico de este ruido surge de la industria de la telecomunicaci\'on. Es un ruido que aparece en las imagenes por 
-la proximidad de los cables portadores de se\~nales a los cables de corriente alterna. La corriente alterna
+El inter\'es te\'orico de este ruido surge de la industria de la
+telecomunicaci\'on. Es un ruido que aparece en las im\'agenes por la proximidad de los cables portadores de se\~nales a los cables de corriente alterna. La corriente alterna
 es una se\~nal sinusoidal de frecuencia entre  50 y 60Hz. Es un problema fundamental de solucionar, ya que es muy com\'un en
 las instalaciones de camaras de seguridad por ejemplo, la existencia de ambos conductores pasando por el mismo ducto, sin separaci\'on
 alguna entre si. Esto genera una se\~nal ghost o lavada, perdiendo definici\'on y, en algunos casos, haciendola irreconocible incluso.
