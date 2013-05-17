@@ -3,20 +3,19 @@
 El siguiente trabajo consiste en la experimentaci\'on de la denominada 
 Transformada Discreta del Coseno (DCT). La exploraci\'on de la DCT se da
 mediante la implementaci\'on de una de sus aplicaciones m\'as utilizadas como lo
-es la reducci\'on de ruido en se\~nales ruidosas. A continuaci\'on se explicita
+es la reducci\'on de ruido en se\~nales. A continuaci\'on se explicita
 un breve repaso de los conceptos clave para el entendimiento de los
 experimentos.
 
 \subsection{Transformada del Coseno (DCT)}
 
 La Transformada del Coseno expresa una secuencia finita de datos (o se\~nal) 
-con cierta informaci\'on en una suma de funciones coseno con distintas 
+con cierta informaci\'on, en una suma de funciones coseno con distintas 
 frecuencias.
 
 Formalmente la DCT es una funci\'on $f:\mathbb{R}^\mathbb{N} \to \mathbb{R}^
-\mathbb{N}$ o analogamente una
+\mathbb{N}$ o an\'alogamente una
 Matriz cuadrada de $\mathbb{N} X \mathbb{N}$. La f\'ormula de la transformada es
-(revisar)
 
 $$X_k = \sum_{n=0}^{N-1} x_n \cos \left[\frac{\pi}{N} \left(n+\frac{1}{2}\right) 
 k \right] \quad \quad k = 0, \dots, N-1.$$ 
@@ -48,7 +47,7 @@ $$
 \right)
 $$
 
-define la relaci\'on entre la m\'axima ''energ\'ia'' posible de una se\~nal y el
+mide la relaci\'on entre la m\'axima ''energ\'ia'' posible de una se\~nal y el
 ruido que la afecta. Debido a que las se\~nales tienen por lo general rangos
 amplios, se suele representar en una escala logar\'itimica. La utilizaci\'on del
  Error Cuadr\'atico Medio permite que el valor retornado no dependa de los
@@ -56,9 +55,9 @@ valores a calcular, con lo cual un valor determinado (como por ejemplo el 1) nos
 da una noci\'on del error cometido sin importar de que se\~nal estamos hablando.
 
 
-Para una se\~nal de 2D (o m\'as) dimensiones, nosotros extendimos el concepto de PNSR como
+Para una se\~nal de 2D (o m\'as) dimensiones, extendimos el concepto de PNSR como
 el promedio de los cuadrados de PNSR de una dimensi\'on menos. No encontramos una clara
-referencia en la bibliogr\'afia sobre como hacerlo de otra manera, y nos parece sensata.
+referencia en la bibliograf\'ia sobre como hacerlo de otra manera, y nos parece sensata.
 
 Una se\~nal limpia, es decir sin ruido, se puede decir que tiene (o tiende a) un PSNR
 +$\infty$. Mientras m\'as ruido se aplica a esta se\~nal, el error cuadr\'atico
