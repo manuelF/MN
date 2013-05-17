@@ -46,6 +46,11 @@
 
 \newtoks\kwlist\kwlist={}
 
+
+% ----- Token list para las keywords     ------------------------------------
+
+\newtoks\resument\resument={}
+
 % ----- Comando para que el usuario agregue integrantes --------------------
 
 \def\integrante#1#2#3{\intlist=\expandafter{\the\intlist
@@ -54,6 +59,10 @@
 % ----- Comando para que el usuario agregue keywords -----------------------
 
 \def\kwagregar#1{\kwlist=\expandafter{\the\kwlist #1}}
+
+% ----- Comando para que el usuario agregue resumen  -----------------------
+
+\def\resumen#1{\resument=\expandafter{#1}}
 
 % ----- Macro para generar la tabla de integrantes -------------------------
 
@@ -126,13 +135,17 @@
     \end{center}%
     \smallskip
     \begin{center}
+        \textbf{Resumen: }\textit{\the\resument}
+    \end{center}
+    \smallskip
+    \begin{center}
         \textbf{Keywords: }\textit{\the\kwlist}
     \end{center}
-    \vfill%
+    %\vfill%
 %
     \begin{minipage}[t]{\textwidth}
-        \begin{minipage}[t]{.55 \textwidth}
-            \includegraphics{logo_uba.jpg}
+        \begin{minipage}[t]{.40 \textwidth}
+            \includegraphics[width=180pt]{logo_uba.jpg}
         \end{minipage}%%
         \begin{minipage}[b]{.50 \textwidth}
             \textbf{\textsf{Facultad de Ciencias Exactas y Naturales}} \\
