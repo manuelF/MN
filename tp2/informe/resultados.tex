@@ -6,7 +6,7 @@ sencilla una primera aproximaci\'on a los resultados. La idea del experimento es
 intentar que la se\~nal recuperada se parezca lo m\'as posible a la original
 (sin ruido).
 
-Fue simple, entonces, observar la diferencia entre la se\~nal recuperada y
+Fue simple entonces observar la diferencia entre la se\~nal recuperada y
 la original de manera gr\'afica, ya sea a trav\'es de ploteos de se\~nales de 1
 \'o 2 dimensiones como de la fuente misma como son las im\'agenes en 2
 dimensiones.
@@ -17,7 +17,8 @@ que casos es mejor aplicar cada uno.
 
 \subsection{Primeros resultados}
 
-Experimentalmente pudimos observar que el filtro cero es bueno, pero el filtro 
+Experimentalmente pudimos observar que el filtro cero es bueno (recupera las
+se\~nales en un grado aceptable), pero el filtro 
 exponencial y el promediador son bastante mejores en todos los casos. 
 Para poder obtener un mejor filtrado del ruido, decidimos aplicar primero el 
 filtro exponencial y luego el promediador, lo que result\'o en un filtrado muy 
@@ -162,11 +163,12 @@ la de Brian Kernighan.
 \end{figure}
 
 Habiendo mostrado las diferencias entre la implementaci\'on de los filtros en
-una dimensi\'on y habiendo portado el filtrado a trav\'es de la toma de cada
+una dimensi\'on y tambi\'en habiendo portado el filtrado a trav\'es de la toma de cada
 fila de la im\'agen como una se\~nal de una dimensi\'on, procedemos a mostrar
 los resultados obtenidos en funci\'on de los ruidos aplicados, a diferencia de
 lo realizado con una dimensi\'on, donde el foco est\'a puesto en discriminar los
 resultados por tipo de filtro.
+
 \subsubsection{Ruido senoidal con multiplicador de 50}
 
 Este ruido es controlado y es as\'i como tambi\'en los filtros pueden volver a
@@ -183,7 +185,7 @@ una imagen muy similar a la original.
 \includegraphics[width=150pt]{imagenes/kern-sin50-recovered-exp.png}
 \includegraphics[width=150pt]{imagenes/kern-sin50-recovered.png}
 \end{array}$
-\caption{\textbf{Arriba Izquierda}: Im\'agen con ruido Senoidal con multiplicador de 50, \textbf{Arriba Derecha}: Recuperada con filtro promedio, \textbf{Abajo Izquierda}: Recuperada con filtro exponencial, \textbf{Abajo Derecha}: Recuperada aplicando filtro exponencial y promedio}
+\caption{\textbf{Arriba Izquierda}: Imagen con ruido Senoidal con multiplicador de 50, \textbf{Arriba Derecha}: Recuperada con filtro promedio, \textbf{Abajo Izquierda}: Recuperada con filtro exponencial, \textbf{Abajo Derecha}: Recuperada aplicando filtro exponencial y promedio}
  \end{center}
 \label{fig:Sin50All}
 \end{figure}
@@ -201,7 +203,7 @@ una imagen muy similar a la original.
 \includegraphics[width=150pt]{imagenes/kern-sin1000-recovered-exp.png}
 \includegraphics[width=150pt]{imagenes/kern-sin1000-recovered.png}
 \end{array}$
- \caption{\textbf{Arriba Izquierda}: Im\'agen con ruido Senoidal con multiplicador de 1000, \textbf{Arriba Derecha}: Recuperada con filtro promedio, \textbf{Abajo Izquierda}: Recuperada con filtro exponencial, \textbf{Abajo Derecha}: Recuperada aplicando filtro exponencial y promedio}
+ \caption{\textbf{Arriba Izquierda}: Imagen con ruido Senoidal con multiplicador de 1000, \textbf{Arriba Derecha}: Recuperada con filtro promedio, \textbf{Abajo Izquierda}: Recuperada con filtro exponencial, \textbf{Abajo Derecha}: Recuperada aplicando filtro exponencial y promedio}
  \end{center}
 \label{fig:Sin1000All}
 \end{figure}
@@ -221,7 +223,7 @@ una imagen muy similar a la original.
 \includegraphics[width=150pt]{imagenes/kern-gauss100-recovered.png}
 \end{array}$
 \end{center}
- \caption{\textbf{Arriba Izquierda}: Im\'agen con ruido blanco de varianza 100, \textbf{Arriba Derecha}: Recuperada con filtro promedio, \textbf{Abajo Izquierda}: Recuperada con filtro exponencial, \textbf{Abajo Derecha}: Recuperada aplicando filtro exponencial y promedio}
+ \caption{\textbf{Arriba Izquierda}: Imagen con ruido blanco de varianza 100, \textbf{Arriba Derecha}: Recuperada con filtro promedio, \textbf{Abajo Izquierda}: Recuperada con filtro exponencial, \textbf{Abajo Derecha}: Recuperada aplicando filtro exponencial y promedio}
 \label{fig:gauss2d}
 \end{figure}
 
