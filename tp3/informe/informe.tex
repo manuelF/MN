@@ -1,0 +1,95 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[spanish]{babel}
+%\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{makeidx}
+\usepackage{float}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{caratula}
+\usepackage{pdfpages}
+
+\usepackage{listings}\usepackage{color}
+\usepackage{textcomp}\definecolor{listinggray}{gray}{0.9}
+
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\usepackage{a4wide}
+
+\lstset{
+      language=C++,
+      basicstyle=\small\sffamily,
+      columns=fullflexible,
+      upquote=true,
+      extendedchars=true,
+      texcl=true,
+      mathescape=true,
+      showspaces=false
+                }
+            
+
+
+\makeindex
+
+\begin{document}
+
+\index{Caratula}
+%Estos son los parametros para la caratula
+\materia{M\'etodos Num\'ericos}
+\submateria{Trabajo Pr\'actico 2}
+\titulo{Filtrado de se\~nales usando DCT}
+\fecha{17 de Mayo de 2013}
+\integrante{Zajdband, Dan}{144/10}{dan.zajdband@gmail.com}
+\integrante{Ferreria, Manuel}{199/10}{m.ferreria@gmail.com}
+\integrante{Taravilse, Leopoldo}{464/08}{ltaravilse@gmail.com}
+\resumen{Estudio comparativo de filtros de se\~nales mediante la utilizaci\'on
+de la DCT. An\'alisis del efecto de diversos filtros para distintos casos de
+ruido (Senoidal y Blanco). Extensi\'on del problema a dos dimensiones. Estudio
+del error de recuperaci\'on de la se\~nal original mediante la utilizaci\'on del
+PSNR.}
+\kwagregar{DCT, FFT, Fourier, Noise Reduction, Image analysis}
+
+\maketitle
+
+\pagebreak
+
+\tableofcontents
+
+\pagebreak
+
+\index{Introducci\'on te\'orica}
+\input{introduccion.tex}
+
+\pagebreak
+
+\index{Desarrollo}
+\input{desarrollo.tex}
+
+\pagebreak
+
+
+\index{Resultados}
+\input{resultados.tex}
+
+\pagebreak
+
+
+\index{Discusi\'on}
+\input{discusion.tex}
+
+\pagebreak
+
+\input{conclusiones.tex}
+
+\pagebreak
+
+\input{apendices.tex}
+
+\pagebreak
+
+\input{referencias.tex}
+
+
+\end{document}
