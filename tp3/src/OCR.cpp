@@ -109,6 +109,29 @@ void householder(vector<vector<double> > &A, vector<vector<double> > &Q, vector<
 	return;
 }
 
+#define delta 1e-5
+
+bool sigoIterando(vector<vector<double> > &A)
+{
+	double res = 0.;
+	int n = A.size();
+	for(int i=0;i<n;i++)
+	for(int j=0;j<i;j++)
+		res += abs(A[i][j]);
+	return res>delta;
+}
+
+vector<vector<double> > autoVectores(vector<vector<double> > A) /// Ojo! A va por copia porque lo modifico.
+{
+	vector<vector<double> > Q,R;
+	while(sigoIterando(A))
+	{
+		houseHolder(A,Q,R);
+		A = mult(R,Q);
+	}
+	return A;
+}
+
 int main()
 {
 	
