@@ -133,6 +133,13 @@ vector<vector<double> > autoVectores(vector<vector<double> > A) /// Ojo! A va po
 	return A;
 }
 
+vector<vector<double> > U, Sigma, V;
+
+void SVD() /// calcula la SVD de X
+{
+
+}
+
 int main()
 {
 	freopen("../datos/trainingImages.txt","r",stdin);
