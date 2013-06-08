@@ -2,12 +2,13 @@
 #include<algorithm>
 #include<vector>
 #include<cstring>
-#include<cstdio>	
+#include<cstdio>
 #include<cmath>
 
 using namespace std;
 
 vector<vector<double> > input, X;
+vector<int> labels;
 vector<double> average;
 
 
@@ -26,7 +27,7 @@ void generateX()
 	X.resize(n,vector<double>(m));
 	for(int i=0;i<n;i++)
 	for(int j=0;j<m;j++)
-		X[i][j] = (input[i][j]-average[j])/sqrt(n-1);
+		X[i][j] = (input[i][j]-average[j])/sqrt(m-1);
 	return;
 }
 
@@ -126,7 +127,7 @@ vector<vector<double> > autoVectores(vector<vector<double> > A) /// Ojo! A va po
 	vector<vector<double> > Q,R;
 	while(sigoIterando(A))
 	{
-		houseHolder(A,Q,R);
+		householder(A,Q,R);
 		A = mult(R,Q);
 	}
 	return A;
@@ -134,5 +135,24 @@ vector<vector<double> > autoVectores(vector<vector<double> > A) /// Ojo! A va po
 
 int main()
 {
-	
+	freopen("../datos/trainingImages.txt","r",stdin);
+	int n, t;
+	cin >> n >> t;
+	input.clear();
+	input.resize(n,vector<double>(t));
+	for(int i=0;i<n;i++)
+    for(int j=0;j<t;j++)
+        scanf("%lf",&input[i][j]);
+    freopen("../datos/trainingLabels.txt","r",stdin);
+    cin >> n;
+    labels.resize(n);
+    cout << n << endl;
+    for(int i=0;i<n;i++)
+    {
+        if(i%1000==0)
+            cout << i<<endl;
+        scanf("%d",&labels[i]);
+    }
+    generateX();
+    return 0;
 }
