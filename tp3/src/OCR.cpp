@@ -19,15 +19,15 @@ void generateX()
 	average.clear();
 	average.resize(m,0);
 	for(int i=0;i<n;i++)
-	for(int j=0;j<m;j++)
-		average[j] += input[i][j];
+    	for(int j=0;j<m;j++)
+	    	average[j] += input[i][j];
 	for(int j=0;j<m;j++)
 		average[j] /= (double)m;
 	X.clear();
 	X.resize(n,vector<double>(m));
 	for(int i=0;i<n;i++)
-	for(int j=0;j<m;j++)
-		X[i][j] = (input[i][j]-average[j])/sqrt(m-1);
+    	for(int j=0;j<m;j++)
+	    	X[i][j] = (input[i][j]-average[j])/sqrt(m-1);
 	return;
 }
 
@@ -46,9 +46,9 @@ vector<vector<double> > mult(vector<vector<double> > &A, vector<vector<double> >
 	int t = A[0].size(); // tiene que ser igual a B.size();
 	vector<vector<double> > res(n,vector<double>(m,0));
 	for(int i=0;i<n;i++)
-	for(int j=0;j<m;j++)
-	for(int k=0;k<t;k++)
-		res[i][j] += A[i][k]*B[k][j];
+    	for(int j=0;j<m;j++)
+	        for(int k=0;k<t;k++)
+		        res[i][j] += A[i][k]*B[k][j];
 	return res;
 }
 
@@ -89,20 +89,22 @@ void householder(vector<vector<double> > &A, vector<vector<double> > &Q, vector<
 		for(int j=0;j<(int)v.size();j++)
 			v[j] = v[j]/alpha;
 		for(int a=0;a<n;a++)
-		for(int b=0;b<n;b++)
-		{
-			if(a<i||b<i)
-			{
-				if(a==b)
-					aux[a][b] = 1.;
-				else
-					aux[a][b] = 0.;
-			}
-			else if(a==b)
-				aux[a][b] = 1.-2.*v[a-i]*v[b-i];
-			else
-				aux[a][b] = -2.*v[a-i]*v[b-i];
-		}
+        {
+            for(int b=0;b<n;b++)
+            {
+                if(a<i||b<i)
+                {
+                    if(a==b)
+                        aux[a][b] = 1.;
+                    else
+                        aux[a][b] = 0.;
+                }
+                else if(a==b)
+                    aux[a][b] = 1.-2.*v[a-i]*v[b-i];
+                else
+                    aux[a][b] = -2.*v[a-i]*v[b-i];
+            }
+        }
 		Q = mult(Q,aux);
 		transpose(aux);
 		R = mult(aux,R);
@@ -117,8 +119,8 @@ bool sigoIterando(vector<vector<double> > &A)
 	double res = 0.;
 	int n = A.size();
 	for(int i=0;i<n;i++)
-	for(int j=0;j<i;j++)
-		res += abs(A[i][j]);
+	    for(int j=0;j<i;j++)
+		    res += abs(A[i][j]);
 	return res>delta;
 }
 
@@ -148,8 +150,8 @@ int main()
 	input.clear();
 	input.resize(n,vector<double>(t));
 	for(int i=0;i<n;i++)
-    for(int j=0;j<t;j++)
-        scanf("%lf",&input[i][j]);
+        for(int j=0;j<t;j++)
+            scanf("%lf",&input[i][j]);
     freopen("../datos/trainingLabels.txt","r",stdin);
     cin >> n;
     labels.resize(n);
