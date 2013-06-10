@@ -4,13 +4,13 @@
 #include<cstring>
 #include<cstdio>
 #include<cmath>
+#include<cassert>
 
 using namespace std;
 
 vector<vector<double> > input, X;
 vector<int> labels;
 vector<double> average;
-
 
 void generateX()
 {
@@ -55,10 +55,10 @@ vector<vector<double> > mult(vector<vector<double> > &A, vector<vector<double> >
 void transpose(vector<vector<double> > &mat)
 {
 	for(int i=0;i<(int)mat.size();i++)
-	for(int j=0;j<i;j++)
-	{
-		swap(mat[i][j],mat[j][i]);
-	}
+	    for(int j=0;j<i;j++)
+    	{
+		    swap(mat[i][j],mat[j][i]);
+	    }
 	return;
 }
 
@@ -112,7 +112,7 @@ void householder(vector<vector<double> > &A, vector<vector<double> > &Q, vector<
 	return;
 }
 
-#define delta 1e-5
+const double delta = 1e-5;
 
 bool sigoIterando(vector<vector<double> > &A)
 {
@@ -124,15 +124,44 @@ bool sigoIterando(vector<vector<double> > &A)
 	return res>delta;
 }
 
+vector<vector<double> > Id(int n)
+{
+    vector<vector<double> > A(n,vector<double>(n,0));
+    for(int i = 0; i< n; i++)
+        A[i][i]=1;
+    return A;
+}
+
+bool sim(const vector<vector<double> > & A)
+{
+    int n = A.size();
+    int m = A[0].size();
+
+    assert(n==m);
+    for(int i =0; i<n; i++)
+    {
+        for(int j = 0; j<i; j++)
+        {
+            assert(A[i][j]==A[j][i]);
+        }
+    }
+    return true;
+}
+
 vector<vector<double> > autoVectores(vector<vector<double> > A) /// Ojo! A va por copia porque lo modifico.
 {
-	vector<vector<double> > Q,R;
+	vector<vector<double> > Q,R,Qt,V;
+    //assert(sim(A));
+    V=Id(A.size());
 	while(sigoIterando(A))
 	{
 		householder(A,Q,R);
 		A = mult(R,Q);
+        V = mult(Q,V);
 	}
-	return A;
+    //V = Qk * Qk-1 * Qk-2 *... * I
+    //V = AV de A
+	return V;
 }
 
 vector<vector<double> > U, Sigma, V;
@@ -144,15 +173,20 @@ void SVD() /// calcula la SVD de X
 
 int main()
 {
-	freopen("../datos/trainingImages.txt","r",stdin);
+	FILE* v = freopen("../datos/trainingImages.txt","r",stdin);
 	int n, t;
+    int g;
 	cin >> n >> t;
 	input.clear();
 	input.resize(n,vector<double>(t));
 	for(int i=0;i<n;i++)
+    {
         for(int j=0;j<t;j++)
-            scanf("%lf",&input[i][j]);
-    freopen("../datos/trainingLabels.txt","r",stdin);
+        {
+            g = scanf("%lf",&input[i][j]);            
+        }
+    }
+    v = freopen("../datos/trainingLabels.txt","r",stdin);
     cin >> n;
     labels.resize(n);
     cout << n << endl;
@@ -160,7 +194,7 @@ int main()
     {
         if(i%1000==0)
             cout << i<<endl;
-        scanf("%d",&labels[i]);
+        g = scanf("%d",&labels[i]);
     }
     generateX();
     return 0;
