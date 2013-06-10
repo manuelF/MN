@@ -150,18 +150,14 @@ bool sim(const vector<vector<double> > & A)
 
 vector<vector<double> > autoVectores(vector<vector<double> > A) /// Ojo! A va por copia porque lo modifico.
 {
-	vector<vector<double> > Q,R,Qt,V;
+	vector<vector<double> > Q,R;
     //assert(sim(A));
-    V=Id(A.size());
 	while(sigoIterando(A))
 	{
 		householder(A,Q,R);
 		A = mult(R,Q);
-        V = mult(Q,V);
 	}
-    //V = Qk * Qk-1 * Qk-2 *... * I
-    //V = AV de A
-	return V;
+	return A;
 }
 
 vector<vector<double> > U, Sigma, V;
