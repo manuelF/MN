@@ -8,35 +8,19 @@
 
 using namespace std;
 
-vector<vector<double> > input, X;
+vector<vector<double> > input, X, Mx, Xt;
 vector<int> labels;
 vector<double> average;
 
-void generateX()
-{
-	int n = input.size();
-	int m = input[0].size();
-	average.clear();
-	average.resize(m,0);
-	for(int i=0;i<n;i++)
-    	for(int j=0;j<m;j++)
-	    	average[j] += input[i][j];
-	for(int j=0;j<m;j++)
-		average[j] /= (double)m;
-	X.clear();
-	X.resize(n,vector<double>(m));
-	for(int i=0;i<n;i++)
-    	for(int j=0;j<m;j++)
-	    	X[i][j] = (input[i][j]-average[j])/sqrt(m-1);
-	return;
-}
 
-double norm(vector<double> &vec)
+void transpose(vector<vector<double> > &mat)
 {
-	double res = 0;
-	for(int i=0;i<(int)vec.size();i++)
-		res += vec[i]*vec[i];
-	return sqrt(res);
+	for(int i=0;i<(int)mat.size();i++)
+    for(int j=0;j<i;j++)
+	{
+	    swap(mat[i][j],mat[j][i]);
+    }
+	return;
 }
 
 vector<vector<double> > mult(vector<vector<double> > &A, vector<vector<double> > &B)
@@ -52,14 +36,42 @@ vector<vector<double> > mult(vector<vector<double> > &A, vector<vector<double> >
 	return res;
 }
 
-void transpose(vector<vector<double> > &mat)
+void generateX()
 {
-	for(int i=0;i<(int)mat.size();i++)
-	    for(int j=0;j<i;j++)
-    	{
-		    swap(mat[i][j],mat[j][i]);
-	    }
+	int n = input.size();
+	int m = input[0].size();
+	average.clear();
+	average.resize(m,0);
+	for(int i=0;i<n;i++)
+    	for(int j=0;j<m;j++)
+	    	average[j] += input[i][j];
+	for(int j=0;j<m;j++)
+		average[j] /= (double)n;
+	X.clear();
+	X.resize(n,vector<double>(m));
+	for(int i=0;i<n;i++)
+    	for(int j=0;j<m;j++)
+	    	X[i][j] = (input[i][j]-average[j]);
 	return;
+}
+
+void generateMx()
+{
+	Xt = X;
+	transpose(Xt);
+	Mx = mult(X,Xt);
+	int n = Mx.size();
+	for(int i=0;i<n;i++)
+	for(int j=0;j<n;j++)
+		Mx[i][j] /= (n-1);
+}
+
+double norm(vector<double> &vec)
+{
+	double res = 0;
+	for(int i=0;i<(int)vec.size();i++)
+		res += vec[i]*vec[i];
+	return sqrt(res);
 }
 
 vector<vector<double> > aux;
