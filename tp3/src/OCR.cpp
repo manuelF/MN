@@ -212,8 +212,17 @@ void fillTC(int k)
 	return;
 }
 
+double dist(vector<double> &v1, vector<double> &v2)
+{
+	double res = 0;
+	for(int i=0;i<(int)v1.size();i++)
+		res += (v1[i]-v2[i])*(v1[i]-v2[i]);
+	return sqrt(res);
+}
+
 int main()
 {
+	int k = 28*28;
 	FILE* v = freopen("../datos/trainingImages.txt","r",stdin);
 	int n, t;
     int g;
@@ -238,8 +247,8 @@ int main()
 	}
     v = freopen("../datos/trainingLabels.txt","r",stdin);
     cin >> n;
-    labels.resize(n);
-    cout << n << endl;
+    labels.resize(5000);
+    testLabels.resize(1000);
     for(int i=0;i<5000;i++)
     {
         g = scanf("%d",&labels[i]);
@@ -251,5 +260,34 @@ int main()
     generateX();
     generateMx();
     eig(Mx,av);
+    fillTC(k);
+    vector<double> vec;
+    vector<pair<double,int> > distancias;
+    vector<int> cant(10);
+    int bien = 0;
+    int mal = 0;
+    for(int i=0;i<1000;i++)
+    {
+		vec = calctc(testImages[i],k);
+		distancias.resize(5000);
+		for(int j=0;j<5000;j++)
+		{
+			distancias[i] = make_pair(dist(tc[j],vec),j);
+		}
+		sort(distancias.begin(),distancias.end());
+		for(int i=0;i<10;i++)
+			cant[i] = 0;
+		for(int i=0;i<100;i++)
+			cant[labels[distancias[i].second]]++;
+		int cualEs = 0;
+		for(int i=0;i<10;i++)
+		if(cant[i]>cant[cualEs])
+			cualEs = i;
+		if(testLabels[i]==cualEs)
+			bien++;
+		else
+			mal++;
+	}
+	cout << bien <<" "<<mal<<" " << (double)bien/(double)(bien+mal)<< endl;
     return 0;
 }
