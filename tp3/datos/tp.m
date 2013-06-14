@@ -7,6 +7,8 @@ width=784;
 imgg=double(leerMNISTimage('Training Images',from,limit)); 
 labels=leerMNISTlabel('Training Labels',from,limit);
 
+%calculamos una unica vez la matriz de covarianza
+
 if ~(exist('covarianza.mat','file')==2)
 
     nrows = size(imgg,1); %cuantas imagenes quedaron
@@ -27,15 +29,18 @@ end
 load('covarianza.mat','V');
 % V = avec(M*M') covarianza
 
-allmeans=zeros(10,width);
+allmeans=zeros(10,width); % vector que va a tener el promedio de los digs transformados
 
 for nro=0:9,
-    [thisimgg,thislabels]=filterimages(imgg,labels,[1]*nro);
+    %obtenemos solo las imagenes que corresponden a este digito
+    [thisimgg,thislabels]=filterimages(imgg,labels,[1]*nro); 
     nrows=size(thisimgg,1);
     M2=zeros(nrows,width);
+    %transformamos todas
     for im=1:nrows ,
         M2(im,:)=(V*thisimgg(im,:)')';
     end
+    %guardamos la imagen promedio
     allmeans((nro+1),:)=mean(M2);
     
 end
@@ -48,8 +53,9 @@ test_imgs=double(leerMNISTimage('Training Images',from,limit));
 test_labels=leerMNISTlabel('Training Labels',from,limit);
 nrows=size(test_imgs);
 
-k= 25; %cantidad de columnas que tomamos
-for k=1:40,
+upperk= width; %cantidad de columnas que tomamos
+progression=zeros(upperk); %anotamos para ver el progreso
+for k=1:upperk,
     hit=0;
     for im=1:nrows,
         transf=(V*test_imgs(im,:)')'; % transformamos una imagen
@@ -69,16 +75,9 @@ for k=1:40,
         %disp(str);
     end
     str=sprintf('hitrate k=%d  : %.2f%%',k,100*(hit/(limit-from)));
-    disp(str);
+    %disp(str);
+    progression(k)=100*(hit/(limit-from));
 end
 
-
-%xp=zeros(nrows ,width); %otra matriz temporal
-%for im=1:nrows , 
-%    xp(im,:)=V'*X(im,:)'; %aplicamos la transformacion a cada elemento
-%end
-%pointy=mean(xp);
-%allmeans(nrs+1,:)=pointy(:);
-%%scatter3(pointy(:,1),pointy(:,2),pointy(:,3),15,nl(1));
-%scatter3(xp(:,1),xp(:,2),xp(:,3),3,nl) %ploteamos tres coordenadas
+plot(progression); %vemos como evoluciono el hitrate k-> inf
 
