@@ -1,0 +1,24 @@
+Esa matriz M te la tenes que armar con *todas* 
+las imagenes que decidis usar como cuerpo de entrenamiento
+
+Despues vos usas esa matriz V para obtener la transformacion 
+caracteristica de cada imagen
+
+Para sacar las medias, vos agarras tu cuerpo de entrenamiento, 
+agrupas por digito, transformas todas las imagenes de cada digito, 
+y para cada digito, buscas la transformada promedio
+
+Esa media que encontraste, una por digito, es la que usas para, 
+dada una imagen del cuerpo de prueba, ver que media esta mas 
+cerca de la transformada de esa imagen
+
+Y el digito de la imagen sera entonces el digito asociado a la media mas cercana
+
+ojo que vos me estabas hablando de la matriz V transpuesta. 
+No la tenes que transponer. vos agarras la matriz V asi 
+como te la escupe la funcion svd(M), y cada coordenada de 
+la transformacion caracteristica es el producto interno 
+entre cada una de las columnas de esa matriz V y la imagen 
+que queres transformar
+
+Usando las columnas de izquierda a derecha hasta la k-sima columna, para algun k que vos quieras
