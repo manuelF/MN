@@ -1,4 +1,4 @@
-function labels = leerMNISTlabel(fname, limit)
+function labels = leerMNISTlabel(fname, from, limit)
 % All the integers in the files are stored in the MSB first (high/big endian) 
 % [offset] [type]          [value]          [description] 
 % 0000     32 bit integer  0x00000801(2049) magic number (MSB first) 
@@ -19,4 +19,6 @@ function labels = leerMNISTlabel(fname, limit)
   nitems = fread(fp,1,'uint32','ieee-be');
   nitems = min(nitems,limit);
   
-  labels = fread(fp,nitems,'*uint8');
+  labels2 = fread(fp,nitems,'*uint8');
+  labels = labels2(from:limit);
+  fclose(fp);

@@ -1,4 +1,4 @@
-function img = leerMNISTimage(fname, limit)
+function img = leerMNISTimage(fname, from, limit)
 % All the integers in the files are stored in the MSB first (high/big endian) 
 % TEST SET IMAGE FILE (t10k-images-idx3-ubyte):
 % 
@@ -24,12 +24,13 @@ function img = leerMNISTimage(fname, limit)
   nrows = fread(fp,1,'uint32','ieee-be');
   ncols = fread(fp,1,'uint32','ieee-be');
   toread=min(nimgs,limit);
-  img = zeros(toread,nrows*ncols,'uint8');
+  img2 = zeros(toread,nrows*ncols,'uint8');
   
     
   for imind=1:toread,
-     im = fread(fp,[ncols*nrows],'*uint8');
-     img(imind,:) = im';
+     im = fread(fp,[ncols*nrows],'*uint8');     
+     img2(imind,:) = im';     
   end
+  img = img2(from:limit,:);
   
   fclose(fp);
