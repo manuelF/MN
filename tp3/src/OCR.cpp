@@ -8,8 +8,8 @@
 
 using namespace std;
 
-vector<vector<double> > input, X, Mx, Xt;
-vector<int> labels;
+vector<vector<double> > input, X, Mx, Xt, testImages, av; //av = autovectores
+vector<int> labels, testLabels;
 vector<double> average;
 
 
@@ -51,7 +51,7 @@ void generateX()
 	X.resize(n,vector<double>(m));
 	for(int i=0;i<n;i++)
     	for(int j=0;j<m;j++)
-	    	X[i][j] = (input[i][j]-average[j]);
+	    	X[i][j] = (input[i][j]-average[j])/sqrt(n-1);
 	return;
 }
 
@@ -59,11 +59,11 @@ void generateMx()
 {
 	Xt = X;
 	transpose(Xt);
-	Mx = mult(X,Xt);
-	int n = Mx.size();
+	Mx = mult(Xt,X);
+/*	int n = Mx.size();
 	for(int i=0;i<n;i++)
 	for(int j=0;j<n;j++)
-		Mx[i][j] /= (n-1);
+		Mx[i][j] /= (n-1);*/
 }
 
 double norm(vector<double> &vec)
@@ -154,29 +154,62 @@ bool sim(const vector<vector<double> > & A)
     {
         for(int j = 0; j<i; j++)
         {
-            assert(A[i][j]==A[j][i]);
+            assert(A[i][j]==A[j][i]); /// Ojo! son doubles, comparar con epsilon
         }
     }
     return true;
 }
 
-vector<vector<double> > autoVectores(vector<vector<double> > A) /// Ojo! A va por copia porque lo modifico.
+vector<vector<double> > matrizAuxiliar;
+
+void eig(vector<vector<double> > &A, vector<vector<double> > &auVec)
 {
 	vector<vector<double> > Q,R;
-    //assert(sim(A));
+	int n = A.size(); /// A es cuadrada
+	auVec = Id(n);
 	while(sigoIterando(A))
 	{
 		householder(A,Q,R);
 		A = mult(R,Q);
+		auVec = mult(auVec,Q);
 	}
-	return A;
+	vector<pair<int,int> > aux(n);
+	for(int i=0;i<n;i++)
+		aux[i] = make_pair(A[i][i],i);
+	sort(aux.begin(),aux.end());
+	reverse(aux.begin(),aux.end());
+	matrizAuxiliar = auVec;
+	for(int i=0;i<n;i++)
+	for(int j=0;j<n;j++)
+	{
+		auVec[i][j] = matrizAuxiliar[aux[i].second][j];
+	}
+	return;
 }
 
-vector<vector<double> > U, Sigma, V;
+vector<vector<double> > tc;
 
-void SVD() /// calcula la SVD de X
+vector<double> calctc(vector<double> imagen, int k)
 {
+	vector<double> res(k,0);
+	int n = imagen.size();
+	for(int i=0;i<k;i++)
+	for(int j=0;j<n;j++)
+	{
+		res[i]+=av[i][j]*imagen[j];
+	}
+	return res;
+}
 
+void fillTC(int k)
+{
+	int n = input.size();
+	tc.resize(n,vector<double>(k,0));
+	for(int i=0;i<n;i++)
+	{
+		tc[i] = calctc(input[i],k);
+	}
+	return;
 }
 
 int main()
@@ -185,25 +218,38 @@ int main()
 	int n, t;
     int g;
 	cin >> n >> t;
+	/// n es 6000
 	input.clear();
-	input.resize(n,vector<double>(t));
-	for(int i=0;i<n;i++)
+	input.resize(5000,vector<double>(t));
+	testImages.resize(1000,vector<double>(t));
+	for(int i=0;i<5000;i++)
     {
         for(int j=0;j<t;j++)
         {
             g = scanf("%lf",&input[i][j]);            
         }
     }
+    for(int i=0;i<1000;i++)
+    {
+		for(int j=0;j<t;j++)
+		{
+			g = scanf("%lf",&testImages[i][j]);
+		}
+	}
     v = freopen("../datos/trainingLabels.txt","r",stdin);
     cin >> n;
     labels.resize(n);
     cout << n << endl;
-    for(int i=0;i<n;i++)
+    for(int i=0;i<5000;i++)
     {
-        if(i%1000==0)
-            cout << i<<endl;
         g = scanf("%d",&labels[i]);
     }
+    for(int i=0;i<1000;i++)
+    {
+		g = scanf("%d",&testLabels[i]);
+	}
     generateX();
+    generateMx();
+    eig(Mx,av);
     return 0;
 }

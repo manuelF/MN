@@ -1,7 +1,7 @@
 
 % Haciendo el TP
 from=1;
-limit=40000; %cuantas imagenes maximo leemos
+limit=10000; %cuantas imagenes maximo leemos
 width=784;
 
 imgg=double(leerMNISTimage('Training Images',from,limit)); 
@@ -13,7 +13,6 @@ if ~(exist('covarianza.mat','file')==2)
 
     nrows = size(imgg,1); %cuantas imagenes quedaron
 
-    X=imgg/sqrt(nrows-1); %dividimos por la sqrt(n-1)
     mu=mean(X); %obtenemos la imagen media
     M=zeros(nrows ,width); %creamos una matriz temporal
 
@@ -24,7 +23,7 @@ if ~(exist('covarianza.mat','file')==2)
     M=M/sqrt(width-1); %dividimos por n-1
 
     [U,S,V]=svd(M); %sacamos la svd de esa
-    clearvars U S M
+    %clearvars U S M
     save('covarianza.mat','V');
 end
 load('covarianza.mat','V');
@@ -82,3 +81,17 @@ end
 
 plot(progression); %vemos como evoluciono el hitrate k-> inf
 
+%Formas de medir:
+%
+%   Tomamos los t (parametro, o fijo: 100) mas cercanos.
+%   Elegimos el digito mas repetido.
+%   Si hay mas de uno tomamos los 2t.
+%   3t, 4t... asi hasta que no haya repetidos.
+%   Tambien podemos iterar 2t,3t,4t.. hasta que no haya repetidos y un
+%   digito aparezca al menos el 20% de las veces (no se si esto sera muy
+%   bueno).
+%   Para medir distancia medimos distintas normas (norma 1, norma 2, norma
+%   infinito).
+%   
+%
+%
