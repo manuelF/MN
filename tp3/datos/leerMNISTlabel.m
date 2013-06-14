@@ -21,4 +21,5 @@ function labels = leerMNISTlabel(fname, from, limit)
   
   labels2 = fread(fp,nitems,'*uint8');
   labels = labels2(from:limit);
+  clearvars labels2
   fclose(fp);

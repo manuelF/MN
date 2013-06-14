@@ -32,5 +32,5 @@ function img = leerMNISTimage(fname, from, limit)
      img2(imind,:) = im';     
   end
   img = img2(from:limit,:);
-  
+  clearvars img2
   fclose(fp);

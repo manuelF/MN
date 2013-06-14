@@ -24,6 +24,7 @@ if ~(exist('covarianza.mat','file')==2)
     M=M/sqrt(width-1); %dividimos por n-1
 
     [U,S,V]=svd(M); %sacamos la svd de esa
+    clearvars U S M
     save('covarianza.mat','V');
 end
 load('covarianza.mat','V');
