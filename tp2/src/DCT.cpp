@@ -248,12 +248,14 @@ void generarRuido(vector<double> &y, int imp)
 	}
 	if(imp == IMPULSE_NOISE)
 	{
+		int sign = 1;
         ruido = vector<double>(y.size());
         #pragma omp parallel for
         for(int i =0; i<(int)y.size();i++)
         {
 			if(i % IMPULSE_NOISE_TICK == 0) {
-            	y[i]=(double)y[i]+IMPULSE_NOISE_DEFAULT;
+				if(i % 3*IMPULSE_NOISE_TICK == 0) sign *= -1;
+            	y[i]=sign*IMPULSE_NOISE_DEFAULT;
 			}
         }
 	}
