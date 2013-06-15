@@ -26,6 +26,7 @@
 #define ZERO_FILTER 0
 #define EXPONENTIAL_FILTER 1
 #define AVERAGER_FILTER 2
+#define MEDIAN_FILTER 3
 
 #define IMPULSE_NOISE_DEFAULT 200
 #define IMPULSE_NOISE_TICK 20
@@ -248,12 +249,14 @@ void generarRuido(vector<double> &y, int imp)
 	}
 	if(imp == IMPULSE_NOISE)
 	{
+		int sign = 1;
         ruido = vector<double>(y.size());
         #pragma omp parallel for
         for(int i =0; i<(int)y.size();i++)
         {
 			if(i % IMPULSE_NOISE_TICK == 0) {
-            	y[i]=(double)y[i]+IMPULSE_NOISE_DEFAULT;
+				if(i % 3*IMPULSE_NOISE_TICK == 0) sign *= -1;
+            	y[i]=sign*IMPULSE_NOISE_DEFAULT;
 			}
         }
 	}
@@ -301,15 +304,32 @@ void filtrarRuido(vector <double> &y, int imp)
             }
         }       
 	}
+	if(imp == MEDIAN_FILTER)
+	{
+	   vector<double> local_y;
+       for(int i=startfilter+2;i<n-2;i++)
+        {
+		  
+		   local_y.clear();
+		   for(int j = i-2; j <= i+2; j++) {
+				local_y.push_back(y[j]);
+		   }
+
+			sort(local_y.begin(), local_y.end());
+            replace[i]= local_y[2]; 
+		}
+
+	}
+
     if(imp == AVERAGER_FILTER)
     {
        for(int i=startfilter+2;i<n-2;i++)
         {
-            replace[i]= .15*y[i-2]+
-                        .20 *y[i-1]+
-                        .30 *y[i]  +
-                        .20 *y[i+1]+
-                        .15*y[i+2];
+            replace[i]= y[i-2]+
+                        y[i-1]+
+                        y[i]  +
+                        y[i+1]+
+                        y[i+2];
         }
     }
     for (int i = 0; i< (int) y.size(); i++)
@@ -341,7 +361,8 @@ void procesar1D()
     generarMatrizDCT(n);
     vector<double> l (lecturas);
     //generarRuido(l,GAUSSIAN_NOISE);
-    generarRuido(l,SIN_NOISE);
+    //generarRuido(l,SIN_NOISE);
+    generarRuido(l,IMPULSE_NOISE);
 
     vector<double> q = transformar(lecturas); //original
 
@@ -350,8 +371,9 @@ void procesar1D()
     
     dump("orig",q);
     
-    filtrarRuido(y,EXPONENTIAL_FILTER);
-    filtrarRuido(y,AVERAGER_FILTER );
+    //filtrarRuido(y,EXPONENTIAL_FILTER);
+    //filtrarRuido(y,AVERAGER_FILTER );
+    filtrarRuido(y,MEDIAN_FILTER );
 
 //    dump("mod",y);
     vector<double> x = antitransformar(y);
