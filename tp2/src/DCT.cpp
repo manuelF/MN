@@ -21,10 +21,14 @@
 #define GAUSSIAN_NOISE 0
 #define SIN_NOISE 1
 #define ADDITIVE_NOISE 2
+#define IMPULSE_NOISE 3
 
 #define ZERO_FILTER 0
 #define EXPONENTIAL_FILTER 1
 #define AVERAGER_FILTER 2
+
+#define IMPULSE_NOISE_DEFAULT 200
+#define IMPULSE_NOISE_TICK 20
 
 //typedef long double double;
 
@@ -242,6 +246,18 @@ void generarRuido(vector<double> &y, int imp)
             y[i]=(double)y[i]+ruido[i];
         }
 	}
+	if(imp == IMPULSE_NOISE)
+	{
+        ruido = vector<double>(y.size());
+        #pragma omp parallel for
+        for(int i =0; i<(int)y.size();i++)
+        {
+			if(i % IMPULSE_NOISE_TICK == 0) {
+            	y[i]=(double)y[i]+IMPULSE_NOISE_DEFAULT;
+			}
+        }
+	}
+
 	// podemos hacer mas implementaciones de ser necesario
 	return;
 
