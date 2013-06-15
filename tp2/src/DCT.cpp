@@ -345,9 +345,9 @@ void procesar1D()
 
 void transpose(vector<vector<double>> &mat)
 {
-    for(int i=0;i<mat.size();i++)
+    for(unsigned int i=0;i<mat.size();i++)
     {
-        for(int j=i;j<mat[i].size();j++)
+        for(unsigned int j=i;j<mat[i].size();j++)
         {
             swap(mat[i][j],mat[j][i]);
         }
@@ -365,7 +365,9 @@ void procesar2D()
     }
     int x, y;
     int grayscale;
-    scanf("%d %d\n%d\n",&x,&y,&grayscale);
+    int scanf_res = scanf("%d %d\n%d\n",&x,&y,&grayscale);
+    if(scanf_res == 0) {}
+
   //  x++; y++;
     vector<vector<double>> _img(y,vector<double>(x));
     
