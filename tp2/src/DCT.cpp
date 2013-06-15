@@ -361,7 +361,8 @@ void procesar1D()
     generarMatrizDCT(n);
     vector<double> l (lecturas);
     //generarRuido(l,GAUSSIAN_NOISE);
-    generarRuido(l,SIN_NOISE);
+    //generarRuido(l,SIN_NOISE);
+    generarRuido(l,IMPULSE_NOISE);
 
     vector<double> q = transformar(lecturas); //original
 
@@ -370,8 +371,9 @@ void procesar1D()
     
     dump("orig",q);
     
-    filtrarRuido(y,EXPONENTIAL_FILTER);
-    filtrarRuido(y,AVERAGER_FILTER );
+    //filtrarRuido(y,EXPONENTIAL_FILTER);
+    //filtrarRuido(y,AVERAGER_FILTER );
+    filtrarRuido(y,MEDIAN_FILTER );
 
 //    dump("mod",y);
     vector<double> x = antitransformar(y);
