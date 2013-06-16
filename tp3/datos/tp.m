@@ -49,29 +49,31 @@ for nro=0:9,
 end
 
 originalpoints=size(imgg,1);
-
+%Obtenemos la transformada de cada imagen que usamos para la distancia
+%de mas matchs
 timgg=zeros(originalpoints,width);
 for ti=1:originalpoints,
     timgg(ti,:)=(V*imgg(ti,:)')';
 end
 %%
 %Corremos los casos de test
-limit=40100;
-from=40000;
+from=40000; %Desde esta imagen 
+limit=40040; %hasta esta
+
 test_imgs=double(leerMNISTimage('Training Images',from,limit)); 
 test_labels=leerMNISTlabel('Training Labels',from,limit);
 nrows=size(test_imgs,1);
 
-upperk= 40; %cantidad de columnas que tomamos
+upperk= 40; %cantidad de columnas como maximo que tomamos
 
-alldistanceprogression=zeros(upperk,1); %Progreso a todas
+alldistanceprogression=zeros(upperk,1); %Progreso distancia a todas (top100)
 partialprogression=zeros(upperk,3); %Progreso por norma
 progression=zeros(upperk,1); %Progreso bo3
-metodonorma=[1,2,inf];
+metodonorma=[1,2,inf]; %las normas que usamos
 
-dists=zeros(originalpoints,2);
+dists=zeros(originalpoints,2); % distancia a todos los puntos
 
-for k=1:upperk,
+for k=1:upperk, %para cada k cantidad de columnas
     hit=0;
     hitdistance=0;
     partialhit=zeros(1,3);
@@ -79,23 +81,27 @@ for k=1:upperk,
     for im=1:nrows,
         transf=(V*test_imgs(im,:)')'; % transformamos una imagen
         
-        
-        for id=1:originalpoints,
+        %sacamos la distanacia norma2 a todas las imagenes de la V
+        for id=1:originalpoints, 
             dists(id,1)=norm(timgg(id,1:k)-transf(1:k),2);            
         end
+        %pongo las labels de los numeros apropiados
         dists(1:originalpoints,2)=labels(1:originalpoints);
-        
+        %ordenamos por menor distancia 
         dists=sortrows(dists);
-        dists=dists(1:100,:);
+        %nos quedamos con el top100
+        dists=dists(1:200,:);
+        %el histograma de los 10 digitos nos dice cuanto se repite c/u
         [appears]=hist(dists(:,2),10);
+        %obtenemos el indice = digito que mas aparecio
         [elem,index]=max(appears);
         
-        if((index-1)==test_labels(im)) %contabilizamos el hit
+        if((index-1)==test_labels(im)) %contabilizamos el hit si le acertamos
             hitdistance=hitdistance+1;
         end
 
         
-        
+        %ahora hacemos las comparaciones de normas
         mejor_indice_p=[11,11,11];
                
         for inorma=1:3,
@@ -108,29 +114,30 @@ for k=1:upperk,
                 end
             end
         end
+        %nos quedamos ademas con el digito reconocido mas repetido, y defaultea en norma2
         
-        mejor_indice=mejor_indice_p(3);
+        mejor_indice=mejor_indice_p(2);
         if((mejor_indice_p(1)==mejor_indice_p(3))||(mejor_indice_p(1)==mejor_indice_p(2)))
             mejor_indice=mejor_indice_p(1);
         end
         if((mejor_indice_p(2)==mejor_indice_p(3))||(mejor_indice_p(1)==mejor_indice_p(2)))
             mejor_indice=mejor_indice_p(2);
         end
+        %contabilizamos los hits parciales, si alguno le pego        
         for inorma=1:3,
             if (mejor_indice_p(inorma)==test_labels(im))
                 partialhit(inorma)=partialhit(inorma)+1;
             end
         end
         
-        str=sprintf('para el indice %d, se estimo %d y en realidad era %d\n',im,mejor_indice,test_labels(im));
-        if(mejor_indice==test_labels(im)) %contabilizamos el hit
+        %contabilizamos el hit del bo3
+        if(mejor_indice==test_labels(im)) 
             hit=hit+1;
         end
-        %disp(str);
+        
     end
 
-    str=sprintf('hitrate k=%d  : %.2f%%',k,100*(hit/(nrows)));
-    %disp(str);
+    %obtenemos los % para los metodos de reconocimento
     progression(k)=100*(hit/(nrows));
     partialprogression(k,:)=100*(partialhit(:)/(nrows));
     alldistanceprogression(k)=100*(hitdistance/(nrows));
@@ -139,6 +146,7 @@ end
 %Vemos como evoluciona el hitrate a medida que k-> inf, comparamos
 %data1 = usando solo norma2
 %data2 = usando el mas repetido de las 3 normas
+%data3 = usando la distancia a todos
 
 plot([partialprogression(:,2),progression(:),alldistanceprogression(:)]) 
 
