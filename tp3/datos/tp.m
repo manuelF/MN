@@ -3,7 +3,7 @@
 %%
 %Leemos el input de imagenes y labels
 from=1;
-limit=3000; %cuantas imagenes maximo leemos
+limit=20000; %cuantas imagenes maximo leemos
 width=784;
 
 imgg=double(leerMNISTimage('Training Images',from,limit)); 
@@ -48,7 +48,7 @@ for nro=0:9,
     
 end
 
-originalpoints=size(imgg,1);
+originalpoints=3000;
 %Obtenemos la transformada de cada imagen que usamos para la distancia
 %de mas matchs
 timgg=zeros(originalpoints,width);
