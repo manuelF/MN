@@ -32,11 +32,16 @@ vector<vector<double> > mult(vector<vector<double> > &A, vector<vector<double> >
 	int n = A.size();
 	int m = B[0].size();
 	int t = A[0].size(); // tiene que ser igual a B.size();
+	cerr << n <<" "<< m <<" "<<t<<endl;
 	vector<vector<double> > res(n,vector<double>(m,0));
 	for(int i=0;i<n;i++)
+	{
+	    cerr << i<< endl;
     	for(int j=0;j<m;j++)
 	        for(int k=0;k<t;k++)
 		        res[i][j] += A[i][k]*B[k][j];
+    }
+    cerr <<"Termino mult"<< endl;
 	return res;
 }
 
@@ -92,7 +97,6 @@ void householder(vector<vector<double> > &A, vector<vector<double> > &Q, vector<
 	R = A;
 	for(int i=0;i<n;i++)
 	{
-	    cerr << i << endl;
 		vector<double> v;
 		for(int j=i;j<n;j++)
 			v.push_back(R[j][i]);
@@ -230,10 +234,9 @@ int main()
 	FILE* v = freopen("../datos/trainingImages.txt","r",stdin);
 	int n, t;
     int g;
-    const int training_count = 5000;
+    const int training_count = 1000;
     const int test_count = 1000;
 	cin >> n >> t;
-	/// n es 6000
 	input.clear();
 	input.resize(training_count,vector<double>(t));
 	testImages.resize(test_count,vector<double>(t));
