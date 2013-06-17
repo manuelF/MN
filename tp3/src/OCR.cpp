@@ -32,6 +32,8 @@ vector<vector<double> > mult(vector<vector<double> > &A, vector<vector<double> >
 	int n = A.size();
 	int m = B[0].size();
 	int t = A[0].size(); // tiene que ser igual a B.size();
+    vector<vector<double> > B2 = B;
+    transpose(B2);
 	cerr << n <<" "<< m <<" "<<t<<endl;
 	vector<vector<double> > res(n,vector<double>(m,0));
 	for(int i=0;i<n;i++)
@@ -39,7 +41,7 @@ vector<vector<double> > mult(vector<vector<double> > &A, vector<vector<double> >
 	    cerr << i<< endl;
     	for(int j=0;j<m;j++)
 	        for(int k=0;k<t;k++)
-		        res[i][j] += A[i][k]*B[k][j];
+		        res[i][j] += A[i][k]*B2[j][k];
     }
     cerr <<"Termino mult"<< endl;
 	return res;
