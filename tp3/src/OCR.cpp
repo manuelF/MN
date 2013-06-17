@@ -112,7 +112,7 @@ void householder(vector<vector<double> > &A)
 	    for(int j=i;j<n;j++)
             u.push_back(R[j][i]);
         double alpha = norm(u);
-        if(abs(alpha) < 1e-6)
+        if(abs(abs(alpha)-abs(u[i])) < 1e-6)
             continue;
         if(alpha*u[i]>0)
             alpha *= -1.;
@@ -151,7 +151,9 @@ void householder(vector<vector<double> > &A)
 	return;
 }
 
-const double delta = 1e-5;
+const double delta = 1000;
+
+int iteraciones;
 
 bool sigoIterando(vector<vector<double> > &A)
 {
@@ -160,7 +162,7 @@ bool sigoIterando(vector<vector<double> > &A)
 	for(int i=0;i<n;i++)
 	    for(int j=0;j<i;j++)
 		    res += fabs(A[i][j]);
-    printf("Res: %lf\n",res);
+    printf("Iteracion %d: %lf\n",++iteraciones, res);
 	return res>delta;
 }
 
@@ -168,7 +170,6 @@ bool sim(const vector<vector<double> > & A)
 {
     int n = A.size();
     int m = A[0].size();
-
     assert(n==m);
     for(int i =0; i<n; i++)
     {
@@ -184,7 +185,7 @@ void eig(vector<vector<double> > &A, vector<vector<double> > &auVec)
 {
 	int n = A.size(); /// A es cuadrada
 	auVec = Id(n);
-	int iter = 0;
+	iteraciones = 0;
 	while(sigoIterando(A))
 	{
 		householder(A);
@@ -244,7 +245,7 @@ int main()
 	FILE* v = freopen("../datos/trainingImages.txt","r",stdin);
 	int n, t;
     int g;
-    const int training_count = 1000;
+    const int training_count = 5000;
     const int test_count = 1000;
 	cin >> n >> t;
 	input.clear();
