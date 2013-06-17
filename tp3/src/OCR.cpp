@@ -38,10 +38,16 @@ vector<vector<double> > mult(vector<vector<double> > &A, vector<vector<double> >
 	vector<vector<double> > res(n,vector<double>(m,0));
 	for(int i=0;i<n;i++)
 	{
-	    cerr << i<< endl;
+        #pragma omp parallel for
     	for(int j=0;j<m;j++)
+        {
+            double sum =0.0;
 	        for(int k=0;k<t;k++)
-		        res[i][j] += A[i][k]*B2[j][k];
+            {
+		        sum += A[i][k]*B2[j][k];
+            }
+            res[i][j]=sum;
+        }
     }
     cerr <<"Termino mult"<< endl;
 	return res;
