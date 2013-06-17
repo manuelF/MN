@@ -235,7 +235,7 @@ int main()
     {
         for(int j=0;j<t;j++)
         {
-            g = scanf("%lf",&input[i][j]);            
+            g = scanf("%lf",&input[i][j]);
         }
     }
     for(int i=0;i<1000;i++)
@@ -275,10 +275,10 @@ int main()
 			distancias[i] = make_pair(dist(tc[j],vec),j);
 		}
 		sort(distancias.begin(),distancias.end());
-		for(int i=0;i<10;i++)
-			cant[i] = 0;
-		for(int i=0;i<100;i++)
-			cant[labels[distancias[i].second]]++;
+		for(int j=0;j<10;j++)
+			cant[j] = 0;
+		for(int j=0;j<100;j++)
+			cant[labels[distancias[j].second]]++;
 		int cualEs = 0;
 		for(int i=0;i<10;i++)
 		if(cant[i]>cant[cualEs])
