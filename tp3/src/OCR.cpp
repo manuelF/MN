@@ -159,8 +159,8 @@ bool sigoIterando(vector<vector<double> > &A)
 	int n = A.size();
 	for(int i=0;i<n;i++)
 	    for(int j=0;j<i;j++)
-		    res += abs(A[i][j]);
-    cerr<<"Res: "<< res << endl;
+		    res += fabs(A[i][j]);
+    printf("Res: %lf\n",res);
 	return res>delta;
 }
 
