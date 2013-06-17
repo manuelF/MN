@@ -226,19 +226,21 @@ int main()
 	FILE* v = freopen("../datos/trainingImages.txt","r",stdin);
 	int n, t;
     int g;
+    const int training_count = 5000;
+    const int test_count = 1000;
 	cin >> n >> t;
 	/// n es 6000
 	input.clear();
-	input.resize(5000,vector<double>(t));
-	testImages.resize(1000,vector<double>(t));
-	for(int i=0;i<5000;i++)
+	input.resize(training_count,vector<double>(t));
+	testImages.resize(test_count,vector<double>(t));
+	for(int i=0;i<training_count;i++)
     {
         for(int j=0;j<t;j++)
         {
             g = scanf("%lf",&input[i][j]);
         }
     }
-    for(int i=0;i<1000;i++)
+    for(int i=0;i<test_count;i++)
     {
 		for(int j=0;j<t;j++)
 		{
@@ -247,13 +249,13 @@ int main()
 	}
     v = freopen("../datos/trainingLabels.txt","r",stdin);
     cin >> n;
-    labels.resize(5000);
-    testLabels.resize(1000);
-    for(int i=0;i<5000;i++)
+    labels.resize(training_count);
+    testLabels.resize(test_count);
+    for(int i=0;i<training_count;i++)
     {
         g = scanf("%d",&labels[i]);
     }
-    for(int i=0;i<1000;i++)
+    for(int i=0;i<test_count;i++)
     {
 		g = scanf("%d",&testLabels[i]);
 	}
@@ -266,11 +268,11 @@ int main()
     vector<int> cant(10);
     int bien = 0;
     int mal = 0;
-    for(int i=0;i<1000;i++)
+    for(int i=0;i<test_count;i++)
     {
 		vec = calctc(testImages[i],k);
-		distancias.resize(5000);
-		for(int j=0;j<5000;j++)
+		distancias.resize(training_count);
+		for(int j=0;j<training_count;j++)
 		{
 			distancias[i] = make_pair(dist(tc[j],vec),j);
 		}
