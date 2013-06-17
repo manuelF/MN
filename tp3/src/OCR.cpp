@@ -8,18 +8,22 @@
 
 using namespace std;
 
-vector<vector<double> > input, X, Mx, Xt, testImages, av; //av = autovectores
+vector<vector<double> > input, X, Mx, Xt, testImages, matrizAuxiliar, av; //av = autovectores
 vector<int> labels, testLabels;
 vector<double> average;
 
-
 void transpose(vector<vector<double> > &mat)
 {
-	for(int i=0;i<(int)mat.size();i++)
-    for(int j=0;j<i;j++)
+    int n = mat.size();
+    int m = mat[0].size();
+    matrizAuxiliar.clear();
+    matrizAuxiliar.resize(m,vector<double>(n));
+	for(int i=0;i<m;i++)
+    for(int j=0;j<n;j++)
 	{
-	    swap(mat[i][j],mat[j][i]);
+	    matrizAuxiliar[i][j] = mat[j][i];
     }
+    mat = matrizAuxiliar;
 	return;
 }
 
@@ -88,6 +92,7 @@ void householder(vector<vector<double> > &A, vector<vector<double> > &Q, vector<
 	R = A;
 	for(int i=0;i<n;i++)
 	{
+	    cerr << i << endl;
 		vector<double> v;
 		for(int j=i;j<n;j++)
 			v.push_back(R[j][i]);
@@ -160,13 +165,12 @@ bool sim(const vector<vector<double> > & A)
     return true;
 }
 
-vector<vector<double> > matrizAuxiliar;
-
 void eig(vector<vector<double> > &A, vector<vector<double> > &auVec)
 {
 	vector<vector<double> > Q,R;
 	int n = A.size(); /// A es cuadrada
 	auVec = Id(n);
+	int iter = 0;
 	while(sigoIterando(A))
 	{
 		householder(A,Q,R);
@@ -258,9 +262,13 @@ int main()
 		g = scanf("%d",&testLabels[i]);
 	}
     generateX();
+    cerr << 1 << endl;
     generateMx();
+    cerr<<2 << endl;
     eig(Mx,av);
+    cerr << 3 << endl;
     fillTC(k);
+    cerr << 4 << endl;
     vector<double> vec;
     vector<pair<double,int> > distancias;
     vector<int> cant(10);
