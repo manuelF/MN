@@ -280,9 +280,9 @@ int main()
 		for(int j=0;j<100;j++)
 			cant[labels[distancias[j].second]]++;
 		int cualEs = 0;
-		for(int i=0;i<10;i++)
-		if(cant[i]>cant[cualEs])
-			cualEs = i;
+		for(int j=0;j<10;j++)
+		if(cant[j]>cant[cualEs])
+			cualEs = j;
 		if(testLabels[i]==cualEs)
 			bien++;
 		else
