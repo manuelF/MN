@@ -1,1 +1,25 @@
 \section{Introducci\'on}
+
+En el presente trabajo vamos a estudiar el mecanismo de reconocimiento autom\'atico de 
+im\'agenes mediante el an\'alisis de componentes principales. 
+
+Este \'analisis fue primeramente llevado a cabo en [Sirovich87] y [Turk91]. Estos trabajos
+reconocen el an\'alisis de componentes principales como herramientas te\'oricas poderosas
+a la hora de buscar caracterizaciones autom\'aticas en imagenes (en  sus casos, rostros).
+
+La t\'ecnica se basa fundamentalmente en el hecho que las im\'agenes en $\mathbb{R}^{n * m}$ que queremos reconocer
+no son variables aleatorias uniformemente distribuidas, sino que hay funci\'on caja negra que genera
+estas imagenes (en nuestro caso, que los digitos se dibujan de maneras parecidas, como siguiendo un trazo mental).
+
+Como hemos podido observar en el caso de, por ejemplo, la esteganografia, si a una matriz le alteramos las
+componentes principales de menor magnitud, la matriz reconstruida se altera bastante poco. Esto nos da
+la pauta de que aportan menor cantidad de ``informaci\'on'' estas componentes que las de mayor magnit\'ud.
+
+Esto nos indica que para poder reconstruir las imagenes de la forma m\'as fiel posible,
+deberiamos perder la menor cantidad de informaci\'on posible, o sea, quedarnos con la mayor cantidad
+de componentes principales de la imagen. 
+
+Lo que buscamos nosotros es, dado una im\'agen de un digito, identificar cual es. La hipotesis
+que asumimos a lo largo de todo este trabajo es que las distintas im\'agenes de un mismo digito van 
+a tener ``similares'' componentes principales. Lo que vamos a hacer es buscar, dada una im\'agen cualquiera
+ver a cual se parece m\'as para poder identificarlo.
