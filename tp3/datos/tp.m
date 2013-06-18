@@ -3,7 +3,7 @@
 %%
 %Leemos el input de imagenes y labels
 from=1;
-limit=20000; %cuantas imagenes maximo leemos
+limit=30000; %cuantas imagenes maximo leemos
 width=784;
 
 imgg=double(leerMNISTimage('Training Images',from,limit)); 
@@ -48,7 +48,7 @@ for nro=0:9,
     
 end
 
-originalpoints=3000;
+originalpoints=1000;
 %Obtenemos la transformada de cada imagen que usamos para la distancia
 %de mas matchs
 timgg=zeros(originalpoints,width);
@@ -58,13 +58,13 @@ end
 %%
 %Corremos los casos de test
 from=40000; %Desde esta imagen 
-limit=40040; %hasta esta
+limit=40100; %hasta esta
 
 test_imgs=double(leerMNISTimage('Training Images',from,limit)); 
 test_labels=leerMNISTlabel('Training Labels',from,limit);
 nrows=size(test_imgs,1);
 
-upperk= 40; %cantidad de columnas como maximo que tomamos
+upperk= 100; %cantidad de columnas como maximo que tomamos
 
 alldistanceprogression=zeros(upperk,1); %Progreso distancia a todas (top100)
 partialprogression=zeros(upperk,3); %Progreso por norma
@@ -150,9 +150,9 @@ end
 
 plot([partialprogression(:,2),progression(:),alldistanceprogression(:)]) 
 
-legend('Norma2','Bo3','DistTotal','Location','SouthEast');
-%plot(progression); %vemos como evoluciono el hitrate k-> inf
-%plot(partialprogression);
+legend('Norma2','Mejor de 3 normas','Distancia Total','Location','SouthEast');
+xlabel('k cantidad de columnas');
+ylabel('% Hitrate');
 
 %Formas de medir:
 %
