@@ -1,1 +1,43 @@
 \section{Conclusiones}
+
+Este trabajo nos ha dado la oportunidad de aprender varias lecciones.
+
+\subsection{Herramientas de desarrollo rapido}
+
+El uso de Matlab ha sido fundamental a la hora de entender el problema.
+Es muy sencillo perderse en los detalles de la implementaci\'on y no ver que
+problema se quiere resolver. Una herramienta din\'amica donde se pueden visualizar
+en una pasada las factorizaciones de una matriz, las dimensiones y las cuentas 
+de forma matricial sin que importen los detalles del calculo.
+
+Ayud\'o tambien que la velocidad de procesamiento de MATLAB es inesperadamente
+r\'apida, por lo que se pudo experimentar rapidamente con matrices de covarianza
+de pocas y de muchas im\'agenes indistintamente. El costo que se paga por esto es
+no saber como lo esta resolviendo por atras y no tener control sobre los datos generados.
+En particular, por ejemplo, si usamos la funci\'on \texttt{svd} de MATLAB, se genera
+autom\'aticamente las 3 matrices de la factorizaci\'on, pero solamente nos interesa
+la V' (de 784 x 784 elementos). Sin embargo, se genera y guarda tambien la U ( de hasta
+60000 x 60000 elementos, ~26Gb) y S (de hasta 60000 x 784 elementos, ~358Mb), llenando innecesariamente
+la mem\'oria RAM, y impidiendonos operar con aun m\'as im\'agenes.
+
+
+\subsection{Importancia de los autovectores}
+
+Leyendo la literatura de m\'etodos computaciones aplicados al algebra lineal, es
+imposible evitar toparse constantemente con los autovectores y autovalores. Su
+uso atravieza todas las \'areas de los m\'etodos num\'ericos. Son cruciales
+en los motores gr\'aficos, a la hora de caracterizar transformaciones t\'ipicas.
+Aparecen en las ciencias f\'isicas como formas de resolver problemas de movimiento,
+vibraci\'on, y fuerzas mec\'anicas.
+
+El uso dado en este trabajo fue para obtener caraterizaciones de los datos utilizando la 
+descomposici\'on en autovectores, y de esa manera poder correlacionar distintos puntos que
+tengan diferencias dificiles de describir. Aprendimos que la t\'ecnica de descomponer en autovectores 
+es fundamental para tener en cuenta a la hora de resolver problemas \textit{fuzzy}, donde
+el an\'alisis de componentes principales puede traer a luz la verdadera variabilidad de los datos.
+
+
+\subsection{Mecanismo de reconocimiento}
+Idea sencilla norma 2 anda mejor que cosas mas rebuscadas.
+
+\subsection{M\'as puntos de datos, no implican mejores respuestas}
