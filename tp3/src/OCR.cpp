@@ -318,13 +318,15 @@ int main()
 		distancias.resize(training_count);
 		for(int j=0;j<training_count;j++)
 		{
-			distancias[i] = make_pair(dist(tc[j],vec),j);
+			distancias[j] = make_pair(dist(tc[j],vec),j);
 		}
 		sort(distancias.begin(),distancias.end());
 		for(int j=0;j<10;j++)
 			cant[j] = 0;
 		for(int j=0;j<100;j++)
+		{
 			cant[labels[distancias[j].second]]++;
+		}
 		int cualEs = 0;
 		for(int j=0;j<10;j++)
 		if(cant[j]>cant[cualEs])
