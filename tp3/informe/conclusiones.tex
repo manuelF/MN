@@ -18,7 +18,9 @@ En particular, por ejemplo, si usamos la funci\'on \texttt{svd} de MATLAB, se ge
 autom\'aticamente las 3 matrices de la factorizaci\'on, pero solamente nos interesa
 la V' (de 784 x 784 elementos). Sin embargo, se genera y guarda tambien la U ( de hasta
 60000 x 60000 elementos, ~26Gb) y S (de hasta 60000 x 784 elementos, ~358Mb), llenando innecesariamente
-la mem\'oria RAM, y impidiendonos operar con aun m\'as im\'agenes.
+la mem\'oria RAM, y impidiendonos operar con aun m\'as im\'agenes. Lamentablemente
+no contamos con mas de 16Gb de RAM, por lo cual los experimentos m\'as ``jugosos'' tuvieron que 
+quedar afuera.
 
 
 \subsection{Importancia de los autovectores}
@@ -38,6 +40,37 @@ el an\'alisis de componentes principales puede traer a luz la verdadera variabil
 
 
 \subsection{Mecanismo de reconocimiento}
-Idea sencilla norma 2 anda mejor que cosas mas rebuscadas.
+
+Las t\'ecnicas que utilizamos para experimentar reconocimiento nos dieron
+la pauta de  este es el campo que mas se puede seguir explorando, sea rastreando la literatura
+correspondiente como para intentar innovar con alg\'un m\'etodo \'unico e interesante. 
+
+Lo que fue realmente notable fue que el uso de ideas que nosotros creiamos mas ``inteligentes'',
+en realidad resultaron ser peor que la mas \textit{naif}, de distancia euclidia a las medias, para
+casi cualquier cantidad de componentes principales.
+
+Esto nos lleva a pensar que el centro de masas de las im\'agenes de entrenamiento seg\'un lo calculamos
+nosotros (siguiendo el enunciado y [Sirovich87]) es tal vez una forma \'optima de reconocer
+dada la creacion de la matriz de transformacion (la V de covarianza). Si se generase de otra manera esa
+V, creemos que puede haber m\'etodos diferentes que logren un buen reconocimiento tambi\'en.
+
 
 \subsection{M\'as puntos de datos, no implican mejores respuestas}
+
+La cantidad de im\'agenes de entrenamiento que deberiamos usar fue un motivo de discusi\'on y hipotesis
+dentro del grupo. Claramente quisimos usar todas las que pudieramos, intentando emplear al m\'aximo el 
+uso del corpus brindado. La contrapartida fue el tiempo de ejecuci\'on. Incluso habiendo implementado
+la factorizaci\'on de HouseHolder \'optimo (O($n^3$)), resultaba inaceptable que tardara mas de 24hs
+el c\'alculo de los autovectores de la matriz de covarianza con un $\epsilon = 1e-5$. Implementamos 
+directivas de paralelizaci\'on que pudieran bajar esta complejidad (aunque sea multiplicando por una 
+constante mas chica). Sin embargo, el tiempo de ejecuci\'on siguio siendo inaceptablemente alto.
+
+Logramos calcular matrices de covarianza hasta para 30.000 im\'agenes de entrenamiento, pero cuando
+corrimos los experimentos, el uso de las matrices m\'as ricas no aport\'o casi a un mejor reconocimiento.
+
+Nuestra hipotesis sostiene que esto es asi es porque en el corpus esta bien y apropiadamente 
+representado cada integrante (d\'igito). Creemos que en problemas de reconocimiento de caras por ejemplo, con
+muy pocas muestras de cada integrante, seria escencial tener emplear el corpus al m\'aximo para poder
+tener todos los detalles posibles para hacer un mejor an\'alisis.
+
+
