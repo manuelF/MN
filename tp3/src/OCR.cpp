@@ -151,7 +151,7 @@ void householder(vector<vector<double> > &A)
 	return;
 }
 
-const double delta = 1000;
+const double delta = 1e-5;
 
 int iteraciones;
 
@@ -242,12 +242,12 @@ double dist(vector<double> &v1, vector<double> &v2)
 int main()
 {
 	int k = 28*28;
-	FILE* v = freopen("../datos/trainingImages.txt","r",stdin);
+	FILE* v = fopen("../datos/trainingImages.txt","r");
 	int n, t;
     int g;
     const int training_count = 5000;
     const int test_count = 1000;
-	cin >> n >> t;
+	fscanf(v,"%d %d",&n,&t);
 	input.clear();
 	input.resize(training_count,vector<double>(t));
 	testImages.resize(test_count,vector<double>(t));
@@ -255,35 +255,58 @@ int main()
     {
         for(int j=0;j<t;j++)
         {
-            g = scanf("%lf",&input[i][j]);
+            g = fscanf(v,"%lf",&input[i][j]);
         }
     }
     for(int i=0;i<test_count;i++)
     {
 		for(int j=0;j<t;j++)
 		{
-			g = scanf("%lf",&testImages[i][j]);
+			g = fscanf(v,"%lf",&testImages[i][j]);
 		}
 	}
-    v = freopen("../datos/trainingLabels.txt","r",stdin);
-    cin >> n;
+	fclose(v);
+    v = fopen("../datos/trainingLabels.txt","r");
+    fscanf(v,"%d",&n);
     labels.resize(training_count);
     testLabels.resize(test_count);
     for(int i=0;i<training_count;i++)
     {
-        g = scanf("%d",&labels[i]);
+        g = fscanf(v,"%d",&labels[i]);
     }
     for(int i=0;i<test_count;i++)
     {
-		g = scanf("%d",&testLabels[i]);
+		g = fscanf(v,"%d",&testLabels[i]);
 	}
-    generateX();
-    cerr << 1 << endl;
-    generateMx();
-    eig(Mx,av);
-    cerr << 3 << endl;
+	fclose(v);
+	v = fopen("V.txt","r");
+	if(v==NULL)
+	{
+        generateX();
+        generateMx();
+        eig(Mx,av);
+        fclose(v);
+        v = fopen("V.txt","w");
+        fprintf(v,"%d %d\n",av.size(),av[0].size());
+        for(int i=0;i<av.size();i++)
+        {
+            for(int j=0;j<av[0].size();j++)
+                fprintf(v,"%.6lf ",av[i][j]);
+            fprintf(v,"\n");
+        }
+	}
+	else
+	{
+	    int N,M;
+	    fscanf(v,"%d %d",&N,&M);
+	    av.clear();
+	    av.resize(N,vector<double>(M));
+	    for(int i=0;i<N;i++)
+	    for(int j=0;j<M;j++)
+            fscanf(v,"%lf",&av[i][j]);
+
+	}
     fillTC(k);
-    cerr << 4 << endl;
     vector<double> vec;
     vector<pair<double,int> > distancias;
     vector<int> cant(10);
