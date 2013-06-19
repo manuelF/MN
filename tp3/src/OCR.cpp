@@ -151,7 +151,7 @@ void householder(vector<vector<double> > &A)
 	return;
 }
 
-const double delta = 1e-5;
+const double delta = 15;
 
 int iteraciones;
 
@@ -241,7 +241,8 @@ double dist(vector<double> &v1, vector<double> &v2)
 
 int main()
 {
-	int k = 28*28;
+    int imp = 1; // esto deberia ser un parametro al igual que k
+	int k = 300;
 	FILE* v = fopen("../datos/trainingImages.txt","r");
 	int n, t;
     int g;
@@ -312,30 +313,69 @@ int main()
     vector<int> cant(10);
     int bien = 0;
     int mal = 0;
-    for(int i=0;i<test_count;i++)
+    if(imp==0)
     {
-		vec = calctc(testImages[i],k);
-		distancias.resize(training_count);
-		for(int j=0;j<training_count;j++)
-		{
-			distancias[j] = make_pair(dist(tc[j],vec),j);
-		}
-		sort(distancias.begin(),distancias.end());
-		for(int j=0;j<10;j++)
-			cant[j] = 0;
-		for(int j=0;j<100;j++)
-		{
-			cant[labels[distancias[j].second]]++;
-		}
-		int cualEs = 0;
-		for(int j=0;j<10;j++)
-		if(cant[j]>cant[cualEs])
-			cualEs = j;
-		if(testLabels[i]==cualEs)
-			bien++;
-		else
-			mal++;
-	}
+        for(int i=0;i<test_count;i++)
+        {
+            vec = calctc(testImages[i],k);
+            distancias.resize(training_count);
+            for(int j=0;j<training_count;j++)
+            {
+                distancias[j] = make_pair(dist(tc[j],vec),j);
+            }
+            sort(distancias.begin(),distancias.end());
+            for(int j=0;j<10;j++)
+                cant[j] = 0;
+            for(int j=0;j<100;j++)
+            {
+                cant[labels[distancias[j].second]]++;
+            }
+            int cualEs = 0;
+            for(int j=0;j<10;j++)
+            if(cant[j]>cant[cualEs])
+                cualEs = j;
+            if(testLabels[i]==cualEs)
+                bien++;
+            else
+                mal++;
+        }
+    }
+    else if(imp == 1)
+    {
+        vector<double> promedio[10];
+        int cuantos[10];
+        memset(cuantos,0,sizeof(cuantos));
+        for(int i=0;i<10;i++)
+        {
+            promedio[i].clear();
+            promedio[i].resize(k,0);
+        }
+        for(int i=0;i<training_count;i++)
+        {
+            cuantos[labels[i]]++;
+            for(int j=0;j<k;j++)
+                promedio[labels[i]][j] += tc[i][j];
+        }
+        for(int i=0;i<10;i++)
+        for(int j=0;j<k;j++)
+        if(cuantos[i]!=0)
+            promedio[i][j] /= (double)cuantos[i];
+        for(int i=0;i<test_count;i++)
+        {
+            vec = calctc(testImages[i],k);
+            distancias.resize(10);
+            for(int j=0;j<10;j++)
+            {
+                distancias[j] = make_pair(dist(promedio[j],vec),j);
+            }
+            sort(distancias.begin(),distancias.end());
+            int cualEs = distancias[0].second;
+            if(testLabels[i]==cualEs)
+                bien++;
+            else
+                mal++;
+        }
+    }
 	cout << bien <<" "<<mal<<" " << (double)bien/(double)(bien+mal)<< endl;
     return 0;
 }
