@@ -25,20 +25,21 @@ Una conclusi\'on sacada a priori indica que para reconstruir las im\'agenes de l
 y consecuentemente perder la menor cantidad de informaci\'on posible, es menester conservar la mayor cantidad
 de componentes principales de la im\'agen. 
 
-Lo que buscamos nosotros es, dado una im\'agen de un digito, identificar cual es. La hipotesis
-que asumimos a lo largo de todo este trabajo es que las distintas im\'agenes de un mismo digito van 
-a tener ``similares'' componentes principales. Lo que vamos a hacer es buscar, dada una im\'agen cualquiera
-ver a cual se parece m\'as para poder identificarlo.
+El objetivo principal del trabajo es, dada una im\'agen conteniendo la representaci\'on del d\'igito (3,5,8), 
+identificar a cual corresponde. La hipotesis asumida a lo largo del trabajo es que las distintas im\'agenes 
+de un mismo digito van poseen caracter\'isticas ``similares'' en sus componentes principales. 
+El procedimiento se encarga de buscar, dada una im\'agen cualquiera, y realizar el matching correspondiente 
+para determinar a que d\'igito parece m\'as y as\'i poder identificarlo.
 
-Para hacer esto, vamos a tener que generar una m\'atriz que contenga las covarianzas de todas las
-im\'agenes de entrenamiento. Esto se obtiene con una matriz $M \in \mathbb{R}^{n * m}$, con $n$ cantidad
+El procedimiento consta, en t\'erminos generales, de la generaci\'on de una m\'atriz de covarianza surgente 
+de las im\'agenes de entrenamiento. Esto se obtiene con una matriz $M \in \mathbb{R}^{n * m}$, con $n$ cantidad
 de im\'agenes de entrenamiento y $m$ cantidad de pixeles por im\'agen. Luego, se define M como:
 
 $M_i = \frac{(Imagen_i - \mu_{Imagenes})}{\sqrt(n-)}$
 
-Para obtener la covarianza, deberiamos obtener $M^t M$, esto va a resultar en una matriz $M' \in \mathbb{R}^{m * m}$.
-De esta matriz $M'$ debemos conseguir los autovectores, para poder hacer al descomposici\'on apropiadamente.
+Para obtener la covarianza, se debe obtener $M^t M$, esto resulta en una matriz $M' \in \mathbb{R}^{m * m}$.
+De esta matriz $M'$ es posible extraer los autovectores, para poder hacer al descomposici\'on apropiadamente.
 Los autovectores de $M'$ tambien se pueden obtener como la matriz $V^t$ de la factorizaci\'on SVD, $A=U\Sigma V^t$.
 
-Una vez obtenida la matriz $V^t$ de autovectores de la covarianza, se puede proceder a los distintos m\'etodos de
+Una vez obtenida la matriz $V^t$ de autovectores de la covarianza, se procede a uno de los diferentes m\'etodos de
 identificaci\'on de im\'agenes.
