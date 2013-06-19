@@ -1,22 +1,28 @@
 \section{Introducci\'on}
 
-En el presente trabajo vamos a estudiar el mecanismo de reconocimiento autom\'atico de 
-im\'agenes mediante el an\'alisis de componentes principales. 
+El siguiente trabajo consiste en el estudio del mecanismo de reconocimiento autom\'atico 
+en im\'agenes mediante el an\'alisis de componentes principales. Para simplificar la
+experimentaci\'on se utilizan im\'agenes que representan tan solo 3 s\'imbolos distintos
+(3, 5 y 8).
 
-Este \'analisis fue primeramente llevado a cabo en [Sirovich87] y [Turk91]. Estos trabajos
-reconocen el an\'alisis de componentes principales como herramientas te\'oricas poderosas
-a la hora de buscar caracterizaciones autom\'aticas en im\'agenes (en  sus casos, rostros).
+Este tipo de an\'alisis proviene del trabajo llevado acabo en [Sirovich89] y [Turk91]. Estos
+trabajos reconocen al an\'alisis de componentes principales como herramientas te\'oricas poderosas
+a la hora de buscar caracterizaciones autom\'aticas en im\'agenes. Estos papers se enfocan en el
+an\'alisis de rostros, una disciplina con un grado de complejidad superior al estudiado en este
+trabajo. 
 
-La t\'ecnica se basa fundamentalmente en el hecho que las im\'agenes en $\mathbb{R}^{n * m}$ que queremos reconocer
-no son variables aleatorias uniformemente distribuidas, sino que hay funci\'on caja negra que genera
-estas im\'agenes (en nuestro caso, que los digitos se dibujan de maneras parecidas, como siguiendo un trazo mental).
+La t\'ecnica se basa fundamentalmente en el hecho que las im\'agenes en $\mathbb{R}^{n * m}$ las cuales se
+quiere reconocer no son variables aleatorias uniformemente distribuidas, sino que existe una funci\'on caja 
+negra que genera estas im\'agenes (en nuestro caso, que los digitos se dibujan de maneras parecidas, 
+como siguiendo un trazo mental).
 
-Como hemos podido observar en el caso de, por ejemplo, la esteganografia, si a una matriz le alteramos las
-componentes principales de menor magnitud, la matriz reconstruida se altera bastante poco. Esto nos da
-la pauta de que aportan menor cantidad de ``informaci\'on'' estas componentes que las de mayor magnit\'ud.
+Como hemos podido observar en el caso de, por ejemplo, la esteganograf\'ia, si a una matriz se le alteran
+las componentes principales de menor magnitud, la alteraci\'on en la matriz reconstruida es baja. 
+Este fen\'omeno nos la pauta de que estas componentes aportan menor cantidad de ``informaci\'on'' 
+que las de mayor magnit\'ud a la hora de representar la im\'agen.
 
-Esto nos indica que para poder reconstruir las im\'agenes de la forma m\'as fiel posible,
-deberiamos perder la menor cantidad de informaci\'on posible, o sea, quedarnos con la mayor cantidad
+Una conclusi\'on sacada a priori indica que para reconstruir las im\'agenes de la forma m\'as fiel posible,
+y consecuentemente perder la menor cantidad de informaci\'on posible, es menester conservar la mayor cantidad
 de componentes principales de la im\'agen. 
 
 Lo que buscamos nosotros es, dado una im\'agen de un digito, identificar cual es. La hipotesis
