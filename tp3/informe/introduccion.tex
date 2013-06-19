@@ -1,1 +1,38 @@
 \section{Introducci\'on}
+
+En el presente trabajo vamos a estudiar el mecanismo de reconocimiento autom\'atico de 
+im\'agenes mediante el an\'alisis de componentes principales. 
+
+Este \'analisis fue primeramente llevado a cabo en [Sirovich87] y [Turk91]. Estos trabajos
+reconocen el an\'alisis de componentes principales como herramientas te\'oricas poderosas
+a la hora de buscar caracterizaciones autom\'aticas en im\'agenes (en  sus casos, rostros).
+
+La t\'ecnica se basa fundamentalmente en el hecho que las im\'agenes en $\mathbb{R}^{n * m}$ que queremos reconocer
+no son variables aleatorias uniformemente distribuidas, sino que hay funci\'on caja negra que genera
+estas im\'agenes (en nuestro caso, que los digitos se dibujan de maneras parecidas, como siguiendo un trazo mental).
+
+Como hemos podido observar en el caso de, por ejemplo, la esteganografia, si a una matriz le alteramos las
+componentes principales de menor magnitud, la matriz reconstruida se altera bastante poco. Esto nos da
+la pauta de que aportan menor cantidad de ``informaci\'on'' estas componentes que las de mayor magnit\'ud.
+
+Esto nos indica que para poder reconstruir las im\'agenes de la forma m\'as fiel posible,
+deberiamos perder la menor cantidad de informaci\'on posible, o sea, quedarnos con la mayor cantidad
+de componentes principales de la im\'agen. 
+
+Lo que buscamos nosotros es, dado una im\'agen de un digito, identificar cual es. La hipotesis
+que asumimos a lo largo de todo este trabajo es que las distintas im\'agenes de un mismo digito van 
+a tener ``similares'' componentes principales. Lo que vamos a hacer es buscar, dada una im\'agen cualquiera
+ver a cual se parece m\'as para poder identificarlo.
+
+Para hacer esto, vamos a tener que generar una m\'atriz que contenga las covarianzas de todas las
+im\'agenes de entrenamiento. Esto se obtiene con una matriz $M \in \mathbb{R}^{n * m}$, con $n$ cantidad
+de im\'agenes de entrenamiento y $m$ cantidad de pixeles por im\'agen. Luego, se define M como:
+
+$M_i = \frac{(Imagen_i - \mu_{Imagenes})}{\sqrt(n-)}$
+
+Para obtener la covarianza, deberiamos obtener $M^t M$, esto va a resultar en una matriz $M' \in \mathbb{R}^{m * m}$.
+De esta matriz $M'$ debemos conseguir los autovectores, para poder hacer al descomposici\'on apropiadamente.
+Los autovectores de $M'$ tambien se pueden obtener como la matriz $V^t$ de la factorizaci\'on SVD, $A=U\Sigma V^t$.
+
+Una vez obtenida la matriz $V^t$ de autovectores de la covarianza, se puede proceder a los distintos m\'etodos de
+identificaci\'on de im\'agenes.
