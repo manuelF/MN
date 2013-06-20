@@ -85,10 +85,14 @@ donde los datos de entrenamiento no cambian. Otros experimentos donde nuevo inpu
 en el m\'etodo podr\'ian tener problemas pero por las condiciones presentadas no es el caso.
 
 \subsection{C\'alculo de la Transformaci\'on Caracter\'istica}
-Para calcular la transformaci\'on caracter\'istica multiplicamos los $k$ autovectores de mayor autovalor por
-la imagen de la cual queremos obtener qu\'e d\'igito representa.
 
+Para calcular la transformaci\'on caracter\'istica multiplicamos los $k$ 
+autovectores cuyos autovalores asociados eran los de valor m\'as significativo 
+por la imagen de la cual queremos obtener qu\'e d\'igito representa.
 
+En este punto finaliza la etapa de entrenamiento del sistema. El cambio de base
+fue realizado acarreando la disminuci\'on significativa de informaci\'on
+redundante. 
 
 \subsection{Reconocimiento de d\'igitos}
 Para reconocer los d\'igitos utilizamos dos algoritmos. El primero de ellos fue tomar distancia (con norma 2) a
