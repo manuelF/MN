@@ -3,7 +3,7 @@
 %%
 %Leemos el input de imagenes y labels
 from=1;
-limit=1000; %cuantas imagenes maximo leemos
+limit=30000; %cuantas imagenes maximo leemos
 width=784;
 
 imgg=double(leerMNISTimage('Training Images',from,limit)); 
@@ -40,7 +40,7 @@ for nro=0:9,
     nrows=size(thisimgg,1);
     M2=zeros(nrows,width);
     %transformamos todas
-    for im=1:nrows ,
+    parfor im=1:nrows ,
         M2(im,:)=(V*thisimgg(im,:)')';
     end
     %guardamos la imagen promedio
@@ -82,6 +82,7 @@ digitprogression=zeros(upperk,10); %Progreso bo3 por digito
 dists=zeros(originalpoints,2); % distancia a todos los puntos
 
 alldists=1;
+normas=0;
 
 for k=1:upperk, %para cada k cantidad de columnas
     hit=0;
@@ -89,17 +90,19 @@ for k=1:upperk, %para cada k cantidad de columnas
     partialhit=zeros(1,3);
     
     for im=1:nrows,
-        transf=(V*test_imgs(im,:)')'; % transformamos una imagen
+        tmp=(V*test_imgs(im,:)')'; % transformamos una imagen        
+        transf=tmp(1:k); %la recortamos a k columnas
+        
         if(alldists==1)
             %sacamos la distanacia norma2 a todas las imagenes de la V
             for id=1:originalpoints, 
-                dists(id,1)=norm(timgg(id,1:k)-transf(1:k),2);            
+                dists(id,1)=norm(timgg(id,1:k)-transf,2);            
             end
             %pongo las labels de los numeros apropiados
             dists(1:originalpoints,2)=labels(1:originalpoints);
             %ordenamos por menor distancia 
             dists=sortrows(dists);
-            %nos quedamos con el top100
+            %nos quedamos con el top200
             dists=dists(1:200,:);
             %el histograma de los 10 digitos nos dice cuanto se repite c/u
             [appears]=hist(dists(:,2),10);
@@ -113,39 +116,43 @@ for k=1:upperk, %para cada k cantidad de columnas
         end
         
         %ahora hacemos las comparaciones de normas
-        mejor_indice_p=[11,11,11];
-               
-        for inorma=1:3,
-            norma=1e16;
-            for comparar=1:10, %comparamos contra todos los mu-digitos
-                q=norm(allmeans(comparar,1:k)-transf(1:k),metodonorma(inorma)); %usando norma euclidia
-                if(q<norma) %nos quedamos con la menor distancia
-                    norma=q;
-                    mejor_indice_p(inorma)=comparar-1;
+        if(normas==1)
+            mejor_indice_p=[11,11,11];
+
+            mediaparcial=allmeans(:,1:k);
+
+            for inorma=1:3,
+                norma=1e16;
+                for comparar=1:10, %comparamos contra todos los mu-digitos
+                    q=norm(mediaparcial(comparar,:)-transf,metodonorma(inorma)); %usando norma euclidia
+                    if(q<norma) %nos quedamos con la menor distancia
+                        norma=q;
+                        mejor_indice_p(inorma)=comparar-1;
+                    end
                 end
             end
-        end
-        %nos quedamos ademas con el digito reconocido mas repetido, y defaultea en norma2
-        
-        mejor_indice=mejor_indice_p(2);
-        if((mejor_indice_p(1)==mejor_indice_p(3))||(mejor_indice_p(1)==mejor_indice_p(2)))
-            mejor_indice=mejor_indice_p(1);
-        end
-        if((mejor_indice_p(2)==mejor_indice_p(3))||(mejor_indice_p(1)==mejor_indice_p(2)))
+            %nos quedamos ademas con el digito reconocido mas repetido, y defaultea en norma2
+
             mejor_indice=mejor_indice_p(2);
-        end
-        %contabilizamos los hits parciales, si alguno le pego        
-        for inorma=1:3,
-            if (mejor_indice_p(inorma)==test_labels(im))
-                partialhit(inorma)=partialhit(inorma)+1;
-                partialdigitprogression(k,inorma,test_labels(im)+1)=1+partialdigitprogression(k,inorma,test_labels(im)+1);
+            if((mejor_indice_p(1)==mejor_indice_p(3))||(mejor_indice_p(1)==mejor_indice_p(2)))
+                mejor_indice=mejor_indice_p(1);
             end
-        end
-        
-        %contabilizamos el hit del bo3
-        if(mejor_indice==test_labels(im)) 
-            hit=hit+1;
-            digitprogression(k,mejor_indice+1)=1+digitprogression(k,mejor_indice+1);
+            if((mejor_indice_p(2)==mejor_indice_p(3))||(mejor_indice_p(1)==mejor_indice_p(2)))
+                mejor_indice=mejor_indice_p(2);
+            end
+            %contabilizamos los hits parciales, si alguno le pego        
+            for inorma=1:3,
+                if (mejor_indice_p(inorma)==test_labels(im))
+                    partialhit(inorma)=partialhit(inorma)+1;
+                    partialdigitprogression(k,inorma,test_labels(im)+1)=1+partialdigitprogression(k,inorma,test_labels(im)+1);
+                end
+            end
+
+            %contabilizamos el hit del bo3
+            if(mejor_indice==test_labels(im)) 
+                hit=hit+1;
+                digitprogression(k,mejor_indice+1)=1+digitprogression(k,mejor_indice+1);
+            end
         end
         
     end
@@ -154,11 +161,16 @@ for k=1:upperk, %para cada k cantidad de columnas
     progression(k)=100*(hit/(nrows));
     partialprogression(k,:)=100*(partialhit(:)/(nrows));
     alldistanceprogression(k)=100*(hitdistance/(nrows));
-    for nrm=1:3,        
-            partialdigitprogression(k,nrm,:)=100*(partialdigitprogression(k,nrm,:)./qty(:));        
+    for  nrm=1:3,
+        for dig=1:10,
+            partialdigitprogression(k,nrm,dig)=100*(partialdigitprogression(k,nrm,dig)/qty(dig));        
+        end
     end
-    alldistancedigitprogression(k,:)=100*(alldistancedigitprogression(k,:)/qty(:));
-    digitprogression(k,:)=100*(digitprogression(k,:)./qty(:));
+    
+    for dig=1:10,
+        alldistancedigitprogression(k,dig)=100*(alldistancedigitprogression(k,dig)/qty(dig));
+        digitprogression(k,dig)=100*(digitprogression(k,dig)/qty(dig));
+    end
 end
 
 %Vemos como evoluciona el hitrate a medida que k-> inf, comparamos
@@ -175,11 +187,12 @@ end
 normToUse=3;
 %plot([partialdigitprogression(:,normToUse,1),partialdigitprogression(:,normToUse,2),partialdigitprogression(:,normToUse,3),partialdigitprogression(:,normToUse,4),partialdigitprogression(:,normToUse,5),partialdigitprogression(:,normToUse,6),partialdigitprogression(:,normToUse,7),partialdigitprogression(:,normToUse,8),partialdigitprogression(:,normToUse,9),partialdigitprogression(:,normToUse,10)])
 %plot([digitprogression(:,1),digitprogression(:,2),digitprogression(:,3),digitprogression(:,4),digitprogression(:,5),digitprogression(:,6),digitprogression(:,7),digitprogression(:,8),digitprogression(:,9),digitprogression(:,10)])
+
 plot([alldistancedigitprogression(:,1),alldistancedigitprogression(:,2),alldistancedigitprogression(:,3),alldistancedigitprogression(:,4),alldistancedigitprogression(:,5),alldistancedigitprogression(:,6),alldistancedigitprogression(:,7),alldistancedigitprogression(:,8),alldistancedigitprogression(:,9),alldistancedigitprogression(:,10)])
 legend('[%] 0','[%] 1','[%] 2','[%] 3','[%] 4','[%] 5','[%] 6','[%] 7','[%] 8','[%] 9','Location','SouthEast');
 xlabel('k cantidad de columnas');
 ylabel('% Hitrate por digito');
-title('Hitrate por digito de la deteccion por norma Infinito, para M Covarianza de 1k');
+title('Hitrate por digito de la deteccion por norma 1, para M Covarianza de 30k');
 
 
 %Formas de medir:
