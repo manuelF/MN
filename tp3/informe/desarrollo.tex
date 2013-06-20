@@ -46,10 +46,18 @@ y por lo tanto se realiz\'o el trabajo pr\'actico usando 5.000 imagenes de entre
 
 \subsection{Matriz de Covarianza}
 El primer paso consisti\'o en generar la matriz de covarianza con las 5.000 imagenes tomadas como datos 
-de entrenamiento. Para eso se utiliz\'o la f\'ormula del enunciado. Se gener\'o la matriz $X$ a trav\'es 
-de la sustracci\'on a cada entrada de la matriz del promedio del pixel que representa (promedio de ese 
-pixel en todas las imagenes) y la posterior divisi\'on la matriz por $\sqrt{n-1}$. Para calcular la
-matriz de covarianza, a la que llamamos $Mx$, se realiz\'o el producto $X^tX$. 
+de entrenamiento. Para eso se utiliz\'o la f\'ormula del enunciado.
+
+Se gener\'o la matriz $X$ a trav\'es 
+de la sustracci\'on a cada entrada de la matriz del promedio del pixel que 
+representa (promedio de ese pixel en todas las imagenes) y la posterior 
+divisi\'on la matriz por $\sqrt{n-1}$ seg\'un reza la siguiente formula:
+ 
+$(x_i - \mu)^{t}/\sqrt{n-1}$, y $$X=U \Sigma V^t$$
+
+Para calcular la matriz de covarianza, a la que llamamos $Mx$, se realiz\'o el 
+producto $X^tX$. Este paso es el acercamiento necesario para realizar el cambio
+de base computado para la disminuci\'on en la redundancia de los datos buscada.
 
 \subsection{Factorizaci\'on QR}
 A la hora de calcular la SVD se present\'o la idea de que s\'olo es necesaria la matriz $V$, es por 
