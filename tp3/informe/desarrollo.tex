@@ -1,4 +1,29 @@
 \section{Desarrollo}
+
+\subsection{Herramientas}
+
+Para la realizaci\'on de los experimentos se utilizaron C++ y matlab como lenguajes de
+programaci\'on para los algoritmos principales. Durante la realizaci\'on de este trabajo nos encontramos con 
+la primera barrera en tiempo de corrida de un programa. A la hora de generar la matriz de covarianza tarda
+aproximadamente 5 horas en generarse debido al gran tama\~no de la matriz de entrada. 
+
+El an\'alisis de los resultados y el ploteo de los gr\'aficos se realiz\'o
+mediante el uso del entorno \href{http://www.gnuplot.info/}{GNUPLOT}
+
+El control de los experimentos y las ``recetas'' de las experiencias se ven
+reflejadas en scripts de shell que levantan archivos de datos con tests
+preprogramdos, ejecutan los algoritmos y luego analizan los resultados,
+resumiendolos en output en forma de informaci\'on tabular y gr\'aficos.
+La existencia de un Makefile fue clave a la hora de automatizar tareas de
+compilaci\'on y corrida de tests, para poder ser lo mas automatizados dentro de
+lo posible.
+
+Se utiliz\'o \href{http://www.latex-project.org/}{LaTeX} para la escritura y el formato del informe,
+ manteniendo la estructura de informe del Trabajo Pr\'actico N\'umero 1 y 2 y tambi\'en
+permitiendo expresar estructuras y f\'ormulas matem\'aticas de una manera simple y clara.
+
+\subsection{Manejo de la complejidad del experimento}
+
 La dificultad del desarrollo de este experimento fue un poco m\'as elevada a la de los dos 
 trabajos pr\'acticos anteriores. 
 
@@ -24,7 +49,7 @@ El primer paso consisti\'o en generar la matriz de covarianza con las 5.000 imag
 de entrenamiento. Para eso se utiliz\'o la f\'ormula del enunciado. Se gener\'o la matriz $X$ a trav\'es 
 de la sustracci\'on a cada entrada de la matriz del promedio del pixel que representa (promedio de ese 
 pixel en todas las imagenes) y la posterior divisi\'on la matriz por $\sqrt{n-1}$. Para calcular la
-matriz de covarianza, a la que llamamos $Mx$, se realiz\'o el producto $X^tX$.
+matriz de covarianza, a la que llamamos $Mx$, se realiz\'o el producto $X^tX$. 
 
 \subsection{Factorizaci\'on QR}
 A la hora de calcular la SVD se present\'o la idea de que s\'olo es necesaria la matriz $V$, es por 
@@ -41,9 +66,15 @@ siendo $n = 784$. Como el programa resultante tard\'o m\'as de 5 horas en calcul
 el archivo V.txt con esta informaci\'on precalculada, si el archivo no exist\'ia previamente entonces se 
 genera la matriz y luego se guarda en el archivo, caso contrario, se realiza la lectura del archivo.
 
+Este procedimiento que involucra la generaci\'on de una matriz est\'atica tiene tiene sentido en un contexto
+donde los datos de entrenamiento no cambian. Otros experimentos donde nuevo input puede ser fuente de mejoras
+en el m\'etodo podr\'ian tener problemas pero por las condiciones presentadas no es el caso.
+
 \subsection{C\'alculo de la Transformaci\'on Caracter\'istica}
 Para calcular la transformaci\'on caracter\'istica multiplicamos los $k$ autovectores de mayor autovalor por
 la imagen de la cual queremos obtener qu\'e d\'igito representa.
+
+
 
 \subsection{Reconocimiento de d\'igitos}
 Para reconocer los d\'igitos utilizamos dos algoritmos. El primero de ellos fue tomar distancia (con norma 2) a
