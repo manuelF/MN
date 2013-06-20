@@ -30,6 +30,20 @@ $\Sigma_{ij} = \mathrm{cov}(X_i, X_j) = \mathrm{E}\begin{bmatrix} (X_i - \mu_i)(
 
 con $\mu_i = \mathrm{E}(X_i)$.
 
+\subsection{Descomposici\'on en valores singulares (SVD)}
+
+La descomposici\'on en valores singulares de una matriz $\mathbf{M} \in \mathbb{R^{mxn}}$ es una factorizaci\'on de la forma $\mathbf{M} = 
+\mathbf{U} \boldsymbol{\Sigma} \mathbf{V}^T$ donde:
+
+\begin{itemize}
+  \item $\mathbf{U} \in \mathbb{R^{mxn}}$ con columnas ortogonales.
+  \item $\boldsymbol{\Sigma} \in \mathbb{R^{nxn}}$ es una matriz diagonal con elementos no negativos y los elementos de la
+diagonal constituyen los valores singulares de la matriz original.
+  \item $\mathbf{V} \in \mathbb{R^{nxn}}$ es una matriz ortogonal.
+\end{itemize}
+
+La descomposici\'on en valores singulares tiene diversos usos entre los que se encuentra la resoluci\'on de
+sistemas lineales y la b\'usqueda de matrices pseudoinversas.
 
 \subsection{Introducci\'on al trabajo}
 
