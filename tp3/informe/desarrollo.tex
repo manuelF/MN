@@ -3,12 +3,12 @@
 \subsection{Herramientas}
 
 Para la realizaci\'on de los experimentos se utilizaron C++ y matlab como lenguajes de
-programaci\'on para los algoritmos principales. Durante la realizaci\'on de este trabajo nos encontramos con 
+programaci\'on para los algoritmos principales. Durante la realizaci\'on de este trabajo nos encontramos con
 la primera barrera en tiempo de corrida de un programa. A la hora de generar la matriz de covarianza tarda
-aproximadamente 5 horas en generarse debido al gran tama\~no de la matriz de entrada. 
+aproximadamente 5 horas en generarse debido al gran tama\~no de la matriz de entrada.
 
 El an\'alisis de los resultados y el ploteo de los gr\'aficos se realiz\'o
-mediante el uso del entorno \href{http://www.gnuplot.info/}{GNUPLOT}
+mediante el uso del entorno \href{http://www.matlab.com/}{MATLAB}
 
 El control de los experimentos y las ``recetas'' de las experiencias se ven
 reflejadas en scripts de shell que levantan archivos de datos con tests
@@ -18,14 +18,14 @@ La existencia de un Makefile fue clave a la hora de automatizar tareas de
 compilaci\'on y corrida de tests, para poder ser lo mas automatizados dentro de
 lo posible.
 
-Se utiliz\'o \href{http://www.latex-project.org/}{LaTeX} para la escritura y el formato del informe,
- manteniendo la estructura de informe del Trabajo Pr\'actico N\'umero 1 y 2 y tambi\'en
+Se utiliz\'o \href{http://www.latex-project.org/}{\LaTeX} para la escritura y el formato del informe,
+manteniendo la estructura de informe del Trabajo Pr\'actico N\'umero 1 y 2 y tambi\'en
 permitiendo expresar estructuras y f\'ormulas matem\'aticas de una manera simple y clara.
 
 \subsection{Manejo de la complejidad del experimento}
 
-La dificultad del desarrollo de este experimento fue un poco m\'as elevada a la de los dos 
-trabajos pr\'acticos anteriores. 
+La dificultad del desarrollo de este experimento fue un poco m\'as elevada a la de los dos
+trabajos pr\'acticos anteriores.
 En primer lugar, se decidi\'o hacer primero todo el trabajo pr\'actico en Matlab para obtener
 una pronta aproximaci\'on a los resultados, siendo el desarrollo ampliamente m\'as comodo que
 en C++ (dado que la SVD forma parte de la libreria estandar de Matlab). Una vez implementado
@@ -39,24 +39,31 @@ del mismo en C++. La primera variaci\'on significativa en la implementaci\'on se
 descubrimiento de que no es necesario calcular la SVD, sino s\'olo la matriz $V$, resultando
 en el c\'alculo de una matriz de $60.000 \times 784$ en vez de una de $60.000 \times 60.000$.
 A\'un as\'i, consideraciones posteriores sugirieron que 60.000 im\'agenes era un n\'umero por
-dem\'as excesivo y por lo tanto el experimento pas\'o operar con s\'olo 5.000 imagenes.
-Al analizar los resultados se corrobor\'o que 5000 im\'agenes conforman una muestra significativa,
-y por lo tanto se realiz\'o el trabajo pr\'actico usando 5.000 imagenes de entrenamiento y 1.000 imagenes de test.
+dem\'as excesivo y por lo tanto el experimento pas\'o operar con s\'olo 30.000 imagenes.
+Al analizar los resultados se corrobor\'o que 30.000 im\'agenes conforman una muestra significativa,
+y por lo tanto se realiz\'o el trabajo pr\'actico usando 30.000 imagenes de entrenamiento y 500 imagenes de test.
 
 \subsection{Matriz de Covarianza}
-El primer paso consisti\'o en generar la matriz de covarianza con las 5.000 imagenes tomadas como datos 
+
+El primer paso consisti\'o en generar la matriz de covarianza con las 30.000 imagenes tomadas como datos
 de entrenamiento. Para eso se utiliz\'o la f\'ormula del enunciado.
 
-Se gener\'o la matriz $X$ a trav\'es 
-de la sustracci\'on a cada entrada de la matriz del promedio del pixel que 
-representa (promedio de ese pixel en todas las imagenes) y la posterior 
+Se gener\'o la matriz $X$ a trav\'es
+de la sustracci\'on a cada entrada de la matriz del promedio del pixel que
+representa (promedio de ese pixel en todas las imagenes) y la posterior
 divisi\'on la matriz por $\sqrt{n-1}$ seg\'un reza la siguiente formula:
- 
+
 $(x_i - \mu)^{t}/\sqrt{n-1}$, y $$X=U \Sigma V^t$$
 
-Para calcular la matriz de covarianza, a la que llamamos $Mx$, se realiz\'o el 
+Para calcular la matriz de covarianza, a la que llamamos $Mx$, se realiz\'o el
 producto $X^tX$. Este paso es el acercamiento necesario para realizar el cambio
 de base computado para la disminuci\'on en la redundancia de los datos buscada.
+
+El primer paso consisti\'o en generar la matriz de covarianza con las 30.000 imagenes tomadas como datos
+de entrenamiento. Para eso se utiliz\'o la f\'ormula del enunciado. Se gener\'o la matriz $X$ a trav\'es
+de la sustracci\'on a cada entrada de la matriz del promedio del pixel que representa (promedio de ese
+pixel en todas las imagenes) y la posterior divisi\'on la matriz por $\sqrt{n-1}$. Para calcular la
+matriz de covarianza, a la que llamamos $Mx$, se realiz\'o el producto $X^tX$.
 
 \subsection{Factorizaci\'on QR}
 A la hora de calcular la SVD se present\'o la idea de que s\'olo es necesaria la matriz $V$, es por
@@ -69,7 +76,7 @@ resultado de la corrida del experimento con $10^{-5}$ en lugar de 15, donde conv
 entre 14 y 15 por temas de precisi\'on.
 
 Para calcular la matriz $V^t$, se utiliz\'o la factorizaci\'on de Householder y la se implement\'o en $O(n^3)$
-siendo $n = 784$. Como el programa resultante tard\'o m\'as de 15 horas en calcular la matriz $V$ usando 30000 muestras,
+siendo $n = 784$. Como el programa resultante tard\'o m\'as de 15 horas en calcular la matriz $V$ usando 30.000 muestras,
 se gener\'o el archivo V.txt con esta informaci\'on precalculada, si el archivo no exist\'ia previamente
 entonces se genera la matriz y luego se guarda en el archivo, caso contrario, se realiza la lectura del archivo.
 

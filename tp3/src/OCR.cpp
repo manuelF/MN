@@ -241,7 +241,7 @@ double dist(vector<double> &v1, vector<double> &v2)
 
 int main()
 {
-    int imp = 1; // esto deberia ser un parametro al igual que k
+    int imp =0; // esto deberia ser un parametro al igual que k
 	int k = 300;
 	FILE* v = fopen("../datos/trainingImages.txt","r");
 	int n, t;

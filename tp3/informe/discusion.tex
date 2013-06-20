@@ -39,7 +39,15 @@ de generarla.
 
 Experimentamos tomando 1000, 5000, 15000 y 30000 imagenes (m\'as no usamos porque era
 realmente excesivo el tiempo de c\'alculo. Con m\'as tiempo hubieramos podido paralelizar
-y poder correr en un cluster o en otros dispositivos esto.)
+y poder correr en un cluster o en GPGPU.). Como se ve, no hay mejores resultados
+utilizando matrices de transformaci\'on basadas en menos im\'agenes, por lo que
+si ya hemos generado una grande, conviene seguir usandola mientras tengamos que resolver
+el mismo problema.
+
+El \'unico punto delicado en estos casos, de entrenamiento offline, es tener cuidado
+de no mezclar datos de entrenamiento con datos de test. Esto podria ocasionar que
+los hitrates sean excesivamente m\'as altos. Es preferible usar matrices generadas
+con menos puntos de datos que con m\'as pero ``contaminados''.
 
 
 

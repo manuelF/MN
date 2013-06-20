@@ -32,14 +32,14 @@ con $\mu_i = \mathrm{E}(X_i)$.
 
 \subsection{Descomposici\'on en valores singulares (SVD)}
 
-La descomposici\'on en valores singulares de una matriz $\mathbf{M} \in \mathbb{R^{mxn}}$ es una factorizaci\'on de la forma $\mathbf{M} =
+La descomposici\'on en valores singulares de una matriz $\mathbf{M} \in \mathbb{R}^{m \times n}$ es una factorizaci\'on de la forma $\mathbf{M} =
 \mathbf{U} \boldsymbol{\Sigma} \mathbf{V}^T$ donde:
 
 \begin{itemize}
-  \item $\mathbf{U} \in \mathbb{R^{mxn}}$ con columnas ortogonales.
-  \item $\boldsymbol{\Sigma} \in \mathbb{R^{nxn}}$ es una matriz diagonal con elementos no negativos y los elementos de la
+  \item $\mathbf{U} \in \mathbb{R}^{m \times n}$ con columnas ortogonales.
+  \item $\boldsymbol{\Sigma} \in \mathbb{R}^{n \times n}$ es una matriz diagonal con elementos no negativos y los elementos de la
 diagonal constituyen los valores singulares de la matriz original.
-  \item $\mathbf{V} \in \mathbb{R^{nxn}}$ es una matriz ortogonal.
+  \item $\mathbf{V} \in \mathbb{R}^{n \times n}$ es una matriz ortogonal.
 \end{itemize}
 
 La descomposici\'on en valores singulares tiene diversos usos entre los que se encuentra la resoluci\'on de
@@ -58,7 +58,7 @@ a la hora de buscar caracterizaciones autom\'aticas en im\'agenes. Estos papers 
 an\'alisis de rostros, una disciplina con un grado de complejidad superior al estudiado en este
 trabajo.
 
-La t\'ecnica se basa fundamentalmente en el hecho que las im\'agenes en $\mathbb{R}^{n * m}$ las cuales se
+La t\'ecnica se basa fundamentalmente en el hecho que las im\'agenes en $\mathbb{R}^{n \times m}$ las cuales se
 quiere reconocer no son variables aleatorias uniformemente distribuidas, sino que existe una funci\'on caja
 negra que genera estas im\'agenes (en nuestro caso, que los digitos se dibujan de maneras parecidas,
 como siguiendo un trazo mental).
@@ -79,12 +79,12 @@ El procedimiento se encarga de buscar, dada una im\'agen cualquiera, y realizar 
 para determinar a que d\'igito parece m\'as y as\'i poder identificarlo.
 
 El procedimiento consta, en t\'erminos generales, de la generaci\'on de una m\'atriz de covarianza surgente
-de las im\'agenes de entrenamiento. Esto se obtiene con una matriz $M \in \mathbb{R}^{n * m}$, con $n$ cantidad
+de las im\'agenes de entrenamiento. Esto se obtiene con una matriz $M \in \mathbb{R}^{n \times m}$, con $n$ cantidad
 de im\'agenes de entrenamiento y $m$ cantidad de pixeles por im\'agen. Luego, se define M como:
 
 $M_i = \frac{(Imagen_i - \mu_{Imagenes})}{\sqrt{n-1}}$
 
-Para obtener la covarianza, se debe obtener $M^t M$, esto resulta en una matriz $M' \in \mathbb{R}^{m * m}$.
+Para obtener la covarianza, se debe obtener $M^t M$, esto resulta en una matriz $M' \in \mathbb{R}^{m \times m}$.
 De esta matriz $M'$ es posible extraer los autovectores, para poder hacer al descomposici\'on apropiadamente.
 Los autovectores de $M'$ tambien se pueden obtener como la matriz $V^t$ de la factorizaci\'on SVD, $A=U\Sigma V^t$.
 
