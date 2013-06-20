@@ -1,1 +1,62 @@
 \section{Discusion}
+
+
+\subsection{Clasificaci\'on de los me\'todos empleados}
+Los metodos que implementamos fueron b\'asicamente 3. La norma 2 de distancia a
+los centros de masas de cada d\'igito, la mejor de las 3 normas (norma 2, norma 1 y norma infinito)
+hacia los centros de masas y el m\'as repetido de los 100 vecinos m\'as cercanos al punto.
+
+El m\'etodo de la norma dos, es sorprendentemente bueno. Cuando se superan las 30
+columnas mayormente el hitrate estabiliza en un valor razonablmente alto. Si lo
+comparamos contra norma 1, es un poco mas alto el hitrate pero no excesivo. Ahora
+cuando lo miramos contra norma infinito, vemos que la norma 2 es un m\'etodo
+claramente superior. Como la norma infinito se define como el m\'aximo componente,
+es de esperar que alguna de las componentes de los puntos transformados tenga mayor
+peso que otras, por lo que no es extra\~no ver que aumentando la cantidad de componentes
+no varia en nada la detecci\'on.
+
+Viendo que las mediciones de norma 1 y norma infinito a veces discrepaban de lo que
+decia norma 2, consideramos utilizarlas tambien para hacer otro m\'etodo, el de \textit{mejor
+de 3}. Es decir, si coinciden 2 de las 3 normas, la usamos (por m\'as que coincidan la
+infinito y la norma 1). Si no hay ningun match, hacemos fallback en norma 2. En este caso
+nos sorprendio que los resultados no mejoraban con respecto al uso \'unico de norma 2.
+Esto se puede ver en \ref{fig:HR30kcv} y en \ref{fig:HRD30kcv-bo3}, en comparaci\'on con
+el de norma 2 en \ref{fig:HRD30kcv-n2}.
+
+Notablemente, la idea de conseguir el m\'as repetido de los 100 vecinos m\'as cercanos
+parece tener sentido, pero experimentalmente no es para nada buena, en varios aspectos.
+No provee una mejor detecci\'on, de hecho es consistentemente peor para cualquier $k>15$.
+Su runtime ademas es enorme, ya que debe hacer norma 2 para todos los otros puntos que
+deseemos considerar, pueden andar en el orden de miles tal vez. En comparacion, el m\'etodo
+de la norma 2 anterior solamente comprueba contra 10 puntos (los centros de masas).
+
+
+\subsection{Tama\~no de los corpus de entrenamiento }
+Un punto fundamental del trabajo consistio en el calculo de la matriz de autovectores
+de la covarianza de las imagenes. En las secciones anteriores se discutio su construcci\'on
+y su calculo. Ac\'a comprobamos la relevancia del tama\~no del corpus usado a la hora
+de generarla.
+
+Experimentamos tomando 1000, 5000, 15000 y 30000 imagenes (m\'as no usamos porque era
+realmente excesivo el tiempo de c\'alculo. Con m\'as tiempo hubieramos podido paralelizar
+y poder correr en un cluster o en otros dispositivos esto.)
+
+
+
+\subsection{Detecci\'on por d\'igito}
+Calcular el Hitrate por digito se nos ocurri\'o tarde, pero son resultados
+sumamente interesantes. Ac\'a podemos apreciar considerablemente que, dentro de
+la detecci\'on de d\'igitos, hay problemas m\'as dificiles que otros.
+
+Por un lado, el digito 1 es el m\'as facil de reconocer. Nuestra hip\'otesis
+es que no es normal dibujarlo con m\'as de un trazo, y eso simplifica mucho la
+descomposici\'on en componentes principales, al tener que capturar unicamente ese
+fen\'omeno.
+
+Por el otro, el digito 5 es much\'isimo m\'as complicado de reconocer, teniendo
+hitrates de una fracci\'on de los otros digitos, incluso con m\'as componentes
+principales. Esto se debe al fenomeno de que es a veces sut\'il la diferencia
+entre los d\'igitos 5, 3 y 8.
+
+%%HACER GRAFICO DE HITRATE CONFUNDIDO ENTRE 5 y 3.
+
