@@ -1,10 +1,7 @@
 \section{Resultados}
 
-Claramente los experimentos mas interesantes consisten en la probabilidad
-de aciertos en la identificaci\'on correcta de digitos.
 
-
-\subsection{Reconocimiento en total}
+\subsection{Promedio de Reconocimiento}
 La m\'etodologia de implementaci\'on fue la siguiente. Se construy\'o una m\'atriz de covarianza utilizando los
 primeros $n$ elementos del dataset \texttt{Training Data}. Luego se tomaron $t$ elementos siguientes como
 im\'agenes de test, con sus correspondientes labels. A estos se les aplicaron las tecnicas de detecci\'on
@@ -12,10 +9,11 @@ que hemos detallado antes y fuimos variando las $k$ cantidad de columnas de las 
 hacer las cuentas de distancia. Los gr\'aficos de HitRate estan hechos en funci\'on de $k$.
 
 Testeamos usando matrices de covarianza entrenadas con cantidad variable de elementos.
+\def \hrwidth {500pt}
 
 \begin{figure}[H]
 \begin {center}
-\includegraphics[width=400pt]{plots/hitrate-1kcv.png}
+\includegraphics[width=\hrwidth]{plots/hitrate-1kcv.png}
 \end {center}
 \caption{Hitrate de detecci\'on de 500 elementos acuerdo a los varios m\'etodos implementados
 usando la matriz de covarianza entrenada con 1000 elementos}
@@ -24,7 +22,7 @@ usando la matriz de covarianza entrenada con 1000 elementos}
 
 \begin{figure}[H]
 \begin {center}
-\includegraphics[width=400pt]{plots/hitrate-5kcv.png}
+\includegraphics[width=\hrwidth]{plots/hitrate-5kcv.png}
 \end {center}
 \caption{Hitrate de detecci\'on de 500 elementos acuerdo a los varios m\'etodos implementados
 usando la matriz de covarianza entrenada con 5000 elementos}
@@ -33,7 +31,7 @@ usando la matriz de covarianza entrenada con 5000 elementos}
 
 \begin{figure}[H]
 \begin {center}
-\includegraphics[width=400pt]{plots/hitrate-15kcv.png}
+\includegraphics[width=\hrwidth]{plots/hitrate-15kcv.png}
 \end {center}
 \caption{Hitrate de detecci\'on de 500 elementos acuerdo a los varios m\'etodos implementados
 usando la matriz de covarianza entrenada con 15000 elementos}
@@ -42,7 +40,7 @@ usando la matriz de covarianza entrenada con 15000 elementos}
 
 \begin{figure}[H]
 \begin {center}
-\includegraphics[width=400pt]{plots/hitrate-30kcv.png}
+\includegraphics[width=\hrwidth]{plots/hitrate-30kcv.png}
 \end {center}
 \caption{Hitrate de detecci\'on de 500 elementos acuerdo a los varios m\'etodos implementados
 usando la matriz de covarianza entrenada con 30000 elementos}
@@ -55,11 +53,11 @@ usando la matriz de covarianza entrenada con 30000 elementos}
 Fijamos la matriz de covarianza entrenada con 30000 elementos, ya que tenemos calculada una vez.
 Siguiendo la misma metodologia, nos concentramos ahora en el HitRate individual
 de cada digito. Analizamos el HitRate de acuerdo a la metodologia de deteccion usada.
-
+\def \pdwidth {500pt}
 
 \begin{figure}[H]
 \begin {center}
-\includegraphics[width=400pt]{plots/pordig-30kcv-norma2.png}
+\includegraphics[width=\pdwidth]{plots/pordig-30kcv-norma2.png}
 \end {center}
 \caption{Hitrate por digito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
 clasificados por norma2}
@@ -68,7 +66,7 @@ clasificados por norma2}
 
 \begin{figure}[H]
 \begin {center}
-\includegraphics[width=400pt]{plots/pordig-30kcv-norma1.png}
+\includegraphics[width=\pdwidth]{plots/pordig-30kcv-norma1.png}
 \end {center}
 \caption{Hitrate por digito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
 clasificados por norma1}
@@ -77,7 +75,7 @@ clasificados por norma1}
 
 \begin{figure}[H]
 \begin {center}
-\includegraphics[width=400pt]{plots/pordig-30kcv-normainf.png}
+\includegraphics[width=\pdwidth]{plots/pordig-30kcv-normaInf.png}
 \end {center}
 \caption{Hitrate por digito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
 clasificados por norma Inf}
@@ -86,7 +84,7 @@ clasificados por norma Inf}
 
 \begin{figure}[H]
 \begin {center}
-\includegraphics[width=400pt]{plots/pordig-30kcv-bo3.png}
+\includegraphics[width=\pdwidth]{plots/pordig-30kcv-BestOf3.png}
 \end {center}
 \caption{Hitrate por digito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
 clasificados por mejor de 3 normas}
@@ -95,10 +93,10 @@ clasificados por mejor de 3 normas}
 
 \begin{figure}[H]
 \begin {center}
-\includegraphics[width=400pt]{plots/pordig-30kcv-100mejores.png}
+\includegraphics[width=\pdwidth]{plots/pordig-30kcv-top100.png}
 \end {center}
 \caption{Hitrate por digito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
-clasificados por distancia a 100 mas cercanos}
+clasificados por distancia a 100 m\'as cercanos}
 \label{fig:HRD30kcv-dist100}
 \end{figure}
 
@@ -106,30 +104,30 @@ clasificados por distancia a 100 mas cercanos}
 Aca mostramos las equivocaciones y aciertos al reconocer cada digito, variando la cantidad de columnas, hecho con la matriz de covarianza de
 30000 elementos y variando la cantidad de columnas tomadas. Eje X el valor detectado, eje Y el valor verdadero. El color marca la cantidad
 de veces que se detect\'o un valor y a cual correspondia.
-
+\def \hmwidth {500pt}
 \begin{figure}[H]
-\includegraphics[width=300pt]{plots/heatmap-30kcv-k5-norma_2.png}
+\includegraphics[width=\hmwidth]{plots/heatmap-30kcv-k5-norma_2.png}
 \caption{Heatmap de aciertos por digito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
 clasificados por norma 2 tomando K=5}
 \label{fig:HM30kcv-k5}
 \end{figure}
 
 \begin{figure}[H]
-\includegraphics[width=300pt]{plots/heatmap-30kcv-k10-norma_2.png}
+\includegraphics[width=\hmwidth]{plots/heatmap-30kcv-k10-norma_2.png}
 \caption{Heatmap de aciertos por digito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
 clasificados por norma 2 tomando K=10 }
 \label{fig:HM30kcv-k10}
 \end{figure}
 
 \begin{figure}[H]
-\includegraphics[width=300pt]{plots/heatmap-30kcv-k25-norma_2.png}
+\includegraphics[width=\hmwidth]{plots/heatmap-30kcv-k25-norma_2.png}
 \caption{Heatmap de aciertos por digito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
 clasificados por norma 2 tomando K=25 }
 \label{fig:HM30kcv-k25}
 \end{figure}
 
 \begin{figure}[H]
-\includegraphics[width=300pt]{plots/heatmap-30kcv-k50-norma_2.png}
+\includegraphics[width=\hmwidth]{plots/heatmap-30kcv-k50-norma_2.png}
 \caption{Heatmap de aciertos por digito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
 clasificados por norma 2 tomando K=50 }
 \label{fig:HM30kcv-k50}
