@@ -1,5 +1,23 @@
 \section{Discusion}
 
+\subsection{Tama\~no de los corpus de entrenamiento }
+Un punto fundamental del trabajo consistio en el calculo de la matriz de autovectores
+de la covarianza de las imagenes. En las secciones anteriores se discutio su construcci\'on
+y su calculo. Ac\'a comprobamos la relevancia del tama\~no del corpus usado a la hora
+de generarla.
+
+Experimentamos tomando 1000, 5000, 15000 y 30000 imagenes (m\'as no usamos porque era
+realmente excesivo el tiempo de c\'alculo. Con m\'as tiempo hubieramos podido paralelizar
+y poder correr en un cluster o en GPGPU.). Como se ve, no hay mejores resultados
+utilizando matrices de transformaci\'on basadas en menos im\'agenes, por lo que
+si ya hemos generado una grande, conviene seguir usandola mientras tengamos que resolver
+el mismo problema.
+
+El \'unico punto delicado en estos casos, de entrenamiento offline, es tener cuidado
+de no mezclar datos de entrenamiento con datos de test. Esto podria ocasionar que
+los hitrates sean excesivamente m\'as altos. Es preferible usar matrices generadas
+con menos puntos de datos que con m\'as pero ``contaminados''.
+
 
 \subsection{Clasificaci\'on de los me\'todos empleados}
 Los metodos que implementamos fueron b\'asicamente 3. La norma 2 de distancia a
@@ -31,26 +49,6 @@ deseemos considerar, pueden andar en el orden de miles tal vez. En comparacion, 
 de la norma 2 anterior solamente comprueba contra 10 puntos (los centros de masas).
 
 
-\subsection{Tama\~no de los corpus de entrenamiento }
-Un punto fundamental del trabajo consistio en el calculo de la matriz de autovectores
-de la covarianza de las imagenes. En las secciones anteriores se discutio su construcci\'on
-y su calculo. Ac\'a comprobamos la relevancia del tama\~no del corpus usado a la hora
-de generarla.
-
-Experimentamos tomando 1000, 5000, 15000 y 30000 imagenes (m\'as no usamos porque era
-realmente excesivo el tiempo de c\'alculo. Con m\'as tiempo hubieramos podido paralelizar
-y poder correr en un cluster o en GPGPU.). Como se ve, no hay mejores resultados
-utilizando matrices de transformaci\'on basadas en menos im\'agenes, por lo que
-si ya hemos generado una grande, conviene seguir usandola mientras tengamos que resolver
-el mismo problema.
-
-El \'unico punto delicado en estos casos, de entrenamiento offline, es tener cuidado
-de no mezclar datos de entrenamiento con datos de test. Esto podria ocasionar que
-los hitrates sean excesivamente m\'as altos. Es preferible usar matrices generadas
-con menos puntos de datos que con m\'as pero ``contaminados''.
-
-
-
 \subsection{Detecci\'on por d\'igito}
 Calcular el Hitrate por digito se nos ocurri\'o tarde, pero son resultados
 sumamente interesantes. Ac\'a podemos apreciar considerablemente que, dentro de
@@ -63,8 +61,9 @@ fen\'omeno.
 
 Por el otro, el digito 5 es much\'isimo m\'as complicado de reconocer, teniendo
 hitrates de una fracci\'on de los otros digitos, incluso con m\'as componentes
-principales. Esto se debe al fenomeno de que es a veces sut\'il la diferencia
-entre los d\'igitos 5, 3 y 8.
+principales. Esto se debe al fen\'omeno de que es a veces sut\'il la diferencia
+entre los d\'igitos como 5, 3 y 8.
 
 %%HACER GRAFICO DE HITRATE CONFUNDIDO ENTRE 5 y 3.
 
+\subsection{Cantidad de columnas}
