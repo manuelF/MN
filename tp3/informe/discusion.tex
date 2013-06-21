@@ -50,18 +50,18 @@ de la norma 2 anterior solamente comprueba contra 10 puntos (los centros de masa
 
 
 \subsection{Detecci\'on por d\'igito}
-Calcular el Hitrate por digito se nos ocurri\'o tarde, pero son resultados
+Calcular el Hitrate por d\'igito se nos ocurri\'o tarde, pero son resultados
 sumamente interesantes. De la figura \ref{fig:HRD30kcv-n2} a \ref{fig:HRD30kcv-dist100}
 podemos apreciar considerablemente que, dentro de
 la detecci\'on de d\'igitos, hay algunos que son m\'as dificiles que otros.
 
-Por un lado, el digito 1 es el m\'as facil de reconocer. Nuestra hip\'otesis
+Por un lado, el d\'igito 1 es el m\'as facil de reconocer. Nuestra hip\'otesis
 es que no es normal dibujarlo con m\'as de un trazo, y eso simplifica mucho la
 descomposici\'on en componentes principales, al tener que capturar unicamente ese
 fen\'omeno.
 
-Por el otro, el digito 5 es much\'isimo m\'as complicado de reconocer, teniendo
-hitrates de una fracci\'on de los otros digitos, incluso con m\'as componentes
+Por el otro, el d\'igito 5 es much\'isimo m\'as complicado de reconocer, teniendo
+hitrates de una fracci\'on de los otros d\'igitos, incluso con m\'as componentes
 principales. Esto se debe al fen\'omeno de que es a veces sut\'il la diferencia
 entre los d\'igitos como 2 y 8.
 
@@ -69,12 +69,12 @@ En las figuras \ref{fig:HM30kcv-k5} hasta \ref{fig:HM30kcv-k50}, podemos aprecia
 en un formato HeatMap como varian los aciertos. Usamos norma 2 para la detecci\'on ac\'a
 ya que antes pudimos apreciar que era m\'etodo m\'as efectivo. Vemos que cuando tomamos pocas
 columnas, la diagonal del heatmap (que es el acierto) esta muy difusa, y vemos tambien
-otros puntos fuera de la diagonal que tienen un valor bastante alto. Estos son los digitos
+otros puntos fuera de la diagonal que tienen un valor bastante alto. Estos son los d\'igitos
 que se confunden. Podemos apreciar, por ejemplo, en la figura \ref{fig:HM30kcv-k5}, que
 los d\'gitos que m\'as se pueden confundir, con 5 columnas, son el 8 por el 2 y el 4 por el 1.
 
 Seria interesante poder combinar este mecanismo de detecci\'on con algun otro basado en un
-criterio diferente, pero que tenga m\'as poder clasificar entre los digitos problematicos
+criterio diferente, pero que tenga m\'as poder clasificar entre los d\'igitos problematicos
 previamente comentados.
 
 
@@ -93,6 +93,7 @@ en \ref{fig:HR30kcv}, que hay una diferencia considerable en la elecci\'on del m
 pero sobre todo en la cantidad de columnas elegidas. Sin embargo, a partir de ciertos valores
 ya el crecimiento del hitrate es muy lento ($K=50$ por ejemplo). Esto en realidad importa poco
 si la cantidad de im\'agenes que tenemos que detectar no es grande, la diferencia de cantidad
-de operaciones que hay entre $K=50$ y $K=150$ no es enorme. Sin embargo, en sistemas \textit{real-time}
-esto puede ser excesivamente costoso. Seg\'un nuestros experimentos, se deberia hacer un analisis
-de los requerimientos de forma cuidadosa y ver si el \textit{trade-off} es aceptable o no.
+de operaciones que hay entre $K=50$ y $K=150$ no es enorme. Dicho esto, hay que tener en cuenta que
+en sistemas \textit{real-time} esto puede ser excesivamente costoso. Seg\'un nuestros experimentos,
+se deberia hacer un analisis de los requerimientos de forma cuidadosa y ver si el \textit{trade-off} tiempo/precisi\'on
+es aceptable o no.

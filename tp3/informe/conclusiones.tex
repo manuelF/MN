@@ -17,7 +17,7 @@ no saber como es la implementaci\'on a bajo nivel y no tener control sobre los d
 En particular, por ejemplo, si usamos la funci\'on \texttt{svd} de Matlab, se
 generan autom\'aticamente las 3 matrices de la factorizaci\'on, pero solamente nos interesa
 la $V^t$ (de 784 x 784 elementos). Sin embargo, se genera y guarda tambien la $U$ (de hasta
-60000 x 60000 elementos, ~26 Gb) y $S$ (de hasta 60000 x 784 elementos, ~358Mb), llenando innecesariamente
+60000 x 60000 elementos, ~26 Gb) y $\Sigma$ (de hasta 60000 x 784 elementos, ~358Mb), llenando innecesariamente
 la mem\'oria RAM, y impidiendonos operar con a\'un m\'as im\'agenes usando este mecanismo.
 
 La utilizaci\'on de implementaciones confiables sirvi\'o tambi\'en para apoyar nuestros
@@ -37,7 +37,7 @@ El uso dado en este trabajo fue para obtener caraterizaciones de los datos utili
 descomposici\'on en autovectores, y de esa manera poder correlacionar distintos puntos que
 tengan diferencias dificiles de describir. Aprendimos que la t\'ecnica de descomponer en autovectores
 es fundamental a la hora de resolver problemas \textit{fuzzy}, donde
-el an\'alisis de componentes principales puede traer a luz la verdadera variabilidad de los datos.
+el an\'alisis de componentes principales puede traer a la luz la verdadera variabilidad de los datos.
 
 
 \subsection{Mecanismo de reconocimiento}
@@ -59,20 +59,22 @@ transformaci\'on $V^t$, creemos que puede haber m\'etodos diferentes que logren 
 \subsection{M\'as puntos de datos, no implican mejores respuestas}
 
 La cantidad de im\'agenes de entrenamiento que deberiamos usar fue un motivo de
-discusi\'on e hip\'otesis dentro del grupo. 
+discusi\'on e hip\'otesis dentro del grupo.
 Claramente quisimos usar todas las que pudieramos, intentando emplear al m\'aximo el
 uso del corpus brindado. La contrapartida fue el tiempo de ejecuci\'on. Incluso habiendo implementado
 la factorizaci\'on de HouseHolder \'optimo (O($n^3$)), resultaba inaceptable que tardara mas de 24hs
-el c\'alculo de los autovectores de la matriz de covarianza con un $\epsilon = 1e-5$. Implementamos
+el c\'alculo de los autovectores de la matriz de covarianza con un $\epsilon = 1e-5$. Intentamos implementar
 directivas de paralelizaci\'on que pudieran bajar esta complejidad (aunque sea multiplicando por una
-constante mas chica). Sin embargo, el tiempo de ejecuci\'on sigui\'o siendo inaceptablemente alto.
+constante mas chica). Sin embargo, el tiempo de ejecuci\'on sigui\'o siendo inaceptablemente alto y solo
+ensuciaban el c\'odigo, asi que las removimos.
 
 Logramos calcular matrices de covarianza hasta para 30.000 im\'agenes de entrenamiento, pero cuando
 corrimos los experimentos, el uso de las matrices m\'as ricas no aport\'o casi a un mejor reconocimiento.
+Viendo esto, decidimos que, al menos con este corpus, no ibamos a lograr captar m\'as detalles del problema,
+asi que no seguimos intentado crecer en tama\~no.
 
 Nuestra hipotesis sostiene que esto es as\'i porque en el corpus est\'a apropiadamente
 representado cada integrante (d\'igito). Creemos que en problemas de
-reconocimiento de caras, por ejemplo, con muy pocas muestras de cada integrante, 
-seria esencial emplear el corpus al m\'aximo (no necesariamente
-usarlo todo, pero seleccionar los integrantes inteligentemente) para poder tener todos los detalles
-posibles para hacer un mejor an\'alisis.
+reconocimiento de rostros, por ejemplo, con muy pocas muestras de cada integrante,
+seria esencial emplear el corpus al m\'aximo (no necesariamente usarlo todo, pero seleccionar los
+integrantes inteligentemente) para poder tener todos los detalles posibles para hacer un mejor an\'alisis.
