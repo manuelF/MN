@@ -97,7 +97,40 @@ clasificados por mejor de 3 normas}
 \begin {center}
 \includegraphics[width=400pt]{plots/pordig-30kcv-100mejores.png}
 \end {center}
-\caption{Hitrate por digito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 15000 elementos
+\caption{Hitrate por digito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
 clasificados por distancia a 100 mas cercanos}
 \label{fig:HRD30kcv-dist100}
+\end{figure}
+
+\section{Heatmap de reconocimiento por digito}
+Aca mostramos las equivocaciones y aciertos al reconocer cada digito, variando la cantidad de columnas, hecho con la matriz de covarianza de
+30000 elementos y variando la cantidad de columnas tomadas. Eje X el valor detectado, eje Y el valor verdadero. El color marca la cantidad
+de veces que se detect\'o un valor y a cual correspondia.
+
+\begin{figure}[H]
+\includegraphics[width=300pt]{plots/heatmap-30kcv-k5-norma_2.png}
+\caption{Heatmap de aciertos por digito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
+clasificados por norma 2 tomando K=5}
+\label{fig:HM30kcv-k5}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width=300pt]{plots/heatmap-30kcv-k10-norma_2.png}
+\caption{Heatmap de aciertos por digito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
+clasificados por norma 2 tomando K=10 }
+\label{fig:HM30kcv-k10}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width=300pt]{plots/heatmap-30kcv-k25-norma_2.png}
+\caption{Heatmap de aciertos por digito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
+clasificados por norma 2 tomando K=25 }
+\label{fig:HM30kcv-k25}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width=300pt]{plots/heatmap-30kcv-k50-norma_2.png}
+\caption{Heatmap de aciertos por digito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
+clasificados por norma 2 tomando K=50 }
+\label{fig:HM30kcv-k50}
 \end{figure}

@@ -8,8 +8,8 @@ de generarla.
 
 Experimentamos tomando 1000, 5000, 15000 y 30000 imagenes (m\'as no usamos porque era
 realmente excesivo el tiempo de c\'alculo. Con m\'as tiempo hubieramos podido paralelizar
-y poder correr en un cluster o en GPGPU.). Como se ve, no hay mejores resultados
-utilizando matrices de transformaci\'on basadas en menos im\'agenes, por lo que
+y poder correr en un cluster o en GPGPU.). Como se ve en las figuras \ref{fig:HR1kcv} hasta \ref{fig:HR30kcv},
+no hay mejores resultados utilizando matrices de transformaci\'on basadas en menos im\'agenes, por lo que
 si ya hemos generado una grande, conviene seguir usandola mientras tengamos que resolver
 el mismo problema.
 
@@ -62,7 +62,20 @@ fen\'omeno.
 Por el otro, el digito 5 es much\'isimo m\'as complicado de reconocer, teniendo
 hitrates de una fracci\'on de los otros digitos, incluso con m\'as componentes
 principales. Esto se debe al fen\'omeno de que es a veces sut\'il la diferencia
-entre los d\'igitos como 5, 3 y 8.
+entre los d\'igitos como 2 y 8.
+
+En las figuras \ref{fig:HM30kcv-k5} hasta \ref{fig:HM30kcv-k50}, podemos apreciar
+en un formato HeatMap como varian los aciertos. Usamos norma 2 para la detecci\'on ac\'a
+ya que antes pudimos apreciar que era el mejor m\'etodo. Vemos que cuando tomamos pocas
+columnas, la diagonal del heatmap (que es el acierto) esta muy difusa, y vemos tambien
+otros puntos fuera de la diagonal que tienen un valor bastante alto. Estos son digitos
+que se confunden. Podemos apreciar, por ejemplo, en la figura \ref{fig:HM30kcv-k5}, que
+los d\'gitos que m\'as se pueden confundir, con 5 columnas, son el 8 por el 2 y el 4 por el 1.
+
+Seria interesante poder combinar este mecanismo de detecci\'on con algun otro basado en un
+criterio diferente, pero que tenga m\'as poder clasificar entre los digitos problematicos
+previamente comentados.
+
 
 %%HACER GRAFICO DE HITRATE CONFUNDIDO ENTRE 5 y 3.
 
@@ -70,6 +83,17 @@ entre los d\'igitos como 5, 3 y 8.
 Un punto clave de este trabajo fue la determinaci\'on de la cantidad de valores que debemos
 utilizar para comparar im\'agenes. En todas las figuras pudimos observar, en mayor o menor
 grado, un crecimiento del hitrate con respecto a la cantidad de columnas tomadas.
-Obviamente, tomar mas elementos lleva a una mejor caracterizaci\'on'
+Obviamente, tomar mas elementos lleva a una mejor caracterizaci\'on', pero se vuelve un problema
+de que uno esta b\'asicamente identificando una im\'agen pixel por pixel. Lo interesante de un
+sistema de reconocimiento de im\'agenes es tener una alto grado de detecci\'on utilizando la menor
+cantidad de recursos.
 
 
+Se puede apreciar tanto en las figuras \ref{fig:HM30kcv-k5} hasta \ref{fig:HM30kcv-k50} como
+en \ref{fig:HR30kcv}, que hay una diferencia considerable en la elecci\'on del m\'etodo usado,
+pero sobre todo en la cantidad de columnas elegidas. Sin embargo, a partir de ciertos valores
+ya el crecimiento del hitrate es muy lento ($K=50$ por ejemplo). Esto en realidad importa poco
+si la cantidad de im\'agenes que tenemos que detectar no es grande, la diferencia de cantidad
+de operaciones que hay entre $K=50$ y $K=150$ no es enorme. Sin embargo, en sistemas \textit{real-time}
+esto puede ser excesivamente costoso. Seg\'un nuestros experimentos, se deberia hacer un analisis
+de los requerimientos de forma cuidadosa y ver si el \textit{trade-off} es aceptable o no.
