@@ -2,10 +2,11 @@
 
 \subsection{Herramientas}
 
-Para la realizaci\'on de los experimentos se utilizaron C++ y matlab como lenguajes de
+Para la realizaci\'on de los experimentos se utilizaron C++ y Matlab como lenguajes de
 programaci\'on para los algoritmos principales. Durante la realizaci\'on de este trabajo nos encontramos con
-la primera barrera en tiempo de corrida de un programa. A la hora de generar la matriz de covarianza tarda
-aproximadamente 5 horas en generarse debido al gran tama\~no de la matriz de entrada.
+la primera barrera en tiempo de corrida de un programa. A la hora de generar la
+matriz de covarianza esta tarda aproximadamente 5 horas en terminar de definirse
+debido al gran tama\~no de la matriz de entrada.
 
 El an\'alisis de los resultados y el ploteo de los gr\'aficos se realiz\'o
 mediante el uso del entorno \href{http://www.matlab.com/}{MATLAB}
@@ -26,7 +27,8 @@ permitiendo expresar estructuras y f\'ormulas matem\'aticas de una manera simple
 
 La dificultad del desarrollo de este experimento fue un poco m\'as elevada a la de los dos
 trabajos pr\'acticos anteriores.
-En primer lugar, se decidi\'o hacer primero todo el trabajo pr\'actico en Matlab para obtener
+
+En primer lugar, se decidi\'o hacer en primera instancia todo el trabajo pr\'actico en Matlab para obtener
 una pronta aproximaci\'on a los resultados, siendo el desarrollo ampliamente m\'as comodo que
 en C++ (dado que la SVD forma parte de la libreria estandar de Matlab). Una vez implementado
 el TP en Matlab, se procedi\'p a realizar el experimento en C++. El primer problema encontrado
@@ -45,32 +47,34 @@ y por lo tanto se realiz\'o el trabajo pr\'actico usando 30.000 imagenes de entr
 
 \subsection{Matriz de Covarianza}
 
-El primer paso consisti\'o en generar la matriz de covarianza con las 30.000 imagenes tomadas como datos
-de entrenamiento. Para eso se utiliz\'o la f\'ormula del enunciado.
+El primer paso consisti\'o en generar la matriz de covarianza con las 30.000
+im\'agenes tomadas como datos de entrenamiento. Para eso se utiliz\'o la f\'ormula del enunciado.
 
-Se gener\'o la matriz $X$ a trav\'es
-de la sustracci\'on a cada entrada de la matriz del promedio del pixel que
-representa (promedio de ese pixel en todas las imagenes) y la posterior
-divisi\'on la matriz por $\sqrt{n-1}$ seg\'un reza la siguiente formula:
+Se gener\'o la matriz $X$ a trav\'es de la sustracci\'on a cada entrada de la 
+matriz del promedio del pixel que representa (promedio de ese pixel en todas las 
+im\'agenes) y la posterior divisi\'on la matriz por $\sqrt{n-1}$ seg\'un reza la
+siguiente formula:
+\\
 
-$(x_i - \mu)^{t}/\sqrt{n-1}$, y $$X=U \Sigma V^t$$
-
+\centerline{$(x_i - \mu)^{t}/\sqrt{n-1}$ y, $X=U \Sigma V^t$}
+\bigskip
 Para calcular la matriz de covarianza, a la que llamamos $Mx$, se realiz\'o el
 producto $X^tX$. Este paso es el acercamiento necesario para realizar el cambio
 de base computado para la disminuci\'on en la redundancia de los datos buscada.
 
-El primer paso consisti\'o en generar la matriz de covarianza con las 30.000 imagenes tomadas como datos
-de entrenamiento. Para eso se utiliz\'o la f\'ormula del enunciado. Se gener\'o la matriz $X$ a trav\'es
-de la sustracci\'on a cada entrada de la matriz del promedio del pixel que representa (promedio de ese
-pixel en todas las imagenes) y la posterior divisi\'on la matriz por $\sqrt{n-1}$. Para calcular la
+El primer paso consisti\'o en generar la matriz de covarianza con las 30.000
+im\'agenes tomadas como datos de entrenamiento. Para eso se utiliz\'o la f\'ormula del enunciado. 
+Se gener\'o la matriz $X$ a trav\'es de la sustracci\'on a cada entrada de la
+matriz del promedio del pixel que representa (promedio de ese pixel en todas las im\'agenes) 
+y la posterior divisi\'on la matriz por $\sqrt{n-1}$. Para calcular la
 matriz de covarianza, a la que llamamos $Mx$, se realiz\'o el producto $X^tX$.
 
 \subsection{Factorizaci\'on QR}
 A la hora de calcular la SVD se present\'o la idea de que s\'olo es necesaria la matriz $V$, es por
 eso que en vez de calcular la SVD, se procedi\'o a calcular la matriz $V$ utilizando la factorizaci\'on
-QR de la matriz de covarianza. El m\'etodo utilizado para calcular la matriz $V^t$ fue la factorizaci\'on
-QR de $Mx$ (la matriz de covarianza) mediante la aplicaci\'on de transformaciones de Householder, y la
-posterior multiplicaci\'on RQ (es decir, en el orden inverso), hasta que la suma de los elementos debajo
+$QR$ de la matriz de covarianza. El m\'etodo utilizado para calcular la matriz $V^t$ fue la factorizaci\'on
+$QR$ de $Mx$ (la matriz de covarianza) mediante la aplicaci\'on de transformaciones de Householder, y la
+posterior multiplicaci\'on $RQ$ (es decir, en el orden inverso), hasta que la suma de los elementos debajo
 de la diagonal principal suman menos de 15. La elecci\'on del 15 no fue caprichosa, sino que es el
 resultado de la corrida del experimento con $10^{-5}$ en lugar de 15, donde converg\'ia a un n\'umero
 entre 14 y 15 por temas de precisi\'on.
@@ -80,16 +84,19 @@ siendo $n = 784$. Como el programa resultante tard\'o m\'as de 15 horas en calcu
 se gener\'o el archivo V.txt con esta informaci\'on precalculada, si el archivo no exist\'ia previamente
 entonces se genera la matriz y luego se guarda en el archivo, caso contrario, se realiza la lectura del archivo.
 
-Este procedimiento que involucra la generaci\'on de una matriz est\'atica tiene tiene sentido en un contexto
-donde los datos de entrenamiento no cambian. Otros experimentos donde nuevo input puede ser fuente de mejoras
+Este procedimiento que involucra la generaci\'on de una matriz est\'atica tiene sentido en un contexto
+donde los datos de entrenamiento no se modifican. Otros experimentos donde nuevo input puede ser fuente de mejoras
 en el m\'etodo podr\'ian tener problemas pero por las condiciones presentadas no es el caso.
 
-El algoritmo que utilizamos para la factorizaci\'on $QR$ tiene complejidad $o(n^3)$ ya que para obtener $Q$ hacemos la cuenta
+El algoritmo que utilizamos para la factorizaci\'on $QR$ tiene complejidad $O(n^3)$ ya que para obtener $Q$ hacemos la cuenta
 $$Q = I - 2vv^t$$
 
-Y como $R = Q^{-1}A$ y $Q^{-1} = Q^t$ entonces para obtener el producto de las $Q$ calculabamos
+Como como $R = Q^{-1}A$ y $Q^{-1} = Q^t$ entonces para obtener el producto de
+las $Q$ calculamos
 $$Q_i = Q_{i-1} - (2v)(v^t Q_{i-1})$$
-Y esto sale en $o(n^2)$ con esa agrupaci\'on en par\'entesis y para obtener $R$ hacemos lo mismo con las transpuestas de las $Q$
+
+Y este algoritmo resuelve en $O(n^2)$ con esa agrupaci\'on en par\'entesis y para 
+obtener $R$ hacemos lo mismo con las transpuestas de las $Q$
 
 \subsection{C\'alculo de la Transformaci\'on Caracter\'istica}
 
