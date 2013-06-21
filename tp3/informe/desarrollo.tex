@@ -10,14 +10,6 @@ aproximadamente 5 horas en generarse debido al gran tama\~no de la matriz de ent
 El an\'alisis de los resultados y el ploteo de los gr\'aficos se realiz\'o
 mediante el uso del entorno \href{http://www.matlab.com/}{MATLAB}
 
-El control de los experimentos y las ``recetas'' de las experiencias se ven
-reflejadas en scripts de shell que levantan archivos de datos con tests
-preprogramdos, ejecutan los algoritmos y luego analizan los resultados,
-resumiendolos en output en forma de informaci\'on tabular y gr\'aficos.
-La existencia de un Makefile fue clave a la hora de automatizar tareas de
-compilaci\'on y corrida de tests, para poder ser lo mas automatizados dentro de
-lo posible.
-
 Se utiliz\'o \href{http://www.latex-project.org/}{\LaTeX} para la escritura y el formato del informe,
 manteniendo la estructura de informe del Trabajo Pr\'actico N\'umero 1 y 2 y tambi\'en
 permitiendo expresar estructuras y f\'ormulas matem\'aticas de una manera simple y clara.
@@ -84,7 +76,7 @@ Este procedimiento que involucra la generaci\'on de una matriz est\'atica tiene 
 donde los datos de entrenamiento no cambian. Otros experimentos donde nuevo input puede ser fuente de mejoras
 en el m\'etodo podr\'ian tener problemas pero por las condiciones presentadas no es el caso.
 
-El algoritmo que utilizamos para la factorizaci\'on $QR$ tiene complejidad $o(n^3)$ ya que para obtener $Q$ hacemos la cuenta
+El algoritmo que utilizamos para la factorizaci\'on $QR$ tiene complejidad $O(n^3)$ ya que para obtener $Q$ hacemos la cuenta
 $$Q = I - 2vv^t$$
 
 Y como $R = Q^{-1}A$ y $Q^{-1} = Q^t$ entonces para obtener el producto de las $Q$ calculabamos
@@ -93,13 +85,13 @@ Y esto sale en $o(n^2)$ con esa agrupaci\'on en par\'entesis y para obtener $R$ 
 
 \subsection{C\'alculo de la Transformaci\'on Caracter\'istica}
 
-Para calcular la transformaci\'on caracter\'istica multiplicamos los $k$ 
-autovectores cuyos autovalores asociados eran los de valor m\'as significativo 
+Para calcular la transformaci\'on caracter\'istica multiplicamos los $k$
+autovectores cuyos autovalores asociados eran los de valor m\'as significativo
 por la imagen de la cual queremos obtener qu\'e d\'igito representa.
 
 En este punto finaliza la etapa de entrenamiento del sistema. El cambio de base
 fue realizado acarreando la disminuci\'on significativa de informaci\'on
-redundante. 
+redundante.
 
 \subsection{Reconocimiento de d\'igitos}
 Para reconocer los d\'igitos utilizamos dos algoritmos. El primero de ellos fue tomar distancia (con norma 1, 2 e $\infty$) a
