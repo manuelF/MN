@@ -71,7 +71,8 @@ void generateX()
 	for(int i=0;i<n;i++)
     	for(int j=0;j<m;j++)
 	    	X[i][j] = (input[i][j]-average[j])/sqrt(n-1);
-            /** A cada pixel le asigno el pixel en su imagen menos el promedio sobre la raiz de la cantidad de imagenes menos uno**/
+            /** A cada pixel le asigno el pixel en su imagen menos el 
+            promedio sobre la raiz de la cantidad de imagenes menos uno**/
 	return;
 }
 
@@ -204,7 +205,8 @@ void eig(vector<vector<double> > &A, vector<vector<double> > &auVec)
 
 vector<vector<double> > tc;
 
-vector<double> calctc(vector<double> imagen, int k) /** Calculo la transfomacion caracteristica de imagen con parametro k **/
+vector<double> calctc(vector<double> imagen, int k) 
+/** Calculo la transfomacion caracteristica de imagen con parametro k **/
 {
 	vector<double> res(k,0);
 	int n = imagen.size();
@@ -265,7 +267,8 @@ int parse(char* c)
 int main(int argc, char* argv[])
 {
     int k = parse(argv[1]), imp = parse(argv[2]), norm = parse(argv[3]);
-    /** k es el parametro k del enunciado, imp es la implementacion y norm es la norma que usamos para medir distancias **/
+    /** k es el parametro k del enunciado, imp es la implementacion y 
+    norm es la norma que usamos para medir distancias **/
 	FILE* v = fopen("../datos/trainingImages.txt","r");
 	int n, t;
     int g;
@@ -345,7 +348,8 @@ int main(int argc, char* argv[])
         /** La implementacion 0 toma las 100 imagenes mas cercanas y toma la mas repetida de esas 100 **/
         for(int i=0;i<test_count;i++) /** Iteramos sobre la imagenes de test **/
         {
-            vec = calctc(testImages[i],k); /** Calculamos la transformacion caracteristica de la imagen dada **/
+            vec = calctc(testImages[i],k); 
+            /** Calculamos la transformacion caracteristica de la imagen dada **/
             distancias.resize(training_count);
             for(int j=0;j<training_count;j++)
             {
@@ -372,7 +376,8 @@ int main(int argc, char* argv[])
     }
     else if(imp == 1)
     {
-        /** La implementacion 1 toma el promedio de las transformaciones de cada digito y compara distancia a cada promedio **/
+        /** La implementacion 1 toma el promedio de las 
+        transformaciones de cada digito y compara distancia a cada promedio **/
         vector<double> promedio[10];
         int cuantos[10];
         memset(cuantos,0,sizeof(cuantos));
