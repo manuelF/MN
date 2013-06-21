@@ -8,20 +8,20 @@ El uso de Matlab ha sido fundamental a la hora de entender el problema.
 Es muy sencillo perderse en los detalles de la implementaci\'on y no ver que
 problema se quiere resolver. Una herramienta din\'amica donde se pueden visualizar
 en una pasada las factorizaciones de una matriz, las dimensiones y las cuentas
-de forma matricial sin que importen los detalles del calculo.
+de forma matricial sin que importen los detalles del c\'alculo.
 
-Ayud\'o tambien que la velocidad de procesamiento de MATLAB es inesperadamente
-r\'apida, por lo que se pudo experimentar rapidamente con matrices de covarianza
+Ayud\'o tambi\'en que la velocidad de procesamiento de Matlab es inesperadamente
+r\'apida, por lo que se pudo experimentar r\'apidamente con matrices de covarianza
 de pocas y de muchas im\'agenes indistintamente. El costo que se paga por esto es
-no saber como lo esta resolviendo por atras y no tener control sobre los datos generados.
-En particular, por ejemplo, si usamos la funci\'on \texttt{svd} de MATLAB, se genera
-autom\'aticamente las 3 matrices de la factorizaci\'on, pero solamente nos interesa
+no saber como es la implementaci\'on a bajo nivel y no tener control sobre los datos generados.
+En particular, por ejemplo, si usamos la funci\'on \texttt{svd} de Matlab, se
+generan autom\'aticamente las 3 matrices de la factorizaci\'on, pero solamente nos interesa
 la $V^t$ (de 784 x 784 elementos). Sin embargo, se genera y guarda tambien la $U$ (de hasta
 60000 x 60000 elementos, ~26 Gb) y $S$ (de hasta 60000 x 784 elementos, ~358Mb), llenando innecesariamente
-la mem\'oria RAM, y impidiendonos operar con aun m\'as im\'agenes usando este mecanismo.
+la mem\'oria RAM, y impidiendonos operar con a\'un m\'as im\'agenes usando este mecanismo.
 
 La utilizaci\'on de implementaciones confiables sirvi\'o tambi\'en para apoyar nuestros
-c\'alculos y tener nociones precisas de posibiles errores de implementaci\'on
+c\'alculos y tener nociones precisas de posibles errores de implementaci\'on
 realizando an\'alisis comparativo de resultados.
 
 \subsection{Importancia de los autovectores}
@@ -43,7 +43,7 @@ el an\'alisis de componentes principales puede traer a luz la verdadera variabil
 \subsection{Mecanismo de reconocimiento}
 
 Las t\'ecnicas que utilizamos para experimentar reconocimiento nos dieron
-la pauta de que este es el campo que mas se puede seguir explorando, sea rastreando la literatura
+la pauta de que este es el campo que m\'as se puede seguir explorando, sea rastreando la literatura
 correspondiente como para intentar innovar con alg\'un m\'etodo \'unico e interesante.
 
 Lo que fue realmente notable es que el uso de ideas que nosotros creiamos m\'as ``inteligentes'',
@@ -58,19 +58,21 @@ transformaci\'on $V^t$, creemos que puede haber m\'etodos diferentes que logren 
 
 \subsection{M\'as puntos de datos, no implican mejores respuestas}
 
-La cantidad de im\'agenes de entrenamiento que deberiamos usar fue un motivo de discusi\'on y hipotesis
-dentro del grupo. Claramente quisimos usar todas las que pudieramos, intentando emplear al m\'aximo el
+La cantidad de im\'agenes de entrenamiento que deberiamos usar fue un motivo de
+discusi\'on e hip\'otesis dentro del grupo. 
+Claramente quisimos usar todas las que pudieramos, intentando emplear al m\'aximo el
 uso del corpus brindado. La contrapartida fue el tiempo de ejecuci\'on. Incluso habiendo implementado
 la factorizaci\'on de HouseHolder \'optimo (O($n^3$)), resultaba inaceptable que tardara mas de 24hs
 el c\'alculo de los autovectores de la matriz de covarianza con un $\epsilon = 1e-5$. Implementamos
 directivas de paralelizaci\'on que pudieran bajar esta complejidad (aunque sea multiplicando por una
-constante mas chica). Sin embargo, el tiempo de ejecuci\'on siguio siendo inaceptablemente alto.
+constante mas chica). Sin embargo, el tiempo de ejecuci\'on sigui\'o siendo inaceptablemente alto.
 
 Logramos calcular matrices de covarianza hasta para 30.000 im\'agenes de entrenamiento, pero cuando
 corrimos los experimentos, el uso de las matrices m\'as ricas no aport\'o casi a un mejor reconocimiento.
 
-Nuestra hipotesis sostiene que esto es asi es porque en el corpus esta bien y apropiadamente
-representado cada integrante (d\'igito). Creemos que en problemas de reconocimiento de caras por ejemplo, con
-muy pocas muestras de cada integrante, seria escencial tener emplear el corpus al m\'aximo (no necesariamente
+Nuestra hipotesis sostiene que esto es as\'i porque en el corpus est\'a apropiadamente
+representado cada integrante (d\'igito). Creemos que en problemas de
+reconocimiento de caras, por ejemplo, con muy pocas muestras de cada integrante, 
+seria esencial emplear el corpus al m\'aximo (no necesariamente
 usarlo todo, pero seleccionar los integrantes inteligentemente) para poder tener todos los detalles
 posibles para hacer un mejor an\'alisis.
