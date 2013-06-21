@@ -2,11 +2,13 @@
 
 
 \subsection{Promedio de Reconocimiento}
-La m\'etodologia de implementaci\'on fue la siguiente. Se construy\'o una m\'atriz de covarianza utilizando los
-primeros $n$ elementos del dataset \texttt{Training Data}. Luego se tomaron $t$ elementos siguientes como
-im\'agenes de test, con sus correspondientes labels. A estos se les aplicaron las tecnicas de detecci\'on
-que hemos detallado antes y fuimos variando las $k$ cantidad de columnas de las tuplas que tomabamos para
-hacer las cuentas de distancia. Los gr\'aficos de HitRate estan hechos en funci\'on de $k$.
+La m\'etodologia de implementaci\'on fue la siguiente: Se construy\'o una 
+m\'atriz de covarianza utilizando los primeros $n$ elementos del dataset 
+\texttt{Training Data}. Luego, se tomaron $t$ elementos siguientes como im\'agenes 
+de test, con sus correspondientes labels. A estos se les aplicaron las t\'ecnicas 
+de detecci\'on que hemos detallado antes y fuimos variando las $k$ cantidad de 
+columnas de las tuplas que tomabamos para hacer las cuentas de distancia. 
+Los gr\'aficos de HitRate est\'an hechos en funci\'on de $k$.
 
 Testeamos usando matrices de covarianza entrenadas con cantidad variable de elementos.
 \def \hrwidth {500pt}
@@ -15,7 +17,7 @@ Testeamos usando matrices de covarianza entrenadas con cantidad variable de elem
 \begin {center}
 \includegraphics[width=\hrwidth]{plots/hitrate-1kcv.png}
 \end {center}
-\caption{Hitrate de detecci\'on de 500 elementos acuerdo a los varios m\'etodos implementados
+\caption{Hitrate de detecci\'on de 500 elementos de acuerdo a los varios m\'etodos implementados
 usando la matriz de covarianza entrenada con 1000 elementos}
 \label{fig:HR1kcv}
 \end{figure}
@@ -24,7 +26,7 @@ usando la matriz de covarianza entrenada con 1000 elementos}
 \begin {center}
 \includegraphics[width=\hrwidth]{plots/hitrate-5kcv.png}
 \end {center}
-\caption{Hitrate de detecci\'on de 500 elementos acuerdo a los varios m\'etodos implementados
+\caption{Hitrate de detecci\'on de 500 elementos de acuerdo a los varios m\'etodos implementados
 usando la matriz de covarianza entrenada con 5000 elementos}
 \label{fig:HR1kcv}
 \end{figure}
@@ -33,7 +35,7 @@ usando la matriz de covarianza entrenada con 5000 elementos}
 \begin {center}
 \includegraphics[width=\hrwidth]{plots/hitrate-15kcv.png}
 \end {center}
-\caption{Hitrate de detecci\'on de 500 elementos acuerdo a los varios m\'etodos implementados
+\caption{Hitrate de detecci\'on de 500 elementos de acuerdo a los varios m\'etodos implementados
 usando la matriz de covarianza entrenada con 15000 elementos}
 \label{fig:HR15kcv}
 \end{figure}
@@ -42,7 +44,7 @@ usando la matriz de covarianza entrenada con 15000 elementos}
 \begin {center}
 \includegraphics[width=\hrwidth]{plots/hitrate-30kcv.png}
 \end {center}
-\caption{Hitrate de detecci\'on de 500 elementos acuerdo a los varios m\'etodos implementados
+\caption{Hitrate de detecci\'on de 500 elementos de acuerdo a los varios m\'etodos implementados
 usando la matriz de covarianza entrenada con 30000 elementos}
 \label{fig:HR30kcv}
 \end{figure}
@@ -50,9 +52,9 @@ usando la matriz de covarianza entrenada con 30000 elementos}
 
 
 \subsection{Reconocimiento por digito}
-Fijamos la matriz de covarianza entrenada con 30000 elementos, ya que tenemos calculada una vez.
+Fijamos la matriz de covarianza entrenada con 30000 elementos, ya que est\'a precalculada.
 Siguiendo la misma metodologia, nos concentramos ahora en el HitRate individual
-de cada digito. Analizamos el HitRate de acuerdo a la metodologia de deteccion usada.
+de cada d\'igito. Analizamos el HitRate de acuerdo a la metodolog\'ia de detecci\'on usada.
 \def \pdwidth {500pt}
 
 \begin{figure}[H]
