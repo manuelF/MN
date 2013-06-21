@@ -2,7 +2,7 @@
 
 Este trabajo nos ha dado la oportunidad de aprender varias lecciones.
 
-\subsection{Herramientas de desarrollo rapido}
+\subsection{Herramientas de desarrollo \'agil}
 
 El uso de Matlab ha sido fundamental a la hora de entender el problema.
 Es muy sencillo perderse en los detalles de la implementaci\'on y no ver que
@@ -16,9 +16,13 @@ de pocas y de muchas im\'agenes indistintamente. El costo que se paga por esto e
 no saber como lo esta resolviendo por atras y no tener control sobre los datos generados.
 En particular, por ejemplo, si usamos la funci\'on \texttt{svd} de MATLAB, se genera
 autom\'aticamente las 3 matrices de la factorizaci\'on, pero solamente nos interesa
-la $V^t$ (de 784 x 784 elementos). Sin embargo, se genera y guarda tambien la $U$ ( de hasta
+la $V^t$ (de 784 x 784 elementos). Sin embargo, se genera y guarda tambien la $U$ (de hasta
 60000 x 60000 elementos, ~26 Gb) y $S$ (de hasta 60000 x 784 elementos, ~358Mb), llenando innecesariamente
 la mem\'oria RAM, y impidiendonos operar con aun m\'as im\'agenes usando este mecanismo.
+
+La utilizaci\'on de implementaciones confiables sirvi\'o tambi\'en para apoyar nuestros
+c\'alculos y tener nociones precisas de posibiles errores de implementaci\'on
+realizando an\'alisis comparativo de resultados.
 
 \subsection{Importancia de los autovectores}
 
