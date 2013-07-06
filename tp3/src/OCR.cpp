@@ -260,8 +260,18 @@ int parse(char* c)
     return res;
 }
 
+void usage()
+{
+    cout << "Uso: ./OCR <k> <imp> <norma>" << endl;
+    cout << "donde k = cantidad de columnas a tomar de las transformaciones "<< endl;
+    cout << "      imp = 0 (usando nearest neighbours, 1 usando distancia al promedio " << endl;
+    cout << "      norma = 0 (norma infinito), 1 (norma 1), 2 (norma 2) " << endl;
+    return;
+}
+
 int main(int argc, char* argv[])
 {
+    if(argc!=4){ usage(); exit(1);}
     int k = parse(argv[1]), imp = parse(argv[2]), norm = parse(argv[3]);
     /** k es el parametro k del enunciado, imp es la implementacion y norm es la norma que usamos para medir distancias **/
 	FILE* v = fopen("../datos/trainingImages.txt","r");
