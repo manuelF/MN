@@ -189,13 +189,14 @@ bool sigoIterando(vector<vector<double> > &A)
 	return res>delta;
 	/** Itero hasta que los elementos debajo de la diagonal sumen menos de 15 **/
 }
+#define MAXITERACIONES 1000
 
 void eig(vector<vector<double> > &A, vector<vector<double> > &auVec)
 {
 	int n = A.size(); /// A es cuadrada
 	auVec = Id(n);
 	iteraciones = 0;
-	while(sigoIterando(A)&&iteraciones<=2) /** Condicion de parada **/
+	while(sigoIterando(A)&&iteraciones<=MAXITERACIONES) /** Condicion de parada **/
 	{
 		householder(A); /** Calculo QR con Householder **/
 		A = mult(R,Q); /** Multiplico RQ para obtener la nueva A que es la matriz de covarianza **/
