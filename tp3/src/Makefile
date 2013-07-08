@@ -7,6 +7,6 @@ CC=g++
 parallel: clean
 	$(CC) -o $(EXECUTABLE) $(FLAGS) -fopenmp $(EXECUTABLE).cpp $(POSTFLAGS)
 all: clean
-	$(CC) -o $(EXECUTABLE) $(FLAGS) $(EXECUTABLE).cpp $(POSTFLAGS)
+	$(CC) -o $(EXECUTABLE) $(FLAGS) -ggdb $(EXECUTABLE).cpp $(POSTFLAGS)
 clean:
 	@rm -f $(EXECUTABLE)

@@ -4,7 +4,7 @@ all: runfiles
 	gnuplot *.plt >&2 2> /dev/null
 	rm mod* rec* orig*
 
-runfiles: latest
+runfiles: latest extra
 	touch mod recovered orig
 	$(BIN) < ../datos/dopp512.txt 
 	mv -f mod mod1
@@ -20,6 +20,18 @@ runfiles: latest
 	mv -f mod mod3
 	mv -f recovered rec3
 	mv -f orig orig3
+	touch mod recovered orig
+	$(BIN) < ../datos/g450.txt
+	mv -f mod mod4
+	mv -f recovered rec4
+	mv -f orig orig4
+	touch mod recovered orig
+	$(BIN) < ../datos/s64.txt
+	mv -f mod mod5
+	mv -f recovered rec5
+	mv -f orig orig5
+
+extra:
 	touch mod recovered orig
 	$(BIN) 1 < ../datos/brian_kernighan.pgm
 	mv -f mod mod4

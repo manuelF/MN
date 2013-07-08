@@ -1,1 +1,99 @@
 \section{Discusion}
+
+\subsection{Tama\~no de los corpus de entrenamiento }
+Un punto fundamental del trabajo consistio en el calculo de la matriz de autovectores
+de la covarianza de las imagenes. En las secciones anteriores se discutio su construcci\'on
+y su calculo. Ac\'a comprobamos la relevancia del tama\~no del corpus usado a la hora
+de generarla.
+
+Experimentamos tomando 1000, 5000, 15000 y 30000 imagenes (m\'as no usamos porque era
+realmente excesivo el tiempo de c\'alculo. Con m\'as tiempo hubieramos podido paralelizar
+y poder correr en un cluster o en GPGPU.). Como se ve en las figuras \ref{fig:HR1kcv} hasta \ref{fig:HR30kcv},
+no hay mejores resultados utilizando matrices de transformaci\'on basadas en menos im\'agenes, por lo que
+si ya hemos generado una grande, conviene seguir usandola mientras tengamos que resolver
+el mismo problema.
+
+El \'unico punto delicado en estos casos, de entrenamiento offline, es tener cuidado
+de no mezclar datos de entrenamiento con datos de test. Esto podria ocasionar que
+los hitrates sean excesivamente m\'as altos. Es preferible usar matrices generadas
+con menos puntos de datos que con m\'as pero ``contaminados''.
+
+
+\subsection{Clasificaci\'on de los me\'todos empleados}
+Los metodos que implementamos fueron b\'asicamente 3. La norma 2 de distancia a
+los centros de masas de cada d\'igito, la mejor de las 3 normas (norma 2, norma 1 y norma infinito)
+hacia los centros de masas y el m\'as repetido de los 100 vecinos m\'as cercanos al punto.
+
+El m\'etodo de la norma dos, es sorprendentemente bueno. Cuando se superan las 30
+columnas mayormente el hitrate estabiliza en un valor razonablmente alto. Si lo
+comparamos contra norma 1, es un poco mas alto el hitrate pero no excesivo. Ahora
+cuando lo miramos contra norma infinito, vemos que la norma 2 es un m\'etodo
+claramente superior. Como la norma infinito se define como el m\'aximo componente,
+es de esperar que alguna de las componentes de los puntos transformados tenga mayor
+peso que otras, por lo que no es extra\~no ver que aumentando la cantidad de componentes
+no varia en nada la detecci\'on.
+
+Viendo que las mediciones de norma 1 y norma infinito a veces discrepaban de lo que
+decia norma 2, consideramos utilizarlas tambien para hacer otro m\'etodo, el de \textit{mejor
+de 3}. Es decir, si coinciden 2 de las 3 normas, la usamos (por m\'as que coincidan la
+infinito y la norma 1). Si no hay ningun match, hacemos fallback en norma 2. En este caso
+nos sorprendio que los resultados no mejoraban con respecto al uso \'unico de norma 2.
+Esto se puede ver en \ref{fig:HR30kcv} y en \ref{fig:HRD30kcv-bo3}, en comparaci\'on con
+el de norma 2 en \ref{fig:HRD30kcv-n2}.
+
+Notablemente, la idea de conseguir el m\'as repetido de los 100 vecinos m\'as cercanos
+parece tener sentido, pero experimentalmente no es para nada buena, en varios aspectos.
+No provee una mejor detecci\'on, de hecho es consistentemente peor para cualquier $k>15$.
+Su runtime ademas es enorme, ya que debe hacer norma 2 para todos los otros puntos que
+deseemos considerar, pueden andar en el orden de miles tal vez. En comparacion, el m\'etodo
+de la norma 2 anterior solamente comprueba contra 10 puntos (los centros de masas).
+
+
+\subsection{Detecci\'on por d\'igito}
+Calcular el Hitrate por d\'igito se nos ocurri\'o tarde, pero son resultados
+sumamente interesantes. De la figura \ref{fig:HRD30kcv-n2} a \ref{fig:HRD30kcv-dist100}
+podemos apreciar considerablemente que, dentro de
+la detecci\'on de d\'igitos, hay algunos que son m\'as dificiles que otros.
+
+Por un lado, el d\'igito 1 es el m\'as facil de reconocer. Nuestra hip\'otesis
+es que no es normal dibujarlo con m\'as de un trazo, y eso simplifica mucho la
+descomposici\'on en componentes principales, al tener que capturar unicamente ese
+fen\'omeno.
+
+Por el otro, el d\'igito 5 es much\'isimo m\'as complicado de reconocer, teniendo
+hitrates de una fracci\'on de los otros d\'igitos, incluso con m\'as componentes
+principales. Esto se debe al fen\'omeno de que es a veces sut\'il la diferencia
+entre los d\'igitos como 2 y 8.
+
+En las figuras \ref{fig:HM30kcv-k5} hasta \ref{fig:HM30kcv-k50}, podemos apreciar
+en un formato HeatMap como varian los aciertos. Usamos norma 2 para la detecci\'on ac\'a
+ya que antes pudimos apreciar que era m\'etodo m\'as efectivo. Vemos que cuando tomamos pocas
+columnas, la diagonal del heatmap (que es el acierto) esta muy difusa, y vemos tambien
+otros puntos fuera de la diagonal que tienen un valor bastante alto. Estos son los d\'igitos
+que se confunden. Podemos apreciar, por ejemplo, en la figura \ref{fig:HM30kcv-k5}, que
+los d\'gitos que m\'as se pueden confundir, con 5 columnas, son el 8 por el 2 y el 4 por el 1.
+
+Seria interesante poder combinar este mecanismo de detecci\'on con algun otro basado en un
+criterio diferente, pero que tenga m\'as poder clasificar entre los d\'igitos problematicos
+previamente comentados.
+
+
+\subsection{Cantidad de columnas a tomar para la comparaci\'on}
+Un punto clave de este trabajo fue la determinaci\'on de la cantidad de valores que debemos
+utilizar para comparar im\'agenes. En todas las figuras pudimos observar, en mayor o menor
+grado, un crecimiento del hitrate con respecto a la cantidad de columnas tomadas.
+Obviamente, tomar mas elementos lleva a una mejor caracterizaci\'on', pero se vuelve un problema
+de que uno esta b\'asicamente identificando una im\'agen pixel por pixel. Lo interesante de un
+sistema de reconocimiento de im\'agenes es tener una alto grado de detecci\'on utilizando la menor
+cantidad de recursos.
+
+
+Se puede apreciar tanto en las figuras \ref{fig:HM30kcv-k5} hasta \ref{fig:HM30kcv-k100} como
+en \ref{fig:HR30kcv}, que hay una diferencia considerable en la elecci\'on del m\'etodo usado,
+pero sobre todo en la cantidad de columnas elegidas. Sin embargo, a partir de ciertos valores
+ya el crecimiento del hitrate es muy lento ($K=50$ por ejemplo). Esto en realidad importa poco
+si la cantidad de im\'agenes que tenemos que detectar no es grande, la diferencia de cantidad
+de operaciones que hay entre $K=50$ y $K=150$ no es enorme. Dicho esto, hay que tener en cuenta que
+en sistemas \textit{real-time} esto puede ser excesivamente costoso. Seg\'un nuestros experimentos,
+se deberia hacer un analisis de los requerimientos de forma cuidadosa y ver si el \textit{trade-off} tiempo/precisi\'on
+es aceptable o no.
