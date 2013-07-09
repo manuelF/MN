@@ -196,7 +196,7 @@ bool sigoIterando(vector<vector<double> > &A)
 	return res>delta;
 	/** Itero hasta que los elementos debajo de la diagonal sumen menos de 15 **/
 }
-#define MAXITERACIONES 2
+#define MAXITERACIONES 200
 
 vector<vector<double> > Q,R;
 vector<vector<double> > allAuVec; 
@@ -387,7 +387,7 @@ int main(int argc, char* argv[])
 	}
     vector<vector<double> > Mx = generateMx(); /** Genero Mx la matriz de covarianza **/
     allAuVec = Id(Mx.size()); /** Inicializo la matriz de autovectores **/
-    for(int its=1;its<100;its++)
+    for(int its=1;its<MAXITERACIONES;its++)
     {
         eig(Mx,av); /** Calculo los autovectores de la matriz de covarianza **/        
         bool b = sigoIterando(Mx);
