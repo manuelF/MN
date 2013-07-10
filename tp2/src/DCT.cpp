@@ -255,7 +255,7 @@ void generarRuido(vector<double> &y, int imp)
         {
 			if(i % IMPULSE_NOISE_TICK == 0) {
 				if(i % 3*IMPULSE_NOISE_TICK == 0) sign *= -1;
-            	y[i]=sign*IMPULSE_NOISE_DEFAULT;
+            	y[i]+=sign*IMPULSE_NOISE_DEFAULT;
 			}
         }
 	}
@@ -371,10 +371,10 @@ void procesar1D()
     
     dump("orig",q);
     
-    //filtrarRuido(y,EXPONENTIAL_FILTER);
-    //filtrarRuido(y,AVERAGER_FILTER );
     dump("mod",y);
-    filtrarRuido(y,MEDIAN_FILTER );
+    filtrarRuido(y,EXPONENTIAL_FILTER);
+    //filtrarRuido(y,AVERAGER_FILTER );
+    //filtrarRuido(y,MEDIAN_FILTER );
 
     dump("recovered",y);
 
