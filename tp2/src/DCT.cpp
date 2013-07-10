@@ -307,16 +307,17 @@ void filtrarRuido(vector <double> &y, int imp)
 	if(imp == MEDIAN_FILTER)
 	{
 	   vector<double> local_y;
-       for(int i=startfilter+2;i<n-2;i++)
+	   int qty = 4;
+       for(int i=startfilter+qty;i<n-qty;i++)
         {
 		  
 		   local_y.clear();
-		   for(int j = i-2; j <= i+2; j++) {
+		   for(int j = i-qty; j <= i+qty; j++) {
 				local_y.push_back(y[j]);
 		   }
 
 			sort(local_y.begin(), local_y.end());
-            replace[i]= local_y[2]; 
+            replace[i]= local_y[qty]; 
 		}
 
 	}
