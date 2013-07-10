@@ -382,15 +382,102 @@ void procesar1D()
     cerr<< "PNSR: " << psnr(lecturas,x) << endl;
 }
 
-void transpose(vector<vector<double>> &mat)
+void transpose(vector<vector<double> > &mat)
 {
-    for(unsigned int i=0;i<mat.size();i++)
+    for(int i=0;i<(int)mat.size();i++)
     {
-        for(unsigned int j=i;j<mat[i].size();j++)
+        for(int j=i;j<(int)mat[i].size();j++)
         {
             swap(mat[i][j],mat[j][i]);
         }
     }
+}
+
+vector<double> resolver1D(const vector<vector<double> > &mat, const vector<double> &y) // mat * ret = y
+{
+	int n = mat.size();
+	assert((int)mat.size()==n&&(int)mat[0].size()==n&&(int)y.size()==n);
+	vector<vector<double> > sistema(mat);
+	for(int i=0;i<n;i++)
+		sistema[i].push_back(y[i]); // sistema es [mat|y]
+	for(int j = 0;j < n-1; j++)
+	{
+		int mx = j;
+		for(int t = j+1; t<n ;t++)
+		if(abs(sistema[mx][j])< abs(sistema[t][j]))
+			mx = t;
+		swap(sistema[mx],sistema[j]);
+        double m = sistema[j][j];
+
+		for(int i = j+1;i<n;i++)
+		{
+			double db = sistema[i][j]/m;
+			for(int t=j;t<n+1;t++)
+				sistema[i][t] -= db*sistema[j][t];
+		}
+	}
+	vector<double> x(n,0);// los valores de x antes de aplicar la permutacion
+    for(int i=n-1;i>=0;i--)
+	{
+		double y_i = sistema[i][n]; // el que seria el numero en y en [mat|y]
+		double a = 0;
+		for(int j=i+1;j<n;j++)
+			a += sistema[i][j]*x[j];//
+		x[i] = (y_i-a)/sistema[i][i];
+	}
+
+	return x;
+}
+
+vector<vector<double> > resolverSistema(vector<vector<double> > &A, vector<vector<double> > &B) /// A*ret=B
+{
+	int n = A.size(); /// A[0].size() == B.size() == B[0].size()
+	vector<vector<double> > ret(n);
+	transpose(B);
+	for(int i=0;i<n;i++)
+		ret[i] = resolver1D(A,B[i]);
+	transpose(B);
+	transpose(ret);
+	return ret;
+}
+
+vector<vector<double> > antitransformar2D(vector<vector<double> > &y) /// mat * ret * mat^t= y
+{   
+    /**
+     * Primero hacemos mat*x = y, y despues ret*mat^t = x que es o mismo que mat*ret^t = x^t
+     */
+     vector<vector<double> > mat = M;
+     vector<vector<double> > x = resolverSistema(mat,y);
+     transpose(x);
+     vector<vector<double> > ret = resolverSistema(mat,x);
+     transpose(ret);
+     return ret;
+}
+
+/**
+ * 
+ * tranformar2D es M mat M^t. Primero hago mat M^t y despues hago M por el resultado de eso
+ **/
+
+vector<vector<double> > transformar2D(const vector<vector<double> > &mat)
+{
+	int n = mat.size();
+	vector<vector<double> > y(n,vector<double>(n,0)), res(n,vector<double>(n,0));
+#pragma omp parallel for
+	for(int i=0;i<n;i++)
+	for(int j=0;j<n;j++)
+	{
+		for(int t=0;t<n;t++)
+			y[i][j] += mat[i][t] * M[j][t]; ///M[j][t] porque es M^t
+	}
+#pragma omp parallel for
+	for(int i=0;i<n;i++)
+	for(int j=0;j<n;j++)
+	{
+		for(int t=0;t<n;t++)
+			res[i][j] += M[i][t]*y[t][j];
+	}
+	return res;
 }
 
 void procesar2D()
@@ -405,6 +492,7 @@ void procesar2D()
     int width, height;
     int grayscale;
     int scanf_res = scanf("%d %d\n%d\n",&width,&height,&grayscale);
+    ///recordemos que width == height siempre
     if(scanf_res == 0) {}
 
     vector<vector<double>> _img(height,vector<double>(width));
@@ -417,7 +505,7 @@ void procesar2D()
             unsigned char read;
             if(scanf("%c",&read)!=1)
             {
-    // cerr << "ERROR: PGM no se puede leer correctamente" << endl;
+    //              cerr << "ERROR: PGM no se puede leer correctamente" << endl;
             }
             _img[j][i]=(double) read;
             todo[j*width+i]=(double)read;
@@ -428,17 +516,33 @@ void procesar2D()
     FILE* f = fopen("imgMod.pgm","w");
     fprintf(f,"P5\n%d %d\n%d\n",width,height,grayscale);
     //transpose(_img);
-    vector<vector<double>> out (height);
     
+    vector<vector<double> >vec = _img;
+    
+    for(int j=0;j<height;j++)
+    	generarRuido(vec[j],SIN_NOISE);
+    
+    
+    vector<vector<double> > vec2 = transformar2D(vec); //transformada
+    
+    for(int i=0;i<height;i++)
+    {
+    	filtrarRuido(vec2[i],EXPONENTIAL_FILTER);
+	    filtrarRuido(vec2[i],AVERAGER_FILTER );
+	}
+
+    vector<vector<double> > out = antitransformar2D(vec2);
+
+    /*   
     for(int j=0; j<height; j++)
     {
-        out[j]=vector<double>(_img[j]);
+        out[j]=vector<double>(_img[j]); 
         generarRuido(out[j],SIN_NOISE);
         out[j]=transformar(out[j]);
         filtrarRuido(out[j],EXPONENTIAL_FILTER);
         //filtrarRuido(out[j],AVERAGER_FILTER);
         out[j]=antitransformar(out[j]);
-    }
+    }*/
     
     double e = psnr(_img,out);
     cerr << "PSNR: " << e << endl;
