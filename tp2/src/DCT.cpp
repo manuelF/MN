@@ -28,7 +28,7 @@
 #define AVERAGER_FILTER 2
 #define MEDIAN_FILTER 3
 
-#define IMPULSE_NOISE_DEFAULT 200
+#define IMPULSE_NOISE_DEFAULT 20
 #define IMPULSE_NOISE_TICK 20
 
 //typedef long double double;
@@ -251,7 +251,6 @@ void generarRuido(vector<double> &y, int imp)
 	{
 		int sign = 1;
         ruido = vector<double>(y.size());
-        #pragma omp parallel for
         for(int i =0; i<(int)y.size();i++)
         {
 			if(i % IMPULSE_NOISE_TICK == 0) {
