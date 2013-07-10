@@ -402,18 +402,17 @@ void procesar2D()
         cerr << "ERROR: PGM tipo " << magic << " no implementado, solo P5"<< endl;
         exit(1);
     }
-    int x, y;
+    int width, height;
     int grayscale;
-    int scanf_res = scanf("%d %d\n%d\n",&x,&y,&grayscale);
+    int scanf_res = scanf("%d %d\n%d\n",&width,&height,&grayscale);
     if(scanf_res == 0) {}
 
-  //  x++; y++;
-    vector<vector<double>> _img(y,vector<double>(x));
+    vector<vector<double>> _img(height,vector<double>(width));
     
-    vector<double> todo(x*y);
-    for(int j = 0; j < y; j++)
+    vector<double> todo(width*height);
+    for(int j = 0; j < height; j++)
     {
-        for(int i = 0; i < x; i++)
+        for(int i = 0; i < width; i++)
         {
             unsigned char read;
             if(scanf("%c",&read)!=1)
@@ -421,17 +420,17 @@ void procesar2D()
     //              cerr << "ERROR: PGM no se puede leer correctamente" << endl;
             }
             _img[j][i]=(double) read;
-            todo[j*x+i]=(double)read;
+            todo[j*width+i]=(double)read;
         }
     }
-    generarMatrizDCT(x);
+    generarMatrizDCT(width);
 
     FILE* f = fopen("imgMod.pgm","w");
-    fprintf(f,"P5\n%d %d\n%d\n",x,y,grayscale);
+    fprintf(f,"P5\n%d %d\n%d\n",width,height,grayscale);
     //transpose(_img);
-    vector<vector<double>> out (y);
+    vector<vector<double>> out (height);
     
-    for(int j=0; j<y; j++)
+    for(int j=0; j<height; j++)
     {
         out[j]=vector<double>(_img[j]); 
         generarRuido(out[j],SIN_NOISE);
@@ -444,9 +443,9 @@ void procesar2D()
     double e = psnr(_img,out);
     cerr << "PSNR: " << e << endl;
 
-    for(int j=0; j<y; j++)
+    for(int j=0; j<height; j++)
     {
-        for(int i=0; i<x;i++)
+        for(int i=0; i<width;i++)
         {
             fprintf(f,"%c",(unsigned char)out[j][i]);
         }
