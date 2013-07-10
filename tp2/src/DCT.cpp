@@ -373,12 +373,12 @@ void procesar1D()
     
     //filtrarRuido(y,EXPONENTIAL_FILTER);
     //filtrarRuido(y,AVERAGER_FILTER );
+    dump("mod",y);
     filtrarRuido(y,MEDIAN_FILTER );
 
+    dump("recovered",y);
 
-    dump("mod",y);
     vector<double> x = antitransformar(y);
-    dump("recovered",x);
     cerr<< "PNSR: " << psnr(lecturas,x) << endl;
 }
 
