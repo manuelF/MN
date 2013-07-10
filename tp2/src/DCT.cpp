@@ -325,11 +325,11 @@ void filtrarRuido(vector <double> &y, int imp)
     {
        for(int i=startfilter+2;i<n-2;i++)
         {
-            replace[i]= y[i-2]+
-                        y[i-1]+
-                        y[i]  +
-                        y[i+1]+
-                        y[i+2];
+            replace[i]= .15*y[i-2]+
+                        .20 *y[i-1]+
+                        .30 *y[i]  +
+                        .20 *y[i+1]+
+                        .15 *y[i+2];
         }
     }
     for (int i = 0; i< (int) y.size(); i++)
@@ -375,9 +375,10 @@ void procesar1D()
     //filtrarRuido(y,AVERAGER_FILTER );
     filtrarRuido(y,MEDIAN_FILTER );
 
-//    dump("mod",y);
+
+    dump("mod",y);
     vector<double> x = antitransformar(y);
-//    dump("recovered",x);
+    dump("recovered",x);
     cerr<< "PNSR: " << psnr(lecturas,x) << endl;
 }
 
