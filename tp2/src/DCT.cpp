@@ -338,14 +338,14 @@ sort(local_y.begin(), local_y.end());
 }
 
 
-void filtrarRuido(vector <vector <double> > &y, int imp)
+void filtrarRuido2D(vector <vector <double> > &y, int imp)
 {
     const int n = (int) y.size();// == y[0].size()
     const int contorno = 20;
     const double diffmax = 2.0;
     const int onepercent = n/100;
     const int startfilter = 5*onepercent;
-    vector<double> replace(y);
+    vector<vector<double> > replace(y);
     if(imp == ZERO_FILTER)
     {
         double mx = abs(y[startfilter][startfilter]);
@@ -394,9 +394,9 @@ void filtrarRuido(vector <vector <double> > &y, int imp)
             local_y.clear();
             for(int ii = i-qty; ii <= i+qty; ii++)
             for(int jj = j-qty; jj <= j+qty; jj++)
-                local_y.push_back(y[j]);
+                local_y.push_back(y[ii][jj]);
             sort(local_y.begin(), local_y.end());
-            replace[i]= local_y[(qty*qty)/2];
+            replace[i][j]= local_y[(qty*qty)/2];
         }
     }
     if(imp == AVERAGER_FILTER)
@@ -409,8 +409,8 @@ void filtrarRuido(vector <vector <double> > &y, int imp)
             for(int ii=i-2;ii<=i+2;ii++)
             for(int jj=j-2;jj<=j+2;jj++)
             {
-                a+=(5-abs(i-ii)+abs(j-jj))*y[ii][jj];
-                b+=(5-abs(i-ii)+abs(j-jj));
+                a+=(5-sqrt(abs(i-ii)+abs(j-jj)))*y[ii][jj];
+                b+=(5-sqrt(abs(i-ii)+abs(j-jj)));
             }
             replace[i][j] = a/b;
         }
@@ -611,24 +611,9 @@ void procesar2D()
 
     vector<vector<double> > vec2 = transformar2D(vec); //transformada
 
-    for(int i=0;i<height;i++)
-    {
-    	filtrarRuido(vec2[i],EXPONENTIAL_FILTER);
-	    filtrarRuido(vec2[i],AVERAGER_FILTER );
-	}
-
+    filtrarRuido2D(vec2,EXPONENTIAL_FILTER);
+    filtrarRuido2D(vec2,AVERAGER_FILTER );
     vector<vector<double> > out = antitransformar2D(vec2);
-
-    /*
-    for(int j=0; j<height; j++)
-    {
-        out[j]=vector<double>(_img[j]);
-        generarRuido(out[j],SIN_NOISE);
-        out[j]=transformar(out[j]);
-        filtrarRuido(out[j],EXPONENTIAL_FILTER);
-        //filtrarRuido(out[j],AVERAGER_FILTER);
-        out[j]=antitransformar(out[j]);
-    }*/
 
     double e = psnr(_img,out);
     cerr << "PSNR: " << e << endl;
