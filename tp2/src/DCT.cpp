@@ -46,7 +46,7 @@ double ecm(const vector<vector<double>>& orig, const vector<vector<double>>& rec
 
 
 
-double ecm(const vector<vector<double>>& orig, const vector<vector<double>>& recup)
+double ecm(const vector<vector<double> >& orig, const vector<vector<double> >& recup)
 {
     double e=0.0;
 
@@ -62,9 +62,9 @@ double ecm(const vector<vector<double>>& orig, const vector<vector<double>>& rec
         double q=ecm(orig[i],recup[i]);
         e+=(q*q);
     }
-    e=e/(double)n;
+    e=e/(double)(n*n);
     return e;
- 
+
 }
 double ecm(const vector<double>& orig, const vector<double>& recup)
 {
@@ -88,7 +88,7 @@ double ecm(const vector<double>& orig, const vector<double>& recup)
 double psnr(const vector<vector<double>>& orig, const vector<vector<double>> &recup)
 {
     double _max = 255.0;
-    
+
     return 10 * log10((_max*_max)/ecm(orig, recup));
 }
 
@@ -96,7 +96,7 @@ double psnr(const vector<vector<double>>& orig, const vector<vector<double>> &re
 double psnr(const vector<double>& orig, const vector<double> &recup)
 {
     double _max = *max_element(orig.begin(), orig.end());
-    
+
     return 10 * log10((_max*_max)/ecm(orig, recup));
 }
 vector<double> frecuencias;
@@ -299,7 +299,7 @@ for(int i=startfilter;i<n;i++) mx = max(mx, abs(y[i]));
                         double decay = (1.0/pow(1.2,contorno-abs(j-i)+1));
                         replace[j] = y[j]*decay;
                  }
-        
+
             }
         }
 }
@@ -336,6 +336,92 @@ sort(local_y.begin(), local_y.end());
         y[i]=replace[i];
 
 }
+
+
+void filtrarRuido(vector <vector <double> > &y, int imp)
+{
+    const int n = (int) y.size();// == y[0].size()
+    const int contorno = 20;
+    const double diffmax = 2.0;
+    const int onepercent = n/100;
+    const int startfilter = 5*onepercent;
+    vector<double> replace(y);
+    if(imp == ZERO_FILTER)
+    {
+        double mx = abs(y[startfilter][startfilter]);
+        for(int i=startfilter;i<n-startfilter;i++)
+        for(int j=startfilter;j<n-startfilter;j++)
+            mx = max(mx, abs(y[i][j]));
+        for(int i=startfilter;i<n-startfilter;i++)
+        for(int j=startfilter;j<n-startfilter;j++)
+        {
+            if(abs(y[i][j])*diffmax>mx)
+            {
+                for(int ii=max(startfilter,i-contorno);ii<=min(n-startfilter,i+contorno);ii++)
+                for(int jj=max(startfilter,j-contorno);jj<=min(n-startfilter,j+contorno);jj++)
+                    replace[ii][jj] = 0;
+            }
+        }
+    }
+    if(imp == EXPONENTIAL_FILTER)
+    {
+        double mx = abs(y[startfilter][startfilter]);
+        for(int i=startfilter;i<n-startfilter;i++)
+        for(int j=startfilter;j<n-startfilter;j++)
+            mx = max(mx, abs(y[i][j]));
+        for(int i=startfilter;i<n-startfilter;i++)
+        for(int j=startfilter;j<n-startfilter;j++)
+        {
+            if(abs(y[i][j])*diffmax>mx)
+            {
+                 for(int ii=max(0,i-contorno);ii<=min(n,i+contorno);ii++)
+                 for(int jj=max(0,j-contorno);jj<=min(n,j+contorno);jj++)
+                 {
+                        double decay = (1.0/pow(1.2,2*contorno-abs(ii-i)-abs(jj-j)+1));
+                        replace[ii][jj] = y[ii][jj]*decay;
+                 }
+
+            }
+        }
+    }
+    if(imp == MEDIAN_FILTER)
+    {
+        vector<double> local_y;
+        int qty = 4;
+        for(int i=startfilter+qty;i<n-qty;i++)
+        for(int j=startfilter+qty;j<n-qty;j++)
+        {
+            local_y.clear();
+            for(int ii = i-qty; ii <= i+qty; ii++)
+            for(int jj = j-qty; jj <= j+qty; jj++)
+                local_y.push_back(y[j]);
+            sort(local_y.begin(), local_y.end());
+            replace[i]= local_y[(qty*qty)/2];
+        }
+    }
+    if(imp == AVERAGER_FILTER)
+    {
+        for(int i=startfilter+2;i<n-2;i++)
+        for(int j=startfilter+2;j<n-2;j++)
+        {
+            replace[i][j] = 0;
+            double a=0,b=0;
+            for(int ii=i-2;ii<=i+2;ii++)
+            for(int jj=j-2;jj<=j+2;jj++)
+            {
+                a+=(5-abs(i-ii)+abs(j-jj))*y[ii][jj];
+                b+=(5-abs(i-ii)+abs(j-jj));
+            }
+            replace[i][j] = a/b;
+        }
+    }
+    for (int i = 0; i< (int) y.size(); i++)
+        y[i]=replace[i];
+
+}
+
+
+
 void dump(string name, const vector<double>& src)
 {
     int n = src.size();
@@ -368,9 +454,9 @@ void procesar1D()
 
     vector<double> y = transformar(l); //transformada
 
-    
+
     dump("orig",q);
-    
+
     dump("mod",y);
     filtrarRuido(y,EXPONENTIAL_FILTER);
     //filtrarRuido(y,AVERAGER_FILTER );
@@ -442,7 +528,7 @@ vector<vector<double> > resolverSistema(vector<vector<double> > &A, vector<vecto
 }
 
 vector<vector<double> > antitransformar2D(vector<vector<double> > &y) /// mat * ret * mat^t= y
-{   
+{
     /**
      * Primero hacemos mat*x = y, y despues ret*mat^t = x que es o mismo que mat*ret^t = x^t
      */
@@ -455,7 +541,7 @@ vector<vector<double> > antitransformar2D(vector<vector<double> > &y) /// mat * 
 }
 
 /**
- * 
+ *
  * tranformar2D es M mat M^t. Primero hago mat M^t y despues hago M por el resultado de eso
  **/
 
@@ -496,7 +582,7 @@ void procesar2D()
     if(scanf_res == 0) {}
 
     vector<vector<double>> _img(height,vector<double>(width));
-    
+
     vector<double> todo(width*height);
     for(int j = 0; j < height; j++)
     {
@@ -516,15 +602,15 @@ void procesar2D()
     FILE* f = fopen("imgMod.pgm","w");
     fprintf(f,"P5\n%d %d\n%d\n",width,height,grayscale);
     //transpose(_img);
-    
+
     vector<vector<double> >vec = _img;
-    
+
     for(int j=0;j<height;j++)
     	generarRuido(vec[j],SIN_NOISE);
-    
-    
+
+
     vector<vector<double> > vec2 = transformar2D(vec); //transformada
-    
+
     for(int i=0;i<height;i++)
     {
     	filtrarRuido(vec2[i],EXPONENTIAL_FILTER);
@@ -533,17 +619,17 @@ void procesar2D()
 
     vector<vector<double> > out = antitransformar2D(vec2);
 
-    /*   
+    /*
     for(int j=0; j<height; j++)
     {
-        out[j]=vector<double>(_img[j]); 
+        out[j]=vector<double>(_img[j]);
         generarRuido(out[j],SIN_NOISE);
         out[j]=transformar(out[j]);
         filtrarRuido(out[j],EXPONENTIAL_FILTER);
         //filtrarRuido(out[j],AVERAGER_FILTER);
         out[j]=antitransformar(out[j]);
     }*/
-    
+
     double e = psnr(_img,out);
     cerr << "PSNR: " << e << endl;
 
@@ -570,7 +656,7 @@ int main(int argc, char* argv[])
         case 2:
             if(atoi(argv[1])==1)
             {
-            
+
                 procesar2D();
             }
             else
