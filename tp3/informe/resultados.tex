@@ -1,5 +1,33 @@
 \section{Resultados}
 
+\subsection{Iteraciones del c\'alculo de autovectore}
+El mecanismo de reconocimiento de im\'agenes esta basado en los autovectores
+de la matriz de covarianza, como detallamos antes. Para obtenerlos, se aplica
+el m\'etodo iterativo de la factorizacion QR reiterada, descripto anterioremente.
+La condicion de corte de este m\'etodo esta basada en la suma de los elementos bajo
+la diagonal. Estudiamos esta suma y la distribucion de los valores bajo la diagonal,
+para intentar entender el comportamiento y definir una buena cota. 
+
+\def \hrwidth {500pt}
+
+\begin{figure}[H]
+\begin {center}
+\includegraphics[width=\hrwidth]{plots/SUM.png}
+\end {center}
+\caption{Suma de los elementos bajo la diagonal para 5000, 15000 y 30000 elementos
+en funcion de la cantidad de iteraciones de QR.}
+\label{fig:SUM}
+\end{figure}
+
+\begin{figure}[H]
+\begin {center}
+\includegraphics[width=\hrwidth]{plots/PROM.png}
+\end {center}
+\caption{Promedio de los elementos bajo la diagonal para 5000, 15000 y 30000 elementos
+en funcion de la cantidad de iteraciones de QR.}
+\label{fig:PROM}
+\end{figure}
+
 
 \subsection{Promedio de Reconocimiento}
 La m\'etodologia de implementaci\'on fue la siguiente: Se construy\'o una
@@ -48,9 +76,60 @@ usando la matriz de covarianza entrenada con 15000 elementos}
 usando la matriz de covarianza entrenada con 30000 elementos}
 \label{fig:HR30kcv}
 \end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Reconocimiento en funcion de iteraciones}
+Una vez definido el m\'etodo de detecci\'on, nos interesa ver como varia el hitrate
+de acuerdo a la matriz generada con distinta cantidad de iteraciones. En particular
+utilizamos el m\'etodo de distancia a los promedios y 100 vecinos m\'as cercanos, todos
+medidos usando norma 2.
+
+\begin{figure}[H]
+\begin {center}
+\includegraphics[width=\hrwidth]{plots/HR-10-avg.png}
+\end {center}
+\caption{Hitrate en funci\'on de la cantidad de iteraciones en la generacion de la matriz
+usando distancia a los promedios tomando 10 componentes principales}
+\label{fig:HR10Avg}
+\end{figure}
+
+
+\begin{figure}[H]
+\begin {center}
+\includegraphics[width=\hrwidth]{plots/HR-100-avg.png}
+\end {center}
+\caption{Hitrate en funci\'on de la cantidad de iteraciones en la generacion de la matriz
+usando distancia a los promedios tomando 100 componentes principales}
+\label{fig:HR100Avg}
+\end{figure}
+
+
+\begin{figure}[H]
+\begin {center}
+\includegraphics[width=\hrwidth]{plots/HR-10-neig.png}
+\end {center}
+\caption{Hitrate en funci\'on de la cantidad de iteraciones en la generacion de la matriz
+usando vecinos m\'as cercanos tomando 10 componentes principales}
+\label{fig:HR10Neig}
+\end{figure}
+
+
+\begin{figure}[H]
+\begin {center}
+\includegraphics[width=\hrwidth]{plots/HR-100-neig.png}
+\end {center}
+\caption{Hitrate en funci\'on de la cantidad de iteraciones en la generacion de la matriz
+usando vecinos m\'as cercanos tomando 100 componentes principales}
+\label{fig:HR10Neig}
+\end{figure}
 
 
 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Reconocimiento por d\'igito}
 Fijamos la matriz de covarianza entrenada con 30000 elementos, ya que est\'a precalculada.
 Siguiendo la misma metodologia, nos concentramos ahora en el HitRate individual
