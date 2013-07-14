@@ -19,13 +19,16 @@ que casos es mejor aplicar cada uno.
 
 Experimentalmente pudimos observar que el filtro cero es bueno (recupera las
 se\~nales en un grado aceptable), pero el filtro 
-exponencial y el promediador son bastante mejores en todos los casos. 
+exponencial y el promediador son bastante mejores en todos los casos. En el caso
+de ruido Impulsivo, el filtro de la mediana tambi\'en logra resultados interesantes.
+
 Para poder obtener un mejor filtrado del ruido, decidimos aplicar primero el 
 filtro exponencial y luego el promediador, lo que result\'o en un filtrado muy 
 bueno dando resultados muy parecidos a la se\~nal original. 
 
-Los adjetivos utilizados se apoyan tanto en el campo sensorial (en las
-im\'agenes y gr\'aficos) como en la medida deL PSNR. 
+Los adjetivos utilizados se apoyan tanto en la interpretaci\'on de los gr\'aficos,
+la apreciaci\'on del resultado en las im\'agenes y la medida del PSNR tanto en 1 como en 2
+dimensiones. 
 
 \subsection{Se\~nales en una dimensi\'on}
 
@@ -84,6 +87,19 @@ habiendo aplicado el filtro promedio (azul)}
 \label{fig:SinProm}
 \end{figure}
 
+\subsubsection{Filtro de la Mediana}
+
+\begin{figure}[H]
+\begin {center}
+\includegraphics[width=500pt]{imagenes/dopp1024-imp-median.png}
+\end {center}
+\caption{Se\~nal \texttt{doppler1024} provista por la c\'atedra, transformada, gr\'aficada
+luego de aplicar ruido impulsivo (azul) y 
+habiendo aplicado el filtro promedio (verde)}
+\label{fig:SinProm}
+\end{figure}
+
+
 \subsubsection{M\'ultiples filtros}
 
 \begin{figure}[H]
@@ -123,7 +139,7 @@ habiendo aplicado los filtros promedio y exponencial (verde)}
         \begin{tabular}{|l|llll|}
                 \hline
                 \textbf{PSNR [dB]} & Se\~nal + 50*Sin & F(Exp) & F(Prom.) & F(Ambos) \\ \hline
-                    Dopp512 & 2.8847 & 19.8146 & 9.46651 & 20.9871 \\
+                    Dopp512 & 2.8847 & 19.8146 & 9.46651  & 20.9871 \\
                     Dopp1024 & 2.88818 & 19.3163 & 9.45959 & 21.2796 \\
                     s64 & 14.8158 & 7.69053 & 13.1417 & 8.11751 \\
                     Ramp1234 & 11.7625 & 29.7482 & 18.2714 & 28.9325 \\
