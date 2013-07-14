@@ -1,13 +1,20 @@
 
 \section{Desarrollo}
 
-La preparaci\'on del experimento no tuvo grandes dificultades, permitiendo
+La preparaci\'on del experimento pareci\'o no acarrear grandes dificultades, permitiendo
 focalizar los esfuerzos en la b\'usqueda, an\'alisis y mejora de filtros. 
 La gran cantidad de variantes de implementaciones encontradas del algoritmo a 
 utilizar, debido al amplio uso de la DCT para la reducci\'on de ruido en se\~nales, 
 sumado a lo aprendido sobre el trabajo con matrices en el Trabajo Pr\'actico 
 N\'umero 1, posibilitaron el desarrollo de un experimento limpio y de simple 
 ejecuci\'on.
+
+Sin embargo, luego de la primera correcci\'on del trabajo, encontramos que esta
+aparente facilidad correspond\'ia a la simplicidad de los tipos de ruidos simulados.
+Para la re-entrega del trabajo, decidimos agregar un ruido que se presenta en general
+en se\~nales de audio como lo es el ruido impulsivo acompa/~nado de una implementaci\'on
+del filtro de la mediana para mitigarlo (ambas funciones son analizadas en detalle a lo 
+largo de esta secci\'on).    	
 
 Para un mejor entendimiento del fen\'omeno del ruido en las se\~nales, dividimos
 el an\'alisis en distintos casos seg\'un el tipo de ruido a tratar. 
@@ -40,25 +47,26 @@ La existencia de un Makefile fue clave a la hora de automatizar tareas de
 compilaci\'on y corrida de tests, para poder ser lo mas automatizados dentro de
 lo posible.
 
-El informe fue realizado mediante la utilizaci\'on de \href{http://www.latex-project.org/}{LaTeX},
+El informe fue realizado mediante la utilizaci\'on de \href{http://www.latex-project.org/}{\LaTeX},
  manteniendo la estructura de informe del Trabajo Pr\'actico N\'umero 1 y
 permitiendo expresar estructuras y f\'ormulas matem\'aticas de una manera simple
 y clara.
 
 \subsection{Desarrollo del experimento de reducci\'on de ruido}
 
-Para reducir el ruido utilizamos tres tipos de filtros: Filtro cero, filtro 
-exponencial y filtro promediador. En los tres casos empezamos a filtrar las 
+Para reducir el ruido utilizamos cuatro tipos de filtros: Filtro cero, filtro 
+exponencial, filtro promediador y filtro de la mediana. En los cuatro casos empezamos 
+a filtrar las 
 se\~nales desde el 5\% (es decir, no procesamos el 5\% de se\~nales de menor
 frecuencia) ya que experimentando encontramos que en ese 5\% se encuentra 
 generalmente gran parte de la informaci\'on, y en proporci\'on muy poco ruido.
 
-Esto es sobre todo notorio en se\~nales de audio. La t\'eoria atras de esto es la amplitud
-de frecuencias de la acustica humana. El rango de audicion humana se encuentra entre los 20Hz
-y los 20kHz. Este amplio rango concentra la mayor cantidad de informacion en la parte mas baja,
+Esto es sobre todo notorio en se\~nales de audio. La teor\'ia atr\'as de esto es la amplitud
+de frecuencias de la ac\'ustica humana. El rango de audici\'on humana se encuentra entre los 20Hz
+y los 20kHz. Este amplio rango concentra la mayor cantidad de informaci\'on en la parte m\'as baja,
 normalmente inferior a los 4kHz (el rango vocal humano). Por eso consideramos que
-si hubiera ruido en este sector y lo intentaramos sacar, es mucho m\'as probable que eliminaramos
-informaci\'on crucial del audio. Por eso preferimos tocar lo menos posible ese area,
+si hubiera ruido en este sector y lo intentaramos sacar, es mucho m\'as probable que elimin\'aramos
+informaci\'on crucial del audio. Por eso preferimos tocar lo menos posible ese \'area,
 a riesgo de no extraer los m\'aximos niveles de ruido.
 
 \subsection{Filtro Cero}
@@ -72,13 +80,15 @@ buenos. Cuando se nos ocurrio agregarle a la implementaci\'on la omisi\'on del
 primer 5\% a la hora de filtrar vimos que los resultados fueron mucho mejores.
 
 La formula empleada si el pico estuviera en $i$ es:
+
 \begin{center}
     $y'[j] = 0 \iff j \in [i-contorno; i+contorno]$\\
     $y'[j] = y[j] \iff j \not \in [i-contorno; i+contorno]$\\
 \end{center}
+
 donde $contorno$ es el rango de valores alrededor del pico que estamos tomando, y
-$j$ es el iterador que va desde $i-contorno$ hasta $i+contorno$, para poder aplicar
-el decaimiento exponencial a todos los valores perif\'ericos al punto.
+$j$ es el iterador que va desde $i-contorno$ hasta $i+contorno$, para poder anular
+(llevar a 0) a los valores perif\'ericos al punto.
 
 \subsection{Filtro Exponencial}
 
@@ -94,7 +104,7 @@ cercanos en menor medida.
 
 La formula empleada si el pico estuviera en $i$ es:
 \begin{center}
-$y'[j] = y[j]* {1.2^{(contorno-abs(j-i)+1)}}^{-1}$\\
+$y'[j] = y[j]* (1.2^{(contorno-abs(j-i)+1)})^{-1}$\\
 \end{center}
 donde $contorno$ es el rango de valores alrededor del pico que estamos tomando, y
 $j$ es el iterador que va desde $i-contorno$ hasta $i+contorno$, para poder aplicar
@@ -103,7 +113,7 @@ el decaimiento exponencial a todos los valores perif\'ericos al punto.
 \subsection{Filtro Promedidador}
 
 El filtro promediador distribuye los coeficientes m\'as grandes 
-entre las se\~nales vecinas, es decir, si el coeficiente $k$-esimo es muy 
+entre las se\~nales vecinas, es decir, si el coeficiente $k$-\'esimo es muy 
 grande, le transfiere parte del valor a sus vecinos localizados en $k-2$, $k-1$, $k+1$ y
 $k+2$. La inspiraci\'on de este m\'etodo surge de la discretizaci\'on m\'as sencilla
 de las ecuaciones diferenciales de segundo orden de difusi\'on de Poisson, donde
@@ -122,10 +132,33 @@ distintas frecuencias muy distintas al mismo tiempo necesitamos obtener un
 contexto mayor en cada punto para saber como manejarlos en relaci\'on con sus
 vecinos.
 
+\subsection{Filtro de la Mediana}
+
+El filtro de la mediana actua sobre cada muestra de la se\~nal (luego del 5\% inicial),
+reemplazando cada valor a calcular por la mediana del arreglo de valores conformado por
+las muestras de $k - 4$ hasta $k + 4$, siendo $k$ el \'indice del valor a calcular en la 
+se\~nal. Para hacer esto, se toman los valores del intervalo, se realiza un ordenamiento
+de menor a mayor y se toma el valor medio del arreglo resultante. 
+En este caso, como el intervalo est\'a determinado por 9 elementos, se toma el 5to valor.
+
+La decisi\'on de tomar 8 valores alrededor del valor a reemplazar est\'a dada por la observaci\'on
+de los valores tomados por el PSNR al aplicar distintos ruidos a se\~nales y luego utilizar este 
+filtro. Usando 4 valores a cada lado obtuvimos valores que nos resultaron satisfactorios sin 
+sacrificar performance (al no elegir intervalos muy grandes). La aplicaci\'on del filtro en cada
+posici\'on se puede ver mediante el siguiente pseudoc\'odigo:
+
+\begin{center}
+$y'[i]= sort(y, i - 4, i + 4)[4]$\\
+\end{center}
+
+La generaci\'on de este filtro est\'a intimamente ligado a la intenci\'on de mitigar se\~nales contaminadas
+con ruido impulsivo. Como el ruido impulsivo se caracteriza por manifestarse peri\'odicamente y durante tiempos
+cortos, el filtro de la mediana los evita ya que no ser\'an el valor de la mediana del entorno si este es suficientemente
+grande como para contener m\'as elementos regulares en la se\~nal que los pertenecientes al pulso.
 
 \subsection{Aplicaci\'on de ruido}
 
-Se experiment\'o con 2 clases de ruido en las se\~nales:
+Se experiment\'o con 3 clases de ruido en las se\~nales:
 
 \begin{itemize}
 	\begin{item} {\bf Ruido senoidal:} Aplica un ruido formado por la suma de la se\~nal
@@ -136,17 +169,17 @@ la funci\'on seno.
 	Es decir, para cada muestra de nuestra se\~nal aplicamos ruido del siguiente
 modo:
 
-$$senal_{ruidosa}[i] = senal_{original}[i] + k * \sin(i)$$
+$$se\~nal_{ruidosa}[i] = se\~nal_{original}[i] + k * \sin(i)$$
 
   
-Tomamos como valores de $k$, $k=50$ y $k=1000$ para testear el comportamiento en casos con excesivo ruido, llevandolo a valores
+Tomamos como valores de $k$, $k=50$ y $k=1000$ siendo $k$ un valor constante para testear el comportamiento en casos con excesivo ruido, llev\'andolo a valores
 como 1000.
 
 El inter\'es te\'orico de este ruido surge de la industria de la
 telecomunicaci\'on. Es un ruido que aparece en las im\'agenes por la proximidad de los cables portadores de se\~nales a los cables de corriente alterna. La corriente alterna
 es una se\~nal sinusoidal de frecuencia entre  50 y 60Hz. Es un problema fundamental de solucionar, ya que es muy com\'un en
-las instalaciones de camaras de seguridad por ejemplo, la existencia de ambos conductores pasando por el mismo ducto, sin separaci\'on
-alguna entre si. Esto genera una se\~nal ghost o lavada, perdiendo definici\'on y, en algunos casos, haciendola irreconocible incluso.
+las instalaciones de c\'amaras de seguridad por ejemplo, la existencia de ambos conductores pasando por el mismo ducto, sin separaci\'on
+alguna entre s\'i. Esto genera una se\~nal ghost o lavada, perdiendo definici\'on y, en algunos casos, haciendola irreconocible incluso.
 	\end{item}
 
 	\begin{item}
@@ -160,10 +193,26 @@ una distribuci\'on muy similar a la normal comprendido en todas las frecuencias.
 
  	Para cada punto se aplica el ruido de la siguiente manera:
 
-    $$senal_{ruidosa}[i] = senal_{original}[i] + random_{gaussiana}(\mu=0, \sigma=100)$$
+    $$se\~nal_{ruidosa}[i] = se\~nal_{original}[i] + random_{gaussiana}(\mu=0, \sigma=100)$$
 
 
 	\end{item}
+
+	\begin{item}
+		{\bf Ruido Impulsivo:} Este tipo de ruido consiste en sumar a ciertos puntos dispersos 
+de la se\~nal un n\'umero altamente mayor en m\'odulo a la media. Este tipo de ruido es muy 
+frecuente en se\~nales de audio y se manifiesta como pulsos o clicks.
+Generalmente se utiliza el Filtro de la Mediana para mitigarlo.
+
+ 	Para cada punto se aplica el ruido de la siguiente manera:
+
+    $$se\~nal_{ruidosa}[i] = se\~nal_{original}[i] + fSigno() * VALOR_PICO$$
+
+	Donde VALOR\_PICO es una constante y $fSigno$ es una funci\'on que devuelve 1 \'o -1 dependiendo
+	de un factor (en nuestro caso cada 3 ticks cambia el signo).
+
+	\end{item}
+
 \end{itemize}
 
 \subsection{Pasaje a dos dimensiones}
