@@ -24,7 +24,7 @@ decimos recuperados as\'i como de una mayor suavidad a la se\~nal recuperada.
 
 En la figura \ref{fig:GexpSpec} vemos como al eliminar un enorme ruido
 sinusoidal no elimina completamente el espectro de la se\~nal, sino que
-lo atenua mucho y preserva el signo incluso. En la figura \ref{fig:SexpSig} vemos
+lo aten\'ua mucho y preserva el signo incluso. En la figura \ref{fig:SexpSig} vemos
 como reconstruye una se\~nal que fue afectada por el mismo ruido, razonablemente
 bien, preservando la forma y las intensidades promedio\\
 
@@ -58,6 +58,11 @@ es rescatado y presenta relativamente poca desviaci\'on con respecto
 a la se\~nal original. Para los n\'umeros exactos, consulte la tabla de
 PSNR presentada en Resultados.
 
+Otra idea interesante que surge de la implementaci\'on del ruido impulsivo y tambi\'en del
+filtro de la mediana que lo mitiga con \'exito es que la detecci\'on del tipo de ruido que afecta
+a la se\~nal puede ahorrar tiempo y aumentar la eficiencia del algoritmo, realizando un filtrado m\'as
+inteligente.
+
 \subsection{Filtros en 2D}
 
 
@@ -78,9 +83,9 @@ no recomendable.\\
 
 
 Como se puede ver en la Figura \ref{fig:Sin1000All}, el ruido senoidal
-de coeficiente 1000 hace cosas extrañas en la fotograf\'ia.
+de coeficiente 1000 hace cosas extra\'nas en la fotograf\'ia.
 Este ruido es controlado pero el multiplicador es muy alto, haciendo muy 
-dificil la interpretaci\'on de la imagen. A simple vista, no se puede distinguir ningun rasgo,
+dif\'icil la interpretaci\'on de la im\'agen. A simple vista, no se puede distinguir ning\'un rasgo,
 salvo el tenue contorno de la persona.
 Esta im\'agen ser\'ia totalmente in\'util en la gran mayoria de los casos.
 
@@ -93,12 +98,12 @@ parametros de configuraci\'on no logramos captar, como el fondo de
 libros oscuros. No se detectan mejoras usando ambos filtros simultaneamente.
 
 Eliminar ruido gaussiano de la im\'agen fue la actividad m\'as desafiante
-ya que el ruido blanco es muy d\'ificil de capturar por su condici\'on de ``antipatron''
+ya que el ruido blanco es muy d\'ificil de capturar por su condici\'on de ``antipatron''.
 
 En la Figura \ref{fig:gauss2d} vemos en este caso, que aplicar el filtro
 promediador luego de haber aplicado el exponencial, es un error. 
 Se reintroducen muchos de los \textit{artifacts} que se habian podido
 eliminar antes, sin ninguna mejoria de sharpness en la imagen. 
 
-Sin embargo, aplicando solo, se consigue una buena mejoria en la calidad
-de la imagen, aunque se difuminen muchos rasgos, la recuperaci\'on puede ser aceptable.
+Sin embargo, aplicandolo solo se consigue una buena mejor\'ia en la calidad
+de la im\'agen, aunque se difuminen muchos rasgos, la recuperaci\'on puede ser aceptable.

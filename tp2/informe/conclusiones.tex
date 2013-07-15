@@ -3,15 +3,16 @@
 La primer conclusi\'on que pudimos sacar de este TP fue que el filtro que apliquemos para detecci\'on y correci\'on
 de ruido siempre va a depender del tipo de ruido que querramos eliminar de la se\~nal.
 
-Los ruidos que estudiamos fueron ruidos gaussianos y ruidos senodales. En ambos casos pudimos comparar los filtros
-exponenciales y promediadores que desarrollamos contra las sen\~nales originales, y alguno de estos o la combinaci\'on de los dos,
-resultaron razonablemente efectivos a la hora de restaurar la mayor integridad posible.
+Los ruidos que estudiamos fueron los gaussianos, senoidales e impulsivos. En todos los casos pudimos comparar los filtros
+exponenciales, promediadores y de la mediana que desarrollamos contra las sen\~nales originales, y alguno de estos o la combinaci\'on de los dos primeros, resultaron razonablemente efectivos a la hora de restaurar la mayor integridad posible.
 
 \subsection{Tipos de ruido}
 
-Durante los experimentos trabajamos con 2 tipos de ruido. El Senoidal sigue un
+Durante los experimentos trabajamos con 3 tipos de ruido. El Senoidal sigue un
 patr\'on muy marcado. En cambio, el Gaussiano representa (del modo m\'as fiel
 que encontramos) valores aleatorios provenientes de una distribuci\'on normal.
+Por su parte el impulsivo posee un nivel de incertidumbre (en el sentido de ausencia de patrones)
+menor que el gaussiano y mayor que el senoidal.
 
 Correr los mismos filtros sobre se\~nales con esos tipos de ruido sirvi\'o como
 refuerzo a la intuici\'on de que es m\'as simple lidiar con ruidos que siguen
@@ -21,9 +22,9 @@ cierto patr\'on a hacerlo con el denominado ``ruido blanco''.
 
 En se\~nales 1D los filtros que aplicamos reconstruyeron se\~nales que se parecieron mucho m\'as a la se\~nal
 original que la se\~nal con ruido aunque en muchos casos la diferencia era notable. Se puede percibir esto en las zonas
-de alta frecuencia de la imagen. Se pudo notar ahi que el filtro promediador, incluso con coeficientes que preservaran
+de alta frecuencia de la im\'agen. Se pudo notar ah\'i que el filtro promediador, incluso con coeficientes que preservaran
 bastante las se\~nales originales en las frecuencia no alteradas por ruido, que estos peque\~nos cambios alcanzaban a
-variar muchisimo la se\~nal reconstruida. Esto nos dejo bien claro que hay que tener cuidado a la hora de hacer alteraciones
+variar much\'isimo la se\~nal reconstruida. Esto nos dej\'o bien claro que hay que tener cuidado a la hora de hacer alteraciones
 en la base de los cosenos, no es para intuito el resultado que produce una perturbaci\'on en la reconstruccion de las se\~nales.
 
 En se\~nales 2D, en cambio, ya que trabajabamos con im\'agenes, pudimos observar que la imagen con ruido en muchos
@@ -33,7 +34,7 @@ de aplicar los filtros se reconoce una imagen bastante fiel a la original en com
 \subsection{Elecci\'on de filtros}
 
 Es importante saber los casos de uso de las funciones para definir el rango de calidad \textit{aceptable}. No es lo mismo
-la precision necesaria para identificar si hay, o no, una cara en la imagen que para un sistema de reconocimiento \'optico
+la precisi\'on necesaria para identificar si hay, o no, una cara en la imagen que para un sistema de reconocimiento \'optico
 de caracteres. Esto es clave para poder ver si se justifica aplicar filtros como promediador, donde se pierden un poco de detalles como suavizado
 pero se gana en velocidad de identificaci\'on humana.
 
@@ -41,14 +42,14 @@ pero se gana en velocidad de identificaci\'on humana.
 
 Lamentablemente, nos hubiera gustado contar con un tiempo adicional para intentar los filtros por bloques, como sugeria el ejercicio
 opcional. \textit{A priori}, nos damos cuenta que son excelentes herramientas para mejorar el tiempo de ejecuci\'on
-de las transformaciones, ya que el crecimiento cuadr\'atico y c\'ubico de la resoluci\'on de sistemas se not\'o claramente
-Sin estas optimizaciones, seria imposible realizar sistemas de filtros por software en tiempo real, eliminando un campo de 
-aplicaci\'on gigantesco. Sin embargo, sabemos que productos comerciales con estas caracteristicas existen, por lo que
-seria interesante conocer los detalles de implementaci\'on para poder reconocer donde estan los cuellos de botella y como
+de las transformaciones, ya que el crecimiento cuadr\'atico y c\'ubico de la resoluci\'on de sistemas se not\'o claramente.
+Sin estas optimizaciones, ser\'ia imposible realizar sistemas de filtros por software en tiempo real, eliminando un campo de 
+aplicaci\'on gigantesco. Sin embargo, sabemos que productos comerciales con estas caracter\'isticas existen, por lo que
+ser\'ia interesante conocer los detalles de implementaci\'on para poder reconocer donde estan los cuellos de botella y c\'omo
 eliminarlos.
 
 En resumen, con este trabajo pudimos comprender un m\'inimo de la importancia de la transformacion de Fourier y similares,
 un \'area que ha sido crucial para el desarrollo de las telecomunicaciones alrededor del mundo. Nos ha servido para plantear
-el problema desde otro aspecto, como un ``simple'' cambio de base puede revelarnos mucha mas informaci\'on de la que 
+el problema desde otro aspecto, como un ``simple'' cambio de base puede revelarnos mucha m\'as informaci\'on de la que 
 consideramos existente en una se\~nal. 
 
