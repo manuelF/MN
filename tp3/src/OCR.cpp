@@ -10,6 +10,7 @@ using namespace std;
 
 vector<vector<double> > input, av; //av = autovectores
 
+#define ERRCANT(x) {if(g!=(x)){printf ("Error de lectura"); exit(1);}}
 
 void transpose(vector<vector<double> > &mat)
 {
@@ -176,7 +177,7 @@ void householder(vector<vector<double> > &A,vector<vector<double> > &Q,vector<ve
 	return;
 }
 
-const double delta = 15;
+const double delta = 5000;
 
 int iteraciones=0;
 
@@ -196,7 +197,7 @@ bool sigoIterando(vector<vector<double> > &A)
 	return res>delta;
 	/** Itero hasta que los elementos debajo de la diagonal sumen menos de 15 **/
 }
-#define MAXITERACIONES 200
+#define MAXITERACIONES 500
 
 vector<vector<double> > Q,R;
 vector<vector<double> > allAuVec; 
@@ -204,22 +205,20 @@ void eig(vector<vector<double> > &A, vector<vector<double> > &auVec)
 {
 	int n = A.size(); /// A es cuadrada
     vector<vector<double> > matrizAuxiliar;
-	//auVec = Id(n);
     auVec = vector<vector<double> >(allAuVec);
-//	while(sigoIterando(A)&&iteraciones<=MAXITERACIONES) /** Condicion de parada **/
-	{
-		householder(A,Q,R); /** Calculo QR con Householder **/
-		A = mult(R,Q); /** Multiplico RQ para obtener la nueva A que es la matriz de covarianza **/
-		allAuVec = mult(allAuVec,Q); /** Multiplico todas las Q para obtener los autovectores **/
-	}
+    householder(A,Q,R); /** Calculo QR con Householder **/
+    A = mult(R,Q); /** Multiplico RQ para obtener la nueva A que es la matriz de covarianza **/
+    allAuVec = mult(allAuVec,Q); /** Multiplico todas las Q para obtener los autovectores **/
 	/** Ordeno los autovectore segun la magnitud de los autovalores **/
 	vector<pair<int,int> > aux(n);
+
 #pragma omp parallel for
     for(int i=0;i<n;i++)
 		aux[i] = make_pair(A[i][i],i);
 	sort(aux.begin(),aux.end()); /** Ordeno los autovalores **/
 	reverse(aux.begin(),aux.end());
 	matrizAuxiliar = allAuVec;
+
 #pragma omp parallel for
     for(int i=0;i<n;i++)
 	for(int j=0;j<n;j++)
@@ -283,27 +282,36 @@ double dist(vector<double> &v1, vector<double> &v2, int norm)
 
 void usage()
 {
-    cout << "Uso: ./OCR <k> <imp> <norma>" << endl;
+    cout << "Uso: ./OCR <k> <imp> <norma> <training> <test>" << endl;
     cout << "donde k = cantidad de componentes principales a tomar de las transformaciones "<< endl;
     cout << "      imp = 0 (usando nearest neighbours, 1 usando distancia al promedio " << endl;
     cout << "      norma = 0 (norma infinito), 1 (norma 1), 2 (norma 2) " << endl;
+    cout << "      training = (default 10000) cantidad de imagenes de entrenamiento, 1 a 30000 " << endl;
+    cout << "      test = (default 500) cantidad de imagenes de test, 1 a 2000 " << endl;
     return;
 }
 
 int main(int argc, char* argv[])
 {
-    if(argc!=4){ usage(); exit(1);}
-    
+    if(argc<4){ usage(); exit(1);}
+    if(argc>6){ usage(); exit(1);}
     int max_k = atoi(argv[1]), imp = atoi(argv[2]), norm = atoi(argv[3]);
-    int min_k = 100;
+    int min_k = 1;
     /** k es el parametro k del enunciado, imp es la implementacion y norm es la norma que usamos para medir distancias **/
+    
+    int training_count = 10000; /** Usamos 10000 imagenes de entrenamiento **/    
+    int test_count = 500; /** Usamos 500 imagenes de test **/
+    if(argc>4)
+        training_count=atoi(argv[4]); /** a menos que el parametro lo indique **/
+    if(argc>5)
+        test_count=atoi(argv[5]); /** a menos que el otro parametro lo indique **/
+    int padding_count = 30000-training_count; /** paddeamos con imagenes para siempre usar las mismas de test **/
+
+
 	FILE* v = fopen("../datos/trainingImages.txt","r");
-	int n, t;
-    int g;
-    const int training_count = 15000; /** Usamos 30000 imagenes de entrenamiento **/    
-    const int test_count = 500; /** Usamos 500 imagenes de test **/
-    const int padding_count = 30000-training_count; /** paddeamos con imagenes para siempre usar las mismas de test **/
-	fscanf(v,"%d %d",&n,&t);
+	int n, t; /** dims de la matriz de training **/
+    int g;  /** absorbedora de errores **/
+	g = fscanf(v,"%d %d",&n,&t);ERRCANT(2);
     printf("Se van a leer: %d imgs Training, %d imgs Test \n",training_count,test_count);
     vector<vector<double> > testImages;
     input.clear();
@@ -314,7 +322,7 @@ int main(int argc, char* argv[])
     {
         for(int j=0;j<t;j++)
         {
-            g = fscanf(v,"%lf",&input[i][j]);
+            g = fscanf(v,"%lf",&input[i][j]);ERRCANT(1);
         }
     }
         
@@ -322,7 +330,7 @@ int main(int argc, char* argv[])
     {        
         for(int j=0;j<t;j++)
         {
-            g = fscanf(v,"%*lf");
+            g = fscanf(v,"%*lf");ERRCANT(1);
         }
     }
         
@@ -330,39 +338,47 @@ int main(int argc, char* argv[])
     {
 		for(int j=0;j<t;j++)
 		{
-			g = fscanf(v,"%lf",&testImages[i][j]);
+			g = fscanf(v,"%lf",&testImages[i][j]);ERRCANT(1);
 		}
 	}
     fclose(v);
 	/** Fin lectura imagenes de entrenamiento y test **/
 	/** Comienzo lectura labels de entrenamiento y test **/
     v = fopen("../datos/trainingLabels.txt","r");
-    fscanf(v,"%d",&n);
+    g= fscanf(v,"%d",&n); ERRCANT(1);
     vector<int> labels, testLabels;
     labels.resize(training_count);
     testLabels.resize(test_count);
     for(int i=0;i<training_count;i++)
     {
-        g = fscanf(v,"%d",&labels[i]);
+        g = fscanf(v,"%d",&labels[i]);ERRCANT(1);
     }
     
     for(int i=0;i<padding_count;i++)
     {
-        g = fscanf(v,"%*d");
+        g = fscanf(v,"%*d");ERRCANT(1);
     }
 
     for(int i=0;i<test_count;i++)
     {
-		g = fscanf(v,"%d",&testLabels[i]);
+		g = fscanf(v,"%d",&testLabels[i]);ERRCANT(1);
 	}
 	fclose(v);
 	/** Fin lectura labels de entrenamiento y test **/
 	v = fopen("V.txt","r");
 	if(v==NULL) /** Si V no existe la genero **/
 	{
-        /*
+#ifdef PRECALC
         vector<vector<double> > Mx = generateMx(); // Genero Mx la matriz de covarianza 
-        eig(Mx,av); // Calculo los autovectores de la matriz de covarianza 
+        allAuVec = Id(Mx.size()); /** Inicializo la matriz de autovectores **/
+        bool b = true;
+        for(int its=1;its<MAXITERACIONES;its++)a
+        {
+            eig(Mx,av); // Calculo los autovectores de la matriz de covarianza 
+            b = sigoIterando(Mx);
+            if (!b) break;
+        }
+
         v = fopen("V.txt","w"); // Escribo la matriz V en un archivo 
         fprintf(v,"%d %d\n",(int)av.size(),(int)av[0].size());
         for(int i=0;i<(int)av.size();i++)
@@ -372,25 +388,31 @@ int main(int argc, char* argv[])
             fprintf(v,"\n");
         }
         fclose(v);
-        */
+#endif
 	}
 	else /** Si V ya fue generada previamente la levanto del archivo **/
 	{
 	    int N,M;
-	    fscanf(v,"%d %d",&N,&M);
+	    g=fscanf(v,"%d %d",&N,&M);ERRCANT(2);
 	    av.clear();
 	    av.resize(N,vector<double>(M));
 	    for(int i=0;i<N;i++)
-	    for(int j=0;j<M;j++)
-            fscanf(v,"%lf",&av[i][j]);
+        {
+            for(int j=0;j<M;j++)
+            {
+                g=fscanf(v,"%lf",&av[i][j]);ERRCANT(1);
+            }
+        }
 
 	}
+#ifndef PRECALC
     vector<vector<double> > Mx = generateMx(); /** Genero Mx la matriz de covarianza **/
     allAuVec = Id(Mx.size()); /** Inicializo la matriz de autovectores **/
     for(int its=1;its<MAXITERACIONES;its++)
     {
         eig(Mx,av); /** Calculo los autovectores de la matriz de covarianza **/        
         bool b = sigoIterando(Mx);
+#endif
         for(int k=min_k;k<max_k;k++)
         {
             fillTC(k); /** Genero las transformaciones caracteristicas de cada imagen de entrenamiento **/
@@ -475,6 +497,8 @@ int main(int argc, char* argv[])
             cout << k << " "<< bien <<" "<<mal<<" " << (double)bien/(double)(bien+mal)<< endl;
         /** Imprimimos cantidad de hits, cantidad de misses y proporcion de hits **/
         }
+#ifndef PRECALC
     }
+#endif
     return 0;
 }

@@ -1,5 +1,5 @@
 EXECUTABLE=OCR
-FLAGS=-O3 -Wall -std=c++0x
+FLAGS=-O3 -std=c++0x
 POSTFLAGS=-lrt -lm
 CC=g++
 
