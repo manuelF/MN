@@ -1,31 +1,31 @@
-\section{Discusion}
+\section{Discusi\'on}
 
 \subsection{Tama\~no de los corpus de entrenamiento }
-Un punto fundamental del trabajo consistio en el calculo de la matriz de autovectores
-de la covarianza de las imagenes. En las secciones anteriores se discutio su construcci\'on
+Un punto fundamental del trabajo consisti\'o en el c\'alculo de autovectores de la matriz
+de la covarianza de las im\'agenes. En las secciones anteriores se discutio su construcci\'on
 y su calculo. Ac\'a comprobamos la relevancia del tama\~no del corpus usado a la hora
 de generarla.
 
-Experimentamos tomando 1000, 5000, 15000 y 30000 imagenes (m\'as no usamos porque era
-realmente excesivo el tiempo de c\'alculo. Con m\'as tiempo hubieramos podido paralelizar
+Experimentamos tomando 5000, 15000 y 30000 im\'agenes (m\'as no usamos porque era
+realmente excesivo el tiempo de c\'alculo. Con m\'as tiempo hubi\'eramos podido paralelizar
 y poder correr en un cluster o en GPGPU.). Como se ve en las figuras \ref{fig:HR1kcv} hasta \ref{fig:HR30kcv},
 no hay mejores resultados utilizando matrices de transformaci\'on basadas en menos im\'agenes, por lo que
 si ya hemos generado una grande, conviene seguir usandola mientras tengamos que resolver
-el mismo problema.
+el mismo problema. Si tenemos que calcularla desde cero, conviene ver cual es el valor que mejora
+el tradeoff tiempo/performance, ya que las ganancias de detecci\'on se vuelven marginales.
 
 El \'unico punto delicado en estos casos, de entrenamiento offline, es tener cuidado
-de no mezclar datos de entrenamiento con datos de test. Esto podria ocasionar que
+de no mezclar datos de entrenamiento con datos de test. Esto podr\'ia ocasionar que
 los hitrates sean excesivamente m\'as altos. Es preferible usar matrices generadas
 con menos puntos de datos que con m\'as pero ``contaminados''.
 
 
 \subsection{Clasificaci\'on de los me\'todos empleados}
-Los metodos que implementamos fueron b\'asicamente 3. La norma 2 de distancia a
-los centros de masas de cada d\'igito, la mejor de las 3 normas (norma 2, norma 1 y norma infinito)
-hacia los centros de masas y el m\'as repetido de los 100 vecinos m\'as cercanos al punto.
+Los m\'etodos que implementamos fueron 2. La norma 2 de distancia a
+los centros de masas de cada d\'igito y el m\'as repetido de los 100 vecinos m\'as cercanos al punto.
 
 El m\'etodo de la norma dos, es sorprendentemente bueno. Cuando se superan las 30
-columnas mayormente el hitrate estabiliza en un valor razonablmente alto. Si lo
+componentes principales mayormente el hitrate estabiliza en un valor razonablmente alto. Si lo
 comparamos contra norma 1, es un poco mas alto el hitrate pero no excesivo. Ahora
 cuando lo miramos contra norma infinito, vemos que la norma 2 es un m\'etodo
 claramente superior. Como la norma infinito se define como el m\'aximo componente,
@@ -34,7 +34,7 @@ peso que otras, por lo que no es extra\~no ver que aumentando la cantidad de com
 no varia en nada la detecci\'on.
 
 Viendo que las mediciones de norma 1 y norma infinito a veces discrepaban de lo que
-decia norma 2, consideramos utilizarlas tambien para hacer otro m\'etodo, el de \textit{mejor
+decia norma 2, consideramos utilizarlas tambi\'en para hacer otro m\'etodo, el de \textit{mejor
 de 3}. Es decir, si coinciden 2 de las 3 normas, la usamos (por m\'as que coincidan la
 infinito y la norma 1). Si no hay ningun match, hacemos fallback en norma 2. En este caso
 nos sorprendio que los resultados no mejoraban con respecto al uso \'unico de norma 2.
@@ -44,7 +44,7 @@ el de norma 2 en \ref{fig:HRD30kcv-n2}.
 Notablemente, la idea de conseguir el m\'as repetido de los 100 vecinos m\'as cercanos
 parece tener sentido, pero experimentalmente no es para nada buena, en varios aspectos.
 No provee una mejor detecci\'on, de hecho es consistentemente peor para cualquier $k>15$.
-Su runtime ademas es enorme, ya que debe hacer norma 2 para todos los otros puntos que
+Su runtime adem\'as es enorme, ya que debe hacer norma 2 para todos los otros puntos que
 deseemos considerar, pueden andar en el orden de miles tal vez. En comparacion, el m\'etodo
 de la norma 2 anterior solamente comprueba contra 10 puntos (los centros de masas).
 
@@ -68,7 +68,7 @@ entre los d\'igitos como 2 y 8.
 En las figuras \ref{fig:HM30kcv-k5} hasta \ref{fig:HM30kcv-k50}, podemos apreciar
 en un formato HeatMap como varian los aciertos. Usamos norma 2 para la detecci\'on ac\'a
 ya que antes pudimos apreciar que era m\'etodo m\'as efectivo. Vemos que cuando tomamos pocas
-columnas, la diagonal del heatmap (que es el acierto) esta muy difusa, y vemos tambien
+columnas, la diagonal del heatmap (que es el acierto) esta muy difusa, y vemos tambi\'en
 otros puntos fuera de la diagonal que tienen un valor bastante alto. Estos son los d\'igitos
 que se confunden. Podemos apreciar, por ejemplo, en la figura \ref{fig:HM30kcv-k5}, que
 los d\'gitos que m\'as se pueden confundir, con 5 columnas, son el 8 por el 2 y el 4 por el 1.
@@ -83,7 +83,7 @@ Un punto clave de este trabajo fue la determinaci\'on de la cantidad de valores 
 utilizar para comparar im\'agenes. En todas las figuras pudimos observar, en mayor o menor
 grado, un crecimiento del hitrate con respecto a la cantidad de columnas tomadas.
 Obviamente, tomar mas elementos lleva a una mejor caracterizaci\'on', pero se vuelve un problema
-de que uno esta b\'asicamente identificando una im\'agen pixel por pixel. Lo interesante de un
+de que uno esta b\'asicamente identificando una imagen pixel por pixel. Lo interesante de un
 sistema de reconocimiento de im\'agenes es tener una alto grado de detecci\'on utilizando la menor
 cantidad de recursos.
 
