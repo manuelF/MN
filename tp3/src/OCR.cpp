@@ -10,7 +10,7 @@ using namespace std;
 
 vector<vector<double> > input, av; //av = autovectores
 
-#define ERRCANT(x) {if(g!=(x)){printf ("Error de lectura"); exit(1);}}
+#define ERRCANT(x) {if(g!=(x)){printf ("Error de lectura %d \n",__LINE__); exit(1);}}
 
 void transpose(vector<vector<double> > &mat)
 {
@@ -330,7 +330,7 @@ int main(int argc, char* argv[])
     {        
         for(int j=0;j<t;j++)
         {
-            g = fscanf(v,"%*lf");ERRCANT(1);
+            g = fscanf(v,"%*lf");
         }
     }
         
@@ -356,7 +356,7 @@ int main(int argc, char* argv[])
     
     for(int i=0;i<padding_count;i++)
     {
-        g = fscanf(v,"%*d");ERRCANT(1);
+        g = fscanf(v,"%*d");
     }
 
     for(int i=0;i<test_count;i++)
@@ -372,7 +372,7 @@ int main(int argc, char* argv[])
         vector<vector<double> > Mx = generateMx(); // Genero Mx la matriz de covarianza 
         allAuVec = Id(Mx.size()); /** Inicializo la matriz de autovectores **/
         bool b = true;
-        for(int its=1;its<MAXITERACIONES;its++)a
+        for(int its=1;its<MAXITERACIONES;its++)
         {
             eig(Mx,av); // Calculo los autovectores de la matriz de covarianza 
             b = sigoIterando(Mx);
