@@ -68,10 +68,10 @@ discusi\'on e hip\'otesis dentro del grupo.
 Claramente quisimos usar todas las que pudieramos, intentando emplear al m\'aximo el
 uso del corpus brindado. La contrapartida fue el tiempo de ejecuci\'on. Incluso habiendo implementado
 la factorizaci\'on de HouseHolder \'optimo (O($n^3$)), resultaba inaceptable que tardara mas de 24hs
-el c\'alculo de los autovectores de la matriz de covarianza con un $\epsilon = 1e-5$. Intentamos implementar
-directivas de paralelizaci\'on que pudieran bajar esta complejidad (aunque sea multiplicando por una
-constante mas chica). Logramos un speedup de un poco m\'as de 2x con respecto al c\'odigo serial, usando
-un procesador con 8 threads, pero el factor c\'ubico predomina.
+el c\'alculo de los autovectores de la matriz de covarianza con un $\epsilon = 1e-5$. Implementamos 
+directivas b\'asicas de paralelizaci\'on que pudieran bajar este runtime (sin cambiar el orden de complejidad del problema).
+Logramos un speedup de un poco m\'as de 2x con respecto al c\'odigo serial, usando
+un procesador con 8 threads, pero el factor c\'ubico predomina mucho todav\'ia.
 
 Logramos calcular matrices de covarianza para un poco m\'as de 30000 im\'agenes de entrenamiento, pero cuando
 corrimos los experimentos, el uso de las matrices generadas con m\'as im\'agenes superadas las 30000 no aport\'o casi a un mejor reconocimiento.

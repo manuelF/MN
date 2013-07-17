@@ -1,0 +1,32 @@
+\select@language {spanish}
+\contentsline {section}{\numberline {1}Introducci\'on te\'orica}{3}{section.1}
+\contentsline {subsection}{\numberline {1.1}Reconocimiento \'optico de caracteres (OCR)}{3}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Matriz de covarianza}{3}{subsection.1.2}
+\contentsline {subsection}{\numberline {1.3}Descomposici\'on en valores singulares (SVD)}{3}{subsection.1.3}
+\contentsline {subsection}{\numberline {1.4}Introducci\'on al trabajo}{4}{subsection.1.4}
+\contentsline {section}{\numberline {2}Desarrollo}{5}{section.2}
+\contentsline {subsection}{\numberline {2.1}Herramientas}{5}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Manejo de la complejidad del experimento}{5}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Matriz de Covarianza}{5}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}Factorizaci\'on QR}{6}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}C\'alculo de la Transformaci\'on Caracter\'istica}{7}{subsection.2.5}
+\contentsline {subsection}{\numberline {2.6}Reconocimiento de d\'igitos}{7}{subsection.2.6}
+\contentsline {section}{\numberline {3}Resultados}{8}{section.3}
+\contentsline {subsection}{\numberline {3.1}Iteraciones del c\'alculo de autovectores}{8}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Promedio de Reconocimiento}{9}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Reconocimiento en funcion de iteraciones}{11}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}Reconocimiento por d\'igito}{15}{subsection.3.4}
+\contentsline {section}{\numberline {4}Heatmap de reconocimiento por d\'igito}{17}{section.4}
+\contentsline {section}{\numberline {5}Discusi\'on}{23}{section.5}
+\contentsline {subsection}{\numberline {5.1}Tama\~no de los corpus de entrenamiento }{23}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Iteraciones del c\'alculo de autovectores}{23}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}Clasificaci\'on de los me\'todos empleados}{24}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.4}Detecci\'on por d\'igito}{24}{subsection.5.4}
+\contentsline {subsection}{\numberline {5.5}Cantidad de componentes principales a tomar para la comparaci\'on}{25}{subsection.5.5}
+\contentsline {section}{\numberline {6}Conclusiones}{26}{section.6}
+\contentsline {subsection}{\numberline {6.1}Herramientas de desarrollo \'agil}{26}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Importancia de los autovectores}{26}{subsection.6.2}
+\contentsline {subsection}{\numberline {6.3}Mecanismo de reconocimiento}{27}{subsection.6.3}
+\contentsline {subsection}{\numberline {6.4}M\'as puntos de datos, no implican mejores respuestas}{27}{subsection.6.4}
+\contentsline {section}{\numberline {7}Referencias}{28}{section.7}
+\contentsline {section}{\numberline {8}Apendices}{29}{section.8}
