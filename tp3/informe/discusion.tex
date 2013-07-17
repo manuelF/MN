@@ -3,7 +3,7 @@
 \subsection{Tama\~no de los corpus de entrenamiento }
 Un punto fundamental del trabajo consisti\'o en el c\'alculo de autovectores de la matriz
 de la covarianza de las im\'agenes. En las secciones anteriores se discutio su construcci\'on
-y su calculo. Ac\'a comprobamos la relevancia del tama\~no del corpus usado a la hora
+y su c\'alculo. Ac\'a comprobamos la relevancia del tama\~no del corpus usado a la hora
 de generarla.
 
 Experimentamos tomando 5000, 15000 y 30000 im\'agenes (m\'as no usamos porque era
@@ -23,14 +23,14 @@ con menos puntos de datos que con m\'as pero ``contaminados''.
 
 \subsection{Iteraciones del c\'alculo de autovectores}
 Las matrices de covarianza con las que experimentamos fueron sometidas a
-analisis de sus valores bajo la diagonal, para ver si efectivamente estaban
-convergiendo. Pudimos ver que si convergian seg\'un
+an\'alisis de sus valores bajo la diagonal, para ver si efectivamente estaban
+convergiendo. Pudimos ver que si converg\'ian seg\'un
 los criterios de suma bajo la diagonal, en figura \ref{fig:SUM}. Para definir
 una cota, los valores de la suma esperabamos que se fueran a cero, pero
-luego de mas de 500 iteraciones, tendian a un valor cerca de 15. Decidimos
+luego de mas de 500 iteraciones, tend\'ian a un valor cerca de 15. Decidimos
 comprobar entonces el promedio de valores bajo la diagonal, en la figura \ref{fig:PROM}.
 Ahi pudimos apreciar que eventualmente casi todos los valores eran cero, salvo muy pocos,
-que nos estaban forzando a este limite. Decidimos tomar como condicion de corte
+que nos estaban forzando a este l\'imite. Decidimos tomar como condici\'on de corte
 que la suma de valores bajo la diagonal fuera $<5000$, lo cual nos dio
 alrededor de 100 iteraciones de QR. En efecto estudiamos luego un poco m\'as 
 el hitrate, en funci\'on de la cantidad de iteraciones, y pudimos apreciar que
@@ -42,11 +42,11 @@ autovectores no presentaba mejorias en la detecci\'on. Esto nos sorprendio
 ya que esperabamos que una matriz que convergiera en sus autovectores,
 iba a presentar mejor detecci\'on que alguna que estuviera menos refinada.
 A\'un mas sorprendete result\'o que la mejor detecci\'on estaba en las primeras 10
-iteraciones, no en las ultimas. Sin embargo, decidimos tomar eso como un fen\'omeno
-del corpus y nuestro m\'etodo, por lo cual para nuestra experimentacio decidimos
-basarnos en la teoria de detecci\'on, que dice que m\'as iteraciones refina mejor. 
+iteraciones, no en las \'ultimas. Sin embargo, decidimos tomar eso como un fen\'omeno
+del corpus y nuestro m\'etodo, por lo cual para nuestra experimentaci\'on decidimos
+basarnos en la teor\'ia de detecci\'on, que dice que m\'as iteraciones refina mejor. 
 
-Nuestra hipotesis es que aplicar cientos de iteraciones conlleva un error
+Nuestra hip\'otesis es que aplicar cientos de iteraciones conlleva un error
 n\'umerico grande (dado que hay $O(n^3)$ operaciones por iteraci\'on). Esto
 hace que se vaya perdiendo precisi\'on numerica y no capte mejor el fen\'omeno.
 Lamentablemente no encontramos ninguna referencia a este problema en la literatura,
@@ -60,7 +60,7 @@ los centros de masas de cada d\'igito y el m\'as repetido de los 100 vecinos m\'
 El m\'etodo de la norma dos en la figura \ref{fig:HRN2}, es sorprendentemente bueno. Comparado con el m\'etodo de
 los vecinos m\'as cercanos, es consistentemente mejor para cualquier $k<100$, que son los m\'as
 interesantes, ya que idealmente queremos detectar utilizando la menor cantidad de informaci\'on posbile. Una ventaja
-de este m\'etodo, es que solamente hay que comprar contra 10 valores (cada media de d\'igito), lo cual lo hace enormemente
+de este m\'etodo, es que solamente hay que comparar contra 10 valores (cada media de d\'igito), lo cual lo hace enormemente
 m\'as rapido que el otro m\'etodo.
 
 Notablemente, la idea de conseguir el m\'as repetido de los 100 vecinos m\'as cercanos en \ref{fig:HRVEC}
@@ -68,9 +68,9 @@ parece tener sentido, pero experimentalmente no es para nada buena para $k$ eval
 No provee una mejor detecci\'on, de hecho es consistentemente peor para cualquier $k$ y su runtime adem\'as es enorme,
 ya que debe hacer norma 2 para todos los otros puntos que deseemos considerar, pueden andar en el orden de miles tal vez.
 Claramente si se desea usar este mecanismo, habr\'ia que pensar en mejores estructuras
-de datos que puedan simplificar el calculo de distancia. Se podria pensar en un algoritmo
+de datos que puedan simplificar el c\'alculo de distancia. Se podr\'ia pensar en un algoritmo
 que haga clustering de datos, que no sea solamente agrupar por d\'igito, para poder reducir
-el espacio de busqueda.
+el espacio de b\'usqueda.
 
 
 \subsection{Detecci\'on por d\'igito}
@@ -97,7 +97,7 @@ otros puntos fuera de la diagonal que tienen un valor bastante alto. Estos son l
 que se confunden. Podemos apreciar, por ejemplo, en la figura \ref{fig:HM30kcv-k5}, que
 los d\'gitos que m\'as se pueden confundir, con 5 columnas, son el 8 por el 2 y el 4 por el 1.
 
-Seria interesante poder combinar este mecanismo de detecci\'on con algun otro basado en un
+Ser\'ia interesante poder combinar este mecanismo de detecci\'on con algun otro basado en un
 criterio diferente, pero que tenga m\'as poder clasificar entre los d\'igitos problematicos
 previamente comentados.
 
@@ -106,7 +106,7 @@ previamente comentados.
 Un punto clave de este trabajo fue la determinaci\'on de la cantidad de valores que debemos
 utilizar para comparar im\'agenes. En todas las figuras pudimos observar, en mayor o menor
 grado, un crecimiento del hitrate con respecto a la cantidad de componentes principales tomados.
-Obviamente, tomar mas elementos lleva a una mejor caracterizaci\'on', pero se vuelve un problema
+Obviamente, tomar mas elementos lleva a una mejor caracterizaci\'on, pero se vuelve un problema
 de que uno esta b\'asicamente identificando una imagen pixel por pixel. Lo interesante de un
 sistema de reconocimiento de im\'agenes es tener una alto grado de detecci\'on utilizando la menor
 cantidad de recursos, espaciales y temporales.
@@ -119,5 +119,5 @@ ya el crecimiento del hitrate es muy lento ($K=50$ por ejemplo). Esto en realida
 si la cantidad de im\'agenes que tenemos que detectar no es grande, la diferencia de cantidad
 de operaciones que hay entre $K=50$ y $K=150$ no es enorme. Dicho esto, hay que tener en cuenta que
 en sistemas \textit{real-time} esto puede ser excesivamente costoso. Seg\'un nuestros experimentos,
-se deberia hacer un analisis de los requerimientos de forma cuidadosa y ver si el \textit{trade-off} tiempo/precisi\'on
+se deberia hacer un an\'alisis de los requerimientos de forma cuidadosa y ver si el \textit{trade-off} tiempo/precisi\'on
 es aceptable o no.
