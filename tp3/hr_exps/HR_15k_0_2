@@ -1,0 +1,206 @@
+Se van a leer: 15000 imgs Training, 500 imgs Test 
+Iteracion 1: Suma 53963393.017952	 Promedio 175.813176
+Iteracion 2: Suma 9498347.616338	 Promedio 30.945694
+Iteracion 3: Suma 4387521.222749	 Promedio 14.294580
+Iteracion 4: Suma 2586851.830085	 Promedio 8.427984
+Iteracion 5: Suma 1696742.299067	 Promedio 5.528000
+Iteracion 6: Suma 1227312.109612	 Promedio 3.998593
+Iteracion 7: Suma 942531.739149	 Promedio 3.070776
+Iteracion 8: Suma 747844.051764	 Promedio 2.436482
+Iteracion 9: Suma 603275.216227	 Promedio 1.965476
+Iteracion 10: Suma 494798.052515	 Promedio 1.612056
+Iteracion 11: Suma 410828.157777	 Promedio 1.338482
+Iteracion 12: Suma 347291.636685	 Promedio 1.131479
+Iteracion 13: Suma 297615.157218	 Promedio 0.969633
+Iteracion 14: Suma 257459.671945	 Promedio 0.838806
+Iteracion 15: Suma 224603.194464	 Promedio 0.731759
+Iteracion 16: Suma 197864.709824	 Promedio 0.644645
+Iteracion 17: Suma 175888.080176	 Promedio 0.573045
+Iteracion 18: Suma 157469.569095	 Promedio 0.513037
+Iteracion 19: Suma 141878.025837	 Promedio 0.462240
+Iteracion 20: Suma 128506.274427	 Promedio 0.418674
+Iteracion 21: Suma 116987.155690	 Promedio 0.381145
+Iteracion 22: Suma 106996.901419	 Promedio 0.348597
+Iteracion 23: Suma 98360.244665	 Promedio 0.320458
+Iteracion 24: Suma 90711.224328	 Promedio 0.295538
+Iteracion 25: Suma 84005.982757	 Promedio 0.273692
+Iteracion 26: Suma 78008.896464	 Promedio 0.254154
+Iteracion 27: Suma 72666.438621	 Promedio 0.236748
+Iteracion 28: Suma 67884.914362	 Promedio 0.221170
+Iteracion 29: Suma 63580.182946	 Promedio 0.207145
+Iteracion 30: Suma 59690.949281	 Promedio 0.194474
+Iteracion 31: Suma 56173.481924	 Promedio 0.183014
+Iteracion 32: Suma 53015.154150	 Promedio 0.172724
+Iteracion 33: Suma 50185.761308	 Promedio 0.163506
+Iteracion 34: Suma 47647.109103	 Promedio 0.155235
+Iteracion 35: Suma 45336.587443	 Promedio 0.147707
+Iteracion 36: Suma 43236.103512	 Promedio 0.140864
+Iteracion 37: Suma 41320.669957	 Promedio 0.134623
+Iteracion 38: Suma 39567.403692	 Promedio 0.128911
+Iteracion 39: Suma 37955.248394	 Promedio 0.123659
+Iteracion 40: Suma 36463.287654	 Promedio 0.118798
+Iteracion 41: Suma 35078.127390	 Promedio 0.114285
+Iteracion 42: Suma 33786.862915	 Promedio 0.110078
+Iteracion 43: Suma 32574.672053	 Promedio 0.106129
+Iteracion 44: Suma 31431.940250	 Promedio 0.102406
+Iteracion 45: Suma 30346.887628	 Promedio 0.098870
+Iteracion 46: Suma 29307.691002	 Promedio 0.095485
+Iteracion 47: Suma 28305.540456	 Promedio 0.092220
+Iteracion 48: Suma 27338.096202	 Promedio 0.089068
+Iteracion 49: Suma 26399.543638	 Promedio 0.086010
+Iteracion 50: Suma 25483.689770	 Promedio 0.083026
+Iteracion 51: Suma 24585.410088	 Promedio 0.080099
+Iteracion 52: Suma 23706.367319	 Promedio 0.077236
+Iteracion 53: Suma 22846.464429	 Promedio 0.074434
+Iteracion 54: Suma 22008.112382	 Promedio 0.071703
+Iteracion 55: Suma 21191.493213	 Promedio 0.069042
+Iteracion 56: Suma 20398.830986	 Promedio 0.066460
+Iteracion 57: Suma 19631.538587	 Promedio 0.063960
+Iteracion 58: Suma 18890.283766	 Promedio 0.061545
+Iteracion 59: Suma 18175.888179	 Promedio 0.059217
+Iteracion 60: Suma 17491.490406	 Promedio 0.056987
+Iteracion 61: Suma 16835.089616	 Promedio 0.054849
+Iteracion 62: Suma 16208.226462	 Promedio 0.052807
+Iteracion 63: Suma 15610.008867	 Promedio 0.050858
+Iteracion 64: Suma 15039.293043	 Promedio 0.048998
+Iteracion 65: Suma 14496.744326	 Promedio 0.047231
+Iteracion 66: Suma 13980.138933	 Promedio 0.045547
+Iteracion 67: Suma 13488.775849	 Promedio 0.043947
+Iteracion 68: Suma 13022.320467	 Promedio 0.042427
+Iteracion 69: Suma 12578.593984	 Promedio 0.040981
+Iteracion 70: Suma 12158.793674	 Promedio 0.039613
+Iteracion 71: Suma 11760.338167	 Promedio 0.038315
+Iteracion 72: Suma 11381.363364	 Promedio 0.037081
+Iteracion 73: Suma 11020.569231	 Promedio 0.035905
+Iteracion 74: Suma 10677.052285	 Promedio 0.034786
+Iteracion 75: Suma 10349.260544	 Promedio 0.033718
+Iteracion 76: Suma 10037.014813	 Promedio 0.032701
+Iteracion 77: Suma 9739.722181	 Promedio 0.031732
+Iteracion 78: Suma 9456.197397	 Promedio 0.030808
+Iteracion 79: Suma 9185.206444	 Promedio 0.029925
+Iteracion 80: Suma 8926.361541	 Promedio 0.029082
+Iteracion 81: Suma 8679.044618	 Promedio 0.028276
+Iteracion 82: Suma 8442.823939	 Promedio 0.027507
+Iteracion 83: Suma 8217.351777	 Promedio 0.026772
+Iteracion 84: Suma 8002.448311	 Promedio 0.026072
+Iteracion 85: Suma 7796.395373	 Promedio 0.025401
+Iteracion 86: Suma 7599.275116	 Promedio 0.024759
+Iteracion 87: Suma 7410.506263	 Promedio 0.024143
+Iteracion 88: Suma 7229.539502	 Promedio 0.023554
+Iteracion 89: Suma 7055.992857	 Promedio 0.022988
+Iteracion 90: Suma 6889.315537	 Promedio 0.022445
+Iteracion 91: Suma 6729.686695	 Promedio 0.021925
+Iteracion 92: Suma 6576.422088	 Promedio 0.021426
+Iteracion 93: Suma 6429.472571	 Promedio 0.020947
+Iteracion 94: Suma 6288.513182	 Promedio 0.020488
+Iteracion 95: Suma 6153.436880	 Promedio 0.020048
+Iteracion 96: Suma 6023.628589	 Promedio 0.019625
+Iteracion 97: Suma 5898.923343	 Promedio 0.019219
+Iteracion 98: Suma 5778.834653	 Promedio 0.018827
+Iteracion 99: Suma 5663.339704	 Promedio 0.018451
+Iteracion 100: Suma 5552.354167	 Promedio 0.018090
+Iteracion 101: Suma 5445.461137	 Promedio 0.017741
+Iteracion 102: Suma 5342.337922	 Promedio 0.017405
+Iteracion 103: Suma 5243.016354	 Promedio 0.017082
+Iteracion 104: Suma 5147.095134	 Promedio 0.016769
+Iteracion 105: Suma 5054.494551	 Promedio 0.016468
+Iteracion 106: Suma 4964.907808	 Promedio 0.016176
+1 123 377 0.246
+2 153 347 0.306
+3 160 340 0.32
+4 161 339 0.322
+5 161 339 0.322
+6 174 326 0.348
+7 185 315 0.37
+8 203 297 0.406
+9 211 289 0.422
+10 222 278 0.444
+11 223 277 0.446
+12 235 265 0.47
+13 243 257 0.486
+14 247 253 0.494
+15 260 240 0.52
+16 262 238 0.524
+17 266 234 0.532
+18 265 235 0.53
+19 261 239 0.522
+20 257 243 0.514
+21 262 238 0.524
+22 267 233 0.534
+23 267 233 0.534
+24 271 229 0.542
+25 272 228 0.544
+26 268 232 0.536
+27 273 227 0.546
+28 273 227 0.546
+29 268 232 0.536
+30 275 225 0.55
+31 284 216 0.568
+32 291 209 0.582
+33 301 199 0.602
+34 310 190 0.62
+35 320 180 0.64
+36 324 176 0.648
+37 326 174 0.652
+38 333 167 0.666
+39 338 162 0.676
+40 343 157 0.686
+41 337 163 0.674
+42 333 167 0.666
+43 335 165 0.67
+44 334 166 0.668
+45 338 162 0.676
+46 338 162 0.676
+47 345 155 0.69
+48 349 151 0.698
+49 353 147 0.706
+50 355 145 0.71
+51 349 151 0.698
+52 355 145 0.71
+53 359 141 0.718
+54 363 137 0.726
+55 360 140 0.72
+56 368 132 0.736
+57 366 134 0.732
+58 368 132 0.736
+59 366 134 0.732
+60 368 132 0.736
+61 375 125 0.75
+62 379 121 0.758
+63 378 122 0.756
+64 370 130 0.74
+65 373 127 0.746
+66 377 123 0.754
+67 377 123 0.754
+68 375 125 0.75
+69 370 130 0.74
+70 378 122 0.756
+71 378 122 0.756
+72 378 122 0.756
+73 380 120 0.76
+74 381 119 0.762
+75 386 114 0.772
+76 386 114 0.772
+77 386 114 0.772
+78 385 115 0.77
+79 385 115 0.77
+80 385 115 0.77
+81 391 109 0.782
+82 391 109 0.782
+83 390 110 0.78
+84 393 107 0.786
+85 393 107 0.786
+86 395 105 0.79
+87 394 106 0.788
+88 397 103 0.794
+89 392 108 0.784
+90 395 105 0.79
+91 395 105 0.79
+92 395 105 0.79
+93 395 105 0.79
+94 394 106 0.788
+95 394 106 0.788
+96 393 107 0.786
+97 397 103 0.794
+98 397 103 0.794
+99 397 103 0.794
