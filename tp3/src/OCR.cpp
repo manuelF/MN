@@ -11,6 +11,7 @@ using namespace std;
 vector<vector<double> > input, av; //av = autovectores
 
 #define ERRCANT(x) {if(g!=(x)){printf ("Error de lectura %d \n",__LINE__); exit(1);}}
+#define ERRCANT(x) 
 
 void transpose(vector<vector<double> > &mat)
 {
@@ -314,10 +315,11 @@ int main(int argc, char* argv[])
 	g = fscanf(v,"%d %d",&n,&t);ERRCANT(2);
     printf("Se van a leer: %d imgs Training, %d imgs Test \n",training_count,test_count);
     vector<vector<double> > testImages;
+    
     input.clear();
 	input.resize(training_count,vector<double>(t));
 	testImages.resize(test_count,vector<double>(t));
-	/** Comienzo lectura imagenes de entrenamiento y test **/
+    /** Comienzo lectura imagenes de entrenamiento y test **/
 	for(int i=0;i<training_count;i++)
     {
         for(int j=0;j<t;j++)
@@ -325,7 +327,6 @@ int main(int argc, char* argv[])
             g = fscanf(v,"%lf",&input[i][j]);ERRCANT(1);
         }
     }
-        
     for(int i=0;i<padding_count;i++)
     {        
         for(int j=0;j<t;j++)
@@ -333,7 +334,6 @@ int main(int argc, char* argv[])
             g = fscanf(v,"%*lf");
         }
     }
-        
     for(int i=0;i<test_count;i++)
     {
 		for(int j=0;j<t;j++)
@@ -363,6 +363,7 @@ int main(int argc, char* argv[])
     {
 		g = fscanf(v,"%d",&testLabels[i]);ERRCANT(1);
 	}
+    
 	fclose(v);
 	/** Fin lectura labels de entrenamiento y test **/
 	v = fopen("V.txt","r");
@@ -374,9 +375,11 @@ int main(int argc, char* argv[])
         bool b = true;
         for(int its=1;its<MAXITERACIONES;its++)
         {
+            
             eig(Mx,av); // Calculo los autovectores de la matriz de covarianza 
             b = sigoIterando(Mx);
             if (!b) break;
+            
         }
 
         v = fopen("V.txt","w"); // Escribo la matriz V en un archivo 
