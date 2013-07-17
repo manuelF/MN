@@ -4,8 +4,8 @@
 El mecanismo de reconocimiento de im\'agenes esta basado en los autovectores
 de la matriz de covarianza, como detallamos antes. Para obtenerlos, se aplica
 el m\'etodo iterativo de la factorizacion QR reiterada, descripto anterioremente.
-La condicion de corte de este m\'etodo esta basada en la suma de los elementos bajo
-la diagonal. Estudiamos esta suma y la distribucion de los valores bajo la diagonal,
+La condici\'on de corte de este m\'etodo esta basada en la suma de los elementos bajo
+la diagonal. Estudiamos esta suma y la distribuci\'on de los valores bajo la diagonal,
 para intentar entender el comportamiento y definir una buena cota. 
 
 \def \hrwidth {500pt}
@@ -147,7 +147,7 @@ clasificados por distancia a vecinos m\'as cercanos}
 \end{figure}
 
 \section{Heatmap de reconocimiento por d\'igito}
-Aca mostramos las equivocaciones y aciertos al reconocer cada d\'igito, variando la cantidad de componentes principales tomadas, hecho con la matriz de covarianza de
+Ac\'a mostramos las equivocaciones y aciertos al reconocer cada d\'igito, variando la cantidad de componentes principales tomadas, hecho con la matriz de covarianza de
 entrenada con 30000 im\'agenes y variando la cantidad de columnas tomadas. Eje X el valor detectado, eje Y el valor verdadero. El color marca la cantidad
 de veces que se detect\'o un valor y a cual correspondia. Los valores negativo son solamente para que se grafiquen mejor,
 son en realidad positivos.
