@@ -14,7 +14,7 @@ para intentar entender el comportamiento y definir una buena cota.
 \begin {center}
 \includegraphics[width=\hrwidth]{plots/SUM.png}
 \end {center}
-\caption{Suma de los elementos bajo la diagonal para 5000, 15000 y 30000 elementos
+\caption{Suma de los elementos bajo la diagonal para 5000, 15000 y 30000 im\'agenes
 en funcion de la cantidad de iteraciones de QR.}
 \label{fig:SUM}
 \end{figure}
@@ -23,7 +23,7 @@ en funcion de la cantidad de iteraciones de QR.}
 \begin {center}
 \includegraphics[width=\hrwidth]{plots/PROM.png}
 \end {center}
-\caption{Promedio de los elementos bajo la diagonal para 5000, 15000 y 30000 elementos
+\caption{Promedio de los elementos bajo la diagonal para 5000, 15000 y 30000 im\'agenes
 en funcion de la cantidad de iteraciones de QR.}
 \label{fig:PROM}
 \end{figure}
@@ -31,22 +31,28 @@ en funcion de la cantidad de iteraciones de QR.}
 
 \subsection{Promedio de Reconocimiento}
 La m\'etodologia de implementaci\'on fue la siguiente: Se construy\'o una
-m\'atriz de covarianza utilizando los primeros $n$ elementos del dataset
-\texttt{Training Data}. Luego, se tomaron $t$ elementos siguientes como im\'agenes
-de test, con sus correspondientes labels. A estos se les aplicaron las t\'ecnicas
-de detecci\'on que hemos detallado antes y fuimos variando las $k$ cantidad de
-columnas de las tuplas que tomabamos para hacer las cuentas de distancia.
+m\'atriz de covarianza utilizando los primeros $n$ im\'agenes del dataset
+\texttt{Training Data}. Luego, se tomaban $30000-n$ im\'agenes que se descartaban; para poder tomar 
+siempre las mismas $t$ im\'agenes siguientes como im\'agenes de test, con sus 
+correspondientes labels. A estos se les aplicaron las t\'ecnicas
+de detecci\'on que hemos detallado antes y fuimos variando los $k$ componentes principales 
+de las tuplas que tomabamos para hacer las cuentas de distancia.
 Los gr\'aficos de HitRate est\'an hechos en funci\'on de $k$.
+El Hitrate se define como el porcentaje de aciertos en la detecci\'on sobre el total de 
+experimentos realizados.
 
-Testeamos usando matrices de covarianza entrenadas con cantidad variable de elementos.
+Tom\'amos siempre las mismas $t=500$ im\'agenes para todos los test, que representan
+de manera proporcional a cada d\'igito.
+
+Testeamos usando matrices de covarianza entrenadas con cantidad variable de im\'agenes.
 \def \hrwidth {500pt}
 
 \begin{figure}[H]
 \begin {center}
 \includegraphics[width=\hrwidth]{plots/hitrate-1kcv.png}
 \end {center}
-\caption{Hitrate de detecci\'on de 500 elementos de acuerdo a los varios m\'etodos implementados
-usando la matriz de covarianza entrenada con 1000 elementos}
+\caption{Hitrate de detecci\'on de 500 im\'agenes de acuerdo a los varios m\'etodos implementados
+usando la matriz de covarianza entrenada con 1000 im\'agenes}
 \label{fig:HR1kcv}
 \end{figure}
 
@@ -54,8 +60,8 @@ usando la matriz de covarianza entrenada con 1000 elementos}
 \begin {center}
 \includegraphics[width=\hrwidth]{plots/hitrate-5kcv.png}
 \end {center}
-\caption{Hitrate de detecci\'on de 500 elementos de acuerdo a los varios m\'etodos implementados
-usando la matriz de covarianza entrenada con 5000 elementos}
+\caption{Hitrate de detecci\'on de 500 im\'agenes de acuerdo a los varios m\'etodos implementados
+usando la matriz de covarianza entrenada con 5000 im\'agenes}
 \label{fig:HR5kcv}
 \end{figure}
 
@@ -63,8 +69,8 @@ usando la matriz de covarianza entrenada con 5000 elementos}
 \begin {center}
 \includegraphics[width=\hrwidth]{plots/hitrate-15kcv.png}
 \end {center}
-\caption{Hitrate de detecci\'on de 500 elementos de acuerdo a los varios m\'etodos implementados
-usando la matriz de covarianza entrenada con 15000 elementos}
+\caption{Hitrate de detecci\'on de 500 im\'agenes de acuerdo a los varios m\'etodos implementados
+usando la matriz de covarianza entrenada con 15000 im\'agenes}
 \label{fig:HR15kcv}
 \end{figure}
 
@@ -72,8 +78,8 @@ usando la matriz de covarianza entrenada con 15000 elementos}
 \begin {center}
 \includegraphics[width=\hrwidth]{plots/hitrate-30kcv.png}
 \end {center}
-\caption{Hitrate de detecci\'on de 500 elementos de acuerdo a los varios m\'etodos implementados
-usando la matriz de covarianza entrenada con 30000 elementos}
+\caption{Hitrate de detecci\'on de 500 im\'agenes de acuerdo a los varios m\'etodos implementados
+usando la matriz de covarianza entrenada con 30000 im\'agenes}
 \label{fig:HR30kcv}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -131,8 +137,8 @@ usando vecinos m\'as cercanos tomando 100 componentes principales}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Reconocimiento por d\'igito}
-Fijamos la matriz de covarianza entrenada con 30000 elementos, ya que est\'a precalculada.
-Siguiendo la misma metodologia, nos concentramos ahora en el HitRate individual
+Fijamos la matriz de covarianza entrenada con 30000 im\'agenes, ya que est\'a precalculada.
+Siguiendo la misma metodolog\'ia, nos concentramos ahora en el HitRate individual
 de cada d\'igito. Analizamos el HitRate de acuerdo a la metodolog\'ia de detecci\'on usada.
 \def \pdwidth {500pt}
 
@@ -140,8 +146,8 @@ de cada d\'igito. Analizamos el HitRate de acuerdo a la metodolog\'ia de detecci
 \begin {center}
 \includegraphics[width=\pdwidth]{plots/pordig-30kcv-norma2.png}
 \end {center}
-\caption{Hitrate por d\'igito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
-clasificados por norma2}
+\caption{Hitrate por d\'igito de detecci\'on de 500 im\'agenes usando la matriz de covarianza entrenada con 30000 im\'agenes
+clasificados por distancia a los promedios usando norma 2}
 \label{fig:HRD30kcv-n2}
 \end{figure}
 
@@ -149,8 +155,8 @@ clasificados por norma2}
 \begin {center}
 \includegraphics[width=\pdwidth]{plots/pordig-30kcv-norma1.png}
 \end {center}
-\caption{Hitrate por d\'igito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
-clasificados por norma1}
+\caption{Hitrate por d\'igito de detecci\'on de 500 im\'agenes usando la matriz de covarianza entrenada con 30000 im\'agenes
+clasificados por distancia a los promedios usando norma 1}
 \label{fig:HRD30kcv-n1}
 \end{figure}
 
@@ -158,8 +164,8 @@ clasificados por norma1}
 \begin {center}
 \includegraphics[width=\pdwidth]{plots/pordig-30kcv-normaInf.png}
 \end {center}
-\caption{Hitrate por d\'igito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
-clasificados por norma Inf}
+\caption{Hitrate por d\'igito de detecci\'on de 500 im\'agenes usando la matriz de covarianza entrenada con 30000 im\'agenes
+clasificados por distancia a los promedios usando norma infinito}
 \label{fig:HRD30kcv-ninf}
 \end{figure}
 
@@ -167,8 +173,8 @@ clasificados por norma Inf}
 \begin {center}
 \includegraphics[width=\pdwidth]{plots/pordig-30kcv-BestOf3.png}
 \end {center}
-\caption{Hitrate por d\'igito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
-clasificados por mejor de 3 normas}
+\caption{Hitrate por d\'igito de detecci\'on de 500 im\'agenes usando la matriz de covarianza entrenada con 30000 im\'agenes
+clasificados por distancia a los promedios usando la norma que m\'as repetida entre Norma 1, 2 e Infinito}
 \label{fig:HRD30kcv-bo3}
 \end{figure}
 
@@ -176,47 +182,47 @@ clasificados por mejor de 3 normas}
 \begin {center}
 \includegraphics[width=\pdwidth]{plots/pordig-30kcv-top100.png}
 \end {center}
-\caption{Hitrate por d\'igito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
+\caption{Hitrate por d\'igito de detecci\'on de 500 im\'agenes usando la matriz de covarianza entrenada con 30000 im\'agenes
 clasificados por distancia a 100 m\'as cercanos}
 \label{fig:HRD30kcv-dist100}
 \end{figure}
 
 \section{Heatmap de reconocimiento por d\'igito}
 Aca mostramos las equivocaciones y aciertos al reconocer cada d\'igito, variando la cantidad de columnas, hecho con la matriz de covarianza de
-30000 elementos y variando la cantidad de columnas tomadas. Eje X el valor detectado, eje Y el valor verdadero. El color marca la cantidad
+30000 im\'agenes y variando la cantidad de columnas tomadas. Eje X el valor detectado, eje Y el valor verdadero. El color marca la cantidad
 de veces que se detect\'o un valor y a cual correspondia.
 \def \hmwidth {500pt}
 \begin{figure}[H]
 \includegraphics[width=\hmwidth]{plots/heatmap-30kcv-k5-norma_2.png}
-\caption{Heatmap de aciertos por d\'igito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
+\caption{Heatmap de aciertos por d\'igito de detecci\'on de 500 im\'agenes usando la matriz de covarianza entrenada con 30000 im\'agenes
 clasificados por norma 2 tomando K=5}
 \label{fig:HM30kcv-k5}
 \end{figure}
 
 \begin{figure}[H]
 \includegraphics[width=\hmwidth]{plots/heatmap-30kcv-k10-norma_2.png}
-\caption{Heatmap de aciertos por d\'igito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
+\caption{Heatmap de aciertos por d\'igito de detecci\'on de 500 im\'agenes usando la matriz de covarianza entrenada con 30000 im\'agenes
 clasificados por norma 2 tomando K=10 }
 \label{fig:HM30kcv-k10}
 \end{figure}
 
 \begin{figure}[H]
 \includegraphics[width=\hmwidth]{plots/heatmap-30kcv-k25-norma_2.png}
-\caption{Heatmap de aciertos por d\'igito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
+\caption{Heatmap de aciertos por d\'igito de detecci\'on de 500 im\'agenes usando la matriz de covarianza entrenada con 30000 im\'agenes
 clasificados por norma 2 tomando K=25 }
 \label{fig:HM30kcv-k25}
 \end{figure}
 
 \begin{figure}[H]
 \includegraphics[width=\hmwidth]{plots/heatmap-30kcv-k50-norma_2.png}
-\caption{Heatmap de aciertos por d\'igito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
+\caption{Heatmap de aciertos por d\'igito de detecci\'on de 500 im\'agenes usando la matriz de covarianza entrenada con 30000 im\'agenes
 clasificados por norma 2 tomando K=50 }
 \label{fig:HM30kcv-k50}
 \end{figure}
 
 \begin{figure}[H]
 \includegraphics[width=\hmwidth]{plots/heatmap-30kcv-k100-norma_2.png}
-\caption{Heatmap de aciertos por d\'igito de detecci\'on de 500 elementos usando la matriz de covarianza entrenada con 30000 elementos
+\caption{Heatmap de aciertos por d\'igito de detecci\'on de 500 im\'agenes usando la matriz de covarianza entrenada con 30000 im\'agenes
 clasificados por norma 2 tomando K=100 }
 \label{fig:HM30kcv-k100}
 \end{figure}

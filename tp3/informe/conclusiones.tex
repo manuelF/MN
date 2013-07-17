@@ -20,6 +20,11 @@ la $V^t$ (de 784 x 784 elementos). Sin embargo, se genera y guarda tambien la $U
 60000 x 60000 elementos, ~26 Gb) y $\Sigma$ (de hasta 60000 x 784 elementos, ~358Mb), llenando innecesariamente
 la mem\'oria RAM, y impidiendonos operar con a\'un m\'as im\'agenes usando este mecanismo.
 
+Con las correcciones del TP3, pudimos aprender que si hubieramos calculado la version \texttt{'econ'}
+de \texttt{svd}, hubieramos podido los experimentos de casi cualquier tama\~no que hubieramos querido.
+Esto realza a\'un m\'as la importancia del conocimiento de las herramientas de desarrollo a la hora
+de enfrentarse a problemas.
+
 La utilizaci\'on de implementaciones confiables sirvi\'o tambi\'en para apoyar nuestros
 c\'alculos y tener nociones precisas de posibles errores de implementaci\'on
 realizando an\'alisis comparativo de resultados.
@@ -28,14 +33,14 @@ realizando an\'alisis comparativo de resultados.
 
 Leyendo la literatura de m\'etodos computacionales aplicados al \'algebra lineal, es
 imposible evitar toparse constantemente con los autovectores y autovalores. Su
-uso atravieza todas las \'areas de los m\'etodos num\'ericos. Son cruciales
+uso atraviesa todas las \'areas de los m\'etodos num\'ericos. Son cruciales
 en los motores gr\'aficos, a la hora de caracterizar transformaciones t\'ipicas.
 Aparecen en las ciencias f\'isicas como formas de resolver problemas de movimiento,
 vibraci\'on, y fuerzas mec\'anicas.
 
 El uso dado en este trabajo fue para obtener caraterizaciones de los datos utilizando la
 descomposici\'on en autovectores, y de esa manera poder correlacionar distintos puntos que
-tengan diferencias dificiles de describir. Aprendimos que la t\'ecnica de descomponer en autovectores
+tengan diferencias dif\'iciles de describir. Aprendimos que la t\'ecnica de descomponer en autovectores
 es fundamental a la hora de resolver problemas \textit{fuzzy}, donde
 el an\'alisis de componentes principales puede traer a la luz la verdadera variabilidad de los datos.
 
@@ -46,35 +51,35 @@ Las t\'ecnicas que utilizamos para experimentar reconocimiento nos dieron
 la pauta de que este es el campo que m\'as se puede seguir explorando, sea rastreando la literatura
 correspondiente como para intentar innovar con alg\'un m\'etodo \'unico e interesante.
 
-Lo que fue realmente notable es que el uso de ideas que nosotros creiamos m\'as ``inteligentes'',
+Lo que fue realmente notable es que el uso de ideas que nosotros cre\'iamos m\'as ``inteligentes'',
 en realidad resultaron ser peor que la m\'as \textit{naif}, la distancia euclidia a las medias, para
 casi cualquier cantidad de componentes principales.
 
 Esto nos lleva a pensar que el centro de masas de las im\'agenes de entrenamiento seg\'un lo calculamos
 nosotros (siguiendo el enunciado y [Sirovich87]) es tal vez una forma \'optima de reconocer
-dada la creacion de la matriz de transformacion (la V de covarianza). Si se generase de otra manera esa
+dada la creaci\'on de la matriz de transformaci\'on (la matriz $V$). Si se generase de otra manera esa
 transformaci\'on $V^t$, creemos que puede haber m\'etodos diferentes que logren un buen reconocimiento tambi\'en.
 
 
 \subsection{M\'as puntos de datos, no implican mejores respuestas}
 
-La cantidad de im\'agenes de entrenamiento que deberiamos usar fue un motivo de
+La cantidad de im\'agenes de entrenamiento que debi\'eramos usar fue un motivo de
 discusi\'on e hip\'otesis dentro del grupo.
 Claramente quisimos usar todas las que pudieramos, intentando emplear al m\'aximo el
 uso del corpus brindado. La contrapartida fue el tiempo de ejecuci\'on. Incluso habiendo implementado
 la factorizaci\'on de HouseHolder \'optimo (O($n^3$)), resultaba inaceptable que tardara mas de 24hs
 el c\'alculo de los autovectores de la matriz de covarianza con un $\epsilon = 1e-5$. Intentamos implementar
 directivas de paralelizaci\'on que pudieran bajar esta complejidad (aunque sea multiplicando por una
-constante mas chica). Sin embargo, el tiempo de ejecuci\'on sigui\'o siendo inaceptablemente alto y solo
-ensuciaban el c\'odigo, asi que las removimos.
+constante mas chica). Logramos un speedup de un poco m\'as de 2x con respecto al c\'odigo serial, usando
+un procesador con 8 threads, pero el factor c\'ubico predomina.
 
-Logramos calcular matrices de covarianza hasta para 30.000 im\'agenes de entrenamiento, pero cuando
-corrimos los experimentos, el uso de las matrices m\'as ricas no aport\'o casi a un mejor reconocimiento.
+Logramos calcular matrices de covarianza para un poco m\'as de 30000 im\'agenes de entrenamiento, pero cuando
+corrimos los experimentos, el uso de las matrices generadas con m\'as im\'agenes superadas las 30000 no aport\'o casi a un mejor reconocimiento.
 Viendo esto, decidimos que, al menos con este corpus, no ibamos a lograr captar m\'as detalles del problema,
 asi que no seguimos intentado crecer en tama\~no.
 
-Nuestra hipotesis sostiene que esto es as\'i porque en el corpus est\'a apropiadamente
+Nuestra hip\'otesis sostiene que esto es as\'i porque en el corpus est\'a apropiadamente
 representado cada integrante (d\'igito). Creemos que en problemas de
 reconocimiento de rostros, por ejemplo, con muy pocas muestras de cada integrante,
-seria esencial emplear el corpus al m\'aximo (no necesariamente usarlo todo, pero seleccionar los
+ser\'ia esencial emplear el corpus al m\'aximo (no necesariamente usarlo todo, pero seleccionar los
 integrantes inteligentemente) para poder tener todos los detalles posibles para hacer un mejor an\'alisis.
