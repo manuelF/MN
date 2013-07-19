@@ -11,9 +11,9 @@ ejecuci\'on.
 
 Sin embargo, luego de la primera correcci\'on del trabajo, encontramos que esta
 aparente facilidad correspond\'ia a la simplicidad de los tipos de ruidos simulados.
-Para la re-entrega del trabajo, decidimos agregar un ruido que se presenta en general
-en se\~nales de audio como lo es el ruido impulsivo acompa/~nado de una implementaci\'on
-del filtro de la mediana para mitigarlo (ambas funciones son analizadas en detalle a lo 
+Para la re-entrega del trabajo, decidimos agregar un ruido que se presenta en transmisiones
+digitales sin correcciones de error, como es el ruido salt and pepper, acompa/~nado de una implementaci\'on
+del filtro de la mediana para mitigarlo (ambos son analizadas en detalle a lo 
 largo de esta secci\'on).    	
 
 Para un mejor entendimiento del fen\'omeno del ruido en las se\~nales, dividimos
@@ -160,8 +160,19 @@ una distribuci\'on la normal, cuyos componentes estan comprendidos en todas las 
 		{\bf Ruido Salt and pepper:} Este tipo de ruido consiste en sumar a ciertos puntos dispersos (con probabilidad peque\~na) 
 de la se\~nal un n\'umero mucho mayor en m\'odulo a la media. Este tipo de ruido es muy 
 frecuente en se\~nales de audio y se manifiesta como pulsos o clicks.
-	\end{item}
+Para cada punto se aplica el ruido de la siguiente manera:
 
+    $se\widetilde{n}al_{ruidosa}[i] =
+    \begin{cases}
+        se\widetilde{n}al_{original[i]}  & \mbox{if } random(0,1)< \rho \\
+        se\widetilde{n}al_{original[i]} + \pm P  & \mbox{if } random(0,1) >= \rho         
+    \end{cases}
+        $\\
+        \bigskip 
+	\end{item}
+Donde $P$ (Pulso) es una constante mucho mayor a 1, para variar fuertemente la se\~nal en ese punto
+y $\rho$ es una probabilidad que define el porcentaje de la muestra que queremos que sea preservada 
+y no afectada por el ruido.
 \end{itemize}
 
 \subsection{Pasaje a dos dimensiones}
@@ -181,8 +192,7 @@ fueron utilizados sin necesidad de cambios en esta segunda etapa.
 
 Despu\'es de esto aplicamos los mismos filtros aplicados por bloques. En cada bloque
 aplicabamos los mismos filtros pero en vez de trabajar con un entorno en una dimensi\'on
-trabajamos con un entorno en dos dimensiones. El resultado de esto fue pr\'acticamente similar
-al que obtuvimos aplicando el filtro s\'olo por filas.
+trabajamos con un entorno en dos dimensiones. 
 
 Algo que intentamos pero que nos llev\'o a muy malos resultados fue aplicar el filtro por filas y por columnas.
 
