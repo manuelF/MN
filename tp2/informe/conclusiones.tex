@@ -3,16 +3,19 @@
 La primer conclusi\'on que pudimos sacar de este TP fue que el filtro que apliquemos para detecci\'on y correci\'on
 de ruido siempre va a depender del tipo de ruido que querramos eliminar de la se\~nal.
 
-Los ruidos que estudiamos fueron los gaussianos, senoidales e impulsivos. En todos los casos pudimos comparar los filtros
-exponenciales, promediadores y de la mediana que desarrollamos contra las sen\~nales originales, y alguno de estos o la combinaci\'on de los dos primeros, resultaron razonablemente efectivos a la hora de restaurar la mayor integridad posible.
+Los ruidos que estudiamos fueron los gaussianos  e impulsivos. En todos los casos pudimos comparar los filtros
+cero, exponenciales, y de la mediana que desarrollamos contra las sen\~nales originales, y alguno de estos o
+la combinaci\'on de los dos ultimos, resultaron razonablemente efectivos a la hora de restaurar la mayor integridad posible.
 
 \subsection{Tipos de ruido}
 
-Durante los experimentos trabajamos con 3 tipos de ruido. El Senoidal sigue un
-patr\'on muy marcado. En cambio, el Gaussiano representa (del modo m\'as fiel
-que encontramos) valores aleatorios provenientes de una distribuci\'on normal.
+Durante los experimentos trabajamos con 2 tipos diferentes de ruido. 
+El  Ruido Gaussiano representa (del modo m\'as fiel que encontramos) valores aleatorios  que aparecen tipicamente en
+un ruido blanco. Es conocido que la forma correcta de modelar este ruido es siguiendo la distribuci\'on normal,
+que fue lo que hicimos.
 Por su parte el impulsivo posee un nivel de incertidumbre (en el sentido de ausencia de patrones)
-menor que el gaussiano y mayor que el senoidal.
+menor que el gaussiano, y tambien afecta de una manera bastante distinta la sen\~nal, como se puede ver en las
+figuras.
 
 Correr los mismos filtros sobre se\~nales con esos tipos de ruido sirvi\'o como
 refuerzo a la intuici\'on de que es m\'as simple lidiar con ruidos que siguen
@@ -22,21 +25,30 @@ cierto patr\'on a hacerlo con el denominado ``ruido blanco''.
 
 En se\~nales 1D los filtros que aplicamos reconstruyeron se\~nales que se parecieron mucho m\'as a la se\~nal
 original que la se\~nal con ruido aunque en muchos casos la diferencia era notable. Se puede percibir esto en las zonas
-de alta frecuencia de la im\'agen. Se pudo notar ah\'i que el filtro promediador, incluso con coeficientes que preservaran
+de alta frecuencia de la im\'agen. 
+%%%%%%%%%%%
+Se pudo notar ah\'i que el filtro promediador, incluso con coeficientes que preservaran
 bastante las se\~nales originales en las frecuencia no alteradas por ruido, que estos peque\~nos cambios alcanzaban a
 variar much\'isimo la se\~nal reconstruida. Esto nos dej\'o bien claro que hay que tener cuidado a la hora de hacer alteraciones
 en la base de los cosenos, no es para intuito el resultado que produce una perturbaci\'on en la reconstruccion de las se\~nales.
+%%%%%%%%%%%
 
 En se\~nales 2D, en cambio, ya que trabajabamos con im\'agenes, pudimos observar que la imagen con ruido en muchos
 casos no se distingu\'ia (es decir, no se pod\'ia reconocer la imagen comparandola con la original), aunque despu\'es
-de aplicar los filtros se reconoce una imagen bastante fiel a la original en comparaci\'on con la imagen ruidosa.
+de aplicar los filtros se reconoce una imagen bastante fiel a la original en comparaci\'on con la imagen ruidosa. Igualmente,
+los filtros dise\~nados presentan importantes alteraciones a las im\'agenes originales. Esto problablemente sea un subproducto de como
+implementamos los filtros por bloques e indica un interesante camino a seguir a la hora de tunear los parametros de los distintos
+filtros.
 
 \subsection{Elecci\'on de filtros}
 
 Es importante saber los casos de uso de las funciones para definir el rango de calidad \textit{aceptable}. No es lo mismo
 la precisi\'on necesaria para identificar si hay, o no, una cara en la imagen que para un sistema de reconocimiento \'optico
-de caracteres. Esto es clave para poder ver si se justifica aplicar filtros como promediador, donde se pierden un poco de detalles como suavizado
-pero se gana en velocidad de identificaci\'on humana.
+de caracteres. Esto es clave para poder ver si se justifica aplicar filtros m\'as refinados (por ejemplo, multiples pasadas de 
+Filtro exponencial, y tal vez intercalarlo con filtro Mediana), donde se pierden un poco de detalles como suavizado
+pero se gana en velocidad de identificaci\'on humana. Otros filtros tambien que se pueden considerar pueden ser un Pasa Bajos o 
+Pasa Banda, pero habria que tener en claro que los ruidos en la se\~nal siguen cierta distribuci\'on, sino seria lo mismo que ir
+tanteando (mecanismo no ideal pero a veces \'util).
 
 \subsection{Pendientes}
 
