@@ -1,10 +1,13 @@
 BIN=../src/DCT
 
-all: runfiles
-	gnuplot *.plt >&2 2> /dev/null
-	rm mod* rec* orig*
 
-runfiles: latest extra
+all: runfiles
+	gnuplot *.plt  >&2 2> /dev/null
+
+extra: latest
+	$(BIN) 1 < ../datos/brian_kernighan.pgm
+
+runfiles: latest 
 	touch mod recovered orig
 	$(BIN) < ../datos/dopp512.txt 
 	mv -f mod mod1
@@ -31,12 +34,10 @@ runfiles: latest extra
 	mv -f recovered rec5
 	mv -f orig orig5
 
-extra:
-	touch mod recovered orig
-	$(BIN) 1 < ../datos/brian_kernighan.pgm
-	mv -f mod mod4
-	mv -f recovered rec4
-	mv -f orig orig4
 
 latest:
-	cd ../src; make -f ../src/Makefile
+	cd ../src; make -f ../src/Makefile 
+
+clean:
+	rm mod* rec* orig*
+
