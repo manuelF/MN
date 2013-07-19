@@ -256,6 +256,7 @@ vector < double >transformar(const vector < double >&l)
     return y;
 }
 
+std::default_random_engine generator;
 //Generamos un ruido sobre el vector pasado como parametro
 void generarRuido(vector < double >&y, int imp)
 {
@@ -263,7 +264,6 @@ void generarRuido(vector < double >&y, int imp)
     if (imp == GAUSSIAN_NOISE)
     {
         ruido = vector < double >(y.size());
-        std::default_random_engine generator;
         std::normal_distribution < double >distribution(0.0, 50.0);
         for (int i = 0; i < (int) y.size(); i++)
         {
@@ -633,7 +633,7 @@ void procesar2D()
 
     //Agregamos un ruido fila a fila
     for (int j = 0; j < height; j++)
-        generarRuido(vec[j], IMPULSE_NOISE);
+        generarRuido(vec[j], GAUSSIAN_NOISE);
 
     //Transformamos la senal ruidosa al espacio DCT
     vector < vector < double >>vec2 = transformar2D(vec);	//transformada
