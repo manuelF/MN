@@ -134,31 +134,48 @@ habiendo aplicado los filtros promedio y exponencial (verde)}
 
 \subsection{PNSR de 1D}
 
+\subsubsection{Tabla de resultados para ruido blanco de varianza 10}
+
+\begin{table}[H]
+        \begin{tabular}{|l|llll|}
+                \hline
+                \textbf{PSNR [dB]} & Se\~nal + Gaussian (0,10) & F(Zero) & F(Exp) & F(Mediana) & F(Ambos) \\ \hline
+                    Dopp512 & 11.6843 & 12.8369 & 15.3068 & 12.9666  \\
+                    Dopp1024 & 13.0023 & 14.0229 & 19.7479 & 17.2167  \\
+                    s64 & 8.12886 & 8.39132 & 14.0562 & 8.24892 \\
+                    Ramp1234 & 28.0286 & 27.593 & 25.8266 & 27.8568  \\
+                    g450 & 24.7025 & 24.7641 & 25.0357 & 25.4474  \\ \hline
+                    \end{tabular}
+                \end{table}
+
+
 \subsubsection{Tabla de resultados para ruido blanco de varianza 100}
 
 \begin{table}[H]
         \begin{tabular}{|l|llll|}
                 \hline
-                \textbf{PSNR [dB]} & Se\~nal + Gaussian (0,100) & F(Exp) & F(Prom.) & F(Ambos) & F(Mediana) \\ \hline
-                    Dopp512 & 12.8362 & 19.1109 & 14.0993 & 15.3069  \\
-                    Dopp1024 & 14.0227 &  19.5712 & 17.4598 & 19.7477   \\
-                    s64 & 8.39132 &  13.7514 & 8.2662  & 14.0562 \\
-                    Ramp1234 & 27.593 & 27.169 & 28.8198  & 25.8268 \\
-                    g450 & 24.7638 & 26.603 & 26.0957 & 25.0348  \\ \hline
+                \textbf{PSNR [dB]} & Se\~nal + Gaussian (0,100) & F(Zero) & F(Exp) & F(Mediana) & F(Ambos) \\ \hline
+                    Dopp512 & 7.99957 & 0.642589 & 0.660194 & 6.63712 \\
+                    Dopp1024 & 15.5627 & 1.41572 & 1.19794 & 8.00584    \\
+                    s64 & 8.793 & 4.9988 & 9.85883 &  6.84809 \\
+                    Ramp1234 & 19.3077 & 9.82969 & 9.49553 & 17.0018  \\
+                    g450 & 4.9755 & 10.3673 & 11.4047 & 17.292   \\ \hline
                     \end{tabular}
                 \end{table}
+
+
 
 \subsubsection{Tabla de resultados para ruido impulsivo}
 
 \begin{table}[H]
         \begin{tabular}{|l|llll|}
                 \hline
-                \textbf{PSNR [dB]} & Se\~nal + Gaussian (0,100) & F(Exp) & F(Prom.) & F(Ambos) & F(Mediana) \\ \hline
-                    Dopp512 & 13.9665 & 23.5895 & 14.2087 & 17.4766 \\
-                    Dopp1024 & 19.1253 & 24.4804 & 19.6772 & 24.3568  \\
-                    s64 & 8.43298 & 13.8262 & 8.26889 & 13.6985  \\
-                    Ramp1234 & 31.191 & 30.4109 & 29.9534 & 27.6204 \\
-                    g450 & 27.1536 & 27.8862 & 26.6088 & 25.9678 \\ \hline
+                \textbf{PSNR [dB]} & Se\~nal + Impulsivo  & F(Zero) & F(Exp) & F(Mediana) & F(Ambos) \\ \hline
+                    Dopp512 & 13.2688 & 13.9682 & 17.4766 & 13.4073 \\
+                    Dopp1024 & 16.2501 & 19.1253 & 24.3568 & 19.2724 \\
+                    s64 & 8.16133 & 8.43298 & 13.6985 & 8.23597  \\
+                    Ramp1234 & 29.6897 & 31.1909 & 27.6204 & 28.5203 \\
+                    g450 & 26.4475 & 27.1543 & 25.9677 & 26.0887  \\ \hline
                     \end{tabular}
                 \end{table}
 
