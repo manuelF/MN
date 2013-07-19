@@ -264,7 +264,7 @@ void generarRuido(vector < double >&y, int imp)
     {
         ruido = vector < double >(y.size());
         std::default_random_engine generator;
-        std::normal_distribution < double >distribution(0.0, 10.0);
+        std::normal_distribution < double >distribution(0.0, 50.0);
         for (int i = 0; i < (int) y.size(); i++)
         {
             double randval = distribution(generator);
@@ -279,7 +279,7 @@ void generarRuido(vector < double >&y, int imp)
         ruido = vector < double >(y.size());
         for (int i = 0; i < (int) y.size(); i++)
         {
-            if((rand()%100)<40)
+            if((rand()%100)<20)
             {
                 double k = (double)((rand()%2)==0?1:(-1));
                 y[i] += k * IMPULSE_NOISE_DEFAULT;
@@ -490,8 +490,8 @@ void procesar1D()
 
     //Generamos algun ruido sobre la senal
 
-    //generarRuido(l,GAUSSIAN_NOISE);
-    generarRuido(l, IMPULSE_NOISE);
+    generarRuido(l,GAUSSIAN_NOISE);
+    //generarRuido(l, IMPULSE_NOISE);
 
 
     //Pasamos las senales al espacio DCT
@@ -504,9 +504,9 @@ void procesar1D()
 
     //Aplicamos algun/os filtro/s sobre la senal ruidosa
 
-    filtrarRuido(y, EXPONENTIAL_FILTER);
+    //filtrarRuido(y, EXPONENTIAL_FILTER);
     //filtrarRuido(y,ZERO_FILTER );
-    //filtrarRuido(y,MEDIAN_FILTER );
+    filtrarRuido(y,MEDIAN_FILTER );
 
     dump("recovered", y);
 
@@ -652,11 +652,11 @@ void procesar2D()
     vector < vector < double >>out4 = antitransformar2D(vec4);
 
     //Obtenemos el PSNR de lo bien que salio esta pasada
-     cerr << "PSNR Noise: " << psnr(_img, vec) << endl;
-     cerr << "PSNR A: " << psnr(_img, out) << endl;
-     cerr << "PSNR B: " << psnr(_img, out3) << endl;
-     cerr << "PSNR C: " << psnr(_img, out4) << endl;
-    
+    cerr << "PSNR Noise: " << psnr(_img, vec) << endl;
+    cerr << "PSNR A: " << psnr(_img, out) << endl;
+    cerr << "PSNR B: " << psnr(_img, out3) << endl;
+    cerr << "PSNR C: " << psnr(_img, out4) << endl;
+
     //Abrimos el archivo de salida para guarda la imagen transformada
     FILE *f = fopen("imgRuido.pgm", "w");
     fprintf(f, "P5\n%d %d\n%d\n", width, height, grayscale);
