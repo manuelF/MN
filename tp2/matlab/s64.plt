@@ -1,5 +1,7 @@
-set title 'Ramp1234'
-set output 'ramp1234.png'
+set title 'S64'
+set output 's64.png'
+
+
 
 set terminal pngcairo enhanced font 'Verdana,10' size 1024,768
 set autoscale
