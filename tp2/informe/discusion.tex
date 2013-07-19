@@ -22,6 +22,11 @@ acarreada una mayor preservacion de la informaci\'on en los puntos lindantes al 
 definimos que debe ser filtrado (el punto que cruza el umbral de tolerancia). Esto conlleva 
 a una mayor suavidad a la se\~nal recuperada.
 
+Otra idea interesante que surge de la implementaci\'on del ruido impulsivo y tambi\'en del
+filtro de la mediana que lo mitiga con \'exito es que la detecci\'on del tipo de ruido que afecta
+a la se\~nal puede ahorrar tiempo y aumentar la eficiencia del algoritmo, realizando un filtrado m\'as
+inteligente.
+%%FALTA REFERENCIA A ALGUNA IMAGEN ACA
 
 
 Otra variante utilizada fue la combinaci\'on de los filtros exponencial y
@@ -35,52 +40,23 @@ Los podemos apreciar en la figura \ref{fig:dopcomb} y en la figura \ref{fig:scom
 En estos podemos ver que, el ruido en la figura \ref{fig:scomb} es atenuado
 en el espectro y en la figura \ref{fig:dopcomb} es recuperada una se\~nal que
 comparte muchas similitudes con la original, salvando las frecuencias
-m\'as altas. Probablemente con una elecci\'on m\'as cuidadosa de parametros
-se hubieran podido rescatar m\'as detalles.
+m\'as altas. Probablemente con una elecci\'on m\'as cuidadosa de parametros (por ejemplo
+el valor del umbral de detecci\'on de pico) se hubieran podido rescatar m\'as detalles.
 
-Otra idea interesante que surge de la implementaci\'on del ruido impulsivo y tambi\'en del
-filtro de la mediana que lo mitiga con \'exito es que la detecci\'on del tipo de ruido que afecta
-a la se\~nal puede ahorrar tiempo y aumentar la eficiencia del algoritmo, realizando un filtrado m\'as
-inteligente.
 
 \subsection{Filtros en 2D}
 
-
-En la Figura \ref{fig:Sin50All} vemos los efectos de ruido senoidal
-de coeficiente 50. Vemos que perturba sobre todo las areas mas oscuras
-de la fotograf\'ia. El filtro de promedios logra solamente recuperar la mitad
-derecha de la imagen y con un fuerte efecto de difuminado.
-Esto es as\'i porque los detalles se encuentran en las mas altas frecuencias
-y las estamos aplanando con los promedios, por eso el efecto borroso.
-Los plenos, en cambio, se encuentran en las frecuencias mas bajas, pero
-por el filtro que hicimos, que arranca desde el 5\% de la señal,
-no siempre se logra recuperar todo.
-
-En cambio, con el filtro exponencial, podemos detectar exactamente ese
-tipo de ruido y disminuirlo, haciendo un gran trabajo y preservando tanto
-los plenos como los detalles. Luego, combinarlos solo elimina definici\'on,
-no recomendable.\\
-
-
-Como se puede ver en la Figura \ref{fig:Sin1000All}, el ruido senoidal
-de coeficiente 1000 hace cosas extra\'nas en la fotograf\'ia.
-Este ruido es controlado pero el multiplicador es muy alto, haciendo muy 
-dif\'icil la interpretaci\'on de la im\'agen. A simple vista, no se puede distinguir ning\'un rasgo,
-salvo el tenue contorno de la persona.
-Esta im\'agen ser\'ia totalmente in\'util en la gran mayoria de los casos.
-
-La mejor\'ia obtenida aplicando los filtros es asombrosa.
-El filtro exponencial logra captar los fuertes picos en el espectro de
-frecuencias y con su atenuaci\'on, permite recuperar los rasgos principales
-de la figura humana.
-Hay datos que parecen perdidos, o que al menos con esta t\'ecnica y
-parametros de configuraci\'on no logramos captar, como el fondo de
-libros oscuros. No se detectan mejoras usando ambos filtros simultaneamente.
+La im\'agen presentada contiene tanto areas muy claras como muy oscuras, y buena definici\'on
+en algunos sectores y mas borrosa en otros. Esto hace que la im\'agen sea interesante para probar
+con los diferentes ruidos.
 
 Eliminar ruido gaussiano de la im\'agen fue la actividad m\'as desafiante
 ya que el ruido blanco es muy d\'ificil de capturar por su condici\'on de ``antipatron''.
 
-En la Figura \ref{fig:gauss2d} vemos en este caso, que aplicar el filtro
+En la Figura \ref{fig:gauss2d} vemos en este caso, los resultados de aplicar los 
+distintos filtros, y las combinaciones. El filtro exponencial en este caso
+
+que aplicar el filtro
 promediador luego de haber aplicado el exponencial, es un error. 
 Se reintroducen muchos de los \textit{artifacts} que se habian podido
 eliminar antes, sin ninguna mejoria de sharpness en la imagen. 

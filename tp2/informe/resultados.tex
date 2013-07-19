@@ -40,11 +40,10 @@ puntos que lo sobrepasan (tanto por arriba como por debajo) a cero.
 
 \begin{figure}[H]
 \begin {center}
-\includegraphics[width=500pt]{imagenes/dopp1024-gauss-10-zero.png}
+\includegraphics[width=500pt]{imagenes/ramp1234-imp-zero.png}
 \end {center}
-\caption{Se\~nal doppler provista por la c\'atedra, transformada, gr\'aficada
-luego de aplicar ruido gaussiano utilizando con varianza 10 (rojo) y 
-habiendo aplicado el filtro cero (azul)}
+\caption{Se\~nal \texttt{ramp1234} provista por la c\'atedra, en el dominio de frecuencias, gr\'aficada
+luego de aplicar ruido impulsivo (azul) y habiendo aplicado el filtro cero (verde)}
 \label{fig:Dopp1024zero}
 \end{figure}
 
@@ -55,9 +54,9 @@ habiendo aplicado el filtro cero (azul)}
 
 \begin{figure}[H]
 \begin {center}
-\includegraphics[width=500pt]{imagenes/dopp1024-gauss-10-exp.png}
+\includegraphics[width=500pt]{imagenes/g450-gauss-10-exp.png}
 \end {center}
-\caption{Se\~nal \texttt{g450} provista por la c\'atedra, transformada, gr\'aficada
+\caption{Se\~nal \texttt{g450} provista por la c\'atedra, en el domino de frecuencias, gr\'aficada
 luego de aplicar ruido gaussiano con varianza 10 (rojo) y 
 habiendo aplicado el filtro exponencial (azul)}
 \label{fig:GexpSpec}
@@ -65,11 +64,10 @@ habiendo aplicado el filtro exponencial (azul)}
 
 \begin{figure}[H]
 \begin {center}
-\includegraphics[width=500pt]{imagenes/s64-gauss-10-exp.png}
+\includegraphics[width=500pt]{imagenes/g450-imp-exp.png}
 \end {center}
-\caption{Se\~nal \texttt{s64} provista por la c\'atedra, no transformada, gr\'aficada
-luego de aplicar ruido gaussiano con varianza 10 (rojo) y 
-habiendo aplicado el filtro exponencial (azul)}
+\caption{Se\~nal \texttt{g450} provista por la c\'atedra, en el domino de frecuencias, gr\'aficada
+luego de aplicar ruido impulsivo (azul) y habiendo aplicado el filtro exponencial (verde)}
 \label{fig:SexpSig}
 \end{figure}
 
@@ -77,11 +75,10 @@ habiendo aplicado el filtro exponencial (azul)}
 
 \begin{figure}[H]
 \begin {center}
-\includegraphics[width=500pt]{imagenes/dopp1024-imp-median.png}
+\includegraphics[width=500pt]{imagenes/dopp512-imp-median.png}
 \end {center}
-\caption{Se\~nal \texttt{doppler1024} provista por la c\'atedra, transformada, gr\'aficada
-luego de aplicar ruido impulsivo (azul) y 
-habiendo aplicado el filtro de la mediana (verde)}
+\caption{Se\~nal \texttt{doppler512} provista por la c\'atedra, en el dominio de frecuencias, gr\'aficada
+luego de aplicar ruido impulsivo (azul) y habiendo aplicado el filtro de la mediana (verde)}
 \label{fig:SinProm}
 \end{figure}
 
@@ -90,24 +87,25 @@ habiendo aplicado el filtro de la mediana (verde)}
 
 \begin{figure}[H]
 \begin {center}
-\includegraphics[width=500pt]{imagenes/dopp1024-gauss-100-both.png}
+\includegraphics[width=500pt]{imagenes/dopp1024-gauss-10-both.png}
 \end {center}
-\caption{Se\~nal \texttt{doppler1024} provista por la c\'atedra, no transformada, gr\'aficada
-luego de aplicar ruido gaussiano utilizando una varianza de 100 (rojo) y 
-habiendo aplicado los filtros de la mediana y exponencial (verde)}
-\label{fig:dopcomb}
+\caption{Se\~nal \texttt{doppler1024} provista por la c\'atedra, en el dominio de frecuencias, gr\'aficada
+    luego de aplicar ruido gaussiano de varianza 10 (azul) y 
+habiendo aplicado los filtros de la mediana y exponencial (en ese orden) (verde)}
+\label{fig:gcomb}
 \end{figure}
 
 \begin{figure}[H]
 \begin {center}
-\includegraphics[width=500pt]{imagenes/dopp1024-gauss-10-both.png}
+\includegraphics[width=500pt]{imagenes/dopp1024-gauss-50-bothr.png}
 \end {center}
-\caption{Se\~nal \texttt{doppler1024} provista por la c\'atedra, no transformada, gr\'aficada
-luego de aplicar ruido gaussiano de varianza 10 (rojo) y 
-habiendo aplicado los filtros de la mediana y exponencial (verde)}
-\label{fig:gcomb}
+\caption{Se\~nal \texttt{doppler1024} provista por la c\'atedra, en el dominio de frecuencias, gr\'aficada
+luego de aplicar ruido gaussiano utilizando una varianza de 50 (azul) y 
+habiendo aplicado los filtros exponencial y de la mediana (en ese orden) (verde)}
+\label{fig:dopcomb}
 \end{figure}
 
+\newpage
 \subsection{PNSR de 1D}
 
 \subsubsection{Tabla de resultados para ruido blanco de varianza 10}
@@ -125,12 +123,12 @@ habiendo aplicado los filtros de la mediana y exponencial (verde)}
                 \end{table}
 
 
-\subsubsection{Tabla de resultados para ruido blanco de varianza 100}
+\subsubsection{Tabla de resultados para ruido blanco de varianza 50}
 
 \begin{table}[H]
         \begin{tabular}{|l|lllll|}
                 \hline
-                \textbf{PSNR [dB]} & Se\~nal + Gaussian (0,100) & F(Zero) & F(Exp) & F(Mediana) & F(Ambos) \\ \hline
+                \textbf{PSNR [dB]} & Se\~nal + Gaussian (0,50) & F(Zero) & F(Exp) & F(Mediana) & F(Ambos) \\ \hline
                     Dopp512 & 7.99957 & 0.642589 & 0.660194 & 6.63712 \\
                     Dopp1024 & 15.5627 & 1.41572 & 1.19794 & 8.00584    \\
                     s64 & 8.793 & 4.9988 & 9.85883 &  6.84809 \\
@@ -197,25 +195,25 @@ una imagen muy similar a la original.
 \end{array}$
 \caption{\textbf{Arriba Izquierda}: Imagen con ruido gaussiano de varianza 10, \textbf{Arriba Derecha}: Recuperada con filtro exponencial, \textbf{Abajo Izquierda}: Recuperada con filtro de la mediana, \textbf{Abajo Derecha}: Recuperada aplicando filtro exponencial y de la mediana}
  \end{center}
-\label{fig:Sin50All}
+\label{fig:kerngauss10}
 \end{figure}
 
-\subsubsection{Ruido gaussiano con 100 de varianza}
+\subsubsection{Ruido gaussiano con 50 de varianza}
 
 \begin{figure}[H]
 
     \begin{center}
      $\begin{array}{cc}
-\includegraphics[width=150pt]{imagenes/kern-gauss-100-noisy.png}
-\includegraphics[width=150pt]{imagenes/kern-gauss-100-recovered-exp.png}
+\includegraphics[width=150pt]{imagenes/kern-gauss-50-noisy.png}
+\includegraphics[width=150pt]{imagenes/kern-gauss-50-recovered-exp.png}
 \end{array}$
     $\begin{array}{cc}
-\includegraphics[width=150pt]{imagenes/kern-gauss-100-recovered-median.png}
-\includegraphics[width=150pt]{imagenes/kern-gauss-100-recovered-both.png}
+\includegraphics[width=150pt]{imagenes/kern-gauss-50-recovered-median.png}
+\includegraphics[width=150pt]{imagenes/kern-gauss-50-recovered-both.png}
 \end{array}$
- \caption{\textbf{Arriba Izquierda}: Imagen con ruido gaussiano con varianza 100, \textbf{Arriba Derecha}: Recuperada con filtro exponencial, \textbf{Abajo Izquierda}: Recuperada con filtro de la mediana, \textbf{Abajo Derecha}: Recuperada aplicando filtro exponencial y de la mediana}
+ \caption{\textbf{Arriba Izquierda}: Imagen con ruido gaussiano con varianza 50, \textbf{Arriba Derecha}: Recuperada con filtro exponencial, \textbf{Abajo Izquierda}: Recuperada con filtro de la mediana, \textbf{Abajo Derecha}: Recuperada aplicando filtro exponencial y de la mediana}
  \end{center}
-\label{fig:Sin1000All}
+\label{fig:kerngauss50}
 \end{figure}
 
 
@@ -234,6 +232,6 @@ una imagen muy similar a la original.
 \end{array}$
 \end{center}
  \caption{\textbf{Arriba Izquierda}: Imagen con ruido impulsivo, \textbf{Arriba Derecha}: Recuperada con filtro exponencial, \textbf{Abajo Izquierda}: Recuperada con filtro de la mediana, \textbf{Abajo Derecha}: Recuperada aplicando filtro exponencial y de la mediana}
-\label{fig:gauss2d}
+\label{fig:kernimp}
 \end{figure}
 
