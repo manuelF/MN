@@ -9,6 +9,8 @@
 #include <string>
 #include <vector>
 #include <cassert>
+#include <ctime>
+
 
 #include <omp.h>
 #include <math.h>
@@ -26,7 +28,7 @@
 #define EXPONENTIAL_FILTER 1
 #define MEDIAN_FILTER 3
 
-#define IMPULSE_NOISE_DEFAULT 20
+#define IMPULSE_NOISE_DEFAULT 50
 #define IMPULSE_NOISE_TICK 20
 
 
@@ -274,17 +276,13 @@ void generarRuido(vector < double >&y, int imp)
     //Es un ruido impulsivo, muy angosto y fuerte
     if (imp == IMPULSE_NOISE)
     {
-        int sign = 1;
         ruido = vector < double >(y.size());
         for (int i = 0; i < (int) y.size(); i++)
         {
-            //Cada tanto (IMPULSE_NOISE_TICK), generamos un pico
-            //(una vez para cada lado)
-            if (i % IMPULSE_NOISE_TICK == 0)
+            if((rand()%100)<40)
             {
-                if (i % 3 * IMPULSE_NOISE_TICK == 0)
-                    sign *= -1;
-                y[i] += sign * IMPULSE_NOISE_DEFAULT;
+                double k = (double)((rand()%2)==0?1:(-1));
+                y[i] += k * IMPULSE_NOISE_DEFAULT;
             }
         }
     }
@@ -639,16 +637,25 @@ void procesar2D()
 
     //Transformamos la senal ruidosa al espacio DCT
     vector < vector < double >>vec2 = transformar2D(vec);	//transformada
+    vector < vector < double >>vec3 = vec2;	//transformada
+    vector < vector < double >>vec4 = vec2;	//transformada
 
     //Aplicamos un filtro 2D usando bloques
     filtrarRuido2D(vec2, MEDIAN_FILTER);
+    filtrarRuido2D(vec3, EXPONENTIAL_FILTER);
+    filtrarRuido2D(vec4, MEDIAN_FILTER);
+    filtrarRuido2D(vec4, EXPONENTIAL_FILTER);
 
     //Resolvemos el sistema para 2D
     vector < vector < double >>out = antitransformar2D(vec2);
+    vector < vector < double >>out3 = antitransformar2D(vec3);
+    vector < vector < double >>out4 = antitransformar2D(vec4);
 
     //Obtenemos el PSNR de lo bien que salio esta pasada
-    double e = psnr(_img, out);
-    cerr << "PSNR: " << e << endl;
+     cerr << "PSNR Noise: " << psnr(_img, vec) << endl;
+     cerr << "PSNR A: " << psnr(_img, out) << endl;
+     cerr << "PSNR B: " << psnr(_img, out3) << endl;
+     cerr << "PSNR C: " << psnr(_img, out4) << endl;
     
     //Abrimos el archivo de salida para guarda la imagen transformada
     FILE *f = fopen("imgRuido.pgm", "w");
@@ -664,9 +671,8 @@ void procesar2D()
     //Cerramos para flushear
     fclose(f);
 
-
     //Abrimos el archivo de salida para guarda la imagen transformada
-    f = fopen("imgMod.pgm", "w");
+    f = fopen("imgA.pgm", "w");
     fprintf(f, "P5\n%d %d\n%d\n", width, height, grayscale);
     //Guardamos la imagen
     for (int j = 0; j < height; j++)
@@ -674,6 +680,35 @@ void procesar2D()
         for (int i = 0; i < width; i++)
         {
             fprintf(f, "%c", (unsigned char) out[j][i]);
+        }
+    }
+    //Cerramos para flushear
+    fclose(f);
+
+    //Abrimos el archivo de salida para guarda la imagen transformada
+    f = fopen("imgB.pgm", "w");
+    fprintf(f, "P5\n%d %d\n%d\n", width, height, grayscale);
+    //Guardamos la imagen
+    for (int j = 0; j < height; j++)
+    {
+        for (int i = 0; i < width; i++)
+        {
+            fprintf(f, "%c", (unsigned char) out3[j][i]);
+        }
+    }
+    //Cerramos para flushear
+    fclose(f);
+
+
+    //Abrimos el archivo de salida para guarda la imagen transformada
+    f = fopen("imgC.pgm", "w");
+    fprintf(f, "P5\n%d %d\n%d\n", width, height, grayscale);
+    //Guardamos la imagen
+    for (int j = 0; j < height; j++)
+    {
+        for (int i = 0; i < width; i++)
+        {
+            fprintf(f, "%c", (unsigned char) out4[j][i]);
         }
     }
     //Cerramos para flushear
@@ -695,6 +730,7 @@ void usage()
 //Funcion principal, delega el filtrado correcto
 int main(int argc, char *argv[])
 {
+    srand(time(NULL));
     switch (argc)
     {
         //Sin parametros, asumimos que leemos por stdin una senal 1D
