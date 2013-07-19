@@ -19,12 +19,12 @@ que casos es mejor aplicar cada uno.
 
 Experimentalmente pudimos observar que el filtro cero es bueno (recupera las
 se\~nales en un grado aceptable), pero el filtro 
-exponencial y el promediador son bastante mejores en todos los casos. En el caso
-de ruido Impulsivo, el filtro de la mediana tambi\'en logra resultados interesantes.
+exponencial y el de la mediana son bastante mejores en general. En el caso
+de ruido Impulsivo, el filtro de la mediana logra resultados interesantes.
 
 Para poder obtener un mejor filtrado del ruido, decidimos aplicar primero el 
-filtro exponencial y luego el promediador, lo que result\'o en un filtrado muy 
-bueno dando resultados muy parecidos a la se\~nal original. 
+filtro exponencial y luego el de la mediana, lo que result\'o en un filtrado muy 
+interesante, dando buenos resultados en ciertos casos. 
 
 Los adjetivos utilizados se apoyan tanto en la interpretaci\'on de los gr\'aficos,
 la apreciaci\'on del resultado en las im\'agenes y la medida del PSNR tanto en 1 como en 2
@@ -40,10 +40,10 @@ puntos que lo sobrepasan (tanto por arriba como por debajo) a cero.
 
 \begin{figure}[H]
 \begin {center}
-\includegraphics[width=500pt]{imagenes/dopp1024-sin100-zero-spec.png}
+\includegraphics[width=500pt]{imagenes/dopp1024-gauss-10-zero.png}
 \end {center}
 \caption{Se\~nal doppler provista por la c\'atedra, transformada, gr\'aficada
-luego de aplicar ruido senoidal utilizando el multiplicador 1000 (rojo) y 
+luego de aplicar ruido gaussiano utilizando con varianza 10 (rojo) y 
 habiendo aplicado el filtro cero (azul)}
 \label{fig:Dopp1024zero}
 \end{figure}
@@ -55,36 +55,22 @@ habiendo aplicado el filtro cero (azul)}
 
 \begin{figure}[H]
 \begin {center}
-\includegraphics[width=500pt]{imagenes/g450-sin100-exp-spec.png}
+\includegraphics[width=500pt]{imagenes/dopp1024-gauss-10-exp.png}
 \end {center}
 \caption{Se\~nal \texttt{g450} provista por la c\'atedra, transformada, gr\'aficada
-luego de aplicar ruido senoidal utilizando el multiplicador 1000 (rojo) y 
+luego de aplicar ruido gaussiano con varianza 10 (rojo) y 
 habiendo aplicado el filtro exponencial (azul)}
 \label{fig:GexpSpec}
 \end{figure}
 
 \begin{figure}[H]
 \begin {center}
-\includegraphics[width=500pt]{imagenes/s64-sin100-exp.png}
+\includegraphics[width=500pt]{imagenes/s64-gauss-10-exp.png}
 \end {center}
 \caption{Se\~nal \texttt{s64} provista por la c\'atedra, no transformada, gr\'aficada
-luego de aplicar ruido senoidal utilizando el multiplicador 1000 (rojo) y 
-habiendo aplicado el filtro promedio (azul)}
+luego de aplicar ruido gaussiano con varianza 10 (rojo) y 
+habiendo aplicado el filtro exponencial (azul)}
 \label{fig:SexpSig}
-\end{figure}
-
-
-\subsubsection{Filtro Promedio}
-
-
-\begin{figure}[H]
-\begin {center}
-\includegraphics[width=500pt]{imagenes/dopp512-sin100-avg-spec.png}
-\end {center}
-\caption{Se\~nal \texttt{doppler512} provista por la c\'atedra, transformada, gr\'aficada
-luego de aplicar ruido senoidal utilizando el multiplicador 1000 (rojo) y 
-habiendo aplicado el filtro promedio (azul)}
-\label{fig:SinProm}
 \end{figure}
 
 \subsubsection{Filtro de la Mediana}
@@ -95,7 +81,7 @@ habiendo aplicado el filtro promedio (azul)}
 \end {center}
 \caption{Se\~nal \texttt{doppler1024} provista por la c\'atedra, transformada, gr\'aficada
 luego de aplicar ruido impulsivo (azul) y 
-habiendo aplicado el filtro promedio (verde)}
+habiendo aplicado el filtro de la mediana (verde)}
 \label{fig:SinProm}
 \end{figure}
 
@@ -104,31 +90,31 @@ habiendo aplicado el filtro promedio (verde)}
 
 \begin{figure}[H]
 \begin {center}
-\includegraphics[width=500pt]{imagenes/dopp1024-gauss100-both.png}
+\includegraphics[width=500pt]{imagenes/dopp1024-gauss-100-both.png}
 \end {center}
 \caption{Se\~nal \texttt{doppler1024} provista por la c\'atedra, no transformada, gr\'aficada
-luego de aplicar ruido gaussiano utilizando una amplitud de 100 (rojo) y 
-habiendo aplicado los filtros promedio y exponencial (verde)}
+luego de aplicar ruido gaussiano utilizando una varianza de 100 (rojo) y 
+habiendo aplicado los filtros de la mediana y exponencial (verde)}
 \label{fig:dopcomb}
 \end{figure}
 
 \begin{figure}[H]
 \begin {center}
-\includegraphics[width=500pt]{imagenes/g450-sin100-both.png}
+\includegraphics[width=500pt]{imagenes/dopp1024-gauss-10-both.png}
 \end {center}
-\caption{Se\~nal \texttt{g450} provista por la c\'atedra, no transformada, gr\'aficada
-luego de aplicar ruido senoidal utilizando el multiplicador 1000 (rojo) y 
-habiendo aplicado los filtros promedio y exponencial (verde)}
+\caption{Se\~nal \texttt{doppler1024} provista por la c\'atedra, no transformada, gr\'aficada
+luego de aplicar ruido gaussiano de varianza 10 (rojo) y 
+habiendo aplicado los filtros de la mediana y exponencial (verde)}
 \label{fig:gcomb}
 \end{figure}
 
 \begin{figure}[H]
 \begin {center}
-\includegraphics[width=500pt]{imagenes/s64-gauss100-both-spec.png}
+\includegraphics[width=500pt]{imagenes/dopp1024-imp-both.png}
 \end {center}
-\caption{Se\~nal \texttt{s64} provista por la c\'atedra, transformada, gr\'aficada
-luego de aplicar ruido gaussiano utilizando una amplitud de 100 (rojo) y 
-habiendo aplicado los filtros promedio y exponencial (verde)}
+\caption{Se\~nal \texttt{doppler1024} provista por la c\'atedra, transformada, gr\'aficada
+luego de aplicar ruido impulsivo  (rojo) y 
+habiendo aplicado los filtros de la mediana y exponencial (verde)}
 \label{fig:scomb}
 \end{figure}
 
