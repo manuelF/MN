@@ -110,28 +110,6 @@ donde $contorno$ es el rango de valores alrededor del pico que estamos tomando, 
 $j$ es el iterador que va desde $i-contorno$ hasta $i+contorno$, para poder aplicar
 el decaimiento exponencial a todos los valores perif\'ericos al punto.
 
-\subsection{Filtro Promedidador}
-
-El filtro promediador distribuye los coeficientes m\'as grandes 
-entre las se\~nales vecinas, es decir, si el coeficiente $k$-\'esimo es muy 
-grande, le transfiere parte del valor a sus vecinos localizados en $k-2$, $k-1$, $k+1$ y
-$k+2$. La inspiraci\'on de este m\'etodo surge de la discretizaci\'on m\'as sencilla
-de las ecuaciones diferenciales de segundo orden de difusi\'on de Poisson, donde
-se modela el comportamiento de un punto en un momento posterior en base a sus vecinos.\\
-
-\begin{center}
-$y'[i]=0.15*y[i-2] + 0.2*y[i-1] + 0.3*y[i]+0.2*y[i+1]+0.15*y[i+2]$\\
-\end{center}
-
-Es de notar que la suma de los coeficientes adem\'as da 1, de modo que no se 
-eliminan o agregan valores, sino que se distribuye de forma pareja a sus vecinos.
-
-La idea del filtro promediador surge de la observaci\'on de la aplicaci\'on de
-los otros en el caso del ruido blanco. Para poder afrontar casos con ruido en
-distintas frecuencias muy distintas al mismo tiempo necesitamos obtener un
-contexto mayor en cada punto para saber como manejarlos en relaci\'on con sus
-vecinos.
-
 \subsection{Filtro de la Mediana}
 
 El filtro de la mediana actua sobre cada muestra de la se\~nal (luego del 5\% inicial),
@@ -158,29 +136,9 @@ grande como para contener m\'as elementos regulares en la se\~nal que los perten
 
 \subsection{Aplicaci\'on de ruido}
 
-Se experiment\'o con 3 clases de ruido en las se\~nales:
+Se experiment\'o con 2 clases de ruido en las se\~nales:
 
 \begin{itemize}
-	\begin{item} {\bf Ruido senoidal:} Aplica un ruido formado por la suma de la se\~nal
-original con la funci\'on seno aplicada en la posici\'on de la muestra
-correspondiente, multiplicado por una constante $k$, para darle mayor amplitud al resultado de
-la funci\'on seno.
-
-	Es decir, para cada muestra de nuestra se\~nal aplicamos ruido del siguiente
-modo:
-
-$$se\widetilde{n}al_{ruidosa}[i] = se\widetilde{n}al_{original}[i] + k * \sin(i)$$
-
-  
-Tomamos como valores de $k$, $k=50$ y $k=1000$ siendo $k$ un valor constante para testear el comportamiento en casos con excesivo ruido, llev\'andolo a valores
-como 1000.
-
-El inter\'es te\'orico de este ruido surge de la industria de la
-telecomunicaci\'on. Es un ruido que aparece en las im\'agenes por la proximidad de los cables portadores de se\~nales a los cables de corriente alterna. La corriente alterna
-es una se\~nal sinusoidal de frecuencia entre  50 y 60Hz. Es un problema fundamental de solucionar, ya que es muy com\'un en
-las instalaciones de c\'amaras de seguridad por ejemplo, la existencia de ambos conductores pasando por el mismo ducto, sin separaci\'on
-alguna entre s\'i. Esto genera una se\~nal ghost o lavada, perdiendo definici\'on y, en algunos casos, haciendola irreconocible incluso.
-	\end{item}
 
 	\begin{item}
 		{\bf Ruido Gaussiano:} Este tipo de ruido, tambi\'en denominado ruido
