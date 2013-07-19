@@ -264,7 +264,7 @@ void generarRuido(vector < double >&y, int imp)
     if (imp == GAUSSIAN_NOISE)
     {
         ruido = vector < double >(y.size());
-        std::normal_distribution < double >distribution(0.0, 50.0);
+        std::normal_distribution < double >distribution(0.0, 10.0);
         for (int i = 0; i < (int) y.size(); i++)
         {
             double randval = distribution(generator);

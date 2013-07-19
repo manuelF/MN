@@ -116,7 +116,7 @@ vector < double >ruido;
 vector < vector < double >>MSombrero;
 vector < vector < double >>M;
 
-//Dado B calculo MBMt como pide en el apendice A1
+//Dado B calculo MBM' como pide en el apendice A1
 vector < vector < double >>mbmt(const vector < vector < double > >&b)
 {
     int n = M.size();
@@ -258,6 +258,7 @@ vector < double >transformar(const vector < double >&l)
     return y;
 }
 
+std::default\_random\_engine generator;
 //Generamos un ruido sobre el vector pasado como parametro
 void generarRuido(vector < double >&y, int imp)
 {
@@ -265,8 +266,7 @@ void generarRuido(vector < double >&y, int imp)
     if (imp == GAUSSIAN\_NOISE)
     {
         ruido = vector < double >(y.size());
-        std::default\_random\_engine generator;
-        std::normal\_distribution < double >distribution(0.0, 50.0);
+        std::normal\_distribution < double >distribution(0.0, 10.0);
         for (int i = 0; i < (int) y.size(); i++)
         {
             double randval = distribution(generator);
@@ -561,7 +561,7 @@ vector < vector < double >>antitransformar2D(vector < vector < double > >&y)	///
 
 /**
  *
- * tranformar2D es M mat M't. Primero hago mat M't y despues hago M por el resultado de eso
+ * tranformar2D es M mat M'. Primero hago mat M' y despues hago M por el resultado de eso
  **/
 
 vector < vector < double >>transformar2D(const vector < vector <
@@ -576,7 +576,7 @@ vector < vector < double >>transformar2D(const vector < vector <
         for (int j = 0; j < n; j++)
         {
             for (int t = 0; t < n; t++)
-                y[i][j] += mat[i][t] * M[j][t];	///M[j][t] porque es M't
+                y[i][j] += mat[i][t] * M[j][t];	///M[j][t] porque es M'
         }
     #pragma omp parallel for
     for (int i = 0; i < n; i++)
@@ -635,7 +635,7 @@ void procesar2D()
 
     //Agregamos un ruido fila a fila
     for (int j = 0; j < height; j++)
-        generarRuido(vec[j], IMPULSE\_NOISE);
+        generarRuido(vec[j], GAUSSIAN\_NOISE);
 
     //Transformamos la senal ruidosa al espacio DCT
     vector < vector < double >>vec2 = transformar2D(vec);	//transformada
