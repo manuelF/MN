@@ -5,28 +5,34 @@
 Pudimos observar en la figura \ref{fig:Dopp1024zero}, que el filtro Cero
 aplicado a la se\~nal detecta frecuencias fuera del umbral y
 las manda a cero. Este filtro carece de una caracter\'istica fundamental
-seg\'un demuestran los experimentos:
-{\bf detecci\'on de ``zonas afectadas''}. Como el algoritmo no tiene en
-cuenta el contexto a la hora de modificar un punto, la decisi\'on es mandar los
-puntos fuera del umbral al cero. Esto lleva a ``saltos'' pronunciados en
+seg\'un demuestran los experimentos, la capacidad de detecci\'on de areas afectadas. 
+Como el algoritmo no tiene en cuenta el contexto a la hora de modificar un punto, la decisi\'on es mandar los
+puntos fuera del umbral al cero. Esto lleva a discontinuidades pronunciadas en
 el espectro de la se\~nal recuperada.
 
-Sin embargo, como se aprecia en la im\'agen, los resultados son suficientemente
-buenos teniendo en cuenta la simplicidad de la implementaci\'on del algoritmo.\\
+Sin embargo, como se aprecia en la im\'agen, los resultados son aceptables, 
+teniendo en cuenta la simplicidad de la implementaci\'on del algoritmo.
 
 El filtro Exponencial surge como una mejora directa del filtro Cero.
 La idea que proviene de observar los resultados provistos por el Filtro Cero est\'a relacionada con la
-noci\'on de agregado de ``zona afectada'' ante la detecci\'on de un punto fuera
-del umbral determinado. Como se ve a continuaci\'on, esta modificaci\'on trae
+noci\'on de agregado de area afectada ante la detecci\'on de un punto fuera
+del umbral determinado. Como se ve en la figura \ref{fig:expImp}, esta modificaci\'on trae
 acarreada una mayor preservacion de la informaci\'on en los puntos lindantes al que nosotros
 definimos que debe ser filtrado (el punto que cruza el umbral de tolerancia). Esto conlleva 
 a una mayor suavidad a la se\~nal recuperada.
 
-Otra idea interesante que surge de la implementaci\'on del ruido salt \& pepper y tambi\'en del
-filtro de la mediana que lo mitiga con \'exito es que la detecci\'on del tipo de ruido que afecta
-a la se\~nal puede ahorrar tiempo y aumentar la eficiencia del algoritmo, realizando un filtrado m\'as
-inteligente.
-%%FALTA REFERENCIA A ALGUNA IMAGEN ACA
+Sin embargo, esta soluci\'on no se comporta demasiado bien con los ruidos blancos.
+En la figura \ref{fig:expGauss10} vemos como los picos de la funci\'on, que son en realidad
+componentes de la se\~nal y no ruido, se los come y el ruido blanco lindante lo deja
+sin tocar, haciendo lo opuesto que lo que deberia hacer.
+
+Junto con el ruido salt and pepper surge la necesidad de hacer un filtro que pueda eliminar
+algunos picos que parezcan fuera de lugar en el dominio de frecuencias.  Si aplicamos en estos casos
+el filtro del a mediana, como son valores extremos, no van a ser seleccionados para el reemplazo.
+Pero si la funci\'on es suave en el domino de la frecuencia, entonces va a ser una buena replica.
+Se puede apreciar claramente en la figura \ref{fig:medGauss} que hay un ruido que no es constante pero tiene
+picos esporadicos muy pronunciados. Con el filtro de la mediana pudimos obtener decentes resultados,
+comparativamente muchos mejores al los del filtro Exponencial de la figura \ref{fig:expImp}.
 
 
 Otra variante utilizada fue la combinaci\'on de los filtros exponencial y
@@ -36,12 +42,12 @@ resultados.
 En este punto quisimos probar la potencia de la combinaci\'on de filtros para resolver
 el ruido blanco. Como no hay un claro pico, vemos si la combinaci\'on de ambos
 filtros puede encontrar una forma de eliminar los peque\~nos picos y suavizarlos.
-Los podemos apreciar en la figura \ref{fig:dopcomb} y en la figura \ref{fig:scomb}.
-En estos podemos ver que, el ruido en la figura \ref{fig:scomb} es atenuado
-en el espectro y en la figura \ref{fig:dopcomb} es recuperada una se\~nal que
-comparte muchas similitudes con la original, salvando las frecuencias
-m\'as altas. Probablemente con una elecci\'on m\'as cuidadosa de parametros (por ejemplo
-el valor del umbral de detecci\'on de pico) se hubieran podido rescatar m\'as detalles.
+Los podemos apreciar en la figura \ref{fig:medexpGauss10} y en la figura \ref{fig:expmedGauss50}.
+Aunque probamos con ruidos de magnitudes distintas sobre la misma se\~nal, de varianza 10 y 50,
+podemos ver que el orden de los filtro si altera el resultado sensiblemente. Ambos atacan los 
+picos de manera diferentes, pero en las implementaciones que hicimos, el filtro exponencial siempre buscar\'a
+filtrar, por lo que altera mucho mas la se\~nal. El filtro de la mediana en cambio, es m\'as sutil
+en su reconstrucci\'on, asi que si la figura es suave, la va a dejar suave (en el espectro de frecuencias).
 
 
 \subsection{Filtros en 2D}
@@ -53,13 +59,26 @@ con los diferentes ruidos.
 Eliminar ruido gaussiano de la im\'agen fue la actividad m\'as desafiante
 ya que el ruido blanco es muy d\'ificil de capturar por su condici\'on de ``antipatron''.
 
-En la Figura \ref{fig:gauss2d} vemos en este caso, los resultados de aplicar los 
-distintos filtros, y las combinaciones. El filtro exponencial en este caso
+En la Figura \ref{fig:kerngauss10} vemos en este caso, los resultados de aplicar el ruido
+gaussiano de varianza 10. La im\'agen se altera visiblemente, presentando artifacts verticales.
+Podemos apreciar que el filtro exponencial en este caso da una im\'agen visiblemente peor que el
+filtro de la mediana, lo cual es logico puesto que tiene un comportamiento mas destructivo,
+al estar preparado para lidiar con picos grandes localizados en vez de variaciones mas chicas 
+pero m\'as distribuidas. La combinacion de filtros no coopera.
 
-que aplicar el filtro
-promediador luego de haber aplicado el exponencial, es un error. 
-Se reintroducen muchos de los \textit{artifacts} que se habian podido
-eliminar antes, sin ninguna mejoria de sharpness en la imagen. 
+En la Figura \ref{fig:kerngauss50} el problema del ruido blanco con varianza 50 se hace tan 
+notable que la imagen se vuelve casi irreconocible. Desafortunadamente, ninguno de 
+los filtros presenta una mejoria, ni la combinaci\'on de estos ayuda.
 
-Sin embargo, aplicandolo solo se consigue una buena mejor\'ia en la calidad
-de la im\'agen, aunque se difuminen muchos rasgos, la recuperaci\'on puede ser aceptable.
+En la Figura \ref{fig:kernimp}  vemos que el ruido salt and pepper que era tan notorio en
+las im\'agenes 1D, ac\'a es mas suave aunque se nota. 
+Sin embargo, los filtros de la mediana, aplicados por bloques, son m\'as da\~ninos que lo que
+nos gustaria que fueran. Este caso adem\'as se puede apreciar el ligero desorden que genera en la 
+im\'agen este filtro (al ser un reordenamiento de sus vecinos). Este filtro ademas
+logra filtrar los puntos blancos y negros extremos, pero a costa de un una sensaci\'on de desenfoque
+y de blocky-ness. A pesar de que esta imagen se ve mucho mejor que la que 
+fue filtrada por los filtros exponenciales, 
+Las im\'agenes en los tres casos de filtros son totalmente reconocibles, pero no logran captar apropiadamente
+el fenomeno de este ruido lamentablemente. El comportamiento de este ruido esta mas
+en el espacio de pixeles y no de frecuencias, por lo que otros tipos de filtros
+tal vez hubieran ido mejor.

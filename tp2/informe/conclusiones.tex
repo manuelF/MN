@@ -14,7 +14,7 @@ El  Ruido Gaussiano representa (del modo m\'as fiel que encontramos) valores ale
 un ruido blanco. Es conocido que la forma correcta de modelar este ruido es siguiendo la distribuci\'on normal,
 que fue lo que hicimos.
 Por su parte el salt \& pepper posee un nivel de incertidumbre (en el sentido de ausencia de patrones)
-menor que el gaussiano, y tambien afecta de una manera bastante distinta la sen\~nal, como se puede ver en las
+menor que el gaussiano, y tambien afecta de una manera bastante distinta la sen\~nal, como se pudo ver en las
 figuras.
 
 Correr los mismos filtros sobre se\~nales con esos tipos de ruido sirvi\'o como
@@ -24,14 +24,10 @@ cierto patr\'on a hacerlo con el denominado ``ruido blanco''.
 \subsection{Extensi\'on a 2D}
 
 En se\~nales 1D los filtros que aplicamos reconstruyeron se\~nales que se parecieron mucho m\'as a la se\~nal
-original que la se\~nal con ruido aunque en muchos casos la diferencia era notable. Se puede percibir esto en las zonas
-de alta frecuencia de la im\'agen. 
-%%%%%%%%%%%
-Se pudo notar ah\'i que el filtro promediador, incluso con coeficientes que preservaran
-bastante las se\~nales originales en las frecuencia no alteradas por ruido, que estos peque\~nos cambios alcanzaban a
-variar much\'isimo la se\~nal reconstruida. Esto nos dej\'o bien claro que hay que tener cuidado a la hora de hacer alteraciones
-en la base de los cosenos, no es para intuito el resultado que produce una perturbaci\'on en la reconstruccion de las se\~nales.
-%%%%%%%%%%%
+original que la se\~nal con ruido aunque en muchos casos la diferencia era notable. Se puede percibir esto en 
+
+las zonas de baja frecuencia de las se\~nales. Peque\~nas perturbaciones en este area, connllevan a grandes 
+diferencias en la reconstrucci\'on, por lo cual decidimos intentar evitarlas a la hora de aplicar los filtros.
 
 En se\~nales 2D, en cambio, ya que trabajabamos con im\'agenes, pudimos observar que la imagen con ruido en muchos
 casos no se distingu\'ia (es decir, no se pod\'ia reconocer la imagen comparandola con la original), aunque despu\'es
@@ -50,18 +46,8 @@ pero se gana en velocidad de identificaci\'on humana. Otros filtros tambien que 
 Pasa Banda, pero habria que tener en claro que los ruidos en la se\~nal siguen cierta distribuci\'on, sino seria lo mismo que ir
 tanteando (mecanismo no ideal pero a veces \'util).
 
-\subsection{Pendientes}
-
-Lamentablemente, nos hubiera gustado contar con un tiempo adicional para intentar los filtros por bloques, como sugeria el ejercicio
-opcional. \textit{A priori}, nos damos cuenta que son excelentes herramientas para mejorar el tiempo de ejecuci\'on
-de las transformaciones, ya que el crecimiento cuadr\'atico y c\'ubico de la resoluci\'on de sistemas se not\'o claramente.
-Sin estas optimizaciones, ser\'ia imposible realizar sistemas de filtros por software en tiempo real, eliminando un campo de 
-aplicaci\'on gigantesco. Sin embargo, sabemos que productos comerciales con estas caracter\'isticas existen, por lo que
-ser\'ia interesante conocer los detalles de implementaci\'on para poder reconocer donde estan los cuellos de botella y c\'omo
-eliminarlos.
-
+\subsection{Conclusion}
 En resumen, con este trabajo pudimos comprender un m\'inimo de la importancia de la transformacion de Fourier y similares,
 un \'area que ha sido crucial para el desarrollo de las telecomunicaciones alrededor del mundo. Nos ha servido para plantear
 el problema desde otro aspecto, como un ``simple'' cambio de base puede revelarnos mucha m\'as informaci\'on de la que 
 consideramos existente en una se\~nal. 
-
