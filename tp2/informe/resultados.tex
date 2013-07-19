@@ -189,7 +189,7 @@ los resultados obtenidos en funci\'on de los ruidos aplicados, a diferencia de
 lo realizado con una dimensi\'on, donde el foco est\'a puesto en discriminar los
 resultados por tipo de filtro.
 
-\subsubsection{Ruido senoidal con multiplicador de 50}
+\subsubsection{Ruido gaussiano con 10 de varianza}
 
 Este ruido es controlado y es as\'i como tambi\'en los filtros pueden volver a
 una imagen muy similar a la original.
@@ -198,52 +198,52 @@ una imagen muy similar a la original.
     \begin{center}
 
     $\begin{array}{cc}
-\includegraphics[width=150pt]{imagenes/kern-sin50-noisy.png}
-\includegraphics[width=150pt]{imagenes/kern-sin50-recovered-avg.png}
+\includegraphics[width=150pt]{imagenes/kern-gauss-10-noisy.png}
+\includegraphics[width=150pt]{imagenes/kern-gauss-10-recovered-exp.png}
 \end{array}$
     $\begin{array}{cc}
-\includegraphics[width=150pt]{imagenes/kern-sin50-recovered-exp.png}
-\includegraphics[width=150pt]{imagenes/kern-sin50-recovered.png}
+\includegraphics[width=150pt]{imagenes/kern-gauss-10-recovered-median.png}
+\includegraphics[width=150pt]{imagenes/kern-gauss-10-recovered-both.png}
 \end{array}$
-\caption{\textbf{Arriba Izquierda}: Imagen con ruido Senoidal con multiplicador de 50, \textbf{Arriba Derecha}: Recuperada con filtro promedio, \textbf{Abajo Izquierda}: Recuperada con filtro exponencial, \textbf{Abajo Derecha}: Recuperada aplicando filtro exponencial y promedio}
+\caption{\textbf{Arriba Izquierda}: Imagen con ruido gaussiano de varianza 10, \textbf{Arriba Derecha}: Recuperada con filtro exponencial, \textbf{Abajo Izquierda}: Recuperada con filtro de la mediana, \textbf{Abajo Derecha}: Recuperada aplicando filtro exponencial y de la mediana}
  \end{center}
 \label{fig:Sin50All}
 \end{figure}
 
-\subsubsection{Ruido senoidal con multiplicador de 1000}
+\subsubsection{Ruido gaussiano con 100 de varianza}
 
 \begin{figure}[H]
 
     \begin{center}
      $\begin{array}{cc}
-\includegraphics[width=150pt]{imagenes/kern-sin1000-noisy.png}
-\includegraphics[width=150pt]{imagenes/kern-sin1000-recovered-avg.png}
+\includegraphics[width=150pt]{imagenes/kern-gauss-100-noisy.png}
+\includegraphics[width=150pt]{imagenes/kern-gauss-100-recovered-exp.png}
 \end{array}$
     $\begin{array}{cc}
-\includegraphics[width=150pt]{imagenes/kern-sin1000-recovered-exp.png}
-\includegraphics[width=150pt]{imagenes/kern-sin1000-recovered.png}
+\includegraphics[width=150pt]{imagenes/kern-gauss-100-recovered-median.png}
+\includegraphics[width=150pt]{imagenes/kern-gauss-100-recovered-both.png}
 \end{array}$
- \caption{\textbf{Arriba Izquierda}: Imagen con ruido Senoidal con multiplicador de 1000, \textbf{Arriba Derecha}: Recuperada con filtro promedio, \textbf{Abajo Izquierda}: Recuperada con filtro exponencial, \textbf{Abajo Derecha}: Recuperada aplicando filtro exponencial y promedio}
+ \caption{\textbf{Arriba Izquierda}: Imagen con ruido gaussiano con varianza 100, \textbf{Arriba Derecha}: Recuperada con filtro exponencial, \textbf{Abajo Izquierda}: Recuperada con filtro de la mediana, \textbf{Abajo Derecha}: Recuperada aplicando filtro exponencial y de la mediana}
  \end{center}
 \label{fig:Sin1000All}
 \end{figure}
 
 
-\subsubsection{Ruido gaussiano de varianza 100}
+\subsubsection{Ruido impulsivo}
 
 
 \begin{figure}[H]
      \begin{center}
      $\begin{array}{cc}
-\includegraphics[width=150pt]{imagenes/kern-gauss100-noisy.png}
-\includegraphics[width=150pt]{imagenes/kern-gauss100-recovered-avg.png}
+\includegraphics[width=150pt]{imagenes/kern-imp-noisy.png}
+\includegraphics[width=150pt]{imagenes/kern-imp-recovered-exp.png}
 \end{array}$
     $\begin{array}{cc}
-\includegraphics[width=150pt]{imagenes/kern-gauss100-recovered-exp.png}
-\includegraphics[width=150pt]{imagenes/kern-gauss100-recovered.png}
+\includegraphics[width=150pt]{imagenes/kern-imp-recovered-median.png}
+\includegraphics[width=150pt]{imagenes/kern-imp-recovered-both.png}
 \end{array}$
 \end{center}
- \caption{\textbf{Arriba Izquierda}: Imagen con ruido blanco de varianza 100, \textbf{Arriba Derecha}: Recuperada con filtro promedio, \textbf{Abajo Izquierda}: Recuperada con filtro exponencial, \textbf{Abajo Derecha}: Recuperada aplicando filtro exponencial y promedio}
+ \caption{\textbf{Arriba Izquierda}: Imagen con ruido impulsivo, \textbf{Arriba Derecha}: Recuperada con filtro exponencial, \textbf{Abajo Izquierda}: Recuperada con filtro de la mediana, \textbf{Abajo Derecha}: Recuperada aplicando filtro exponencial y de la mediana}
 \label{fig:gauss2d}
 \end{figure}
 
