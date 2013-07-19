@@ -6,27 +6,22 @@ Pudimos observar en la figura \ref{fig:Dopp1024zero}, que el filtro Cero
 aplicado a la se\~nal detecta frecuencias fuera del umbral y
 las manda a cero. Este filtro carece de una caracter\'istica fundamental
 seg\'un demuestran los experimentos:
-{\bf detecci\'on de ``zonas afectadas''}: Como el algoritmo no tiene en
+{\bf detecci\'on de ``zonas afectadas''}. Como el algoritmo no tiene en
 cuenta el contexto a la hora de modificar un punto, la decisi\'on es mandar los
-puntos duera del umbral al cero. Esto lleva a ``saltos'' pronunciados en
+puntos fuera del umbral al cero. Esto lleva a ``saltos'' pronunciados en
 el espectro de la se\~nal recuperada.
 
 Sin embargo, como se aprecia en la im\'agen, los resultados son suficientemente
 buenos teniendo en cuenta la simplicidad de la implementaci\'on del algoritmo.\\
 
-El filtro exponencial surge como una mejora directa del Filtro Cero.
-La idea que proviene de
-observar los resultados provistos por el Filtro Cero est\'a relacionada con la
+El filtro Exponencial surge como una mejora directa del filtro Cero.
+La idea que proviene de observar los resultados provistos por el Filtro Cero est\'a relacionada con la
 noci\'on de agregado de ``zona afectada'' ante la detecci\'on de un punto fuera
 del umbral determinado. Como se ve a continuaci\'on, esta modificaci\'on trae
-acarreada el mantenimiento de cierto grado de informaci\'on en los puntos que
-decimos recuperados as\'i como de una mayor suavidad a la se\~nal recuperada.
+acarreada una mayor preservacion de la informaci\'on en los puntos lindantes al que nosotros
+definimos que debe ser filtrado (el punto que cruza el umbral de tolerancia). Esto conlleva 
+a una mayor suavidad a la se\~nal recuperada.
 
-En la figura \ref{fig:GexpSpec} vemos como al eliminar un enorme ruido
-sinusoidal no elimina completamente el espectro de la se\~nal, sino que
-lo aten\'ua mucho y preserva el signo incluso. En la figura \ref{fig:SexpSig} vemos
-como reconstruye una se\~nal que fue afectada por el mismo ruido, razonablemente
-bien, preservando la forma y las intensidades promedio\\
 
 
 Otra variante utilizada fue la combinaci\'on de los filtros exponencial y
