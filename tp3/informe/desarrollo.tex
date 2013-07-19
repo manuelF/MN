@@ -22,16 +22,20 @@ trabajos pr\'acticos anteriores.
 
 En primer lugar, se decidi\'o hacer en primera instancia todo el trabajo pr\'actico en Matlab para obtener
 una pronta aproximaci\'on a los resultados, siendo el desarrollo ampliamente m\'as comodo que
-en C++ (dado que la SVD forma parte de la libreria estandar de Matlab). Una vez implementado
-el TP en Matlab, se procedi\'p a realizar el experimento en C++. El primer problema encontrado
+en C++ (dado que la SVD forma parte de la librer\'ia estandar de Matlab). Una vez implementado
+el TP en Matlab, se procedi\'o a realizar el experimento en C++. El primer problema encontrado
 a la hora de implementar el experimento en Matlab fue que al calcular la SVD con 60.000 im\'agenes,
 se generaba una matriz de $60.000 \times 60.000$ elementos de tipo \texttt{double}, que no entraba en
 memoria, es por eso que se decidi\'o utilizar s\'olo 40.000 im\'agenes para el experimento en Matlab.
+Sin embargo, usando \texttt{~} como variable y la \texttt{svd 'econ'}, se pudo realizar la matriz
+del tama\~no que quisieramos. Esto ayudo a corroborar nuestros modelos y calibrar las t\'ecnicas de
+detecci\'on.
+
 
 Luego de desarrollar y contar con el experimento funcionando en Matlab, se empez\'o la programaci\'on
 del mismo en C++. La primera variaci\'on significativa en la implementaci\'on se refiere al
 descubrimiento de que no es necesario calcular la SVD, sino s\'olo la matriz $V$, resultando
-en el c\'alculo de una matriz de $60.000 \times 784$ en vez de una de $60.000 \times 60.000$.
+en el c\'alculo de una matriz de $784 \times 784$ en vez de una de $60.000 \times 60.000$.
 A\'un as\'i, consideraciones posteriores sugirieron que 60.000 im\'agenes era un n\'umero por
 dem\'as excesivo y por lo tanto el experimento pas\'o operar con s\'olo 30.000 im\'agenes.
 Al analizar los resultados se corrobor\'o que 30.000 im\'agenes conforman una muestra significativa,
@@ -54,27 +58,20 @@ Para calcular la matriz de covarianza, a la que llamamos $Mx$, se realiz\'o el
 producto $X^tX$. Este paso es el acercamiento necesario para realizar el cambio
 de base computado para la disminuci\'on en la redundancia de los datos buscada.
 
-El primer paso consisti\'o en generar la matriz de covarianza con las 30.000
-im\'agenes tomadas como datos de entrenamiento. Para eso se utiliz\'o la f\'ormula del enunciado.
-Se gener\'o la matriz $X$ a trav\'es de la sustracci\'on a cada entrada de la
-matriz del promedio del pixel que representa (promedio de ese pixel en todas las im\'agenes)
-y la posterior divisi\'on la matriz por $\sqrt{n-1}$. Para calcular la
-matriz de covarianza, a la que llamamos $Mx$, se realiz\'o el producto $X^tX$.
-
 \subsection{Factorizaci\'on QR}
 A la hora de calcular la SVD se present\'o la idea de que s\'olo es necesaria la matriz $V$, es por
 eso que en vez de calcular la SVD, se procedi\'o a calcular la matriz $V$ utilizando la factorizaci\'on
 $QR$ de la matriz de covarianza. El m\'etodo utilizado para calcular la matriz $V^t$ fue la factorizaci\'on
 $QR$ de $Mx$ (la matriz de covarianza) mediante la aplicaci\'on de transformaciones de Householder, y la
 posterior multiplicaci\'on $RQ$ (es decir, en el orden inverso), hasta que la suma de los elementos debajo
-de la diagonal principal suman menos de 15. La elecci\'on del 15 no fue caprichosa, sino que es el
-resultado de la corrida del experimento con $10^{-5}$ en lugar de 15, donde converg\'ia a un n\'umero
-entre 14 y 15 por temas de precisi\'on.
+de la diagonal principal suman menos de 5000 (alrededor de 110 iteraciones). Esta condici\'on de corte la establecimos mirando
+los gr\'aficos de rendimiento (incluidos en este trabajo) y determinando que era un \textit{tradeoff}
+aceptable entre la fundamentaci\'on te\'orica y el hitrate pr\'actico. 
 
 Para calcular la matriz $V^t$, se utiliz\'o la factorizaci\'on de Householder y la se implement\'o en $O(n^3)$
-siendo $n = 784$. Como el programa resultante tard\'o m\'as de 15 horas en calcular la matriz $V$ usando 30.000 muestras,
-se gener\'o el archivo V.txt con esta informaci\'on precalculada, si el archivo no exist\'ia previamente
-entonces se genera la matriz y luego se guarda en el archivo, caso contrario, se realiza la lectura del archivo.
+siendo $n = 784$. Como el programa resultante puede tardar horas, una vez calculada la matriz $V$ usando la cantidad deseada
+de muestras, se genera un archivo con la matriz $V$, si el archivo no exist\'ia previamente.
+Caso contrario, se realiza la lectura del archivo y se carga la matriz de transformaci\'on.
 
 Este procedimiento que involucra la generaci\'on de una matriz est\'atica tiene sentido en un contexto
 donde los datos de entrenamiento no se modifican. Otros experimentos donde nuevo input puede ser fuente de mejoras
@@ -94,23 +91,20 @@ obtener $R$ hacemos lo mismo con las transpuestas de las $Q$.
 
 Para calcular la transformaci\'on caracter\'istica multiplicamos los $k$
 autovectores cuyos autovalores asociados eran los de valor m\'as significativo
-por la im\'agen de la cual queremos obtener qu\'e d\'igito representa.
+por la imagen de la cual queremos obtener qu\'e d\'igito representa.
 
 En este punto finaliza la etapa de entrenamiento del sistema. El cambio de base
 fue realizado acarreando la disminuci\'on significativa de informaci\'on
 redundante.
 
 \subsection{Reconocimiento de d\'igitos}
-Para reconocer los d\'igitos utilizamos dos algoritmos. El primero de ellos fue tomar distancia (con norma 1, 2 e $\infty$) a
-todos los d\'igitos de entrenamiento, y luego comparar con los 100 m\'as cercanos. El m\'as repetido fue finalmente
-el elegido para identificar dicha im\'agen. El otro m\'etodo que utilizamos fue tomar el promedio de las transformaciones
-de todos los ceros, de todos los unos, y as\'i con cada d\'igito, y tomar distancia (con las mismas normas)
-a cada promedio, quedandonos con la menor distancia. Probamos tambien una variaci\'on con un sistema de desempate, donde si
-dos de las tres normas coinciden en un valor, nos quedamos con ese valor, en vez de una cualquiera. En caso donde
-ninguna de ellas est\'e de acuerdo, elegimos por default la norma 2.
+Para reconocer los d\'igitos utilizamos dos algoritmos. El primero de ellos fue tomar distancia con norma 2 a
+todos los d\'igitos de entrenamiento, y luego comparar con los 100 d\'igitos m\'as cercanos. El m\'as repetido fue finalmente
+el elegido para identificar dicha imagen. El otro m\'etodo que utilizamos fue tomar el promedio de las transformaciones
+de todos los ceros, de todos los unos, y as\'i con cada d\'igito, y tomar distancia con norma 2
+a cada promedio, quedandonos con el centro de masas que presente la menor distancia. 
 
 La idea en el primero es evitar contabilizar las muestras an\'omalas mientras el
-segundo hace un an\'alisis del total de la muestra. El mecanismo de desempate es para averiguar si no habr\'ia alg\'un fen\'omeno
-de las transformaciones que sea mejor capturado por otras normas.
+segundo hace un an\'alisis del total de la muestra.
 
 
