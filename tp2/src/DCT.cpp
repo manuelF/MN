@@ -374,7 +374,7 @@ void filtrarRuido2D(vector < vector < double > >&y, int imp)
 {
     const int n = (int) y.size();	// == y[0].size()
     //Asumimos imagen cuadrada
-    assert(y[0].size()==n);
+    assert((int)y[0].size()==n);
 
     const int contorno = 20;
     const double diffmax = 2.0;
@@ -587,16 +587,20 @@ vector < vector < double >>transformar2D(const vector < vector <
     return res;
 }
 
+//Funcion cuasi principal que ordena los filtros a las imagenes
 void procesar2D()
 {
+    //Tiene que matchear el magic token
     string magic;
     cin >> magic;
+
     if (magic != "P5")
     {
         cerr << "ERROR: PGM tipo " << magic <<
         " no implementado, solo P5" << endl;
         exit(1);
     }
+    //Levantamos la meta data
     int width, height;
     int grayscale;
     int scanf_res = scanf("%d %d\n%d\n", &width, &height, &grayscale);
@@ -607,7 +611,7 @@ void procesar2D()
     }
 
     vector < vector < double >>_img(height, vector < double >(width));
-
+    //Levantamos toda la imagen
     vector < double >todo(width * height);
     for (int j = 0; j < height; j++)
     {
@@ -622,25 +626,33 @@ void procesar2D()
             todo[j * width + i] = (double) read;
         }
     }
+    //Generamos la matriz de transformacion
     generarMatrizDCT(width);
-
+    //Abrimos el archivo de salida para guarda la imagen transformada
     FILE *f = fopen("imgMod.pgm", "w");
     fprintf(f, "P5\n%d %d\n%d\n", width, height, grayscale);
 
+    //Guardamos la original para obtener el PSNR
     vector < vector < double >>vec = _img;
 
+    //Agregamos un ruido fila a fila
     for (int j = 0; j < height; j++)
         generarRuido(vec[j], IMPULSE_NOISE);
 
-
+    //Transformamos la senal ruidosa al espacio DCT
     vector < vector < double >>vec2 = transformar2D(vec);	//transformada
 
+    //Aplicamos un filtro 2D usando bloques
     filtrarRuido2D(vec2, EXPONENTIAL_FILTER);
+
+    //Resolvemos el sistema para 2D
     vector < vector < double >>out = antitransformar2D(vec2);
 
+    //Obtenemos el PSNR de lo bien que salio esta pasada
     double e = psnr(_img, out);
     cerr << "PSNR: " << e << endl;
-
+    
+    //Guardamos la imagen
     for (int j = 0; j < height; j++)
     {
         for (int i = 0; i < width; i++)
@@ -648,8 +660,10 @@ void procesar2D()
             fprintf(f, "%c", (unsigned char) out[j][i]);
         }
     }
+    //Cerramos para flushear
     fclose(f);
 
+    //Fin de proceso
     return;
 
 }
