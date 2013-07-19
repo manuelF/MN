@@ -19,9 +19,8 @@
 
 
 #define GAUSSIAN_NOISE 0
-#define SIN_NOISE 1
-#define ADDITIVE_NOISE 2
-#define IMPULSE_NOISE 3
+#define ADDITIVE_NOISE 1
+#define IMPULSE_NOISE 2
 
 #define ZERO_FILTER 0
 #define EXPONENTIAL_FILTER 1
@@ -31,22 +30,22 @@
 #define IMPULSE_NOISE_DEFAULT 20
 #define IMPULSE_NOISE_TICK 20
 
-//typedef long double double;
 
 using namespace std;
 
 
 const double max_m()
 {
-    return 255.0;		//tp
+    return 255.0; 
 }
 
+//Versiones para ecm de vector y de matriz
 double ecm(const vector < double >&orig, const vector < double >&recup);
 double ecm(const vector < vector < double >>&orig,
            const vector < vector < double >>&recup);
 
 
-
+//ECM de Matriz
 double ecm(const vector < vector < double > >&orig,
            const vector < vector < double > >&recup)
 {
@@ -58,7 +57,7 @@ double ecm(const vector < vector < double > >&orig,
         exit(1);
     }
     unsigned int n = orig.size();
-
+    
     for (unsigned int i = 0; i < n; i++)
     {
         double q = ecm(orig[i], recup[i]);
@@ -69,6 +68,7 @@ double ecm(const vector < vector < double > >&orig,
 
 }
 
+//ECM de Vector
 double ecm(const vector < double >&orig, const vector < double >&recup)
 {
     double e = 0.0;
@@ -89,15 +89,16 @@ double ecm(const vector < double >&orig, const vector < double >&recup)
     return e;
 }
 
+
+//PSNR de Matriz
 double psnr(const vector < vector < double >>&orig,
             const vector < vector < double >>&recup)
 {
     double _max = 255.0;
-
     return 10 * log10((_max * _max) / ecm(orig, recup));
 }
 
-
+//PSNR de Vector
 double psnr(const vector < double >&orig, const vector < double >&recup)
 {
     double _max = *max_element(orig.begin(), orig.end());
@@ -112,12 +113,18 @@ vector < double >ruido;
 vector < vector < double >>MSombrero;
 vector < vector < double >>M;
 
-vector < vector < double >>mbmt(vector < vector < double > >&b)	//Dado B calculo MBM^t como pide en el apendice A1
+//Dado B calculo MBM^t como pide en el apendice A1
+vector < vector < double >>mbmt(const vector < vector < double > >&b)	
 {
     int n = M.size();
+    //Tiene que ser cuadrada la matriz M, y compatible el tamaño de la matriz b
     assert((int) M[0].size() == n && (int) b.size() == n
-           && (int) b[0].size() == n);
-    vector < vector < double >>aux(n, vector < double >(n, 0));	// la creo con todos ceros la matriz
+           && (int) b[0].size() == n); 
+    // Creo temporal con todos ceros la matriz
+    vector < vector < double >>aux(n, vector < double >(n, 0));	
+
+    //Multiplico las matrices
+    #pragma omp parallel for
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < n; j++)
@@ -126,7 +133,10 @@ vector < vector < double >>mbmt(vector < vector < double > >&b)	//Dado B calculo
                 aux[i][j] += M[i][t] * b[t][j];
         }
     }
+    //Creo la matriz de resultado
     vector < vector < double >>sol(n, vector < double >(n, 0));
+    //Aplico la multiplicacion para el otro lado con la transpuesta
+    #pragma omp parallel for
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < n; j++)
@@ -137,27 +147,37 @@ vector < vector < double >>mbmt(vector < vector < double > >&b)	//Dado B calculo
             }
         }
     }
+    //Devuelvo M x b x Mt
     return sol;
 }
 
-vector < double >antitransformar(const vector < double >&y)	// mat * ret = y
+//Resuelvo el sistema de ecuaciones para deshacer la transformacion
+vector < double >antitransformar(const vector < double >&y, const vector<vector<double>>& mat)
 {
-    const vector < vector < double >>&mat = M;
     int n = mat.size();
+    //La matriz debe ser cuadrada
     assert((int) mat.size() == n && (int) mat[0].size() == n
            && (int) y.size() == n);
+    // Me copio la matriz
     vector < vector < double >>sistema(mat);
+    //Genero la matriz adjunta [mat|y]
     for (int i = 0; i < n; i++)
-        sistema[i].push_back(y[i]);	// sistema es [mat|y]
+        sistema[i].push_back(y[i]);	
+
+    //Resuelvo el sistema 
     for (int j = 0; j < n - 1; j++)
     {
         int mx = j;
+        //Obtengo la minima fila
         for (int t = j + 1; t < n; t++)
             if (abs(sistema[mx][j]) < abs(sistema[t][j]))
                 mx = t;
+        //Permuto con la que estoy mirando (minimiza el error)
         swap(sistema[mx], sistema[j]);
+
         double m = sistema[j][j];
 
+        //Hago un paso de Gauss
         for (int i = j + 1; i < n; i++)
         {
             double db = sistema[i][j] / m;
@@ -165,6 +185,7 @@ vector < double >antitransformar(const vector < double >&y)	// mat * ret = y
                 sistema[i][t] -= db * sistema[j][t];
         }
     }
+
     vector < double >x(n, 0);	// los valores de x antes de aplicar la permutacion
     for (int i = n - 1; i >= 0; i--)
     {
@@ -174,12 +195,14 @@ vector < double >antitransformar(const vector < double >&y)	// mat * ret = y
             a += sistema[i][j] * x[j];
         x[i] = (y_i - a) / sistema[i][i];
     }
-
+    //Devuelvo el vector antitransformado
     return x;
 }
 
+//Aplicamos la formula del enunciado para generarlo
 void generarMatrizDCT(int n)
 {
+    //Inicializamos en vacios los vectores globales
     frecuencias = vector < double >(n);
     muestreo = vector < double >(n);
     MSombrero = vector < vector < double >>(n, vector < double >(n));
@@ -196,11 +219,11 @@ void generarMatrizDCT(int n)
     double sq2n = sqrt(2.0 / n);
     double _max = max_m();
     double v = sq1n;
+    //Generaro la matriz de la DCT
     #pragma omp parallel for
     for (int i = 0; i < n; i++)
     {
         double freq = frecuencias[i];
-        #pragma omp parallel for
         for (int j = 0; j < n; j++)
         {
             if (i > 0)
@@ -212,6 +235,7 @@ void generarMatrizDCT(int n)
     }
 }
 
+//Transformar es una multiplicacion Matriz por Vector
 vector < double >transformar(const vector < double >&l)
 {
     int n = (int) l.size();
@@ -231,9 +255,10 @@ vector < double >transformar(const vector < double >&l)
     return y;
 }
 
-
+//Generamos un ruido sobre el vector pasado como parametro
 void generarRuido(vector < double >&y, int imp)
 {
+    //Es un ruido blanco
     if (imp == GAUSSIAN_NOISE)
     {
         ruido = vector < double >(y.size());
@@ -246,22 +271,16 @@ void generarRuido(vector < double >&y, int imp)
             y[i] = y[i] + ruido[i];
         }
     }
-    if (imp == SIN_NOISE)
-    {
-        ruido = vector < double >(y.size());
-        #pragma omp parallel for
-        for (int i = 0; i < (int) y.size(); i++)
-        {
-            ruido[i] = 50 * sin(i);
-            y[i] = (double) y[i] + ruido[i];
-        }
-    }
+
+    //Es un ruido impulsivo, muy angosto y fuerte
     if (imp == IMPULSE_NOISE)
     {
         int sign = 1;
         ruido = vector < double >(y.size());
         for (int i = 0; i < (int) y.size(); i++)
         {
+            //Cada tanto (IMPULSE_NOISE_TICK), generamos un pico 
+            //(una vez para cada lado)
             if (i % IMPULSE_NOISE_TICK == 0)
             {
                 if (i % 3 * IMPULSE_NOISE_TICK == 0)
@@ -270,19 +289,27 @@ void generarRuido(vector < double >&y, int imp)
             }
         }
     }
-    // podemos hacer mas implementaciones de ser necesario
     return;
 
 }
 
+//Aplicamos algun filtro a una tira de numeros
 void filtrarRuido(vector < double >&y, int imp)
 {
     const int n = (int) y.size();
+    //Parametro: Contorno alrededor de un pico que vamos a apagar
     const int contorno = 20;
+    //Parametro: Threshold de diferencia con el maximo para que se active el filtro
     const double diffmax = 2.0;
+    //Parametro: Porcentaje de la muestra a partir de la cual vamos a mirar
+    //(esto evita filtrar las componentes de muy baja frecuencia)
     const int onepercent = n / 100;
     const int startfilter = 5 * onepercent;
+
+    //Vector de salida
     vector < double >replace(y);
+
+    //Filtro que pone en ceros el contorno alrededor de los picos
     if (imp == ZERO_FILTER)
     {
         double mx = abs(y[startfilter]);
@@ -298,6 +325,8 @@ void filtrarRuido(vector < double >&y, int imp)
             }
         }
     }
+    //Filtro que disminuye exponencialmente alrededor de los picos 
+    //(preserva un poco mas la forma de la senal)
     if (imp == EXPONENTIAL_FILTER)
     {
         double mx = abs(y[startfilter]);
@@ -319,6 +348,7 @@ void filtrarRuido(vector < double >&y, int imp)
             }
         }
     }
+    //Filtro que obtiene la mediana alrededor de los contornos
     if (imp == MEDIAN_FILTER)
     {
         vector < double >local_y;
@@ -337,7 +367,8 @@ void filtrarRuido(vector < double >&y, int imp)
         }
 
     }
-
+    //Filtro que promedia el entorno alrededor de un punto 
+    //(no necesariamente para todo pico)
     if (imp == AVERAGER_FILTER)
     {
         for (int i = startfilter + 2; i < n - 2; i++)
@@ -347,15 +378,17 @@ void filtrarRuido(vector < double >&y, int imp)
                          .30 * y[i] + .20 * y[i + 1] + .15 * y[i + 2];
         }
     }
-    for (int i = 0; i < (int) y.size(); i++)
-        y[i] = replace[i];
 
+    y=replace;
 }
 
-
+//Los filtros anteriores pero implementados para 2D
 void filtrarRuido2D(vector < vector < double > >&y, int imp)
 {
     const int n = (int) y.size();	// == y[0].size()
+    //Asumimos imagen cuadrada
+    assert(y[0].size()==n); 
+    
     const int contorno = 20;
     const double diffmax = 2.0;
     const int onepercent = n / 100;
@@ -363,33 +396,34 @@ void filtrarRuido2D(vector < vector < double > >&y, int imp)
     vector < vector < double >>replace(y);
     if (imp == ZERO_FILTER)
     {
-        double mx = abs(y[startfilter][startfilter]);
-        for (int i = startfilter; i < n - startfilter; i++)
-            for (int j = startfilter; j < n - startfilter; j++)
+        double mx = 0.0;
+        for (int i = startfilter; i < n; i++)
+            for (int j = startfilter; j < n; j++)
                 mx = max(mx, abs(y[i][j]));
-        for (int i = startfilter; i < n - startfilter; i++)
-            for (int j = startfilter; j < n - startfilter; j++)
+
+        for (int i = startfilter; i < n; i++)
+            for (int j = startfilter; j < n; j++)
             {
                 if (abs(y[i][j]) * diffmax > mx)
                 {
                     for (int ii = max(startfilter, i - contorno);
-                            ii <= min(n - startfilter, i + contorno);
+                            ii < min(n, i + contorno);
                             ii++)
                         for (int jj = max(startfilter, j - contorno);
-                                jj <= min(n - startfilter,
-                                          j + contorno); jj++)
+                                jj < min(n,j + contorno); jj++)
                             replace[ii][jj] = 0;
                 }
             }
     }
     if (imp == EXPONENTIAL_FILTER)
     {
-        double mx = abs(y[startfilter][startfilter]);
-        for (int i = startfilter; i < n - startfilter; i++)
-            for (int j = startfilter; j < n - startfilter; j++)
+        double mx = 0.0;
+        for (int i = startfilter; i < n; i++)
+            for (int j = startfilter; j < n; j++)
                 mx = max(mx, abs(y[i][j]));
-        for (int i = startfilter; i < n - startfilter; i++)
-            for (int j = startfilter; j < n - startfilter; j++)
+
+        for (int i = startfilter; i < n; i++)
+            for (int j = startfilter; j < n; j++)
             {
                 if (abs(y[i][j]) * diffmax > mx)
                 {
@@ -425,6 +459,7 @@ void filtrarRuido2D(vector < vector < double > >&y, int imp)
                 replace[i][j] = local_y[(qty * qty) / 2];
             }
     }
+
     if (imp == AVERAGER_FILTER)
     {
         for (int i = startfilter + 2; i < n - 2; i++)
@@ -443,13 +478,15 @@ void filtrarRuido2D(vector < vector < double > >&y, int imp)
                 replace[i][j] = a / b;
             }
     }
-    for (int i = 0; i < (int) y.size(); i++)
-        y[i] = replace[i];
+    //Guardamos los cambios
+    y=replace;
 
 }
 
 
-
+//Funcion que dumpea los contenidos de un vector 
+//en un formato compatible para que lo puedan tomar
+//los scripts de gnuplot
 void dump(string name, const vector < double >&src)
 {
     int n = src.size();
@@ -459,8 +496,10 @@ void dump(string name, const vector < double >&src)
     fclose(fileptr);
 }
 
+//Funcion cuasi principal para filtrar senales de una dimension
 void procesar1D()
 {
+    //Tomamos n muestras, n la primer medicion
     int n;
     cin >> n;
     lecturas = vector < double >(n);
@@ -471,31 +510,45 @@ void procesar1D()
         _max = (_max > abs(lecturas[i]) ? _max : abs(lecturas[i]));
     }
 
+    //Obtenemos la matriz de DCT apropiada para ese n
 
     generarMatrizDCT(n);
+    //Duplicamos las lecturas para poder comparar el exito de la transformacion
+    //despues
     vector < double >l(lecturas);
+    
+    //Generamos algun ruido sobre la senal
+
     //generarRuido(l,GAUSSIAN_NOISE);
-    //generarRuido(l,SIN_NOISE);
     generarRuido(l, IMPULSE_NOISE);
 
-    vector < double >q = transformar(lecturas);	//original
 
-    vector < double >y = transformar(l);	//transformada
+    //Pasamos las senales al espacio DCT
+    vector < double >q = transformar(lecturas);	// senal original
 
+    vector < double >y = transformar(l);	//senal ruidosa
 
     dump("orig", q);
-
     dump("mod", y);
+
+    //Aplicamos algun/os filtro/s sobre la senal ruidosa
+    
     filtrarRuido(y, EXPONENTIAL_FILTER);
-    //filtrarRuido(y,AVERAGER_FILTER );
+    //filtrarRuido(y,ZERO_FILTER );
     //filtrarRuido(y,MEDIAN_FILTER );
 
     dump("recovered", y);
 
-    vector < double >x = antitransformar(y);
+    //Aplicamos la antitransformacion para obtener una reconstruccion
+    //de la senal original
+    vector < double >x = antitransformar(y,M);
+
+    //Escribimos cual fue el PNSR calculado entre la senal original y la
+    //reconstruida
     cerr << "PNSR: " << psnr(lecturas, x) << endl;
 }
 
+//Funcion auxiliar para transponer una matriz para obtener mejor performance
 void transpose(vector < vector < double > >&mat)
 {
     for (int i = 0; i < (int) mat.size(); i++)
@@ -506,51 +559,14 @@ void transpose(vector < vector < double > >&mat)
         }
     }
 }
-
-vector < double >resolver1D(const vector < vector < double > >&mat, const vector < double >&y)	// mat * ret = y
-{
-    int n = mat.size();
-    assert((int) mat.size() == n && (int) mat[0].size() == n
-           && (int) y.size() == n);
-    vector < vector < double >>sistema(mat);
-    for (int i = 0; i < n; i++)
-        sistema[i].push_back(y[i]);	// sistema es [mat|y]
-    for (int j = 0; j < n - 1; j++)
-    {
-        int mx = j;
-        for (int t = j + 1; t < n; t++)
-            if (abs(sistema[mx][j]) < abs(sistema[t][j]))
-                mx = t;
-        swap(sistema[mx], sistema[j]);
-        double m = sistema[j][j];
-
-        for (int i = j + 1; i < n; i++)
-        {
-            double db = sistema[i][j] / m;
-            for (int t = j; t < n + 1; t++)
-                sistema[i][t] -= db * sistema[j][t];
-        }
-    }
-    vector < double >x(n, 0);	// los valores de x antes de aplicar la permutacion
-    for (int i = n - 1; i >= 0; i--)
-    {
-        double y_i = sistema[i][n];	// el que seria el numero en y en [mat|y]
-        double a = 0;
-        for (int j = i + 1; j < n; j++)
-            a += sistema[i][j] * x[j];	//
-        x[i] = (y_i - a) / sistema[i][i];
-    }
-
-    return x;
-}
-
-vector < vector < double >>resolverSistema(vector < vector < double > >&A, vector < vector < double > >&B)	/// A*ret=B
+// A*ret=B
+vector < vector < double >>resolverSistema(vector < vector < double > >&A, vector < vector < double > >&B)	
 {
     int n = A.size();		/// A[0].size() == B.size() == B[0].size()
     vector < vector < double >>ret(n);
     transpose(B);
     for (int i = 0; i < n; i++)
-        ret[i] = resolver1D(A, B[i]);
+        ret[i] = antitransformar(B[i],A);
     transpose(B);
     transpose(ret);
     return ret;
@@ -578,10 +594,9 @@ vector < vector < double >>transformar2D(const vector < vector <
         double > >&mat)
 {
     int n = mat.size();
-    vector < vector < double >>y(n, vector < double >(n, 0)), res(n,
-            vector <
-            double
-            >(n, 0));
+    vector < vector < double >>y (n, vector < double >(n, 0)), 
+           res(n, vector < double>(n, 0));
+
     #pragma omp parallel for
     for (int i = 0; i < n; i++)
         for (int j = 0; j < n; j++)
@@ -613,8 +628,9 @@ void procesar2D()
     int grayscale;
     int scanf_res = scanf("%d %d\n%d\n", &width, &height, &grayscale);
     ///recordemos que width == height siempre
-    if (scanf_res == 0)
+    if (scanf_res != 3)
     {
+        cerr << "ERROR: Leida no concuerda con esperado" << endl;
     }
 
     vector < vector < double >>_img(height, vector < double >(width));
@@ -627,7 +643,7 @@ void procesar2D()
             unsigned char read;
             if (scanf("%c", &read) != 1)
             {
-                //              cerr << "ERROR: PGM no se puede leer correctamente" << endl;
+                cerr << "ERROR: PGM no se puede leer correctamente" << endl;
             }
             _img[j][i] = (double) read;
             todo[j * width + i] = (double) read;
@@ -637,12 +653,11 @@ void procesar2D()
 
     FILE *f = fopen("imgMod.pgm", "w");
     fprintf(f, "P5\n%d %d\n%d\n", width, height, grayscale);
-    //transpose(_img);
 
     vector < vector < double >>vec = _img;
 
     for (int j = 0; j < height; j++)
-        generarRuido(vec[j], SIN_NOISE);
+        generarRuido(vec[j], IMPULSE_NOISE);
 
 
     vector < vector < double >>vec2 = transformar2D(vec);	//transformada
@@ -666,30 +681,38 @@ void procesar2D()
     return;
 
 }
+//Imprime como se usa este ejecutable
+void usage()
+{
+    cerr << "Uso: ./DCT <imp>" << endl;
+    cerr << "donde imp = (opcional) imp = 0 | Lo que se lee por stdin es una imagen  "<< endl;
+    cerr << "                       imp = 1 | Lo que se lee por stdin es una senal 1D"<< endl;
 
+    return;
+}
+//Funcion principal, delega el filtrado correcto
 int main(int argc, char *argv[])
 {
     switch (argc)
     {
+    //Sin parametros, asumimos que leemos por stdin una senal 1D
     case 1:
         procesar1D();
         break;
     case 2:
+    //Si es cero, asumimos que es una senal por stdin
+        if (atoi(argv[1]) == 0)            
+            procesar1D();            
+    //Con un parametro, si es 1 es una imagen por stdin,
         if (atoi(argv[1]) == 1)
-        {
-
             procesar2D();
-        }
-        else
-        {
-            if (atoi(argv[1]) == 0)
-            {
-                procesar1D();
-            }
-        }
-
+    //Otro valor, usage y out
+        if (atoi(argv[1]) > 1)
+            usage();
         break;
     default:
+    //Otra cantidad, mandamos usage
+        usage();
         break;
 
     }
