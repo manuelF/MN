@@ -110,28 +110,6 @@ donde $contorno$ es el rango de valores alrededor del pico que estamos tomando, 
 $j$ es el iterador que va desde $i-contorno$ hasta $i+contorno$, para poder aplicar
 el decaimiento exponencial a todos los valores perif\'ericos al punto.
 
-\subsection{Filtro Promedidador}
-
-El filtro promediador distribuye los coeficientes m\'as grandes 
-entre las se\~nales vecinas, es decir, si el coeficiente $k$-\'esimo es muy 
-grande, le transfiere parte del valor a sus vecinos localizados en $k-2$, $k-1$, $k+1$ y
-$k+2$. La inspiraci\'on de este m\'etodo surge de la discretizaci\'on m\'as sencilla
-de las ecuaciones diferenciales de segundo orden de difusi\'on de Poisson, donde
-se modela el comportamiento de un punto en un momento posterior en base a sus vecinos.\\
-
-\begin{center}
-$y'[i]=0.15*y[i-2] + 0.2*y[i-1] + 0.3*y[i]+0.2*y[i+1]+0.15*y[i+2]$\\
-\end{center}
-
-Es de notar que la suma de los coeficientes adem\'as da 1, de modo que no se 
-eliminan o agregan valores, sino que se distribuye de forma pareja a sus vecinos.
-
-La idea del filtro promediador surge de la observaci\'on de la aplicaci\'on de
-los otros en el caso del ruido blanco. Para poder afrontar casos con ruido en
-distintas frecuencias muy distintas al mismo tiempo necesitamos obtener un
-contexto mayor en cada punto para saber como manejarlos en relaci\'on con sus
-vecinos.
-
 \subsection{Filtro de la Mediana}
 
 El filtro de la mediana actua sobre cada muestra de la se\~nal (luego del 5\% inicial),

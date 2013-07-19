@@ -29,18 +29,8 @@ como reconstruye una se\~nal que fue afectada por el mismo ruido, razonablemente
 bien, preservando la forma y las intensidades promedio\\
 
 
-El filtro promedio, en contraposici\'on con el exponencial, toma un promedio
-local a la hora de modificar elementos de la se\~nal. Esto se traduce en un
-filtro poderoso que devuelve a la se\~nal un estado similar al original.
-
-En la figura \ref{fig:SinProm} vemos que disminuye, pero no elimina completamente
-el ruido sinusoidal. Lo bueno es que preserva muchisimo la forma de la
-se\~nal, por lo que se perder\'a intensidad pero se preserva la composici\'on
-espectral.\\
-
-
 Otra variante utilizada fue la combinaci\'on de los filtros exponencial y
-promedio. Al filtrar la se\~nal ruidosa con ambos filtros obtuvimos interesantes
+de la mediana. Al filtrar la se\~nal ruidosa con ambos filtros obtuvimos interesantes
 resultados.
 
 En este punto quisimos probar la potencia de la combinaci\'on de filtros para resolver
@@ -52,11 +42,6 @@ en el espectro y en la figura \ref{fig:dopcomb} es recuperada una se\~nal que
 comparte muchas similitudes con la original, salvando las frecuencias
 m\'as altas. Probablemente con una elecci\'on m\'as cuidadosa de parametros
 se hubieran podido rescatar m\'as detalles.
-
-En la figura \ref{fig:gcomb} vemos como un ruido sinusoidal de coeficiente 1000
-es rescatado y presenta relativamente poca desviaci\'on con respecto
-a la se\~nal original. Para los n\'umeros exactos, consulte la tabla de
-PSNR presentada en Resultados.
 
 Otra idea interesante que surge de la implementaci\'on del ruido impulsivo y tambi\'en del
 filtro de la mediana que lo mitiga con \'exito es que la detecci\'on del tipo de ruido que afecta
