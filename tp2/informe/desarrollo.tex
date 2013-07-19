@@ -169,7 +169,7 @@ la funci\'on seno.
 	Es decir, para cada muestra de nuestra se\~nal aplicamos ruido del siguiente
 modo:
 
-$$se\~nal_{ruidosa}[i] = se\~nal_{original}[i] + k * \sin(i)$$
+$$se\widetilde{n}al_{ruidosa}[i] = se\widetilde{n}al_{original}[i] + k * \sin(i)$$
 
   
 Tomamos como valores de $k$, $k=50$ y $k=1000$ siendo $k$ un valor constante para testear el comportamiento en casos con excesivo ruido, llev\'andolo a valores
@@ -193,7 +193,7 @@ una distribuci\'on muy similar a la normal comprendido en todas las frecuencias.
 
  	Para cada punto se aplica el ruido de la siguiente manera:
 
-    $$se\~nal_{ruidosa}[i] = se\~nal_{original}[i] + random_{gaussiana}(\mu=0, \sigma=100)$$
+    $$se\widetilde{n}al_{ruidosa}[i] = se\widetilde{n}al_{original}[i] + random_{gaussiana}(\mu=0, \sigma=100)$$
 
 
 	\end{item}
@@ -206,7 +206,7 @@ Generalmente se utiliza el Filtro de la Mediana para mitigarlo.
 
  	Para cada punto se aplica el ruido de la siguiente manera:
 
-    $$se\~nal_{ruidosa}[i] = se\~nal_{original}[i] + fSigno() * VALOR_PICO$$
+    $$se\widetilde{n}al_{ruidosa}[i] = se\widetilde{n}al_{original}[i] + fSigno() * VALOR_PICO$$
 
 	Donde VALOR\_PICO es una constante y $fSigno$ es una funci\'on que devuelve 1 \'o -1 dependiendo
 	de un factor (en nuestro caso cada 3 ticks cambia el signo).
