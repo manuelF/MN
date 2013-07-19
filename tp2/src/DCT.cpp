@@ -24,7 +24,6 @@
 
 #define ZERO_FILTER 0
 #define EXPONENTIAL_FILTER 1
-#define AVERAGER_FILTER 2
 #define MEDIAN_FILTER 3
 
 #define IMPULSE_NOISE_DEFAULT 20
@@ -367,18 +366,6 @@ void filtrarRuido(vector < double >&y, int imp)
         }
 
     }
-    //Filtro que promedia el entorno alrededor de un punto
-    //(no necesariamente para todo pico)
-    if (imp == AVERAGER_FILTER)
-    {
-        for (int i = startfilter + 2; i < n - 2; i++)
-        {
-            replace[i] = .15 * y[i - 2] +
-                         .20 * y[i - 1] +
-                         .30 * y[i] + .20 * y[i + 1] + .15 * y[i + 2];
-        }
-    }
-
     y=replace;
 }
 
@@ -394,6 +381,8 @@ void filtrarRuido2D(vector < vector < double > >&y, int imp)
     const int onepercent = n / 100;
     const int startfilter = 5 * onepercent;
     vector < vector < double >>replace(y);
+
+    //Pone ceros alrededor de un pico
     if (imp == ZERO_FILTER)
     {
         double mx = 0.0;
@@ -415,6 +404,7 @@ void filtrarRuido2D(vector < vector < double > >&y, int imp)
                 }
             }
     }
+    //Hace decaimiento exponencial alrededor de un pico
     if (imp == EXPONENTIAL_FILTER)
     {
         double mx = 0.0;
@@ -444,6 +434,7 @@ void filtrarRuido2D(vector < vector < double > >&y, int imp)
                 }
             }
     }
+    //Reemplaza un punto por la mediana de todos los vecinos en un contorno
     if (imp == MEDIAN_FILTER)
     {
         vector < double >local_y;
@@ -460,24 +451,6 @@ void filtrarRuido2D(vector < vector < double > >&y, int imp)
             }
     }
 
-    if (imp == AVERAGER_FILTER)
-    {
-        for (int i = startfilter + 2; i < n - 2; i++)
-            for (int j = startfilter + 2; j < n - 2; j++)
-            {
-                replace[i][j] = 0;
-                double a = 0, b = 0;
-                for (int ii = i - 2; ii <= i + 2; ii++)
-                    for (int jj = j - 2; jj <= j + 2; jj++)
-                    {
-                        a += (5 -
-                              sqrt(abs(i - ii) +
-                                   abs(j - jj))) * y[ii][jj];
-                        b += (5 - sqrt(abs(i - ii) + abs(j - jj)));
-                    }
-                replace[i][j] = a / b;
-            }
-    }
     //Guardamos los cambios
     y=replace;
 
@@ -663,7 +636,6 @@ void procesar2D()
     vector < vector < double >>vec2 = transformar2D(vec);	//transformada
 
     filtrarRuido2D(vec2, EXPONENTIAL_FILTER);
-    filtrarRuido2D(vec2, AVERAGER_FILTER);
     vector < vector < double >>out = antitransformar2D(vec2);
 
     double e = psnr(_img, out);
