@@ -264,7 +264,7 @@ void generarRuido(vector < double >&y, int imp)
     if (imp == GAUSSIAN_NOISE)
     {
         ruido = vector < double >(y.size());
-        std::normal_distribution < double >distribution(0.0, 10.0);
+        std::normal_distribution < double >distribution(0.0, 50.0);
         for (int i = 0; i < (int) y.size(); i++)
         {
             double randval = distribution(generator);
@@ -494,13 +494,13 @@ void procesar1D()
     //generarRuido(l, IMPULSE_NOISE);
 
 
+    dump("orig", lecturas);
     //Pasamos las senales al espacio DCT
     vector < double >q = transformar(lecturas);	// senal original
 
     vector < double >y = transformar(l);	//senal ruidosa
 
-    dump("orig", q);
-    dump("mod", y);
+    dump("mod", l);
 
     //Aplicamos algun/os filtro/s sobre la senal ruidosa
 
@@ -508,12 +508,12 @@ void procesar1D()
     //filtrarRuido(y,ZERO_FILTER );
     filtrarRuido(y,MEDIAN_FILTER );
 
-    dump("recovered", y);
 
     //Aplicamos la antitransformacion para obtener una reconstruccion
     //de la senal original
     vector < double >x = antitransformar(y,M);
 
+    dump("recovered", x);
     //Escribimos cual fue el PNSR calculado entre la senal original y la
     //reconstruida
     cerr << "PNSR: " << psnr(lecturas, x) << endl;
