@@ -20,7 +20,7 @@ que casos es mejor aplicar cada uno.
 Experimentalmente pudimos observar que el filtro cero es bueno (recupera las
 se\~nales en un grado aceptable), pero el filtro 
 exponencial y el de la mediana son bastante mejores en general. En el caso
-de ruido Impulsivo, el filtro de la mediana logra resultados interesantes.
+de ruido Salt and pepper, el filtro de la mediana logra resultados interesantes.
 
 Para poder obtener un mejor filtrado del ruido, decidimos aplicar primero el 
 filtro exponencial y luego el de la mediana, lo que result\'o en un filtrado muy 
@@ -43,7 +43,7 @@ puntos que lo sobrepasan (tanto por arriba como por debajo) a cero.
 \includegraphics[width=500pt]{imagenes/ramp1234-imp-zero.png}
 \end {center}
 \caption{Se\~nal \texttt{ramp1234} provista por la c\'atedra, en el dominio de frecuencias, gr\'aficada
-luego de aplicar ruido impulsivo (azul) y habiendo aplicado el filtro cero (verde)}
+luego de aplicar ruido salt & pepper (azul) y habiendo aplicado el filtro cero (verde)}
 \label{fig:Dopp1024zero}
 \end{figure}
 
@@ -67,7 +67,7 @@ habiendo aplicado el filtro exponencial (azul)}
 \includegraphics[width=500pt]{imagenes/g450-imp-exp.png}
 \end {center}
 \caption{Se\~nal \texttt{g450} provista por la c\'atedra, en el domino de frecuencias, gr\'aficada
-luego de aplicar ruido impulsivo (azul) y habiendo aplicado el filtro exponencial (verde)}
+luego de aplicar ruido Salt & pepper (azul) y habiendo aplicado el filtro exponencial (verde)}
 \label{fig:SexpSig}
 \end{figure}
 
@@ -78,7 +78,7 @@ luego de aplicar ruido impulsivo (azul) y habiendo aplicado el filtro exponencia
 \includegraphics[width=500pt]{imagenes/dopp512-imp-median.png}
 \end {center}
 \caption{Se\~nal \texttt{doppler512} provista por la c\'atedra, en el dominio de frecuencias, gr\'aficada
-luego de aplicar ruido impulsivo (azul) y habiendo aplicado el filtro de la mediana (verde)}
+luego de aplicar ruido Salt & pepper (azul) y habiendo aplicado el filtro de la mediana (verde)}
 \label{fig:SinProm}
 \end{figure}
 
@@ -139,12 +139,12 @@ habiendo aplicado los filtros exponencial y de la mediana (en ese orden) (verde)
 
 
 
-\subsubsection{Tabla de resultados para ruido impulsivo}
+\subsubsection{Tabla de resultados para ruido salt & pepper}
 
 \begin{table}[H]
         \begin{tabular}{|l|lllll|}
                 \hline
-                \textbf{PSNR [dB]} & Se\~nal + Impulsivo  & F(Zero) & F(Exp) & F(Mediana) & F(Ambos) \\ \hline
+                \textbf{PSNR [dB]} & Se\~nal + Salt and Pepper  & F(Zero) & F(Exp) & F(Mediana) & F(Ambos) \\ \hline
                     Dopp512 & 13.2688 & 13.9682 & 17.4766 & 13.4073 \\
                     Dopp1024 & 16.2501 & 19.1253 & 24.3568 & 19.2724 \\
                     s64 & 8.16133 & 8.43298 & 13.6985 & 8.23597  \\
@@ -217,7 +217,7 @@ una imagen muy similar a la original.
 \end{figure}
 
 
-\subsubsection{Ruido impulsivo}
+\subsubsection{Ruido Salt and pepper}
 
 
 \begin{figure}[H]
@@ -231,7 +231,7 @@ una imagen muy similar a la original.
 \includegraphics[width=150pt]{imagenes/kern-imp-recovered-both.png}
 \end{array}$
 \end{center}
- \caption{\textbf{Arriba Izquierda}: Imagen con ruido impulsivo, \textbf{Arriba Derecha}: Recuperada con filtro exponencial, \textbf{Abajo Izquierda}: Recuperada con filtro de la mediana, \textbf{Abajo Derecha}: Recuperada aplicando filtro exponencial y de la mediana}
+ \caption{\textbf{Arriba Izquierda}: Imagen con ruido Salt & pepper, \textbf{Arriba Derecha}: Recuperada con filtro exponencial, \textbf{Abajo Izquierda}: Recuperada con filtro de la mediana, \textbf{Abajo Derecha}: Recuperada aplicando filtro exponencial y de la mediana}
 \label{fig:kernimp}
 \end{figure}
 

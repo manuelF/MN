@@ -157,25 +157,9 @@ una distribuci\'on la normal, cuyos componentes estan comprendidos en todas las 
 	\end{item}
 
 	\begin{item}
-		{\bf Ruido Impulsivo:} Este tipo de ruido consiste en sumar a ciertos puntos dispersos 
+		{\bf Ruido Salt and pepper:} Este tipo de ruido consiste en sumar a ciertos puntos dispersos (con probabilidad peque\~na) 
 de la se\~nal un n\'umero mucho mayor en m\'odulo a la media. Este tipo de ruido es muy 
 frecuente en se\~nales de audio y se manifiesta como pulsos o clicks.
-Generalmente se utiliza el Filtro de la Mediana para mitigarlo.
-
- 	Para cada punto de la muestra se aplica el ruido de la siguiente manera:\\
-    $se\widetilde{n}al_{ruidosa}[i] =
-    \begin{cases}
-        se\widetilde{n}al_{original[i]}  & \mbox{if } i \% TICK \not\equiv 0 \\
-        se\widetilde{n}al_{original[i]} + |\mu| * P  & \mbox{if } i \% TICK \equiv 0 \land i \% (6*TICK) < (3*TICK) \\
-        se\widetilde{n}al_{original[i]} - |\mu| * P  & \mbox{if } i \% TICK \equiv 0 \land i \% (6*TICK) \geq (3*TICK)
-    \end{cases}
-        $\\
-        \bigskip 
-
-        \vspace*{0.5cm}
-        Donde $\mu$ es la media de los m\'odulos de la se\~nal original, $P$ (Pulso) es una constante mayor a 1 (magnifica el m\'odulo) y $TICK$ es una constante a que determina cada cuantas muestras leidas
-    se inserta el pico (en nuestro caso, cada 20).
-
 	\end{item}
 
 \end{itemize}
