@@ -142,31 +142,39 @@ Se experiment\'o con 2 clases de ruido en las se\~nales:
 	\begin{item}
 		{\bf Ruido Gaussiano:} Este tipo de ruido, tambi\'en denominado ruido
 blanco, consiste en sumar a cada punto de la se\~nal un n\'umero aleatorio
-proveniente de una distribuci\'on normal de media $\mu = 0$ y varianza $\sigma=100$. 
+proveniente de una distribuci\'on normal de media $\mu = 0$ y varianza $\sigma^2=10$ (tambien
+experimentamos con varianza $\sigma^2=50$). 
 Este tipo de ruido es muy frecuente e importante en industrias como la radio o television.
 Modela apropiadamente la interferencia est\'atica, y es producto de eventos no deterministicos como 
 puede ser la radiaci\'on de fondo del Big Bang. Consiste en un ruido totalmente aleatorio, pero con 
-una distribuci\'on muy similar a la normal comprendido en todas las frecuencias.
+una distribuci\'on la normal, cuyos componentes estan comprendidos en todas las frecuencias.
 
  	Para cada punto se aplica el ruido de la siguiente manera:
 
-    $$se\widetilde{n}al_{ruidosa}[i] = se\widetilde{n}al_{original}[i] + random_{gaussiana}(\mu=0, \sigma=100)$$
+    $$se\widetilde{n}al_{ruidosa}[i] = se\widetilde{n}al_{original}[i] + random_{gaussiana}(\mu=0, \sigma^2=10)$$
 
 
 	\end{item}
 
 	\begin{item}
 		{\bf Ruido Impulsivo:} Este tipo de ruido consiste en sumar a ciertos puntos dispersos 
-de la se\~nal un n\'umero altamente mayor en m\'odulo a la media. Este tipo de ruido es muy 
+de la se\~nal un n\'umero mucho mayor en m\'odulo a la media. Este tipo de ruido es muy 
 frecuente en se\~nales de audio y se manifiesta como pulsos o clicks.
 Generalmente se utiliza el Filtro de la Mediana para mitigarlo.
 
- 	Para cada punto se aplica el ruido de la siguiente manera:
+ 	Para cada punto de la muestra se aplica el ruido de la siguiente manera:\\
+    $se\widetilde{n}al_{ruidosa}[i] =
+    \begin{cases}
+        se\widetilde{n}al_{original[i]}  & \mbox{if } i \% TICK \not\equiv 0 \\
+        se\widetilde{n}al_{original[i]} + |\mu| * P  & \mbox{if } i \% TICK \equiv 0 \land i \% (6*TICK) < (3*TICK) \\
+        se\widetilde{n}al_{original[i]} - |\mu| * P  & \mbox{if } i \% TICK \equiv 0 \land i \% (6*TICK) \geq (3*TICK)
+    \end{cases}
+        $\\
+        \bigskip 
 
-    $$se\widetilde{n}al_{ruidosa}[i] = se\widetilde{n}al_{original}[i] + fSigno() * VALOR_PICO$$
-
-	Donde VALOR\_PICO es una constante y $fSigno$ es una funci\'on que devuelve 1 \'o -1 dependiendo
-	de un factor (en nuestro caso cada 3 ticks cambia el signo).
+        \vspace*{0.5cm}
+        Donde $\mu$ es la media de los m\'odulos de la se\~nal original, $P$ (Pulso) es una constante mayor a 1 (magnifica el m\'odulo) y $TICK$ es una constante a que determina cada cuantas muestras leidas
+    se inserta el pico (en nuestro caso, cada 20).
 
 	\end{item}
 
