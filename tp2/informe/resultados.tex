@@ -43,7 +43,7 @@ puntos que lo sobrepasan (tanto por arriba como por debajo) a cero.
 \includegraphics[width=500pt]{imagenes/ramp1234-imp-zero.png}
 \end {center}
 \caption{Se\~nal \texttt{ramp1234} provista por la c\'atedra, en el dominio de frecuencias, gr\'aficada
-luego de aplicar ruido salt & pepper (azul) y habiendo aplicado el filtro cero (verde)}
+luego de aplicar ruido salt \& pepper (azul) y habiendo aplicado el filtro cero (verde)}
 \label{fig:Dopp1024zero}
 \end{figure}
 
@@ -67,7 +67,7 @@ habiendo aplicado el filtro exponencial (azul)}
 \includegraphics[width=500pt]{imagenes/g450-imp-exp.png}
 \end {center}
 \caption{Se\~nal \texttt{g450} provista por la c\'atedra, en el domino de frecuencias, gr\'aficada
-luego de aplicar ruido Salt & pepper (azul) y habiendo aplicado el filtro exponencial (verde)}
+luego de aplicar ruido Salt \& pepper (azul) y habiendo aplicado el filtro exponencial (verde)}
 \label{fig:SexpSig}
 \end{figure}
 
@@ -78,7 +78,7 @@ luego de aplicar ruido Salt & pepper (azul) y habiendo aplicado el filtro expone
 \includegraphics[width=500pt]{imagenes/dopp512-imp-median.png}
 \end {center}
 \caption{Se\~nal \texttt{doppler512} provista por la c\'atedra, en el dominio de frecuencias, gr\'aficada
-luego de aplicar ruido Salt & pepper (azul) y habiendo aplicado el filtro de la mediana (verde)}
+luego de aplicar ruido Salt \& pepper (azul) y habiendo aplicado el filtro de la mediana (verde)}
 \label{fig:SinProm}
 \end{figure}
 
@@ -139,7 +139,7 @@ habiendo aplicado los filtros exponencial y de la mediana (en ese orden) (verde)
 
 
 
-\subsubsection{Tabla de resultados para ruido salt & pepper}
+\subsubsection{Tabla de resultados para ruido salt and pepper}
 
 \begin{table}[H]
         \begin{tabular}{|l|lllll|}
@@ -231,7 +231,20 @@ una imagen muy similar a la original.
 \includegraphics[width=150pt]{imagenes/kern-imp-recovered-both.png}
 \end{array}$
 \end{center}
- \caption{\textbf{Arriba Izquierda}: Imagen con ruido Salt & pepper, \textbf{Arriba Derecha}: Recuperada con filtro exponencial, \textbf{Abajo Izquierda}: Recuperada con filtro de la mediana, \textbf{Abajo Derecha}: Recuperada aplicando filtro exponencial y de la mediana}
+ \caption{\textbf{Arriba Izquierda}: Imagen con ruido Salt \& pepper, \textbf{Arriba Derecha}: Recuperada con filtro exponencial, \textbf{Abajo Izquierda}: Recuperada con filtro de la mediana, \textbf{Abajo Derecha}: Recuperada aplicando filtro exponencial y de la mediana}
 \label{fig:kernimp}
 \end{figure}
+
+\subsection{PNSR de 2D}
+\subsubsection{Tabla de resultados}
+
+\begin{table}[H]
+        \begin{tabular}{|l|llll|}
+                \hline
+                \textbf{PSNR [dB]} & Se\~nal + Ruido & F(Exp) & F(Mediana) & F(Ambos) \\ \hline
+                    Kern-$\sigma^2=10$ & 35.0076 & 25.9403 & 8.28724 & 11.2101 \\
+                    Kern-$\sigma^2=50$ & 7.99957 & 0.642589 & 0.660194 & 6.63712 \\
+                    Kern-SaltPepper 	& 15.2425 & 14.1566 & -12.939 &  -12.415 
+                    \end{tabular}
+                \end{table}
 
