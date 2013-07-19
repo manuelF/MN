@@ -538,6 +538,7 @@ vector < vector < double >>resolverSistema(vector < vector < double > >&A, vecto
     int n = A.size();		/// A[0].size() == B.size() == B[0].size()
     vector < vector < double >>ret(n);
     transpose(B);
+    #pragma omp parallel for
     for (int i = 0; i < n; i++)
         ret[i] = antitransformar(B[i],A);
     transpose(B);
@@ -628,9 +629,6 @@ void procesar2D()
     }
     //Generamos la matriz de transformacion
     generarMatrizDCT(width);
-    //Abrimos el archivo de salida para guarda la imagen transformada
-    FILE *f = fopen("imgMod.pgm", "w");
-    fprintf(f, "P5\n%d %d\n%d\n", width, height, grayscale);
 
     //Guardamos la original para obtener el PSNR
     vector < vector < double >>vec = _img;
@@ -643,7 +641,7 @@ void procesar2D()
     vector < vector < double >>vec2 = transformar2D(vec);	//transformada
 
     //Aplicamos un filtro 2D usando bloques
-    filtrarRuido2D(vec2, EXPONENTIAL_FILTER);
+    filtrarRuido2D(vec2, MEDIAN_FILTER);
 
     //Resolvemos el sistema para 2D
     vector < vector < double >>out = antitransformar2D(vec2);
@@ -652,6 +650,24 @@ void procesar2D()
     double e = psnr(_img, out);
     cerr << "PSNR: " << e << endl;
     
+    //Abrimos el archivo de salida para guarda la imagen transformada
+    FILE *f = fopen("imgRuido.pgm", "w");
+    fprintf(f, "P5\n%d %d\n%d\n", width, height, grayscale);
+    //Guardamos la imagen
+    for (int j = 0; j < height; j++)
+    {
+        for (int i = 0; i < width; i++)
+        {
+            fprintf(f, "%c", (unsigned char) vec[j][i]);
+        }
+    }
+    //Cerramos para flushear
+    fclose(f);
+
+
+    //Abrimos el archivo de salida para guarda la imagen transformada
+    f = fopen("imgMod.pgm", "w");
+    fprintf(f, "P5\n%d %d\n%d\n", width, height, grayscale);
     //Guardamos la imagen
     for (int j = 0; j < height; j++)
     {
