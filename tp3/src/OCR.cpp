@@ -11,7 +11,7 @@ using namespace std;
 vector<vector<double> > input, av; //av = autovectores
 
 #define ERRCANT(x) {if(g!=(x)){printf ("Error de lectura %d \n",__LINE__); exit(1);}}
-#define ERRCANT(x) 
+#define ERRCANT(x)
 
 void transpose(vector<vector<double> > &mat)
 {
@@ -21,80 +21,80 @@ void transpose(vector<vector<double> > &mat)
     int m = mat[0].size();
     matrizAuxiliar.clear();
     matrizAuxiliar.resize(m,vector<double>(n));
-#pragma omp parallel for
-	for(int i=0;i<m;i++)
-    for(int j=0;j<n;j++)
-	{
-	    matrizAuxiliar[i][j] = mat[j][i];
-    }
+    #pragma omp parallel for
+    for(int i=0; i<m; i++)
+        for(int j=0; j<n; j++)
+        {
+            matrizAuxiliar[i][j] = mat[j][i];
+        }
     mat = matrizAuxiliar;
-	return;
+    return;
 }
 
 vector<vector<double> > mult(const vector<vector<double> > &A, const vector<vector<double> > &B)
 {
     /** Multiplicacion de matrices standard en o(n^3) **/
-	int n = A.size();
-	int m = B[0].size();
-	int t = A[0].size(); // tiene que ser igual a B.size();
+    const int n = A.size();
+    const int m = B[0].size();
+    const int t = A[0].size(); // tiene que ser igual a B.size();
     vector<vector<double> > B2 = B;
     transpose(B2);
-	vector<vector<double> > res(n,vector<double>(m,0));
-#pragma omp parallel for
-	for(int i=0;i<n;i++)
-	{
-    	for(int j=0;j<m;j++)
+    vector<vector<double> > res(n,vector<double>(m,0));
+    #pragma omp parallel for
+    for(int i=0; i<n; i++)
+    {
+        for(int j=0; j<m; j++)
         {
             double sum =0.0;
-	        for(int k=0;k<t;k++)
+            for(int k=0; k<t; k++)
             {
-		        sum += A[i][k]*B2[j][k];
+                sum += A[i][k]*B2[j][k];
             }
             res[i][j]=sum;
         }
     }
-	return res;
+    return res;
 }
 
 void generateX(vector<vector<double> >& X)
 {
-	int n = input.size();
-	int m = input[0].size();
-    vector<double> average(m,0);	
+    int n = input.size();
+    int m = input[0].size();
+    vector<double> average(m,0);
 
-    for(int i=0;i<n;i++)   
-    	for(int j=0;j<m;j++)
-	    	average[j] += input[i][j];
+    for(int i=0; i<n; i++)
+        for(int j=0; j<m; j++)
+            average[j] += input[i][j];
     #pragma omp parallel for
-	for(int j=0;j<m;j++)
-		average[j] /= (double)n;
+    for(int j=0; j<m; j++)
+        average[j] /= (double)n;
     /** Calculo el promedio de cada pixel **/
-	X.clear();
-	X.resize(n,vector<double>(m));
-#pragma omp parallel for
-    for(int i=0;i<n;i++)
-    	for(int j=0;j<m;j++)
-	    	X[i][j] = (input[i][j]-average[j])/sqrt(n-1);
-            /** A cada pixel le asigno el pixel en su imagen menos el promedio sobre la raiz de la cantidad de imagenes menos uno**/
-	return;
+    X.clear();
+    X.resize(n,vector<double>(m));
+    #pragma omp parallel for
+    for(int i=0; i<n; i++)
+        for(int j=0; j<m; j++)
+            X[i][j] = (input[i][j]-average[j])/sqrt(n-1);
+    /** A cada pixel le asigno el pixel en su imagen menos el promedio sobre la raiz de la cantidad de imagenes menos uno**/
+    return;
 }
 
 vector<vector<double> > generateMx()
 {
     vector<vector<double> > X;
     generateX(X); /** Genero la matriz X **/
-    vector<vector<double> > Xt(X);	
-	transpose(Xt);
-	return mult(Xt,X); /** Genero Mx matriz de covarianza como X^t por X **/    
+    vector<vector<double> > Xt(X);
+    transpose(Xt);
+    return mult(Xt,X); /** Genero Mx matriz de covarianza como X^t por X **/
 }
 
 double norm(vector<double> &vec) /** Calculo norma 2 de vec **/
 {
-	double res = 0;
+    double res = 0;
     #pragma omp parallel for reduction (+:res)
-	for(int i=0;i<(int)vec.size();i++)
-		res += vec[i]*vec[i];
-	return sqrt(res);
+    for(int i=0; i<(int)vec.size(); i++)
+        res += vec[i]*vec[i];
+    return sqrt(res);
 }
 
 vector<vector<double> > Id(int n) /** Identidad de n x n **/
@@ -111,17 +111,18 @@ vector<vector<double> > Id(int n) /** Identidad de n x n **/
 void householder(vector<vector<double> > &A,vector<vector<double> > &Q,vector<vector<double> > &R)
 {
     /** Factorizacion QR de Householder en o(n^3) **/
-	int n = A.size();
-    vector<vector<double> > aux(n,vector<double>(n)),aux2(n,vector<double>(n));
-	
-	R = A;
-	Q = Id(n);
+    int n = A.size();
+    vector<vector<double> > aux(n,vector<double>(n)),
+                            aux2(n,vector<double>(n));
+
+    R = A;
+    Q = Id(n);
     vector<double> u,v;
     v=vector<double>(n);
-	for(int i=0;i<n-1;i++)
-	{        
-        u=vector<double>(i,0.0);        
-	    for(int j=i;j<n;j++)
+    for(int i=0; i<n-1; i++)
+    {
+        u=vector<double>(i,0.0);
+        for(int j=i; j<n; j++)
             u.push_back(R[j][i]);
         double alpha = norm(u);
         if(abs(abs(alpha)-abs(u[i])) < 1e-6) /** Si debajo de la diagonal son todos ceros no itero **/
@@ -131,51 +132,51 @@ void householder(vector<vector<double> > &A,vector<vector<double> > &Q,vector<ve
         u[i] += alpha;
         alpha = norm(u);
 
-        
-#pragma omp parallel for         
-        for(int j=0;j<n;j++)
+
+        #pragma omp parallel for
+        for(int j=0; j<n; j++)
             v[j]=u[j]/alpha;
-        
+
         /** Inicio calculo R **/
-#pragma omp parallel for 
-        for(int j=0;j<n;j++)
+        #pragma omp parallel for
+        for(int j=0; j<n; j++)
             u[j] = 0;
 
-#pragma omp parallel for
-        for(int j=0;j<n;j++)
-        for(int t=0;t<n;t++)        
-            u[j] += v[t]*R[t][j];
+        #pragma omp parallel for
+        for(int j=0; j<n; j++)
+            for(int t=0; t<n; t++)
+                u[j] += v[t]*R[t][j];
 
-#pragma omp parallel for
-        for(int j=0;j<n;j++)
-        for(int t=0;t<n;t++)
-            aux[j][t] = 2*v[j]*u[t];
+        #pragma omp parallel for
+        for(int j=0; j<n; j++)
+            for(int t=0; t<n; t++)
+                aux[j][t] = 2*v[j]*u[t];
 
-#pragma omp parallel for
-        for(int j=0;j<n;j++)
-        for(int t=0;t<n;t++)
-            R[j][t] -= aux[j][t];
+        #pragma omp parallel for
+        for(int j=0; j<n; j++)
+            for(int t=0; t<n; t++)
+                R[j][t] -= aux[j][t];
         /** Fin calculo R **/
         /** Inicio calculo Q **/
-#pragma omp parallel for
-        for(int j=0;j<n;j++)
+        #pragma omp parallel for
+        for(int j=0; j<n; j++)
             u[j] = 0;
-            
-#pragma omp parallel for    
-        for(int j=0;j<n;j++)
-        for(int t=0;t<n;t++)        
-            u[j] += Q[j][t]*v[t];
-#pragma omp parallel for        
-        for(int j=0;j<n;j++)
-        for(int t=0;t<n;t++)
-            aux2[j][t] = 2*u[j]*v[t];
-#pragma omp parallel for                
-        for(int j=0;j<n;j++)
-        for(int t=0;t<n;t++)
-            Q[j][t] -= aux2[j][t];
+
+        #pragma omp parallel for
+        for(int j=0; j<n; j++)
+            for(int t=0; t<n; t++)
+                u[j] += Q[j][t]*v[t];
+        #pragma omp parallel for
+        for(int j=0; j<n; j++)
+            for(int t=0; t<n; t++)
+                aux2[j][t] = 2*u[j]*v[t];
+        #pragma omp parallel for
+        for(int j=0; j<n; j++)
+            for(int t=0; t<n; t++)
+                Q[j][t] -= aux2[j][t];
         /** Fin calculo Q **/
-	}
-	return;
+    }
+    return;
 }
 
 const double delta = 5000;
@@ -184,101 +185,101 @@ int iteraciones=0;
 
 bool sigoIterando(vector<vector<double> > &A)
 {
-	double res = 0.;
-	int n = A.size();
+    double res = 0.;
+    int n = A.size();
     #pragma omp parallel for reduction(+:res)
-    for(int i=0;i<n;i++)
+    for(int i=0; i<n; i++)
     {
         double localRes=0.;
-	    for(int j=0;j<i;j++)
-		    localRes += fabs(A[i][j]);
+        for(int j=0; j<i; j++)
+            localRes += fabs(A[i][j]);
         res+=localRes;
     }
     printf("Iteracion %d: Suma %lf\t Promedio %lf\n",++iteraciones, res, res/((n*(n-1))/2));
-	return res>delta;
-	/** Itero hasta que los elementos debajo de la diagonal sumen menos de 15 **/
+    return res>delta;
+    /** Itero hasta que los elementos debajo de la diagonal sumen menos de 15 **/
 }
 #define MAXITERACIONES 500
 
 vector<vector<double> > Q,R;
-vector<vector<double> > allAuVec; 
+vector<vector<double> > allAuVec;
 void eig(vector<vector<double> > &A, vector<vector<double> > &auVec)
 {
-	int n = A.size(); /// A es cuadrada
+    int n = A.size(); /// A es cuadrada
     vector<vector<double> > matrizAuxiliar;
     auVec = vector<vector<double> >(allAuVec);
     householder(A,Q,R); /** Calculo QR con Householder **/
     A = mult(R,Q); /** Multiplico RQ para obtener la nueva A que es la matriz de covarianza **/
     allAuVec = mult(allAuVec,Q); /** Multiplico todas las Q para obtener los autovectores **/
-	/** Ordeno los autovectore segun la magnitud de los autovalores **/
-	vector<pair<int,int> > aux(n);
+    /** Ordeno los autovectore segun la magnitud de los autovalores **/
+    vector<pair<int,int> > aux(n);
 
-#pragma omp parallel for
-    for(int i=0;i<n;i++)
-		aux[i] = make_pair(A[i][i],i);
-	sort(aux.begin(),aux.end()); /** Ordeno los autovalores **/
-	reverse(aux.begin(),aux.end());
-	matrizAuxiliar = allAuVec;
+    #pragma omp parallel for
+    for(int i=0; i<n; i++)
+        aux[i] = make_pair(A[i][i],i);
+    sort(aux.begin(),aux.end()); /** Ordeno los autovalores **/
+    reverse(aux.begin(),aux.end());
+    matrizAuxiliar = allAuVec;
 
-#pragma omp parallel for
-    for(int i=0;i<n;i++)
-	for(int j=0;j<n;j++)
-	{
-		auVec[i][j] = matrizAuxiliar[aux[i].second][j];
-		/** Asigno a la i-esima columna el autovector correspondiente al i-esimo autovalor **/
-	}
-	/** Fin ordenamiento de autovectores **/
-	return;
+    #pragma omp parallel for
+    for(int i=0; i<n; i++)
+        for(int j=0; j<n; j++)
+        {
+            auVec[i][j] = matrizAuxiliar[aux[i].second][j];
+            /** Asigno a la i-esima columna el autovector correspondiente al i-esimo autovalor **/
+        }
+    /** Fin ordenamiento de autovectores **/
+    return;
 }
 
 vector<vector<double> > tc;
 
 vector<double> calctc(vector<double> imagen, int k) /** Calculo la transfomacion caracteristica de imagen con parametro k **/
 {
-	vector<double> res(k,0);
-	int n = imagen.size();
-    
-	for(int i=0;i<k;i++)
-	for(int j=0;j<n;j++)
-	{
-		res[i]+=av[i][j]*imagen[j];
-	}
-	return res;
+    vector<double> res(k,0);
+    int n = imagen.size();
+
+    for(int i=0; i<k; i++)
+        for(int j=0; j<n; j++)
+        {
+            res[i]+=av[i][j]*imagen[j];
+        }
+    return res;
 }
 
 void fillTC(int k) /** LLeno tc con las transformaciones caracteristicas **/
 {
-	int n = input.size();
-	tc.resize(n,vector<double>(k,0));
-#pragma omp parallel for
-	for(int i=0;i<n;i++)
-	{
-		tc[i] = calctc(input[i],k);
-	}
-	return;
+    const int n = input.size();
+    tc.resize(n,vector<double>(k,0));
+    #pragma omp parallel for
+    for(int i=0; i<n; i++)
+    {
+        tc[i] = calctc(input[i],k);
+    }
+    return;
 }
 
 double dist(vector<double> &v1, vector<double> &v2, int norm)
 {
-	double res = 0;
-	if(norm==0) /** Norma infinito de v1 - v2 | Distancia infinito de v1 a v2 **/
-	{
-	    for(int i=0;i<(int)v1.size();i++)
+    double res = 0;
+    if(norm==0) /** Norma infinito de v1 - v2 | Distancia infinito de v1 a v2 **/
+    {
+        for(int i=0; i<(int)v1.size(); i++)
             res = max(res,v1[i]-v2[i]);
-	}
-	if(norm==1) /** Norma 1 de v1 - v2 | Distancias 1 de v1 a v2 **/
-	{
-	    for(int i=0;i<(int)v1.size();i++)
+    }
+    if(norm==1) /** Norma 1 de v1 - v2 | Distancias 1 de v1 a v2 **/
+    {
+        for(int i=0; i<(int)v1.size(); i++)
             res += abs(v1[i]-v2[i]);
-	}
-    
+    }
+
     if(norm==2) /** Norma 2 de v1 - v2 | Distancia 2 de v1 a v2 **/
-    {        
-        for(int i=0;i<(int)v1.size();i++)
+    {
+        for(int i=0; i<(int)v1.size(); i++)
             res += (v1[i]-v2[i])*(v1[i]-v2[i]);
         res = sqrt(res);
     }
-	return res;
+    return res;
 }
 
 void usage()
@@ -294,13 +295,21 @@ void usage()
 
 int main(int argc, char* argv[])
 {
-    if(argc<4){ usage(); exit(1);}
-    if(argc>6){ usage(); exit(1);}
-    int max_k = atoi(argv[1]), imp = atoi(argv[2]), norm = atoi(argv[3]);
-    int min_k = 1;
+    if(argc<4)
+    {
+        usage();
+        exit(1);
+    }
+    if(argc>6)
+    {
+        usage();
+        exit(1);
+    }
+    const int max_k = atoi(argv[1]), imp = atoi(argv[2]), norm = atoi(argv[3]);
+    const int min_k = 1;
     /** k es el parametro k del enunciado, imp es la implementacion y norm es la norma que usamos para medir distancias **/
-    
-    int training_count = 10000; /** Usamos 10000 imagenes de entrenamiento **/    
+
+    int training_count = 10000; /** Usamos 10000 imagenes de entrenamiento **/
     int test_count = 500; /** Usamos 500 imagenes de test **/
     if(argc>4)
         training_count=atoi(argv[4]); /** a menos que el parametro lo indique **/
@@ -309,118 +318,126 @@ int main(int argc, char* argv[])
     int padding_count = 30000-training_count; /** paddeamos con imagenes para siempre usar las mismas de test **/
 
 
-	FILE* v = fopen("../datos/trainingImages.txt","r");
-	int n, t; /** dims de la matriz de training **/
+    FILE* v = fopen("../datos/trainingImages.txt","r");
+    int n, t; /** dims de la matriz de training **/
     int g;  /** absorbedora de errores **/
-	g = fscanf(v,"%d %d",&n,&t);ERRCANT(2);
+    g = fscanf(v,"%d %d",&n,&t);
+    ERRCANT(2);
     printf("Se van a leer: %d imgs Training, %d imgs Test \n",training_count,test_count);
     vector<vector<double> > testImages;
-    
+
     input.clear();
-	input.resize(training_count,vector<double>(t));
-	testImages.resize(test_count,vector<double>(t));
+    input.resize(training_count,vector<double>(t));
+    testImages.resize(test_count,vector<double>(t));
     /** Comienzo lectura imagenes de entrenamiento y test **/
-	for(int i=0;i<training_count;i++)
+    for(int i=0; i<training_count; i++)
     {
-        for(int j=0;j<t;j++)
+        for(int j=0; j<t; j++)
         {
-            g = fscanf(v,"%lf",&input[i][j]);ERRCANT(1);
+            g = fscanf(v,"%lf",&input[i][j]);
+            ERRCANT(1);
         }
     }
-    for(int i=0;i<padding_count;i++)
-    {        
-        for(int j=0;j<t;j++)
+    for(int i=0; i<padding_count; i++)
+    {
+        for(int j=0; j<t; j++)
         {
             g = fscanf(v,"%*lf");
         }
     }
-    for(int i=0;i<test_count;i++)
+    for(int i=0; i<test_count; i++)
     {
-		for(int j=0;j<t;j++)
-		{
-			g = fscanf(v,"%lf",&testImages[i][j]);ERRCANT(1);
-		}
-	}
+        for(int j=0; j<t; j++)
+        {
+            g = fscanf(v,"%lf",&testImages[i][j]);
+            ERRCANT(1);
+        }
+    }
     fclose(v);
-	/** Fin lectura imagenes de entrenamiento y test **/
-	/** Comienzo lectura labels de entrenamiento y test **/
+    /** Fin lectura imagenes de entrenamiento y test **/
+    /** Comienzo lectura labels de entrenamiento y test **/
     v = fopen("../datos/trainingLabels.txt","r");
-    g= fscanf(v,"%d",&n); ERRCANT(1);
+    g= fscanf(v,"%d",&n);
+    ERRCANT(1);
     vector<int> labels, testLabels;
     labels.resize(training_count);
     testLabels.resize(test_count);
-    for(int i=0;i<training_count;i++)
+    for(int i=0; i<training_count; i++)
     {
-        g = fscanf(v,"%d",&labels[i]);ERRCANT(1);
+        g = fscanf(v,"%d",&labels[i]);
+        ERRCANT(1);
     }
-    
-    for(int i=0;i<padding_count;i++)
+
+    for(int i=0; i<padding_count; i++)
     {
         g = fscanf(v,"%*d");
     }
 
-    for(int i=0;i<test_count;i++)
+    for(int i=0; i<test_count; i++)
     {
-		g = fscanf(v,"%d",&testLabels[i]);ERRCANT(1);
-	}
-    
-	fclose(v);
-	/** Fin lectura labels de entrenamiento y test **/
-	v = fopen("V.txt","r");
-	if(v==NULL) /** Si V no existe la genero **/
-	{
+        g = fscanf(v,"%d",&testLabels[i]);
+        ERRCANT(1);
+    }
+
+    fclose(v);
+    /** Fin lectura labels de entrenamiento y test **/
+    v = fopen("V.txt","r");
+    if(v==NULL) /** Si V no existe la genero **/
+    {
 #ifdef PRECALC
-        vector<vector<double> > Mx = generateMx(); // Genero Mx la matriz de covarianza 
+        vector<vector<double> > Mx = generateMx(); // Genero Mx la matriz de covarianza
         allAuVec = Id(Mx.size()); /** Inicializo la matriz de autovectores **/
         bool b = true;
-        for(int its=1;its<MAXITERACIONES;its++)
+        for(int its=1; its<MAXITERACIONES; its++)
         {
-            
-            eig(Mx,av); // Calculo los autovectores de la matriz de covarianza 
+
+            eig(Mx,av); // Calculo los autovectores de la matriz de covarianza
             b = sigoIterando(Mx);
             if (!b) break;
-            
+
         }
 
-        v = fopen("V.txt","w"); // Escribo la matriz V en un archivo 
+        v = fopen("V.txt","w"); // Escribo la matriz V en un archivo
         fprintf(v,"%d %d\n",(int)av.size(),(int)av[0].size());
-        for(int i=0;i<(int)av.size();i++)
+        for(int i=0; i<(int)av.size(); i++)
         {
-            for(int j=0;j<(int)av[0].size();j++)
+            for(int j=0; j<(int)av[0].size(); j++)
                 fprintf(v,"%.6lf ",av[i][j]);
             fprintf(v,"\n");
         }
         fclose(v);
 #endif
-	}
-	else /** Si V ya fue generada previamente la levanto del archivo **/
-	{
-	    int N,M;
-	    g=fscanf(v,"%d %d",&N,&M);ERRCANT(2);
-	    av.clear();
-	    av.resize(N,vector<double>(M));
-	    for(int i=0;i<N;i++)
+    }
+    else /** Si V ya fue generada previamente la levanto del archivo **/
+    {
+        int N,M;
+        g=fscanf(v,"%d %d",&N,&M);
+        ERRCANT(2);
+        av.clear();
+        av.resize(N,vector<double>(M));
+        for(int i=0; i<N; i++)
         {
-            for(int j=0;j<M;j++)
+            for(int j=0; j<M; j++)
             {
-                g=fscanf(v,"%lf",&av[i][j]);ERRCANT(1);
+                g=fscanf(v,"%lf",&av[i][j]);
+                ERRCANT(1);
             }
         }
 
-	}
+    }
 #ifndef PRECALC
     vector<vector<double> > Mx = generateMx(); /** Genero Mx la matriz de covarianza **/
     allAuVec = Id(Mx.size()); /** Inicializo la matriz de autovectores **/
-    for(int its=1;its<MAXITERACIONES;its++)
+    for(int its=1; its<MAXITERACIONES; its++)
     {
-        eig(Mx,av); /** Calculo los autovectores de la matriz de covarianza **/        
+        eig(Mx,av); /** Calculo los autovectores de la matriz de covarianza **/
         bool b = sigoIterando(Mx);
 #endif
-        for(int k=min_k;k<max_k;k++)
+        for(int k=min_k; k<max_k; k++)
         {
             fillTC(k); /** Genero las transformaciones caracteristicas de cada imagen de entrenamiento **/
             vector<double> vec;
-            vector<pair<double,int> > distancias;    
+            vector<pair<double,int> > distancias;
             vector<int> cant(10);
             int bien = 0;
             int mal = 0;
@@ -429,25 +446,25 @@ int main(int argc, char* argv[])
             {
                 distancias.resize(training_count);
                 /** La implementacion 0 toma las 100 imagenes mas cercanas y toma la mas repetida de esas 100 **/
-                for(int i=0;i<test_count;i++) /** Iteramos sobre la imagenes de test **/
+                for(int i=0; i<test_count; i++) /** Iteramos sobre la imagenes de test **/
                 {
                     vec = calctc(testImages[i],k); /** Calculamos la transformacion caracteristica de la imagen dada **/
-                                
-                    for(int j=0;j<training_count;j++)
+
+                    for(int j=0; j<training_count; j++)
                     {
                         distancias[j] = make_pair(dist(tc[j],vec,norm),j);
                         /** Guardamos en un par la distancia a cada imagen de entrenamiento con la imagen **/
                     }
                     sort(distancias.begin(),distancias.end()); /** Ordenamos por distancia **/
-                    for(int j=0;j<10;j++)
-                        cant[j] = 0;            
-                    for(int j=0;j<100;j++)
+                    for(int j=0; j<10; j++)
+                        cant[j] = 0;
+                    for(int j=0; j<100; j++)
                     {
                         cant[labels[distancias[j].second]]++;
                         /** Contamos cuantas imagenes hay de las 100 mas cercanas con cada label **/
                     }
                     int cualEs = 0;
-                    for(int j=0;j<10;j++)
+                    for(int j=0; j<10; j++)
                         if(cant[j]>cant[cualEs])
                             cualEs = j;
                     if(testLabels[i]==cualEs)
@@ -463,27 +480,27 @@ int main(int argc, char* argv[])
                 int cuantos[10];
                 memset(cuantos,0,sizeof(cuantos));
                 /** Comienzo calculo promedios **/
-                for(int i=0;i<10;i++)
+                for(int i=0; i<10; i++)
                 {
                     promedio[i].clear();
                     promedio[i].resize(k,0);
                 }
-                for(int i=0;i<training_count;i++)
+                for(int i=0; i<training_count; i++)
                 {
                     cuantos[labels[i]]++;
-                    for(int j=0;j<k;j++)
+                    for(int j=0; j<k; j++)
                         promedio[labels[i]][j] += tc[i][j];
                 }
-                for(int i=0;i<10;i++)
-                for(int j=0;j<k;j++)
-                if(cuantos[i]!=0)
-                    promedio[i][j] /= (double)cuantos[i];
+                for(int i=0; i<10; i++)
+                    for(int j=0; j<k; j++)
+                        if(cuantos[i]!=0)
+                            promedio[i][j] /= (double)cuantos[i];
                 /** Fin calculo promedios **/
-                for(int i=0;i<test_count;i++)
+                for(int i=0; i<test_count; i++)
                 {
                     vec = calctc(testImages[i],k);
                     distancias.resize(10);
-                    for(int j=0;j<10;j++)
+                    for(int j=0; j<10; j++)
                     {
                         distancias[j] = make_pair(dist(promedio[j],vec,norm),j);
                         /** Comparamos distancia al promedio de cada digito **/
@@ -498,7 +515,7 @@ int main(int argc, char* argv[])
                 }
             }
             cout << k << " "<< bien <<" "<<mal<<" " << (double)bien/(double)(bien+mal)<< endl;
-        /** Imprimimos cantidad de hits, cantidad de misses y proporcion de hits **/
+            /** Imprimimos cantidad de hits, cantidad de misses y proporcion de hits **/
         }
 #ifndef PRECALC
     }
